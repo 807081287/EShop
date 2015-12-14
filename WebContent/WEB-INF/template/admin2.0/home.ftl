@@ -327,6 +327,17 @@ $().ready(function() {
 							<a href="../setting/edit.jhtml" class="menu-item" >${message("admin.main.setting")}</a>
 						
 						[/@shiro.hasPermission]
+						
+						[@shiro.hasPermission name="admin:class"]						
+							<a href="../class/list.jhtml" class="menu-item" >${message("admin.main.class")}</a>						
+						[/@shiro.hasPermission]
+						[@shiro.hasPermission name="admin:teacher"]						
+							<a href="../teacher/list.jhtml" class="menu-item" >${message("admin.main.teacher")}</a>						
+						[/@shiro.hasPermission]
+						[@shiro.hasPermission name="admin:student"]						
+							<a href="../student/list.jhtml" class="menu-item" >${message("admin.main.student")}</a>						
+						[/@shiro.hasPermission]
+						
 						[@shiro.hasPermission name="admin:area"]
 							
 								<a href="../area/list.jhtml" class="menu-item" >${message("admin.main.area")}</a>

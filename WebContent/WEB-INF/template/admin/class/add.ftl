@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title>${message("admin.admin.edit")}</title>
+<title>${message("admin.admin.add")}</title>
 
 
 <link href="${base}/resources/admin/css/common.css" rel="stylesheet" type="text/css" />
@@ -16,7 +16,7 @@
 	width: 150px;
 	display: block;
 	float: left;
-	padding-right: 5px;
+	padding-right: 6px;
 }
 </style>
 <script type="text/javascript">
@@ -29,12 +29,24 @@ $().ready(function() {
 	// 表单验证
 	$inputForm.validate({
 		rules: {
+			username: {
+				required: true,
+				pattern: /^[0-9a-z_A-Z\u4e00-\u9fa5]+$/,
+				minlength: 2,
+				maxlength: 20,
+				remote: {
+					url: "check_username.jhtml",
+					cache: false
+				}
+			},
 			password: {
+				required: true,
 				pattern: /^[^\s&\"<>]+$/,
 				minlength: 4,
 				maxlength: 20
 			},
 			rePassword: {
+				required: true,
 				equalTo: "#password"
 			},
 			email: {
@@ -44,21 +56,24 @@ $().ready(function() {
 			roleIds: "required"
 		},
 		messages: {
+			username: {
+				pattern: "${message("admin.validate.illegal")}",
+				remote: "${message("admin.validate.exist")}"
+			},
 			password: {
 				pattern: "${message("admin.validate.illegal")}"
 			}
 		}
 	});
-
+	
 });
 </script>
 </head>
 <body>
 	<div class="path">
-		<a href="${base}/admin/common/index.jhtml">${message("admin.path.index")}</a> &raquo; ${message("admin.admin.edit")}
+		<a href="${base}/admin/common/index.jhtml">${message("admin.path.index")}</a> &raquo; ${message("admin.admin.add")}
 	</div>
-	<form id="inputForm" action="update.jhtml" method="post">
-		<input type="hidden" name="id" value="${admin.id}" />
+	<form id="inputForm" action="save.jhtml" method="post">
 		<ul id="tab" class="tab">
 			<li>
 				<input type="button" value="${message("admin.admin.base")}" />
@@ -70,15 +85,15 @@ $().ready(function() {
 		<table class="input tabContent">
 			<tr>
 				<th>
-					${message("Admin.username")}:
+					<span class="requiredField">*</span>${message("Admin.username")}:
 				</th>
 				<td>
-					${admin.username}
+					<input type="text" name="username" class="text" maxlength="20" />
 				</td>
 			</tr>
 			<tr>
 				<th>
-					${message("Admin.password")}:
+					<span class="requiredField">*</span>${message("Admin.password")}:
 				</th>
 				<td>
 					<input type="password" id="password" name="password" class="text" maxlength="20" />
@@ -86,7 +101,7 @@ $().ready(function() {
 			</tr>
 			<tr>
 				<th>
-					${message("admin.admin.rePassword")}:
+					<span class="requiredField">*</span>${message("admin.admin.rePassword")}:
 				</th>
 				<td>
 					<input type="password" name="rePassword" class="text" maxlength="20" />
@@ -97,7 +112,7 @@ $().ready(function() {
 					<span class="requiredField">*</span>${message("Admin.email")}:
 				</th>
 				<td>
-					<input type="text" name="email" class="text" value="${admin.email}" maxlength="200" />
+					<input type="text" name="email" class="text" maxlength="200" />
 				</td>
 			</tr>
 			<tr class="roles">
@@ -107,11 +122,9 @@ $().ready(function() {
 				<td>
 					<span class="fieldSet">
 						[#list roles as role]
-							[#if !role.isSystem]
 							<label>
-								<input type="checkbox" name="roleIds" value="${role.id}"[#if admin.roles?seq_contains(role)] checked="checked"[/#if] />${role.name}
+								<input type="checkbox" name="roleIds" value="${role.id}" />${role.name}
 							</label>
-							[/#if]
 						[/#list]
 					</span>
 				</td>
@@ -122,15 +135,9 @@ $().ready(function() {
 				</th>
 				<td>
 					<label>
-						<input type="checkbox" name="isEnabled" value="true"[#if admin.isEnabled] checked="checked"[/#if] />${message("Admin.isEnabled")}
+						<input type="checkbox" name="isEnabled" value="true" checked="checked" />${message("Admin.isEnabled")}
 						<input type="hidden" name="_isEnabled" value="false" />
 					</label>
-					[#if admin.isLocked]
-						<label>
-							<input type="checkbox" name="isLocked" value="true" checked="checked" />${message("Admin.isLocked")}
-							<input type="hidden" name="_isLocked" value="false" />
-						</label>
-					[/#if]
 				</td>
 			</tr>
 		</table>
@@ -140,7 +147,7 @@ $().ready(function() {
 					${message("Admin.department")}:
 				</th>
 				<td>
-					<input type="text" name="department" class="text" value="${admin.department}" maxlength="200" />
+					<input type="text" name="department" class="text" maxlength="200" />
 				</td>
 			</tr>
 			<tr>
@@ -148,7 +155,7 @@ $().ready(function() {
 					${message("Admin.name")}:
 				</th>
 				<td>
-					<input type="text" name="name" class="text" value="${admin.name}" maxlength="200" />
+					<input type="text" name="name" class="text" maxlength="200" />
 				</td>
 			</tr>
 		</table>

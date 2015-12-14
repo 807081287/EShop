@@ -261,6 +261,17 @@ $().ready(function() {
 						<label>
 							<input type="checkbox" name="authorities" value="admin:setting"[#if role.authorities?seq_contains("admin:setting")] checked="checked"[/#if] />${message("admin.role.setting")}
 						</label>
+						
+						<label>
+							<input type="checkbox" name="authorities" value="admin:class"[#if role.authorities?seq_contains("admin:class")] checked="checked"[/#if] />${message("admin.role.class")}
+						</label>
+						<label>
+							<input type="checkbox" name="authorities" value="admin:teacher"[#if role.authorities?seq_contains("admin:teacher")] checked="checked"[/#if] />${message("admin.role.teacher")}
+						</label>
+						<label>
+							<input type="checkbox" name="authorities" value="admin:student"[#if role.authorities?seq_contains("admin:student")] checked="checked"[/#if] />${message("admin.role.student")}
+						</label>
+						
 						<label>
 							<input type="checkbox" name="authorities" value="admin:area"[#if role.authorities?seq_contains("admin:area")] checked="checked"[/#if] />${message("admin.role.area")}
 						</label>

@@ -107,11 +107,9 @@ $().ready(function() {
 				<td>
 					<span class="fieldSet">
 						[#list roles as role]
-							[#if !role.isSystem]
 							<label>
 								<input type="checkbox" name="roleIds" value="${role.id}"[#if admin.roles?seq_contains(role)] checked="checked"[/#if] />${role.name}
 							</label>
-							[/#if]
 						[/#list]
 					</span>
 				</td>

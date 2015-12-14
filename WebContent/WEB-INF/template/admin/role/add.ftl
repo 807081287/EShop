@@ -260,6 +260,17 @@ $().ready(function() {
 						<label>
 							<input type="checkbox" name="authorities" value="admin:setting" />${message("admin.role.setting")}
 						</label>
+						
+						<label>
+							<input type="checkbox" name="authorities" value="admin:class" />${message("admin.role.class")}
+						</label>
+						<label>
+							<input type="checkbox" name="authorities" value="admin:teacher" />${message("admin.role.teacher")}
+						</label>
+						<label>
+							<input type="checkbox" name="authorities" value="admin:student" />${message("admin.role.student")}
+						</label>
+						
 						<label>
 							<input type="checkbox" name="authorities" value="admin:area" />${message("admin.role.area")}
 						</label>

@@ -238,15 +238,15 @@ $().ready(function() {
 	</div>
 	<div class="span24">
 		<div id="hotProduct" class="hotProduct clearfix">
-			[@product_category_root_list count = 3]
+			[@product_category_root_list count = 6]
 				<div class="title">
 					<strong>${message("shop.index.hotProduct")}</strong>
-					<a href="${base}/product/list.jhtml?tagIds=1" target="_blank"></a>
+					<a href="${base}/product/list.jhtml?tagIds=7" target="_blank"></a>
 				</div>
 				<ul class="tab">
 					[#list productCategories as productCategory]
 						<li>
-							<a href="${base}${productCategory.path}?tagIds=1" target="_blank">${productCategory.name}</a>
+							<a href="${base}${productCategory.path}?tagIds=7" target="_blank">${productCategory.name}</a>
 						</li>
 					[/#list]
 				</ul>
@@ -269,15 +269,15 @@ $().ready(function() {
 	</div>
 	<div class="span24">
 		<div id="newProduct" class="newProduct clearfix">
-			[@product_category_root_list count = 3]
+			[@product_category_root_list count = 6]
 				<div class="title">
 					<strong>${message("shop.index.newProduct")}</strong>
-					<a href="${base}/product/list.jhtml?tagIds=2" target="_blank"></a>
+					<a href="${base}/product/list.jhtml?tagIds=8" target="_blank"></a>
 				</div>
 				<ul class="tab">
 					[#list productCategories as productCategory]
 						<li>
-							<a href="${base}${productCategory.path}?tagIds=2" target="_blank">${productCategory.name}</a>
+							<a href="${base}${productCategory.path}?tagIds=8" target="_blank">${productCategory.name}</a>
 						</li>
 					[/#list]
 				</ul>
@@ -286,7 +286,7 @@ $().ready(function() {
 				</div>
 				[#list productCategories as productCategory]
 					<ul class="tabContent">
-						[@product_list productCategoryId = productCategory.id tagIds = 2 count = 8]
+						[@product_list productCategoryId = productCategory.id tagIds = 8 count = 8]
 							[#list products as product]
 								<li>
 									<a href="${base}${product.path}" title="${product.name}" target="_blank"><img src="${base}/upload/image/blank.gif" data-original="[#if product.image??]${product.image}[#else]${setting.defaultThumbnailProductImage}[/#if]" /></a>

@@ -184,21 +184,7 @@ public class DESedeEncryption
 		}
 	}
 
-	public static void main(final String[] args) throws Exception
-	{
-		final String expireDate = "20500505";
-		final String authorizationID = "34342D33372D45362D33382D33412D4538";//授权ID
-		System.out.println("加密码:" + encryptToHecString(authorizationID, expireDate));
-		//		final String rawString = expireDate + MACTool.getMAC();
-		//		System.out.println("明文 MAC地址:" + MACTool.getMAC());
-		//		System.out.println("明文 过期时间+MAC地址:" + rawString);
-		//		System.out.println("十六进制 过期时间+MAC地址:" + hec(rawString));
-		//		System.out.println("解析十六进制过期时间+MAC地址:" + hex2Str(hec(rawString)));
-		//		final String encyptedHecMAC = encryptToHecString(hec(rawString));
-		//		System.out.println("加密后的十六进制 过期时间+MAC地址:" + encyptedHecMAC);
-		//		System.out.println("解密后的 过期时间+MAC地址:" + decryptHecString(encyptedHecMAC));
-		//		System.out.println("解密后的 MAC地址:" + getRawMAC(encyptedHecMAC));
-	}
+
 
 	/**
 	 * 此方法来获取加密码。获取后传给用户，填入页面即可。
