@@ -315,11 +315,11 @@ div.index .hotProduct {
 }
 
 div.index .hotProduct .title {
-	width: 260px;
+	width: 950px;
 	height: 40px;
 	float: left;
 	margin-bottom: 10px;
-	background: url(../images/index.gif) 0px -150px no-repeat;
+	background: url(../images/index.gif) 0px -150px repeat;
 }
 
 div.index .hotProduct .title strong {
@@ -403,11 +403,11 @@ div.index .newProduct {
 }
 
 div.index .newProduct .title {
-	width: 260px;
+	width: 950px;
 	height: 40px;
 	float: left;
 	margin-bottom: 10px;
-	background: url(../images/index.gif) 0px -270px no-repeat;
+	background: url(../images/index.gif) 0px -270px repeat;
 }
 
 div.index .newProduct .title strong {
