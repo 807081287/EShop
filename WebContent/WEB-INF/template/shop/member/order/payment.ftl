@@ -7,6 +7,7 @@
 
 <link href="${base}/resources/shop/css/common.css" rel="stylesheet" type="text/css" />
 <link href="${base}/resources/shop/css/order.css" rel="stylesheet" type="text/css" />
+<link href="${base}/resources/shopchange/css/change.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="${base}/resources/shop/js/jquery.js"></script>
 <script type="text/javascript" src="${base}/resources/shop/js/common.js"></script>
 <script type="text/javascript">

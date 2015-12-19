@@ -50,7 +50,7 @@
 				<prop key="javax.persistence.validation.mode">none</prop>
 				<prop key="hibernate.search.default.directory_provider">org.hibernate.search.store.FSDirectoryProvider</prop>
 				<prop key="hibernate.search.default.indexBase">${java.io.tmpdir}/${system.project_name}/index</prop>
-				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.show_sql">false</prop>
 				<prop key="hibernate.format_sql">true</prop>
 				<prop key="hibernate.use_sql_comments">false</prop>
 				<prop key="hibernate.hbm2ddl.auto">none</prop>

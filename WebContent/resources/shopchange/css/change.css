@@ -1,3 +1,9 @@
 div.order .info .select dd em {
     width: 140px;
 }
+div.order .result .paymentPlugin em {
+    width: 125px;
+}
+.orderoperation{
+	width:40px;
+}

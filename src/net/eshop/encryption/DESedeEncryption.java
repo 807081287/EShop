@@ -14,6 +14,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 
@@ -171,7 +172,7 @@ public class DESedeEncryption
 		try
 		{
 			String MAC = MACTool.getMAC();
-			if (MAC == null)
+			if (MAC == null || StringUtils.isEmpty(MAC))
 			{
 				MAC = "00-FF-22-F3-11-31";
 			}
@@ -186,8 +187,9 @@ public class DESedeEncryption
 
 	public static void main(final String[] args) throws Exception
 	{
+
 		final String expireDate = "20500505";
-		final String authorizationID = "42382D45452D36352D45302D46412D4139";//授权ID
+		final String authorizationID = "30302D46462D32322D46332D31312D3331";//授权ID
 		System.out.println("加密码:" + encryptToHecString(authorizationID, expireDate));
 		//		final String rawString = expireDate + MACTool.getMAC();
 		//		System.out.println("明文 MAC地址:" + MACTool.getMAC());
@@ -234,7 +236,7 @@ public class DESedeEncryption
 		try
 		{
 			MAC = MACTool.getMAC();
-			if (MAC == null)
+			if (MAC == null || StringUtils.isEmpty(MAC))
 			{
 				MAC = "00-FF-22-F3-11-31";
 			}

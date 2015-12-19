@@ -1,4 +1,7 @@
 eclipse.preferences.version=1
+encoding//WebContent/onlinepaysimulator/unionpay/step1.jsp=UTF-8
+encoding//WebContent/onlinepaysimulator/unionpay/step2.jsp=UTF-8
+encoding//WebContent/onlinepaysimulator/unionpay/step3.jsp=UTF-8
 encoding//hmc/resources/de/hybris/platform/nemocore/hmc/locales_de.properties=UTF-8
 encoding//hmc/resources/de/hybris/platform/nemocore/hmc/locales_en.properties=UTF-8
 encoding//hmc/resources/de/hybris/platform/nemocore/hmc/locales_fr.properties=UTF-8
