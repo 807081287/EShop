@@ -1,0 +1,227 @@
+From 92340d361754e8b51fff1d17c0c59546af49985f Mon Sep 17 00:00:00 2001
+From: Joe Li <joe.li@sceneric.com>
+Date: Sat, 19 Dec 2015 12:13:32 +0800
+Subject: [PATCH] =?UTF-8?q?To=20log=20JDBC=20parameters=EF=BC=9A=20Add=20?=
+ =?UTF-8?q?=20log4j.logger.org.hibernate.type=20=20to=20log4j.properties?=
+ =?UTF-8?q?=20Fixing=20PluginConfig.java=20issue:=20=20key=20should=20not?=
+ =?UTF-8?q?=20be=20'name'=20Should=20be=20'attributes=5Fkey'?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ src/log4j.properties                   | 17 +++++---
+ src/net/eshop/entity/PluginConfig.java | 80 ++++++++++++++++++++--------------
+ 2 files changed, 57 insertions(+), 40 deletions(-)
+
+diff --git a/src/log4j.properties b/src/log4j.properties
+index 21f31d8..b54fe3f 100644
+--- a/src/log4j.properties
++++ b/src/log4j.properties
+@@ -1,14 +1,16 @@
+ # Output pattern : date [thread] priority category - message
+ 
+ #------------Development-----------------
+-#Logger.Level=DEBUG
+-#log4j.rootLogger=${Logger.Level}, console
++Logger.Level=ERROR
++log4j.rootLogger=${Logger.Level}, console
++Logger.Level.hibernate=DEBUG
+ #------------Development-----------------
+ 
+ 
+ #------------Production-----------------
+-Logger.Level=ERROR
+-log4j.rootLogger=${Logger.Level}, RollingAppender
++#Logger.Level=ERROR
++#Logger.Level.hibernate=ERROR
++#log4j.rootLogger=${Logger.Level}, RollingAppender
+ #------------Production End ------------
+ 
+ 
+@@ -33,7 +35,8 @@ log4j.appender.RollingAppender.layout.ConversionPattern=[%p] %d %c %M - %m%n
+ # Changing the log level to DEBUG when debug
+ log4j.logger.org.springframework=${Logger.Level}
+ # Changing the log level to DEBUG will display SQL Hibernate generated
+-log4j.logger.org.hibernate=${Logger.Level}
+-log4j.logger.org.hibernate.SQL=${Logger.Level}
+-log4j.logger.org.hibernate.cache=${Logger.Level}
++log4j.logger.org.hibernate=${Logger.Level.hibernate}
++log4j.logger.org.hibernate.SQL=${Logger.Level.hibernate}
++log4j.logger.org.hibernate.cache=${Logger.Level.hibernate}
++log4j.logger.org.hibernate.type=${Logger.Level.hibernate}
+ log4j.logger.net.sf.ehcache=${Logger.Level}
+\ No newline at end of file
+diff --git a/src/net/eshop/entity/PluginConfig.java b/src/net/eshop/entity/PluginConfig.java
+index f779e9f..57bc5d0 100644
+--- a/src/net/eshop/entity/PluginConfig.java
++++ b/src/net/eshop/entity/PluginConfig.java
+@@ -1,7 +1,7 @@
+ /*
+- * 
+- * 
+- * 
++ *
++ *
++ *
+  */
+ package net.eshop.entity;
+ 
+@@ -18,16 +18,18 @@ import javax.persistence.SequenceGenerator;
+ import javax.persistence.Table;
+ import javax.persistence.Transient;
+ 
++
+ /**
+  * Entity - 插件配置
+- * 
+- * 
+- * 
++ *
++ *
++ *
+  */
+ @Entity
+ @Table(name = "t_plugin_config")
+ @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_plugin_config_sequence")
+-public class PluginConfig extends OrderEntity {
++public class PluginConfig extends OrderEntity
++{
+ 
+ 	private static final long serialVersionUID = -4357367409438384806L;
+ 
+@@ -42,93 +44,105 @@ public class PluginConfig extends OrderEntity {
+ 
+ 	/**
+ 	 * 获取插件ID
+-	 * 
++	 *
+ 	 * @return 插件ID
+ 	 */
+ 	@Column(nullable = false, updatable = false, unique = true, length = 100)
+-	public String getPluginId() {
++	public String getPluginId()
++	{
+ 		return pluginId;
+ 	}
+ 
+ 	/**
+ 	 * 设置插件ID
+-	 * 
++	 *
+ 	 * @param pluginId
+-	 *            插件ID
++	 *           插件ID
+ 	 */
+-	public void setPluginId(String pluginId) {
++	public void setPluginId(final String pluginId)
++	{
+ 		this.pluginId = pluginId;
+ 	}
+ 
+ 	/**
+ 	 * 获取是否启用
+-	 * 
++	 *
+ 	 * @return 是否启用
+ 	 */
+ 	@Column(nullable = false)
+-	public Boolean getIsEnabled() {
++	public Boolean getIsEnabled()
++	{
+ 		return isEnabled;
+ 	}
+ 
+ 	/**
+ 	 * 设置是否启用
+-	 * 
++	 *
+ 	 * @param isEnabled
+-	 *            是否启用
++	 *           是否启用
+ 	 */
+-	public void setIsEnabled(Boolean isEnabled) {
++	public void setIsEnabled(final Boolean isEnabled)
++	{
+ 		this.isEnabled = isEnabled;
+ 	}
+ 
+ 	/**
+ 	 * 获取属性
+-	 * 
++	 *
+ 	 * @return 属性
+ 	 */
+ 	@ElementCollection(fetch = FetchType.EAGER)
+ 	@CollectionTable(name = "t_plugin_config_attribute")
+-	@MapKeyColumn(name = "name", length = 100)
+-	public Map<String, String> getAttributes() {
++	@MapKeyColumn(name = "attributes_key", length = 100)
++	public Map<String, String> getAttributes()
++	{
+ 		return attributes;
+ 	}
+ 
+ 	/**
+ 	 * 设置属性
+-	 * 
++	 *
+ 	 * @param attributes
+-	 *            属性
++	 *           属性
+ 	 */
+-	public void setAttributes(Map<String, String> attributes) {
++	public void setAttributes(final Map<String, String> attributes)
++	{
+ 		this.attributes = attributes;
+ 	}
+ 
+ 	/**
+ 	 * 获取属性值
+-	 * 
++	 *
+ 	 * @param name
+-	 *            属性名称
++	 *           属性名称
+ 	 * @return 属性值
+ 	 */
+ 	@Transient
+-	public String getAttribute(String name) {
+-		if (getAttributes() != null && name != null) {
++	public String getAttribute(final String name)
++	{
++		if (getAttributes() != null && name != null)
++		{
+ 			return getAttributes().get(name);
+-		} else {
++		}
++		else
++		{
+ 			return null;
+ 		}
+ 	}
+ 
+ 	/**
+ 	 * 设置属性值
+-	 * 
++	 *
+ 	 * @param name
+-	 *            属性名称
++	 *           属性名称
+ 	 * @param value
+-	 *            属性值
++	 *           属性值
+ 	 */
+ 	@Transient
+-	public void setAttribute(String name, String value) {
+-		if (getAttributes() != null && name != null) {
++	public void setAttribute(final String name, final String value)
++	{
++		if (getAttributes() != null && name != null)
++		{
+ 			getAttributes().put(name, value);
+ 		}
+ 	}
+-- 
+1.9.4.msysgit.0
+
