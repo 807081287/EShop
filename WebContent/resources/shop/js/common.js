@@ -4,7 +4,7 @@
  */
 
 var eshop = {
-	base: "",
+	base: "/EShop",
 	locale: "zh_CN"
 };
 

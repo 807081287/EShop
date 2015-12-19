@@ -41,6 +41,11 @@ public class PaymentMethod extends OrderEntity
 	private static final long serialVersionUID = 6949816500116581199L;
 
 	/**
+	 * 银联支付的ID，系统需要设置
+	 */
+	public static final Long onlinePayID = 4L;
+
+	/**
 	 * 方式
 	 */
 	public enum Method
