@@ -83,7 +83,8 @@ public class AlipayDirectPlugin extends PaymentPlugin
 		/**
 		 * 模拟alipay即时到账的支付
 		 */
-		return "/EShop/onlinepaysimulator/alipay/step1.jsp";
+		final Setting setting = SettingUtils.get();
+		return setting.getSiteUrl() + "/EShop/onlinepaysimulator/alipay/step1.jsp";
 	}
 
 	@Override

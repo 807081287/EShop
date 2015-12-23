@@ -86,7 +86,8 @@ public class UnionpayPlugin extends PaymentPlugin
 	{
 		//		return "https://unionpaysecure.com/api/Pay.action";
 		//		return "/EShop/s-unionpay/submit.jhtml";
-		return "/EShop/onlinepaysimulator/unionpay/step1.jsp";
+		final Setting setting = SettingUtils.get();
+		return setting.getSiteUrl() + "/onlinepaysimulator/unionpay/step1.jsp";
 	}
 
 	@Override
