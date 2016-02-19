@@ -48,6 +48,9 @@ $().ready(function() {
 						<input type="text" name="specificationValues[' + specificationValueIndex + '].name" class="text specificationValuesName" maxlength="200" \/>
 					<\/td>
 					<td>
+						<input type="text" name="specificationValues[' + specificationValueIndex + '].code" class="text specificationValuesCode" maxlength="20" \/>
+					<\/td>
+					<td>
 						<span class="fieldSet">
 							<input type="text" name="specificationValues[' + specificationValueIndex + '].image" class="text specificationValuesImage" maxlength="200" disabled="disabled" \/>
 							<input type="button" class="button browserButton" value="${message("admin.browser.select")}" disabled="disabled" \/>
@@ -70,6 +73,9 @@ $().ready(function() {
 					<\/td>
 					<td>
 						<input type="text" name="specificationValues[' + specificationValueIndex + '].name" class="text specificationValuesName" maxlength="200" \/>
+					<\/td>
+					<td>
+						<input type="text" name="specificationValues[' + specificationValueIndex + '].code" class="text specificationValuesCode" maxlength="20" \/>
 					<\/td>
 					<td>
 						<span class="fieldSet">
@@ -138,6 +144,14 @@ $().ready(function() {
 					<input type="text" name="name" class="text" value="${specification.name}" maxlength="200" />
 				</td>
 			</tr>
+			<tr class="titleTr">
+				<th>
+					<span class="requiredField">*</span>${message("Specification.code")}:
+				</th>
+				<td colspan="4">
+					<input type="text" name="code" class="text" value="${specification.code}" maxlength="20" />
+				</td>
+			</tr>
 			<tr>
 				<th>
 					${message("Specification.type")}:
@@ -182,6 +196,9 @@ $().ready(function() {
 					${message("admin.specification.specificationValueName")}
 				</td>
 				<td>
+					${message("admin.specification.specificationValueCode")}
+				</td>
+				<td>
 					${message("admin.specification.specificationValueImage")}
 				</td>
 				<td>
@@ -198,6 +215,9 @@ $().ready(function() {
 					</td>
 					<td>
 						<input type="text" name="specificationValues[${specificationValue_index}].name" class="text specificationValuesName" value="${specificationValue.name}" maxlength="200" />
+					</td>
+					<td>
+						<input type="text" name="specificationValues[${specificationValue_index}].code" class="text specificationValuesCode" value="${specificationValue.code}" maxlength="20" />
 					</td>
 					<td>
 						[#if specification.type == "text"]

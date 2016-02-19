@@ -53,6 +53,9 @@ public class Specification extends OrderEntity
 		image
 	}
 
+	/** 唯一可读标识 **/
+	private String code;
+
 	/** 名称 */
 	private String name;
 
@@ -67,6 +70,29 @@ public class Specification extends OrderEntity
 
 	/** 商品 */
 	private Set<Product> products = new HashSet<Product>();
+
+
+
+
+	/**
+	 * @return the code
+	 */
+	@NotEmpty
+	@Length(max = 20)
+	@Column(unique = true)
+	public String getCode()
+	{
+		return code;
+	}
+
+	/**
+	 * @param code
+	 *           the code to set
+	 */
+	public void setCode(final String code)
+	{
+		this.code = code;
+	}
 
 	/**
 	 * 获取名称

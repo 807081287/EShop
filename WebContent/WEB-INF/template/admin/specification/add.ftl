@@ -48,6 +48,10 @@ $().ready(function() {
 						<input type="text" name="specificationValues[' + specificationValueIndex + '].name" maxlength="200" class="text specificationValuesName" \/>
 					<\/td>
 					<td>
+						<input type="text" name="specificationValues[' + specificationValueIndex + '].code" maxlength="20" class="text specificationValuesCode" \/>
+					<\/td>
+					
+					<td>
 						<span class="fieldSet">
 							<input type="text" name="specificationValues[' + specificationValueIndex + '].image" maxlength="200" class="text specificationValuesImage" disabled="disabled" \/>
 							<input type="button" class="button browserButton" value="${message("admin.browser.select")}" disabled="disabled" \/>
@@ -70,6 +74,9 @@ $().ready(function() {
 					<\/td>
 					<td>
 						<input type="text" name="specificationValues[' + specificationValueIndex + '].name" class="text specificationValuesName" maxlength="200" \/>
+					<\/td>
+					<td>
+						<input type="text" name="specificationValues[' + specificationValueIndex + '].name" maxlength="20" class="text specificationValuesCode" \/>
 					<\/td>
 					<td>
 						<span class="fieldSet">
@@ -133,15 +140,23 @@ $().ready(function() {
 				<th>
 					<span class="requiredField">*</span>${message("Specification.name")}:
 				</th>
-				<td colspan="4">
+				<td colspan="5">
 					<input type="text" name="name" class="text" maxlength="200" />
+				</td>
+			</tr>
+			<tr class="titleTr">
+				<th>
+					<span class="requiredField">*</span>${message("Specification.code")}:
+				</th>
+				<td colspan="5">
+					<input type="text" name="code" class="text" maxlength="200" />
 				</td>
 			</tr>
 			<tr>
 				<th>
 					${message("Specification.type")}:
 				</th>
-				<td colspan="4">
+				<td colspan="5">
 					<select id="type" name="type">
 						[#list types as type]
 							<option value="${type}">${message("Specification.Type." + type)}</option>
@@ -153,7 +168,7 @@ $().ready(function() {
 				<th>
 					${message("Specification.memo")}:
 				</th>
-				<td colspan="4">
+				<td colspan="5">
 					<input type="text" name="memo" class="text" maxlength="200" />
 				</td>
 			</tr>
@@ -161,7 +176,7 @@ $().ready(function() {
 				<th>
 					${message("admin.common.order")}:
 				</th>
-				<td colspan="4">
+				<td colspan="5">
 					<input type="text" name="order" class="text" maxlength="9" />
 				</td>
 			</tr>
@@ -169,7 +184,7 @@ $().ready(function() {
 				<td>
 					&nbsp;
 				</td>
-				<td colspan="4">
+				<td colspan="5">
 					<a href="javascript:;" id="addSpecificationValueButton" class="button">${message("admin.specification.addSpecificationValue")}</a>
 				</td>
 			</tr>
@@ -179,6 +194,9 @@ $().ready(function() {
 				</td>
 				<td>
 					${message("admin.specification.specificationValueName")}
+				</td>					
+				<td>
+					${message("admin.specification.specificationValueCode")}
 				</td>
 				<td>
 					${message("admin.specification.specificationValueImage")}
@@ -196,6 +214,9 @@ $().ready(function() {
 				</td>
 				<td>
 					<input type="text" name="specificationValues[0].name" class="text specificationValuesName" maxlength="200" />
+				</td>
+				<td>
+					<input type="text" name="specificationValues[0].code" class="text specificationValuesCode" maxlength="20" />
 				</td>
 				<td>
 					<span class="fieldSet">
@@ -216,7 +237,7 @@ $().ready(function() {
 				<th>
 					&nbsp;
 				</th>
-				<td colspan="4">
+				<td colspan="5">
 					<input type="submit" class="button" value="${message("admin.common.submit")}" />
 					<input type="button" class="button" value="${message("admin.common.back")}" onclick="location.href='list.jhtml'" />
 				</td>
