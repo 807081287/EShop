@@ -23,6 +23,7 @@
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
 			<mvc:exclude-mapping path="/payment/**" />
+			<mvc:exclude-mapping path="/rest/**" />
 			<bean id="tokenInterceptor" class="net.eshop.interceptor.TokenInterceptor" />
 		</mvc:interceptor>
 		<!-- 
@@ -67,10 +68,10 @@
 	</bean>
 	
 	<!-- 异常拦截，重定向到错误提示页面，隐藏报错信息，开发环境注释 -->
-	<!-- 
+	<!--  
 	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<property name="defaultErrorView" value="shop/common/error" />
 	</bean>
-	-->
+	 -->
 	
 </beans>
