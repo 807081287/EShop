@@ -9,9 +9,7 @@
  * 
  */
 
-
 /* ---------- Score ---------- */
-
 div.score0 {
 	width: 60px;
 	height: 20px;
@@ -79,7 +77,6 @@ div.score10 {
 }
 
 /* ---------- HotProductCategory ---------- */
-
 div.hotProductCategory {
 	width: 216px;
 	padding: 0px 6px;
@@ -116,7 +113,6 @@ div.hotProductCategory dd {
 }
 
 /* ---------- HotProduct ---------- */
-
 div.hotProduct {
 	width: 228px;
 	margin-bottom: 10px;
@@ -173,7 +169,6 @@ div.hotProduct li div div {
 }
 
 /* ---------- HistoryProduct ---------- */
-
 div.historyProduct {
 	width: 208px;
 	padding: 0px 10px;
@@ -233,7 +228,6 @@ div.historyProduct .clearHistoryProduct {
 }
 
 /* ---------- ProductList ---------- */
-
 div.productList .filter {
 	margin-bottom: 4px;
 }
@@ -493,7 +487,9 @@ div.productList .bar .sort .popupMenu a {
 	border-radius: 1px;
 }
 
-div.productList .bar .sort .asc, div.productList .bar .sort .currentAsc, div.productList .bar .sort .desc, div.productList .bar .sort .currentDesc  {
+div.productList .bar .sort .asc, div.productList .bar .sort .currentAsc,
+	div.productList .bar .sort .desc, div.productList .bar .sort .currentDesc
+	{
 	height: 22px;
 	line-height: 22px;
 	display: block;
@@ -527,8 +523,8 @@ div.productList .bar .sort input {
 	height: 22px;
 	line-height: 22px;
 	padding: 0px;
-	margin: 0px 4px;
-	#margin: -1px 4px;
+	margin: 0px 4px; #
+	margin: -1px 4px;
 	_margin: -1px 4px;
 	text-align: center;
 	vertical-align: middle;
@@ -662,7 +658,6 @@ div.productList .list .price del {
 }
 
 /* ---------- ProductContent ---------- */
-
 div.productContent .productImage {
 	width: 302px;
 	height: 370px;
@@ -729,7 +724,7 @@ div.productContent .productImage .scrollable {
 	height: 64px;
 	float: left;
 	position: relative;
-    overflow: hidden;
+	overflow: hidden;
 }
 
 div.productContent .productImage .scrollable .items {
@@ -767,9 +762,9 @@ div.productContent .productImage .zoomPad {
 
 div.productContent .productImage .zoomPreload {
 	width: 90px;
-	height: 43px;
-	* width: 100px;
-	* height: 49px;
+	height: 43px; *
+	width: 100px; *
+	height: 49px;
 	padding: 8px;
 	text-align: center;
 	color: #333333;
@@ -857,7 +852,7 @@ div.productContent .productImage .zoomWrapperImage img {
 
 div.productContent .productImage .zoomIframe {
 	z-index: -1;
-	filter: alpha(opacity=0);
+	filter: alpha(opacity = 0);
 	-moz-opacity: 0.80;
 	opacity: 0.80;
 	position: absolute;
@@ -1237,7 +1232,8 @@ div.productContent .brief td {
 	background-color: #f6f6f6;
 }
 
-div.productContent .introduction .title, div.productContent .parameter .title {
+div.productContent .introduction .title, div.productContent .parameter .title
+	{
 	height: 29px;
 	line-height: 29px;
 	margin-bottom: 10px;
@@ -1245,7 +1241,8 @@ div.productContent .introduction .title, div.productContent .parameter .title {
 	background-color: #d3d3d3;
 }
 
-div.productContent .introduction .title strong, div.productContent .parameter .title strong {
+div.productContent .introduction .title strong, div.productContent .parameter .title strong
+	{
 	display: block;
 	float: left;
 	padding: 0px 20px;

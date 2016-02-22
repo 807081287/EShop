@@ -1,4 +1,5 @@
-<%@page language="java" contentType="text/html; charset=utf-8" pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="UTF-8"%>
 <%@page import="org.springframework.context.ApplicationContext"%>
 <%@page import="net.eshop.util.SpringUtils"%>
 <%
@@ -18,13 +19,17 @@ if (applicationContext != null) {
 <meta http-equiv="Cache-Control" content="no-cache" />
 
 
-<link href="<%=base%>/resources/admin/css/common.css" rel="stylesheet" type="text/css" />
-<link href="<%=base%>/resources/admin/css/login.css" rel="stylesheet" type="text/css" />
+<link href="<%=base%>/resources/admin/css/common.css" rel="stylesheet"
+	type="text/css" />
+<link href="<%=base%>/resources/admin/css/login.css" rel="stylesheet"
+	type="text/css" />
 </head>
 <body>
 	<fieldset>
 		<legend>系统出现异常</legend>
-		<p>请检查EShop程序是否已正确安装 [<a href="<%=base%>/install/">点击此处进行安装</a>]</p>
+		<p>
+			请检查EShop程序是否已正确安装 [<a href="<%=base%>/install/">点击此处进行安装</a>]
+		</p>
 		<p>
 			<strong>提示: EShop安装完成后必须重新启动WEB服务器</strong>
 		</p>

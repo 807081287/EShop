@@ -1,944 +1,1164 @@
-
 @charset "utf-8";
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dd, dl, dt, li, ol, ul, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
-    border: 0 none;
-    margin: 0;
-    outline: 0 none;
-    padding: 0;
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p,
+	blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn,
+	em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup,
+	tt, var, dd, dl, dt, li, ol, ul, fieldset, form, label, legend, table,
+	caption, tbody, tfoot, thead, tr, th, td {
+	border: 0 none;
+	margin: 0;
+	outline: 0 none;
+	padding: 0;
 }
+
 html {
+	
 }
+
 body {
-    background-color: #ffffff;
-    color: #666666;
-    font: 12px tahoma,Arial,Verdana,sans-serif;
-    min-width: 1000px;
+	background-color: #ffffff;
+	color: #666666;
+	font: 12px tahoma, Arial, Verdana, sans-serif;
+	min-width: 1000px;
 }
+
 a {
-    color: #666666;
-    text-decoration: none;
+	color: #666666;
+	text-decoration: none;
 }
+
 a:hover {
-    color: #ff6600;
-    text-decoration: none;
+	color: #ff6600;
+	text-decoration: none;
 }
+
 img {
-    image-rendering: optimizequality;
-    vertical-align: middle;
+	image-rendering: optimizequality;
+	vertical-align: middle;
 }
+
 table {
-    border-collapse: collapse;
-    border-spacing: 0;
+	border-collapse: collapse;
+	border-spacing: 0;
 }
+
 ul {
-    list-style-type: none;
+	list-style-type: none;
 }
+
 input {
-    outline: medium none;
-    vertical-align: middle;
+	outline: medium none;
+	vertical-align: middle;
 }
+
 textarea {
-    outline: 0 none;
-    resize: none;
+	outline: 0 none;
+	resize: none;
 }
+
 .black {
-    color: black;
+	color: black;
 }
+
 .white {
-    color: white;
+	color: white;
 }
+
 .gray {
-    color: gray;
+	color: gray;
 }
+
 .red {
-    color: red;
+	color: red;
 }
+
 .green {
-    color: green;
+	color: green;
 }
+
 .blue {
-    color: blue;
+	color: blue;
 }
+
 .hidden {
-    display: none;
+	display: none;
 }
+
 .clearfix {
+	
 }
+
 .clearfix:after {
-    clear: both;
-    content: " ";
-    display: block;
-    height: 0;
-    overflow: hidden;
-    visibility: hidden;
+	clear: both;
+	content: " ";
+	display: block;
+	height: 0;
+	overflow: hidden;
+	visibility: hidden;
 }
+
 .dialogOverlay {
-    background: url("../images/dialog_overlay.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
-    display: none;
-    height: 100%;
-    left: 0;
-    opacity: 0.3;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 99;
+	background: url("../images/dialog_overlay.png") repeat scroll 0 0
+		rgba(0, 0, 0, 0);
+	display: none;
+	height: 100%;
+	left: 0;
+	opacity: 0.3;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 99;
 }
+
 input.text {
-    border-color: #999999 #e1e1e1 #e1e1e1 #999999;
-    border-radius: 2px;
-    border-style: solid;
-    border-width: 1px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) inset;
-    color: #666666;
-    height: 24px;
-    line-height: 24px;
-    padding: 0 4px;
-    width: 180px;
+	border-color: #999999 #e1e1e1 #e1e1e1 #999999;
+	border-radius: 2px;
+	border-style: solid;
+	border-width: 1px;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) inset;
+	color: #666666;
+	height: 24px;
+	line-height: 24px;
+	padding: 0 4px;
+	width: 180px;
 }
+
 input.text[type="file"] {
-    box-shadow: none;
+	box-shadow: none;
 }
+
 input.text:hover {
-    border: 1px solid #74b9ef;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) inset, 0 0 8px rgba(82, 168, 236, 0.6);
-    transition: box-shadow 0.2s linear 0s;
+	border: 1px solid #74b9ef;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) inset, 0 0 8px
+		rgba(82, 168, 236, 0.6);
+	transition: box-shadow 0.2s linear 0s;
 }
+
 input.text:disabled {
-    background-color: #f6f6f6;
-    box-shadow: none;
+	background-color: #f6f6f6;
+	box-shadow: none;
 }
+
 input.text:disabled:hover {
-    background-color: #f6f6f6;
-    border-color: #999999 #e1e1e1 #e1e1e1 #999999;
-    border-style: solid;
-    border-width: 1px;
-    box-shadow: none;
-    transition: none 0s ease 0s ;
+	background-color: #f6f6f6;
+	border-color: #999999 #e1e1e1 #e1e1e1 #999999;
+	border-style: solid;
+	border-width: 1px;
+	box-shadow: none;
+	transition: none 0s ease 0s;
 }
+
 textarea.text {
-    border-color: #999999 #e1e1e1 #e1e1e1 #999999;
-    border-radius: 2px;
-    border-style: solid;
-    border-width: 1px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) inset;
-    color: #666666;
-    font-size: 12px;
-    height: 120px;
-    padding: 4px;
-    width: 350px;
+	border-color: #999999 #e1e1e1 #e1e1e1 #999999;
+	border-radius: 2px;
+	border-style: solid;
+	border-width: 1px;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) inset;
+	color: #666666;
+	font-size: 12px;
+	height: 120px;
+	padding: 4px;
+	width: 350px;
 }
+
 textarea.text:hover {
-    border: 1px solid #74b9ef;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) inset, 0 0 8px rgba(82, 168, 236, 0.6);
-    transition: box-shadow 0.2s linear 0s;
+	border: 1px solid #74b9ef;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) inset, 0 0 8px
+		rgba(82, 168, 236, 0.6);
+	transition: box-shadow 0.2s linear 0s;
 }
+
 textarea.text:disabled {
-    background-color: #f6f6f6;
-    box-shadow: none;
+	background-color: #f6f6f6;
+	box-shadow: none;
 }
+
 textarea.text:disabled:hover {
-    background-color: #f6f6f6;
-    border-color: #999999 #e1e1e1 #e1e1e1 #999999;
-    border-style: solid;
-    border-width: 1px;
-    box-shadow: none;
-    transition: none 0s ease 0s ;
+	background-color: #f6f6f6;
+	border-color: #999999 #e1e1e1 #e1e1e1 #999999;
+	border-style: solid;
+	border-width: 1px;
+	box-shadow: none;
+	transition: none 0s ease 0s;
 }
+
 textarea.editor {
-    width: 100%;
+	width: 100%;
 }
+
 a.button {
-    background: url("../images/common.gif") repeat-x scroll 0 0 rgba(0, 0, 0, 0);
-    border: 1px solid #b7c8d9;
-    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-    color: #444444;
-    display: -moz-inline-stack;
-    float: left;
-    height: 26px;
-    line-height: 26px;
-    margin-right: 10px;
-    outline: medium none;
-    padding: 0 16px;
-    text-shadow: 1px 1px #ffffff;
+	background: url("../images/common.gif") repeat-x scroll 0 0
+		rgba(0, 0, 0, 0);
+	border: 1px solid #b7c8d9;
+	box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+	color: #444444;
+	display: -moz-inline-stack;
+	float: left;
+	height: 26px;
+	line-height: 26px;
+	margin-right: 10px;
+	outline: medium none;
+	padding: 0 16px;
+	text-shadow: 1px 1px #ffffff;
 }
+
 a.button:hover {
-    background-position: 0 -30px;
-    color: #222222;
+	background-position: 0 -30px;
+	color: #222222;
 }
+
 a.button:active {
-    background-position: 0 -60px;
+	background-position: 0 -60px;
 }
+
 a.button:disabled {
-    color: #bbbbbb;
+	color: #bbbbbb;
 }
+
 a.button:disabled:hover, a.button:disabled:active {
-    background-position: 0 0;
-    color: #bbbbbb;
+	background-position: 0 0;
+	color: #bbbbbb;
 }
+
 a.button .arrow {
-    background: url("../images/common.gif") no-repeat scroll 0 -180px rgba(0, 0, 0, 0);
-    height: 3px;
-    overflow: hidden;
-    position: absolute;
-    right: 4px;
-    top: 12px;
-    width: 6px;
+	background: url("../images/common.gif") no-repeat scroll 0 -180px
+		rgba(0, 0, 0, 0);
+	height: 3px;
+	overflow: hidden;
+	position: absolute;
+	right: 4px;
+	top: 12px;
+	width: 6px;
 }
+
 a.iconButton {
-    background: url("../images/common.gif") repeat-x scroll 0 0 rgba(0, 0, 0, 0);
-    border: 1px solid #b7c8d9;
-    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-    color: #444444;
-    display: -moz-inline-stack;
-    float: left;
-    height: 26px;
-    line-height: 26px;
-    margin-right: 10px;
-    outline: medium none;
-    padding: 0 16px 0 26px;
-    position: relative;
-    text-shadow: 1px 1px #ffffff;
+	background: url("../images/common.gif") repeat-x scroll 0 0
+		rgba(0, 0, 0, 0);
+	border: 1px solid #b7c8d9;
+	box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+	color: #444444;
+	display: -moz-inline-stack;
+	float: left;
+	height: 26px;
+	line-height: 26px;
+	margin-right: 10px;
+	outline: medium none;
+	padding: 0 16px 0 26px;
+	position: relative;
+	text-shadow: 1px 1px #ffffff;
 }
+
 a.iconButton:hover {
-    background-position: 0 -30px;
-    color: #222222;
+	background-position: 0 -30px;
+	color: #222222;
 }
+
 a.iconButton:active {
-    background-position: 0 -60px;
+	background-position: 0 -60px;
 }
+
 a.iconButton:disabled {
-    color: #bbbbbb;
+	color: #bbbbbb;
 }
+
 a.iconButton:disabled:hover, a.iconButton:disabled:active {
-    background-position: 0 0;
-    color: #bbbbbb;
+	background-position: 0 0;
+	color: #bbbbbb;
 }
+
 a.iconButton .addIcon {
-    background: url("../images/common.gif") no-repeat scroll 0 -150px rgba(0, 0, 0, 0);
-    height: 18px;
-    left: 8px;
-    position: absolute;
-    top: 4px;
-    width: 18px;
+	background: url("../images/common.gif") no-repeat scroll 0 -150px
+		rgba(0, 0, 0, 0);
+	height: 18px;
+	left: 8px;
+	position: absolute;
+	top: 4px;
+	width: 18px;
 }
+
 a.iconButton .editIcon {
-    background: url("../images/common.gif") no-repeat scroll -20px -150px rgba(0, 0, 0, 0);
-    height: 18px;
-    left: 8px;
-    position: absolute;
-    top: 4px;
-    width: 18px;
+	background: url("../images/common.gif") no-repeat scroll -20px -150px
+		rgba(0, 0, 0, 0);
+	height: 18px;
+	left: 8px;
+	position: absolute;
+	top: 4px;
+	width: 18px;
 }
+
 a.iconButton .deleteIcon {
-    background: url("../images/common.gif") no-repeat scroll -40px -150px rgba(0, 0, 0, 0);
-    height: 18px;
-    left: 8px;
-    position: absolute;
-    top: 4px;
-    width: 18px;
+	background: url("../images/common.gif") no-repeat scroll -40px -150px
+		rgba(0, 0, 0, 0);
+	height: 18px;
+	left: 8px;
+	position: absolute;
+	top: 4px;
+	width: 18px;
 }
+
 a.iconButton .clearIcon {
-    background: url("../images/common.gif") no-repeat scroll -60px -150px rgba(0, 0, 0, 0);
-    height: 18px;
-    left: 8px;
-    position: absolute;
-    top: 4px;
-    width: 18px;
+	background: url("../images/common.gif") no-repeat scroll -60px -150px
+		rgba(0, 0, 0, 0);
+	height: 18px;
+	left: 8px;
+	position: absolute;
+	top: 4px;
+	width: 18px;
 }
+
 a.iconButton .copyIcon {
-    background: url("../images/common.gif") no-repeat scroll -80px -150px rgba(0, 0, 0, 0);
-    height: 18px;
-    left: 8px;
-    position: absolute;
-    top: 4px;
-    width: 18px;
+	background: url("../images/common.gif") no-repeat scroll -80px -150px
+		rgba(0, 0, 0, 0);
+	height: 18px;
+	left: 8px;
+	position: absolute;
+	top: 4px;
+	width: 18px;
 }
+
 a.iconButton .moveIcon {
-    background: url("../images/common.gif") no-repeat scroll -100px -150px rgba(0, 0, 0, 0);
-    height: 18px;
-    left: 8px;
-    position: absolute;
-    top: 4px;
-    width: 18px;
+	background: url("../images/common.gif") no-repeat scroll -100px -150px
+		rgba(0, 0, 0, 0);
+	height: 18px;
+	left: 8px;
+	position: absolute;
+	top: 4px;
+	width: 18px;
 }
+
 a.iconButton .refreshIcon {
-    background: url("../images/common.gif") no-repeat scroll -120px -150px rgba(0, 0, 0, 0);
-    height: 18px;
-    left: 8px;
-    position: absolute;
-    top: 4px;
-    width: 18px;
+	background: url("../images/common.gif") no-repeat scroll -120px -150px
+		rgba(0, 0, 0, 0);
+	height: 18px;
+	left: 8px;
+	position: absolute;
+	top: 4px;
+	width: 18px;
 }
+
 a.iconButton .addDirIcon {
-    background: url("../images/common.gif") no-repeat scroll -140px -150px rgba(0, 0, 0, 0);
-    height: 18px;
-    left: 8px;
-    position: absolute;
-    top: 4px;
-    width: 18px;
+	background: url("../images/common.gif") no-repeat scroll -140px -150px
+		rgba(0, 0, 0, 0);
+	height: 18px;
+	left: 8px;
+	position: absolute;
+	top: 4px;
+	width: 18px;
 }
+
 a.iconButton .moveDirIcon {
-    background: url("../images/common.gif") no-repeat scroll -160px -150px rgba(0, 0, 0, 0);
-    height: 18px;
-    left: 8px;
-    position: absolute;
-    top: 4px;
-    width: 18px;
+	background: url("../images/common.gif") no-repeat scroll -160px -150px
+		rgba(0, 0, 0, 0);
+	height: 18px;
+	left: 8px;
+	position: absolute;
+	top: 4px;
+	width: 18px;
 }
+
 a.iconButton .upIcon {
-    background: url("../images/common.gif") no-repeat scroll -180px -150px rgba(0, 0, 0, 0);
-    height: 18px;
-    left: 8px;
-    position: absolute;
-    top: 4px;
-    width: 18px;
+	background: url("../images/common.gif") no-repeat scroll -180px -150px
+		rgba(0, 0, 0, 0);
+	height: 18px;
+	left: 8px;
+	position: absolute;
+	top: 4px;
+	width: 18px;
 }
+
 a.iconButton .downIcon {
-    background: url("../images/common.gif") no-repeat scroll -200px -150px rgba(0, 0, 0, 0);
-    height: 18px;
-    left: 8px;
-    position: absolute;
-    top: 4px;
-    width: 18px;
+	background: url("../images/common.gif") no-repeat scroll -200px -150px
+		rgba(0, 0, 0, 0);
+	height: 18px;
+	left: 8px;
+	position: absolute;
+	top: 4px;
+	width: 18px;
 }
+
 a.iconButton .arrow {
-    background: url("../images/common.gif") no-repeat scroll 0 -180px rgba(0, 0, 0, 0);
-    height: 3px;
-    overflow: hidden;
-    position: absolute;
-    right: 4px;
-    top: 12px;
-    width: 6px;
+	background: url("../images/common.gif") no-repeat scroll 0 -180px
+		rgba(0, 0, 0, 0);
+	height: 3px;
+	overflow: hidden;
+	position: absolute;
+	right: 4px;
+	top: 12px;
+	width: 6px;
 }
+
 div.buttonWrap {
-    float: left;
-    margin-right: 10px;
-    padding-left: 2px;
+	float: left;
+	margin-right: 10px;
+	padding-left: 2px;
 }
+
 div.buttonWrap .button, div.buttonWrap .iconButton {
-    margin: 0 0 0 -1px;
-    overflow: hidden;
-    position: relative;
-    white-space: nowrap;
+	margin: 0 0 0 -1px;
+	overflow: hidden;
+	position: relative;
+	white-space: nowrap;
 }
-div.buttonWrap .button.disabled, div.buttonWrap .button.disabled:hover, div.buttonWrap .button.disabled:active {
-    background: none repeat scroll 0 0 #ffffff;
-    color: #bababa;
-    cursor: default;
+
+div.buttonWrap .button.disabled, div.buttonWrap .button.disabled:hover,
+	div.buttonWrap .button.disabled:active {
+	background: none repeat scroll 0 0 #ffffff;
+	color: #bababa;
+	cursor: default;
 }
-div.buttonWrap .iconButton.disabled, div.buttonWrap .iconButton.disabled:hover, div.buttonWrap .iconButton.disabled:active {
-    background: none repeat scroll 0 0 #ffffff;
-    color: #bababa;
-    cursor: default;
+
+div.buttonWrap .iconButton.disabled, div.buttonWrap .iconButton.disabled:hover,
+	div.buttonWrap .iconButton.disabled:active {
+	background: none repeat scroll 0 0 #ffffff;
+	color: #bababa;
+	cursor: default;
 }
+
 input.button {
-    background: url("../images/common.gif") repeat-x scroll 0 0 rgba(0, 0, 0, 0);
-    border: 1px solid #b7c8d9;
-    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-    color: #444444;
-    cursor: pointer;
-    display: -moz-inline-stack;
-    height: 26px;
-    margin-right: 10px;
-    outline: medium none;
-    padding: 0 14px;
-    text-shadow: 1px 1px #ffffff;
+	background: url("../images/common.gif") repeat-x scroll 0 0
+		rgba(0, 0, 0, 0);
+	border: 1px solid #b7c8d9;
+	box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+	color: #444444;
+	cursor: pointer;
+	display: -moz-inline-stack;
+	height: 26px;
+	margin-right: 10px;
+	outline: medium none;
+	padding: 0 14px;
+	text-shadow: 1px 1px #ffffff;
 }
-@-moz-document url-prefix("") {
-input.button {
-    padding: 0 10px;
+
+@
+-moz-document url-prefix ("") {input .button { padding:010px;
+	
 }
+
 }
 input.button:hover {
-    background-position: 0 -30px;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 6px rgba(82, 168, 236, 0.6);
-    color: #222222;
-    transition: box-shadow 0.2s linear 0s;
+	background-position: 0 -30px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 6px
+		rgba(82, 168, 236, 0.6);
+	color: #222222;
+	transition: box-shadow 0.2s linear 0s;
 }
+
 input.button:active {
-    background-position: 0 -60px;
+	background-position: 0 -60px;
 }
+
 input.button:disabled {
-    box-shadow: none;
-    color: #bbbbbb;
+	box-shadow: none;
+	color: #bbbbbb;
 }
+
 input.button:disabled:hover, input.button:disabled:active {
-    background-position: 0 0;
-    box-shadow: none;
-    color: #bbbbbb;
-    transition: none 0s ease 0s ;
+	background-position: 0 0;
+	box-shadow: none;
+	color: #bbbbbb;
+	transition: none 0s ease 0s;
 }
+
 div.menuWrap {
-    display: inline;
+	display: inline;
 }
+
 div.popupMenu {
-    background-color: #ffffff;
-    border: 1px solid #b8d3ee;
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
-    display: none;
-    position: absolute;
-    width: 125px;
-    z-index: 10;
+	background-color: #ffffff;
+	border: 1px solid #b8d3ee;
+	box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+	display: none;
+	position: absolute;
+	width: 125px;
+	z-index: 10;
 }
+
 div.popupMenu ul {
-    padding: 1px;
-    z-index: 100;
+	padding: 1px;
+	z-index: 100;
 }
+
 div.popupMenu li {
-    height: 24px;
-    vertical-align: middle;
+	height: 24px;
+	vertical-align: middle;
 }
+
 div.popupMenu li.separator {
-    border-top: 1px dotted #b8d3ee;
+	border-top: 1px dotted #b8d3ee;
 }
+
 div.popupMenu a {
-    color: #333333;
-    display: block;
-    height: 24px;
-    line-height: 24px;
-    outline: medium none;
-    overflow: hidden;
-    padding: 0 5px;
+	color: #333333;
+	display: block;
+	height: 24px;
+	line-height: 24px;
+	outline: medium none;
+	overflow: hidden;
+	padding: 0 5px;
 }
+
 div.popupMenu a:hover {
-    background: url("../images/common.gif") repeat-x scroll 0 -90px rgba(0, 0, 0, 0);
-    color: #ffffff;
+	background: url("../images/common.gif") repeat-x scroll 0 -90px
+		rgba(0, 0, 0, 0);
+	color: #ffffff;
 }
+
 div.popupMenu a.current {
-    background: url("../images/common.gif") repeat-x scroll 0 -120px rgba(0, 0, 0, 0);
-    color: #2b2b2b;
-    font-weight: bold;
+	background: url("../images/common.gif") repeat-x scroll 0 -120px
+		rgba(0, 0, 0, 0);
+	color: #2b2b2b;
+	font-weight: bold;
 }
+
 div.popupMenu .check a {
-    padding-left: 20px;
+	padding-left: 20px;
 }
+
 div.popupMenu .check a.checked {
-    background: url("../images/common.gif") no-repeat scroll -220px -150px rgba(0, 0, 0, 0);
-    color: #2b2b2b;
-    font-weight: bold;
+	background: url("../images/common.gif") no-repeat scroll -220px -150px
+		rgba(0, 0, 0, 0);
+	color: #2b2b2b;
+	font-weight: bold;
 }
+
 span.requiredField {
-    color: #ff6d6d;
-    font-size: 10px;
-    padding-right: 3px;
+	color: #ff6d6d;
+	font-size: 10px;
+	padding-right: 3px;
 }
+
 input.fieldError {
-    background-color: #fffbf5;
-    border: 1px solid #ffb042;
+	background-color: #fffbf5;
+	border: 1px solid #ffb042;
 }
+
 select.fieldError {
-    background-color: #fffbf5;
-    border: 1px solid #ffb042;
+	background-color: #fffbf5;
+	border: 1px solid #ffb042;
 }
+
 label.fieldError {
-    color: #ffb042;
-    line-height: 23px;
-    padding-left: 6px;
+	color: #ffb042;
+	line-height: 23px;
+	padding-left: 6px;
 }
+
 div.xxDialog {
-    background: url("../images/common.gif") repeat-x scroll 0 -660px #ffffff;
-    border: 1px solid #779cb0;
-    box-shadow: 1px 1px 6px #999999;
-    display: none;
-    left: 50%;
-    overflow: hidden;
-    position: fixed;
-    top: 25%;
-    z-index: 100;
+	background: url("../images/common.gif") repeat-x scroll 0 -660px #ffffff;
+	border: 1px solid #779cb0;
+	box-shadow: 1px 1px 6px #999999;
+	display: none;
+	left: 50%;
+	overflow: hidden;
+	position: fixed;
+	top: 25%;
+	z-index: 100;
 }
+
 div.xxDialog .dialogTitle {
-    background: url("../images/common.gif") repeat-x scroll 0 -210px rgba(0, 0, 0, 0);
-    color: #666666;
-    cursor: move;
-    font-weight: bold;
-    height: 40px;
-    line-height: 40px;
-    padding-left: 10px;
+	background: url("../images/common.gif") repeat-x scroll 0 -210px
+		rgba(0, 0, 0, 0);
+	color: #666666;
+	cursor: move;
+	font-weight: bold;
+	height: 40px;
+	line-height: 40px;
+	padding-left: 10px;
 }
+
 div.xxDialog .dialogClose {
-    background: url("../images/common.gif") no-repeat scroll 0 -330px rgba(0, 0, 0, 0);
-    cursor: pointer;
-    height: 19px;
-    position: absolute;
-    right: 10px;
-    top: 0;
-    width: 25px;
+	background: url("../images/common.gif") no-repeat scroll 0 -330px
+		rgba(0, 0, 0, 0);
+	cursor: pointer;
+	height: 19px;
+	position: absolute;
+	right: 10px;
+	top: 0;
+	width: 25px;
 }
+
 div.xxDialog .dialogClose:hover {
-    background-position: -30px -330px;
+	background-position: -30px -330px;
 }
+
 div.xxDialog .dialogwarnIcon {
-    background: url("../images/common.gif") no-repeat scroll -60px -360px rgba(0, 0, 0, 0);
-    line-height: 24px;
-    margin: 50px 0 40px 60px;
-    padding-left: 30px;
+	background: url("../images/common.gif") no-repeat scroll -60px -360px
+		rgba(0, 0, 0, 0);
+	line-height: 24px;
+	margin: 50px 0 40px 60px;
+	padding-left: 30px;
 }
+
 div.xxDialog .dialogsuccessIcon {
-    background: url("../images/common.gif") no-repeat scroll -30px -390px rgba(0, 0, 0, 0);
-    line-height: 24px;
-    margin: 50px 0 40px 60px;
-    padding-left: 30px;
+	background: url("../images/common.gif") no-repeat scroll -30px -390px
+		rgba(0, 0, 0, 0);
+	line-height: 24px;
+	margin: 50px 0 40px 60px;
+	padding-left: 30px;
 }
+
 div.xxDialog .dialogerrorIcon {
-    background: url("../images/common.gif") no-repeat scroll 0 -420px rgba(0, 0, 0, 0);
-    line-height: 24px;
-    margin: 50px 0 40px 60px;
-    padding-left: 30px;
+	background: url("../images/common.gif") no-repeat scroll 0 -420px
+		rgba(0, 0, 0, 0);
+	line-height: 24px;
+	margin: 50px 0 40px 60px;
+	padding-left: 30px;
 }
+
 div.xxDialog .dialogBottom {
-    background: url("../images/common.gif") repeat-x scroll 0 -270px #ffffff;
-    height: 34px;
-    padding-top: 6px;
-    text-align: center;
+	background: url("../images/common.gif") repeat-x scroll 0 -270px #ffffff;
+	height: 34px;
+	padding-top: 6px;
+	text-align: center;
 }
+
 div.xxDialog .dialogIframe {
-    height: 2000px;
-    left: -100px;
-    position: absolute;
-    top: -100px;
-    width: 2000px;
-    z-index: -1;
+	height: 2000px;
+	left: -100px;
+	position: absolute;
+	top: -100px;
+	width: 2000px;
+	z-index: -1;
 }
+
 div.xxMessage {
-    background-color: #ffffff;
-    border: 1px solid #999999;
-    box-shadow: 1px 1px 6px #999999;
-    display: none;
-    left: 50%;
-    overflow: hidden;
-    padding: 10px 30px;
-    position: fixed;
-    top: 25%;
-    z-index: 100;
+	background-color: #ffffff;
+	border: 1px solid #999999;
+	box-shadow: 1px 1px 6px #999999;
+	display: none;
+	left: 50%;
+	overflow: hidden;
+	padding: 10px 30px;
+	position: fixed;
+	top: 25%;
+	z-index: 100;
 }
+
 div.xxMessage .messageContent {
-    color: #666666;
-    line-height: 24px;
-    padding: 0 10px 0 30px;
+	color: #666666;
+	line-height: 24px;
+	padding: 0 10px 0 30px;
 }
+
 div.xxMessage .messagewarnIcon {
-    background: url("../images/common.gif") no-repeat scroll -60px -360px rgba(0, 0, 0, 0);
+	background: url("../images/common.gif") no-repeat scroll -60px -360px
+		rgba(0, 0, 0, 0);
 }
+
 div.xxMessage .messagesuccessIcon {
-    background: url("../images/common.gif") no-repeat scroll -30px -390px rgba(0, 0, 0, 0);
+	background: url("../images/common.gif") no-repeat scroll -30px -390px
+		rgba(0, 0, 0, 0);
 }
+
 div.xxMessage .messageerrorIcon {
-    background: url("../images/common.gif") no-repeat scroll 0 -420px rgba(0, 0, 0, 0);
+	background: url("../images/common.gif") no-repeat scroll 0 -420px
+		rgba(0, 0, 0, 0);
 }
+
 div.xxMessage .messageIframe {
-    height: 2000px;
-    left: -100px;
-    position: absolute;
-    top: -100px;
-    width: 2000px;
-    z-index: -1;
+	height: 2000px;
+	left: -100px;
+	position: absolute;
+	top: -100px;
+	width: 2000px;
+	z-index: -1;
 }
+
 div.xxBrowser {
-    padding: 6px;
+	padding: 6px;
 }
+
 div.xxBrowser .browserBar {
-    height: 30px;
-    line-height: 30px;
-    margin-bottom: 4px;
+	height: 30px;
+	line-height: 30px;
+	margin-bottom: 4px;
 }
+
 div.xxBrowser .browserUploadButton {
-    overflow: hidden;
-    position: relative;
+	overflow: hidden;
+	position: relative;
 }
+
 div.xxBrowser .browserUploadButton input {
-    border: medium none;
-    cursor: pointer;
-    height: 25px;
-    opacity: 0;
-    outline: medium none;
-    position: absolute;
-    right: 0;
-    top: 0;
-    z-index: 100;
+	border: medium none;
+	cursor: pointer;
+	height: 25px;
+	opacity: 0;
+	outline: medium none;
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 100;
 }
+
 div.xxBrowser .browserOrderType {
-    margin-right: 6px;
+	margin-right: 6px;
 }
+
 div.xxBrowser .browserList {
-    border: 1px solid #dddddd;
-    height: 260px;
-    overflow-y: scroll;
+	border: 1px solid #dddddd;
+	height: 260px;
+	overflow-y: scroll;
 }
+
 div.xxBrowser .browserItem {
-    float: left;
-    height: 120px;
-    margin: 4px;
-    width: 100px;
+	float: left;
+	height: 120px;
+	margin: 4px;
+	width: 100px;
 }
+
 div.xxBrowser .browserItem img {
-    border: 1px solid #dddddd;
-    clear: both;
-    cursor: pointer;
-    height: 90px;
-    padding: 4px;
-    width: 90px;
+	border: 1px solid #dddddd;
+	clear: both;
+	cursor: pointer;
+	height: 90px;
+	padding: 4px;
+	width: 90px;
 }
+
 div.xxBrowser .browserItem img:hover {
-    background-color: #e9eff6;
-    border: 1px solid #5690d2;
+	background-color: #e9eff6;
+	border: 1px solid #5690d2;
 }
+
 div.xxBrowser .browserItem div {
-    clear: both;
-    height: 20px;
-    line-height: 20px;
-    overflow: hidden;
-    text-align: center;
-    width: 100px;
+	clear: both;
+	height: 20px;
+	line-height: 20px;
+	overflow: hidden;
+	text-align: center;
+	width: 100px;
 }
+
 span.loadingIcon {
-    background: url("../images/loading_icon.gif") no-repeat scroll center center rgba(0, 0, 0, 0);
-    display: -moz-inline-stack;
-    height: 20px;
-    line-height: 20px;
-    width: 20px;
+	background: url("../images/loading_icon.gif") no-repeat scroll center
+		center rgba(0, 0, 0, 0);
+	display: -moz-inline-stack;
+	height: 20px;
+	line-height: 20px;
+	width: 20px;
 }
+
 span.loadingBar {
-    background: url("../images/loading_bar.gif") no-repeat scroll center center rgba(0, 0, 0, 0);
-    display: -moz-inline-stack;
-    height: 20px;
-    line-height: 20px;
-    width: 208px;
+	background: url("../images/loading_bar.gif") no-repeat scroll center
+		center rgba(0, 0, 0, 0);
+	display: -moz-inline-stack;
+	height: 20px;
+	line-height: 20px;
+	width: 208px;
 }
+
 div.pagination {
-    float: right;
-    height: 20px;
-    padding: 10px 0;
+	float: right;
+	height: 20px;
+	padding: 10px 0;
 }
+
 div.pagination a, div.pagination span {
-    display: inline;
-    float: left;
-    height: 18px;
-    line-height: 18px;
-    margin-left: 3px;
-    outline: medium none;
-    text-align: center;
-    vertical-align: middle;
-    white-space: nowrap;
+	display: inline;
+	float: left;
+	height: 18px;
+	line-height: 18px;
+	margin-left: 3px;
+	outline: medium none;
+	text-align: center;
+	vertical-align: middle;
+	white-space: nowrap;
 }
+
 div.pagination a {
-    border: 1px solid #cccccc;
-    padding: 0 5px;
+	border: 1px solid #cccccc;
+	padding: 0 5px;
 }
+
 div.pagination a:hover {
-    border: 1px solid #fd6d01;
-    text-decoration: none;
+	border: 1px solid #fd6d01;
+	text-decoration: none;
 }
+
 div.pagination a.previousPage {
-    background: url("../images/list.gif") no-repeat scroll 0 -180px rgba(0, 0, 0, 0);
-    padding: 0;
-    width: 18px;
+	background: url("../images/list.gif") no-repeat scroll 0 -180px
+		rgba(0, 0, 0, 0);
+	padding: 0;
+	width: 18px;
 }
+
 div.pagination span.previousPage {
-    background: url("../images/list.gif") no-repeat scroll -30px -180px rgba(0, 0, 0, 0);
-    border: 1px solid #cccccc;
-    cursor: default;
-    width: 18px;
+	background: url("../images/list.gif") no-repeat scroll -30px -180px
+		rgba(0, 0, 0, 0);
+	border: 1px solid #cccccc;
+	cursor: default;
+	width: 18px;
 }
+
 div.pagination a.nextPage {
-    background: url("../images/list.gif") no-repeat scroll 0 -210px rgba(0, 0, 0, 0);
-    padding: 0;
-    width: 18px;
+	background: url("../images/list.gif") no-repeat scroll 0 -210px
+		rgba(0, 0, 0, 0);
+	padding: 0;
+	width: 18px;
 }
+
 div.pagination span.nextPage {
-    background: url("../images/list.gif") no-repeat scroll -30px -210px rgba(0, 0, 0, 0);
-    border: 1px solid #cccccc;
-    cursor: default;
-    width: 18px;
+	background: url("../images/list.gif") no-repeat scroll -30px -210px
+		rgba(0, 0, 0, 0);
+	border: 1px solid #cccccc;
+	cursor: default;
+	width: 18px;
 }
+
 div.pagination a.firstPage {
-    background: url("../images/list.gif") no-repeat scroll -60px -180px rgba(0, 0, 0, 0);
-    padding: 0;
-    width: 18px;
+	background: url("../images/list.gif") no-repeat scroll -60px -180px
+		rgba(0, 0, 0, 0);
+	padding: 0;
+	width: 18px;
 }
+
 div.pagination span.firstPage {
-    background: url("../images/list.gif") no-repeat scroll -90px -180px rgba(0, 0, 0, 0);
-    border: 1px solid #cccccc;
-    cursor: default;
-    width: 18px;
+	background: url("../images/list.gif") no-repeat scroll -90px -180px
+		rgba(0, 0, 0, 0);
+	border: 1px solid #cccccc;
+	cursor: default;
+	width: 18px;
 }
+
 div.pagination a.lastPage {
-    background: url("../images/list.gif") no-repeat scroll -60px -210px rgba(0, 0, 0, 0);
-    padding: 0;
-    width: 18px;
+	background: url("../images/list.gif") no-repeat scroll -60px -210px
+		rgba(0, 0, 0, 0);
+	padding: 0;
+	width: 18px;
 }
+
 div.pagination span.lastPage {
-    background: url("../images/list.gif") no-repeat scroll -90px -210px rgba(0, 0, 0, 0);
-    border: 1px solid #cccccc;
-    cursor: default;
-    width: 18px;
+	background: url("../images/list.gif") no-repeat scroll -90px -210px
+		rgba(0, 0, 0, 0);
+	border: 1px solid #cccccc;
+	cursor: default;
+	width: 18px;
 }
+
 div.pagination .currentPage {
-    background-color: #ffede1;
-    border: 1px solid #fd6d01;
-    color: #fd6d01 !important;
-    cursor: default;
-    font-weight: bold;
-    padding: 0 5px;
+	background-color: #ffede1;
+	border: 1px solid #fd6d01;
+	color: #fd6d01 !important;
+	cursor: default;
+	font-weight: bold;
+	padding: 0 5px;
 }
+
 div.pagination .pageBreak {
-    color: #3366cc;
-    cursor: default;
-    padding: 0 5px;
+	color: #3366cc;
+	cursor: default;
+	padding: 0 5px;
 }
+
 div.pagination .pageSkip {
-    color: #666666;
-    padding: 0 3px;
-    vertical-align: middle;
+	color: #666666;
+	padding: 0 3px;
+	vertical-align: middle;
 }
+
 div.pagination .pageSkip input {
-    border: 1px solid #cccccc;
-    height: 18px;
-    ime-mode: disabled;
-    line-height: 18px;
-    margin: 0 5px;
-    padding: 0;
-    text-align: center;
-    vertical-align: top;
-    width: 18px;
+	border: 1px solid #cccccc;
+	height: 18px;
+	ime-mode: disabled;
+	line-height: 18px;
+	margin: 0 5px;
+	padding: 0;
+	text-align: center;
+	vertical-align: top;
+	width: 18px;
 }
+
 div.pagination .pageSkip button {
-    background: url("../images/list.gif") no-repeat scroll -120px -210px rgba(0, 0, 0, 0);
-    border: medium none;
-    cursor: pointer;
-    height: 20px;
-    margin: 0 0 0 5px;
-    outline: medium none;
-    vertical-align: top;
-    width: 20px;
+	background: url("../images/list.gif") no-repeat scroll -120px -210px
+		rgba(0, 0, 0, 0);
+	border: medium none;
+	cursor: pointer;
+	height: 20px;
+	margin: 0 0 0 5px;
+	outline: medium none;
+	vertical-align: top;
+	width: 20px;
 }
+
 div.path {
-    background-color: #ffffff;
-    border-bottom: 1px solid #d7e8f1;
-    height: 26px;
-    line-height: 26px;
-    overflow: hidden;
-    padding-left: 6px;
+	background-color: #ffffff;
+	border-bottom: 1px solid #d7e8f1;
+	height: 26px;
+	line-height: 26px;
+	overflow: hidden;
+	padding-left: 6px;
 }
+
 div.path span {
-    color: #999999;
+	color: #999999;
 }
+
 div.bar {
-    height: 28px;
-    overflow: hidden;
-    padding: 4px;
+	height: 28px;
+	overflow: hidden;
+	padding: 4px;
 }
+
 div.bar .search {
-    -moz-border-bottom-colors: none;
-    -moz-border-left-colors: none;
-    -moz-border-right-colors: none;
-    -moz-border-top-colors: none;
-    background: url("../images/list.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
-    border-color: #bfbfbf #d7d7d7 #d7d7d7 #bfbfbf;
-    border-image: none;
-    border-style: solid;
-    border-width: 1px;
-    float: right;
-    height: 22px;
-    padding: 2px 0;
-    position: relative;
-    width: 180px;
+	-moz-border-bottom-colors: none;
+	-moz-border-left-colors: none;
+	-moz-border-right-colors: none;
+	-moz-border-top-colors: none;
+	background: url("../images/list.gif") no-repeat scroll 0 0
+		rgba(0, 0, 0, 0);
+	border-color: #bfbfbf #d7d7d7 #d7d7d7 #bfbfbf;
+	border-image: none;
+	border-style: solid;
+	border-width: 1px;
+	float: right;
+	height: 22px;
+	padding: 2px 0;
+	position: relative;
+	width: 180px;
 }
+
 div.bar .search .arrow {
-    background: url("../images/list.gif") no-repeat scroll 0 -30px rgba(0, 0, 0, 0);
-    cursor: pointer;
-    height: 22px;
-    position: absolute;
-    width: 22px;
+	background: url("../images/list.gif") no-repeat scroll 0 -30px
+		rgba(0, 0, 0, 0);
+	cursor: pointer;
+	height: 22px;
+	position: absolute;
+	width: 22px;
 }
+
 div.bar .search input {
-    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
-    border: medium none;
-    height: 22px;
-    left: 24px;
-    line-height: 22px;
-    margin: 0;
-    outline: medium none;
-    position: absolute;
-    width: 120px;
+	background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+	border: medium none;
+	height: 22px;
+	left: 24px;
+	line-height: 22px;
+	margin: 0;
+	outline: medium none;
+	position: absolute;
+	width: 120px;
 }
+
 div.bar .search button {
-    background: url("../images/list.gif") no-repeat scroll -30px -30px rgba(0, 0, 0, 0);
-    border: medium none;
-    cursor: pointer;
-    float: right;
-    height: 22px;
-    left: -4px;
-    margin: 0;
-    outline: medium none;
-    position: relative;
-    width: 20px;
+	background: url("../images/list.gif") no-repeat scroll -30px -30px
+		rgba(0, 0, 0, 0);
+	border: medium none;
+	cursor: pointer;
+	float: right;
+	height: 22px;
+	left: -4px;
+	margin: 0;
+	outline: medium none;
+	position: relative;
+	width: 20px;
 }
+
 ul.tab {
-    background: url("../images/input.gif") repeat-x scroll 0 0 rgba(0, 0, 0, 0);
-    height: 30px;
-    margin: 10px 0 5px;
-    padding-left: 160px;
+	background: url("../images/input.gif") repeat-x scroll 0 0
+		rgba(0, 0, 0, 0);
+	height: 30px;
+	margin: 10px 0 5px;
+	padding-left: 160px;
 }
+
 ul.tab li {
-    float: left;
-    margin-right: 5px;
+	float: left;
+	margin-right: 5px;
 }
+
 ul.tab input {
-    background: url("../images/input.gif") no-repeat scroll 0 -30px rgba(0, 0, 0, 0);
-    border: medium none;
-    color: #666666;
-    cursor: pointer;
-    height: 30px;
-    line-height: 30px;
-    outline: medium none;
-    text-align: center;
-    width: 100px;
+	background: url("../images/input.gif") no-repeat scroll 0 -30px
+		rgba(0, 0, 0, 0);
+	border: medium none;
+	color: #666666;
+	cursor: pointer;
+	height: 30px;
+	line-height: 30px;
+	outline: medium none;
+	text-align: center;
+	width: 100px;
 }
+
 ul.tab input:hover {
-    color: #ff9b1f;
+	color: #ff9b1f;
 }
+
 ul.tab input.current {
-    background: url("../images/input.gif") no-repeat scroll -120px -30px rgba(0, 0, 0, 0);
-    color: #2b2b2b;
-    font-weight: bold;
+	background: url("../images/input.gif") no-repeat scroll -120px -30px
+		rgba(0, 0, 0, 0);
+	color: #2b2b2b;
+	font-weight: bold;
 }
+
 span.tips {
-    background-color: #fffde2;
-    border: 1px solid #f2c56d;
-    color: #6a6a6a;
-    line-height: 30px;
-    padding: 5px 6px;
+	background-color: #fffde2;
+	border: 1px solid #f2c56d;
+	color: #6a6a6a;
+	line-height: 30px;
+	padding: 5px 6px;
 }
+
 table.list {
-    width: 100%;
+	width: 100%;
 }
+
 table.list tr:hover {
-    background-color: #f6fafd;
+	background-color: #f6fafd;
 }
+
 table.list .selected {
-    background-color: #fff8e4;
+	background-color: #fff8e4;
 }
+
 table.list th {
-    background: url("../images/list.gif") no-repeat scroll 0 -60px #f2f4f6;
-    border-bottom: 1px solid #c6c9ca;
-    border-right: 1px solid #c6c9ca;
-    border-top: 1px solid #d8deea;
-    color: #5b5b5b;
-    font-weight: normal;
-    height: 24px;
-    line-height: 24px;
-    text-align: left;
-    white-space: nowrap;
+	background: url("../images/list.gif") no-repeat scroll 0 -60px #f2f4f6;
+	border-bottom: 1px solid #c6c9ca;
+	border-right: 1px solid #c6c9ca;
+	border-top: 1px solid #d8deea;
+	color: #5b5b5b;
+	font-weight: normal;
+	height: 24px;
+	line-height: 24px;
+	text-align: left;
+	white-space: nowrap;
 }
+
 table.list th a, table.list th span {
-    padding: 0 8px;
+	padding: 0 8px;
 }
+
 table.list .check {
-    padding: 0 5px;
-    width: 21px;
+	padding: 0 5px;
+	width: 21px;
 }
+
 table.list .sort {
-    display: block;
-    height: 24px;
-    line-height: 24px;
-    outline: medium none;
+	display: block;
+	height: 24px;
+	line-height: 24px;
+	outline: medium none;
 }
+
 table.list .sort:hover {
-    background: url("../images/list.gif") no-repeat scroll 0 -90px #f4f4f4;
-    color: #2b2b2b;
+	background: url("../images/list.gif") no-repeat scroll 0 -90px #f4f4f4;
+	color: #2b2b2b;
 }
+
 table.list .desc, table.list .desc:hover {
-    background: url("../images/list.gif") no-repeat scroll right -120px rgba(0, 0, 0, 0);
+	background: url("../images/list.gif") no-repeat scroll right -120px
+		rgba(0, 0, 0, 0);
 }
+
 table.list .asc, table.list .asc:hover {
-    background: url("../images/list.gif") no-repeat scroll right -150px rgba(0, 0, 0, 0);
+	background: url("../images/list.gif") no-repeat scroll right -150px
+		rgba(0, 0, 0, 0);
 }
+
 table.list td {
-    border-bottom: 1px solid #e6f0f9;
-    line-height: 35px;
-    padding-left: 5px;
+	border-bottom: 1px solid #e6f0f9;
+	line-height: 35px;
+	padding-left: 5px;
 }
+
 table.list td a {
-    color: #336699;
+	color: #336699;
 }
+
 table.list td a:hover {
-    color: #ff6600;
+	color: #ff6600;
 }
+
 table.list td .trueIcon {
-    background: url("../images/list.gif") no-repeat scroll -150px -180px rgba(0, 0, 0, 0);
-    display: block;
-    height: 24px;
-    overflow: hidden;
-    width: 24px;
+	background: url("../images/list.gif") no-repeat scroll -150px -180px
+		rgba(0, 0, 0, 0);
+	display: block;
+	height: 24px;
+	overflow: hidden;
+	width: 24px;
 }
+
 table.list td .falseIcon {
-    background: url("../images/list.gif") no-repeat scroll -180px -180px rgba(0, 0, 0, 0);
-    display: block;
-    height: 24px;
-    overflow: hidden;
-    width: 24px;
+	background: url("../images/list.gif") no-repeat scroll -180px -180px
+		rgba(0, 0, 0, 0);
+	display: block;
+	height: 24px;
+	overflow: hidden;
+	width: 24px;
 }
+
 table.input {
-    width: 100%;
-    word-break: break-all;
+	width: 100%;
+	word-break: break-all;
 }
+
 table.input th {
-    background-color: #ffffff;
-    border-bottom: 1px solid #dde9f5;
-    font-weight: normal;
-    line-height: 25px;
-    padding: 5px 10px 5px 0;
-    text-align: right;
-    white-space: nowrap;
-    width: 150px;
+	background-color: #ffffff;
+	border-bottom: 1px solid #dde9f5;
+	font-weight: normal;
+	line-height: 25px;
+	padding: 5px 10px 5px 0;
+	text-align: right;
+	white-space: nowrap;
+	width: 150px;
 }
+
 table.input tr:hover th {
-    background-color: #f1f8ff;
+	background-color: #f1f8ff;
 }
+
 table.input .title th, table.input .title td {
-    background-color: #f1f8ff;
-    padding-left: 5px;
-    text-align: left;
+	background-color: #f1f8ff;
+	padding-left: 5px;
+	text-align: left;
 }
+
 table.input td {
-    border-bottom: 1px solid #dde9f5;
-    color: #666666;
-    line-height: 25px;
-    padding: 5px;
+	border-bottom: 1px solid #dde9f5;
+	color: #666666;
+	line-height: 25px;
+	padding: 5px;
 }
+
 table.input .fieldTitle {
-    height: 29px;
-    line-height: 29px;
-    padding-right: 5px;
+	height: 29px;
+	line-height: 29px;
+	padding-right: 5px;
 }
+
 div.tooltip {
-    background-color: #feffe6;
-    border: 1px solid #ffd461;
-    color: #999999;
-    padding: 5px;
+	background-color: #feffe6;
+	border: 1px solid #ffd461;
+	color: #999999;
+	padding: 5px;
 }
+
 div.ac_results {
-    background-color: #ffffff;
-    border: 1px solid #a3c4d7;
-    overflow: hidden;
-    z-index: 99999;
+	background-color: #ffffff;
+	border: 1px solid #a3c4d7;
+	overflow: hidden;
+	z-index: 99999;
 }
+
 div.ac_results ul {
-    overflow: hidden;
-    width: 100%;
+	overflow: hidden;
+	width: 100%;
 }
+
 div.ac_results li {
-    cursor: pointer;
-    display: block;
-    line-height: 28px;
-    overflow: hidden;
-    padding: 0 4px;
-    white-space: nowrap;
+	cursor: pointer;
+	display: block;
+	line-height: 28px;
+	overflow: hidden;
+	padding: 0 4px;
+	white-space: nowrap;
 }
+
 div.ac_results .ac_odd {
-    background-color: #f1f8ff;
+	background-color: #f1f8ff;
 }
+
 div.ac_results .ac_over {
-    background-color: #e4f2fa;
-    padding: 0 4px;
+	background-color: #e4f2fa;
+	padding: 0 4px;
 }

@@ -10,7 +10,6 @@
  */
 
 /* ---------- Member ---------- */
-
 div.member div.info {
 	margin-bottom: 10px;
 }
@@ -231,7 +230,9 @@ div.member .order .dialog {
 	position: fixed;
 	_position: absolute;
 	top: 25%;
-	_top: expression((document.documentElement.scrollTop || document.body.scrollTop) + Math.round(25 * (document.documentElement.offsetHeight || document.body.clientHeight) / 100) + "px");
+	_top: expression(( document.documentElement.scrollTop || 
+		document.body.scrollTop)+ Math.round(25* (document.documentElement.offsetHeight||
+		 document.body.clientHeight)/100)+ "px");
 	left: 50%;
 	z-index: 100;
 	color: #888888;
@@ -380,7 +381,7 @@ div.member .message .title {
 
 div.member .message dl {
 	max-height: 600px;
-	_height: expression(document.body.clientWidth >= 600 ? "600px": "auto");
+	_height: expression(document.body.clientWidth >= 600 ? "600px" : "auto");
 	padding: 0px 10px;
 	overflow: auto;
 	position: relative;
@@ -425,7 +426,8 @@ div.member .message dd div.left {
 	-moz-box-shadow: 0px 1px 2px #e0e0e0;
 	box-shadow: 0px 1px 2px #e0e0e0;
 	background-color: #f8fdff;
-	background-image: -webkit-gradient(linear, center bottom, center top, from(#ecf9ff), to(#f8fdff));
+	background-image: -webkit-gradient(linear, center bottom, center top, from(#ecf9ff),
+		to(#f8fdff));
 	background-image: -moz-linear-gradient(center bottom, #ecf9ff, #f8fdff);
 	background-image: -o-linear-gradient(center bottom, #ecf9ff, #f8fdff);
 	background-image: linear-gradient(center bottom, #ecf9ff, #f8fdff);
@@ -451,7 +453,8 @@ div.member .message dd div.right {
 	-moz-box-shadow: 0px 1px 2px #e0e0e0;
 	box-shadow: 0px 1px 2px #e0e0e0;
 	background-color: #fcfcfc;
-	background-image: -webkit-gradient(linear, center bottom, center top, from(#fafafa), to(#ffffff));
+	background-image: -webkit-gradient(linear, center bottom, center top, from(#fafafa),
+		to(#ffffff));
 	background-image: -moz-linear-gradient(center bottom, #fafafa, #ffffff);
 	background-image: -o-linear-gradient(center bottom, #fafafa, #ffffff);
 	background-image: linear-gradient(center bottom, #fafafa, #ffffff);

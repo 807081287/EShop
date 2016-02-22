@@ -13,7 +13,8 @@
 	width: 360px;
 }
 
-.WdateDiv .NavImg a, .WdateDiv .yminput, .WdateDiv .yminputfocus, .WdateDiv #dpQS {
+.WdateDiv .NavImg a, .WdateDiv .yminput, .WdateDiv .yminputfocus,
+	.WdateDiv #dpQS {
 	background: url(img.gif) no-repeat;
 }
 
@@ -49,7 +50,7 @@
 	padding: 3px 0px 0px 0px;
 }
 
-.WdateDiv .yminput,.WdateDiv .yminputfocus {
+.WdateDiv .yminput, .WdateDiv .yminputfocus {
 	width: 50px;
 	height: 20px;
 	line-height: 16px;
@@ -89,7 +90,7 @@
 	cursor: default;
 }
 
-.WdateDiv .MMenu,.WdateDiv .YMenu {
+.WdateDiv .MMenu, .WdateDiv .YMenu {
 	width: 68px;
 	padding: 2px;
 	margin-top: 20px;
@@ -97,11 +98,11 @@
 	border: 1px solid #d9d9d9;
 }
 
-.WdateDiv .MMenu table,.WdateDiv .YMenu table {
+.WdateDiv .MMenu table, .WdateDiv .YMenu table {
 	width: 100%;
 }
 
-.WdateDiv .MMenu table td,.WdateDiv .YMenu table td {
+.WdateDiv .MMenu table td, .WdateDiv .YMenu table td {
 	line-height: 20px;
 	padding: 0px;
 	font-size: 12px;
@@ -280,7 +281,8 @@
 	background-color: #f2f0f1;
 }
 
-.WdateDiv #dpTime .hhMenu td, .WdateDiv #dpTime .mmMenu td, .WdateDiv #dpTime .ssMenu td {
+.WdateDiv #dpTime .hhMenu td, .WdateDiv #dpTime .mmMenu td, .WdateDiv #dpTime .ssMenu td
+	{
 	width: 18px;
 	height: 18px;
 	line-height: 18px;

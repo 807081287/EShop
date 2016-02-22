@@ -10,7 +10,6 @@
  */
 
 /* ---------- Index ---------- */
-
 div.index .slider {
 	height: 290px;
 	margin-bottom: 10px;
@@ -174,7 +173,7 @@ div.index .hotProductCategory tr:hover th {
 	background-color: #e4e4e4;
 }
 
-@media screen and (-webkit-min-device-pixel-ratio:0){
+@media screen and (-webkit-min-device-pixel-ratio:0) {
 	div.index .hotProductCategory th {
 		height: 60px;
 	}
@@ -385,7 +384,7 @@ div.index .hotProduct .tabContent li {
 	margin-right: -1px;
 	margin-bottom: -1px;
 	_position: relative;
-	border:1px solid #e4e4e4;
+	border: 1px solid #e4e4e4;
 }
 
 div.index .hotProduct .tabContent li:hover {
@@ -473,7 +472,7 @@ div.index .newProduct .tabContent li {
 	margin-right: -1px;
 	margin-bottom: -1px;
 	_position: relative;
-	border:1px solid #e4e4e4;
+	border: 1px solid #e4e4e4;
 }
 
 div.index .newProduct .tabContent li:hover {
