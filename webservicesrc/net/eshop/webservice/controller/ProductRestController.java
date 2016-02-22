@@ -20,23 +20,21 @@ import javax.validation.ConstraintViolation;
 
 import net.eshop.FileInfo.FileType;
 import net.eshop.Message;
-import net.eshop.Pageable;
 import net.eshop.controller.admin.AbstractProductController;
 import net.eshop.entity.Attribute;
-import net.eshop.entity.Brand;
 import net.eshop.entity.Goods;
 import net.eshop.entity.MemberRank;
 import net.eshop.entity.Parameter;
 import net.eshop.entity.ParameterGroup;
 import net.eshop.entity.Product;
-import net.eshop.entity.Product.OrderType;
 import net.eshop.entity.ProductCategory;
 import net.eshop.entity.ProductImage;
-import net.eshop.entity.Promotion;
 import net.eshop.entity.Specification;
 import net.eshop.entity.SpecificationValue;
 import net.eshop.entity.Tag;
 import net.eshop.entity.Tag.Type;
+import net.eshop.form.ProductForm;
+import net.eshop.form.SpecificationValueCode;
 import net.eshop.service.BrandService;
 import net.eshop.service.FileService;
 import net.eshop.service.GoodsService;
@@ -150,10 +148,35 @@ public class ProductRestController extends AbstractProductController
 	@ResponseBody
 	public Response createProduct(@RequestBody final String productStr)
 	{
+
+
+
+
 		final List<ProductCategory> categories = productCategoryService.findRoots();
 		Response response = null;
 		final Product product = JsonUtils.toObject(productStr, Product.class);
+
+		final ProductForm form = new ProductForm();
+		form.setBaseProduct(product);
+		form.setSpecificationCodes(new String[]
+		{ "COLOR", "SIZE" });
+		final SpecificationValueCode[] specificationValueCodes = new SpecificationValueCode[3];
+		for (int j = 0; j < specificationValueCodes.length; j++)
+		{
+			specificationValueCodes[j] = new SpecificationValueCode();
+		}
+		specificationValueCodes[0].setCodes(new String[]
+		{ "WHITE", "SIZE-37" });
+		specificationValueCodes[1].setCodes(new String[]
+		{ "WHITE", "SIZE-38" });
+		specificationValueCodes[2].setCodes(new String[]
+		{ "RED", "SIZE-37" });
+		form.setSpecificationValues(specificationValueCodes);
+
+		System.out.println(JsonUtils.toJson(form));
+
 		product.setIsList(Boolean.FALSE);
+		product.setIsBaseProduct(Boolean.TRUE);
 		product.setIsMarketable(Boolean.FALSE);
 		product.setIsTop(Boolean.FALSE);
 		product.setProductCategory(categories.get(0));
@@ -483,37 +506,6 @@ public class ProductRestController extends AbstractProductController
 		goodsService.update(goods);
 		addFlashMessage(redirectAttributes, SUCCESS_MESSAGE);
 		return "redirect:list.jhtml";
-	}
-
-	/**
-	 * 列表
-	 */
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(final Long productCategoryId, final Long brandId, final Long promotionId, final Long tagId,
-			final Boolean isMarketable, final Boolean isList, final Boolean isTop, final Boolean isGift, final Boolean isOutOfStock,
-			final Boolean isStockAlert, final Pageable pageable, final ModelMap model)
-	{
-		final ProductCategory productCategory = productCategoryService.find(productCategoryId);
-		final Brand brand = brandService.find(brandId);
-		final Promotion promotion = promotionService.find(promotionId);
-		final List<Tag> tags = tagService.findList(tagId);
-		model.addAttribute("productCategoryTree", productCategoryService.findTree());
-		model.addAttribute("brands", brandService.findAll());
-		model.addAttribute("promotions", promotionService.findAll());
-		model.addAttribute("tags", tagService.findList(Type.product));
-		model.addAttribute("productCategoryId", productCategoryId);
-		model.addAttribute("brandId", brandId);
-		model.addAttribute("promotionId", promotionId);
-		model.addAttribute("tagId", tagId);
-		model.addAttribute("isMarketable", isMarketable);
-		model.addAttribute("isList", isList);
-		model.addAttribute("isTop", isTop);
-		model.addAttribute("isGift", isGift);
-		model.addAttribute("isOutOfStock", isOutOfStock);
-		model.addAttribute("isStockAlert", isStockAlert);
-		model.addAttribute("page", productService.findPage(productCategory, brand, promotion, tags, null, null, null, isMarketable,
-				isList, isTop, isGift, isOutOfStock, isStockAlert, OrderType.dateDesc, pageable));
-		return "/admin/product/list";
 	}
 
 	/**
