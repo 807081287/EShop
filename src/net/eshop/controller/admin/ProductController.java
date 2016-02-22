@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import net.eshop.FileInfo.FileType;
 import net.eshop.Message;
 import net.eshop.Pageable;
-import net.eshop.Setting;
 import net.eshop.entity.Attribute;
 import net.eshop.entity.Brand;
 import net.eshop.entity.Goods;
@@ -47,7 +46,6 @@ import net.eshop.service.PromotionService;
 import net.eshop.service.SpecificationService;
 import net.eshop.service.SpecificationValueService;
 import net.eshop.service.TagService;
-import net.eshop.util.SettingUtils;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -269,6 +267,7 @@ public class ProductController extends AbstractProductController
 		}
 
 		final Goods goods = new Goods();
+
 		final List<Product> products = new ArrayList<Product>();
 		if (specificationIds != null && specificationIds.length > 0)
 		{
@@ -580,8 +579,9 @@ public class ProductController extends AbstractProductController
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(final Long productCategoryId, final Long brandId, final Long promotionId, final Long tagId,
-			final Boolean isMarketable, final Boolean isList, final Boolean isTop, final Boolean isGift, final Boolean isOutOfStock,
-			final Boolean isStockAlert, final Pageable pageable, final ModelMap model)
+			final Boolean isBaseProduct, final Boolean isMarketable, final Boolean isList, final Boolean isTop,
+			final Boolean isGift, final Boolean isOutOfStock, final Boolean isStockAlert, final Pageable pageable,
+			final ModelMap model)
 	{
 		final ProductCategory productCategory = productCategoryService.find(productCategoryId);
 		final Brand brand = brandService.find(brandId);
@@ -596,13 +596,14 @@ public class ProductController extends AbstractProductController
 		model.addAttribute("promotionId", promotionId);
 		model.addAttribute("tagId", tagId);
 		model.addAttribute("isMarketable", isMarketable);
+		model.addAttribute("isBaseProduct", isBaseProduct);
 		model.addAttribute("isList", isList);
 		model.addAttribute("isTop", isTop);
 		model.addAttribute("isGift", isGift);
 		model.addAttribute("isOutOfStock", isOutOfStock);
 		model.addAttribute("isStockAlert", isStockAlert);
-		model.addAttribute("page", productService.findPage(productCategory, brand, promotion, tags, null, null, null, isMarketable,
-				isList, isTop, isGift, isOutOfStock, isStockAlert, OrderType.dateDesc, pageable));
+		model.addAttribute("page", productService.findPage(productCategory, brand, promotion, tags, null, null, null,
+				isBaseProduct, isMarketable, isList, isTop, isGift, isOutOfStock, isStockAlert, OrderType.dateDesc, pageable));
 		return "/admin/product/list";
 	}
 
@@ -616,6 +617,6 @@ public class ProductController extends AbstractProductController
 		return SUCCESS_MESSAGE;
 	}
 
-	
+
 
 }

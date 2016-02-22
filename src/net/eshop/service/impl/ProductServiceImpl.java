@@ -1,7 +1,7 @@
 /*
- * 
- * 
- * 
+ *
+ *
+ *
  */
 package net.eshop.service.impl;
 
@@ -23,15 +23,15 @@ import net.eshop.entity.Attribute;
 import net.eshop.entity.Brand;
 import net.eshop.entity.Member;
 import net.eshop.entity.Product;
+import net.eshop.entity.Product.OrderType;
 import net.eshop.entity.ProductCategory;
 import net.eshop.entity.Promotion;
 import net.eshop.entity.Tag;
-import net.eshop.entity.Product.OrderType;
+import net.eshop.service.ProductService;
+import net.eshop.service.StaticService;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Element;
-import net.eshop.service.ProductService;
-import net.eshop.service.StaticService;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
@@ -42,14 +42,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+
 /**
  * Service - 商品
- * 
- * 
- * 
+ *
+ *
+ *
  */
 @Service("productServiceImpl")
-public class ProductServiceImpl extends BaseServiceImpl<Product, Long> implements ProductService, DisposableBean {
+public class ProductServiceImpl extends BaseServiceImpl<Product, Long> implements ProductService, DisposableBean
+{
 
 	/** 查看点击数时间 */
 	private long viewHitsTime = System.currentTimeMillis();
@@ -62,97 +64,138 @@ public class ProductServiceImpl extends BaseServiceImpl<Product, Long> implement
 	private StaticService staticService;
 
 	@Resource(name = "productDaoImpl")
-	public void setBaseDao(ProductDao productDao) {
+	public void setBaseDao(final ProductDao productDao)
+	{
 		super.setBaseDao(productDao);
 	}
 
 	@Transactional(readOnly = true)
-	public boolean snExists(String sn) {
+	public boolean snExists(final String sn)
+	{
 		return productDao.snExists(sn);
 	}
 
 	@Transactional(readOnly = true)
-	public Product findBySn(String sn) {
+	public Product findBySn(final String sn)
+	{
 		return productDao.findBySn(sn);
 	}
 
 	@Transactional(readOnly = true)
-	public boolean snUnique(String previousSn, String currentSn) {
-		if (StringUtils.equalsIgnoreCase(previousSn, currentSn)) {
+	public boolean snUnique(final String previousSn, final String currentSn)
+	{
+		if (StringUtils.equalsIgnoreCase(previousSn, currentSn))
+		{
 			return true;
-		} else {
-			if (productDao.snExists(currentSn)) {
+		}
+		else
+		{
+			if (productDao.snExists(currentSn))
+			{
 				return false;
-			} else {
+			}
+			else
+			{
 				return true;
 			}
 		}
 	}
 
 	@Transactional(readOnly = true)
-	public List<Product> search(String keyword, Boolean isGift, Integer count) {
+	public List<Product> search(final String keyword, final Boolean isGift, final Integer count)
+	{
 		return productDao.search(keyword, isGift, count);
 	}
 
 	@Transactional(readOnly = true)
-	public List<Product> findList(ProductCategory productCategory, Brand brand, Promotion promotion, List<Tag> tags, Map<Attribute, String> attributeValue, BigDecimal startPrice, BigDecimal endPrice, Boolean isMarketable, Boolean isList, Boolean isTop, Boolean isGift, Boolean isOutOfStock, Boolean isStockAlert, OrderType orderType, Integer count, List<Filter> filters, List<Order> orders) {
-		return productDao.findList(productCategory, brand, promotion, tags, attributeValue, startPrice, endPrice, isMarketable, isList, isTop, isGift, isOutOfStock, isStockAlert, orderType, count, filters, orders);
+	public List<Product> findList(final ProductCategory productCategory, final Brand brand, final Promotion promotion,
+			final List<Tag> tags, final Map<Attribute, String> attributeValue, final BigDecimal startPrice,
+			final BigDecimal endPrice, final Boolean isMarketable, final Boolean isList, final Boolean isTop, final Boolean isGift,
+			final Boolean isOutOfStock, final Boolean isStockAlert, final OrderType orderType, final Integer count,
+			final List<Filter> filters, final List<Order> orders)
+	{
+		return productDao.findList(productCategory, brand, promotion, tags, attributeValue, startPrice, endPrice, isMarketable,
+				isList, isTop, isGift, isOutOfStock, isStockAlert, orderType, count, filters, orders);
 	}
 
 	@Transactional(readOnly = true)
 	@Cacheable("product")
-	public List<Product> findList(ProductCategory productCategory, Brand brand, Promotion promotion, List<Tag> tags, Map<Attribute, String> attributeValue, BigDecimal startPrice, BigDecimal endPrice, Boolean isMarketable, Boolean isList, Boolean isTop, Boolean isGift, Boolean isOutOfStock, Boolean isStockAlert, OrderType orderType, Integer count, List<Filter> filters, List<Order> orders,
-			String cacheRegion) {
-		return productDao.findList(productCategory, brand, promotion, tags, attributeValue, startPrice, endPrice, isMarketable, isList, isTop, isGift, isOutOfStock, isStockAlert, orderType, count, filters, orders);
+	public List<Product> findList(final ProductCategory productCategory, final Brand brand, final Promotion promotion,
+			final List<Tag> tags, final Map<Attribute, String> attributeValue, final BigDecimal startPrice,
+			final BigDecimal endPrice, final Boolean isMarketable, final Boolean isList, final Boolean isTop, final Boolean isGift,
+			final Boolean isOutOfStock, final Boolean isStockAlert, final OrderType orderType, final Integer count,
+			final List<Filter> filters, final List<Order> orders, final String cacheRegion)
+	{
+		return productDao.findList(productCategory, brand, promotion, tags, attributeValue, startPrice, endPrice, isMarketable,
+				isList, isTop, isGift, isOutOfStock, isStockAlert, orderType, count, filters, orders);
 	}
 
 	@Transactional(readOnly = true)
-	public List<Product> findList(ProductCategory productCategory, Date beginDate, Date endDate, Integer first, Integer count) {
+	public List<Product> findList(final ProductCategory productCategory, final Date beginDate, final Date endDate,
+			final Integer first, final Integer count)
+	{
 		return productDao.findList(productCategory, beginDate, endDate, first, count);
 	}
 
 	@Transactional(readOnly = true)
-	public List<Object[]> findSalesList(Date beginDate, Date endDate, Integer count) {
+	public List<Object[]> findSalesList(final Date beginDate, final Date endDate, final Integer count)
+	{
 		return productDao.findSalesList(beginDate, endDate, count);
 	}
 
 	@Transactional(readOnly = true)
-	public Page<Product> findPage(ProductCategory productCategory, Brand brand, Promotion promotion, List<Tag> tags, Map<Attribute, String> attributeValue, BigDecimal startPrice, BigDecimal endPrice, Boolean isMarketable, Boolean isList, Boolean isTop, Boolean isGift, Boolean isOutOfStock, Boolean isStockAlert, OrderType orderType, Pageable pageable) {
-		return productDao.findPage(productCategory, brand, promotion, tags, attributeValue, startPrice, endPrice, isMarketable, isList, isTop, isGift, isOutOfStock, isStockAlert, orderType, pageable);
+	public Page<Product> findPage(final ProductCategory productCategory, final Brand brand, final Promotion promotion,
+			final List<Tag> tags, final Map<Attribute, String> attributeValue, final BigDecimal startPrice,
+			final BigDecimal endPrice, final Boolean isBaseProduct, final Boolean isMarketable, final Boolean isList,
+			final Boolean isTop, final Boolean isGift, final Boolean isOutOfStock, final Boolean isStockAlert,
+			final OrderType orderType, final Pageable pageable)
+	{
+		return productDao.findPage(productCategory, brand, promotion, tags, attributeValue, startPrice, endPrice, isBaseProduct,
+				isMarketable, isList, isTop, isGift, isOutOfStock, isStockAlert, orderType, pageable);
 	}
 
 	@Transactional(readOnly = true)
-	public Page<Product> findPage(Member member, Pageable pageable) {
+	public Page<Product> findPage(final Member member, final Pageable pageable)
+	{
 		return productDao.findPage(member, pageable);
 	}
 
 	@Transactional(readOnly = true)
-	public Long count(Member favoriteMember, Boolean isMarketable, Boolean isList, Boolean isTop, Boolean isGift, Boolean isOutOfStock, Boolean isStockAlert) {
+	public Long count(final Member favoriteMember, final Boolean isMarketable, final Boolean isList, final Boolean isTop,
+			final Boolean isGift, final Boolean isOutOfStock, final Boolean isStockAlert)
+	{
 		return productDao.count(favoriteMember, isMarketable, isList, isTop, isGift, isOutOfStock, isStockAlert);
 	}
 
 	@Transactional(readOnly = true)
-	public boolean isPurchased(Member member, Product product) {
+	public boolean isPurchased(final Member member, final Product product)
+	{
 		return productDao.isPurchased(member, product);
 	}
 
-	public long viewHits(Long id) {
-		Ehcache cache = cacheManager.getEhcache(Product.HITS_CACHE_NAME);
-		Element element = cache.get(id);
+	public long viewHits(final Long id)
+	{
+		final Ehcache cache = cacheManager.getEhcache(Product.HITS_CACHE_NAME);
+		final Element element = cache.get(id);
 		Long hits;
-		if (element != null) {
+		if (element != null)
+		{
 			hits = (Long) element.getObjectValue();
-		} else {
-			Product product = productDao.find(id);
-			if (product == null) {
+		}
+		else
+		{
+			final Product product = productDao.find(id);
+			if (product == null)
+			{
 				return 0L;
 			}
 			hits = product.getHits();
 		}
 		hits++;
 		cache.put(new Element(id, hits));
-		long time = System.currentTimeMillis();
-		if (time > viewHitsTime + Product.HITS_CACHE_INTERVAL) {
+		final long time = System.currentTimeMillis();
+		if (time > viewHitsTime + Product.HITS_CACHE_INTERVAL)
+		{
 			viewHitsTime = time;
 			updateHits();
 			cache.removeAll();
@@ -160,7 +203,8 @@ public class ProductServiceImpl extends BaseServiceImpl<Product, Long> implement
 		return hits;
 	}
 
-	public void destroy() throws Exception {
+	public void destroy() throws Exception
+	{
 		updateHits();
 	}
 
@@ -168,27 +212,38 @@ public class ProductServiceImpl extends BaseServiceImpl<Product, Long> implement
 	 * 更新点击数
 	 */
 	@SuppressWarnings("unchecked")
-	private void updateHits() {
-		Ehcache cache = cacheManager.getEhcache(Product.HITS_CACHE_NAME);
-		List<Long> ids = cache.getKeys();
-		for (Long id : ids) {
-			Product product = productDao.find(id);
-			if (product != null) {
+	private void updateHits()
+	{
+		final Ehcache cache = cacheManager.getEhcache(Product.HITS_CACHE_NAME);
+		final List<Long> ids = cache.getKeys();
+		for (final Long id : ids)
+		{
+			final Product product = productDao.find(id);
+			if (product != null)
+			{
 				productDao.lock(product, LockModeType.PESSIMISTIC_WRITE);
-				Element element = cache.get(id);
-				long hits = (Long) element.getObjectValue();
-				long increment = hits - product.getHits();
-				Calendar nowCalendar = Calendar.getInstance();
-				Calendar weekHitsCalendar = DateUtils.toCalendar(product.getWeekHitsDate());
-				Calendar monthHitsCalendar = DateUtils.toCalendar(product.getMonthHitsDate());
-				if (nowCalendar.get(Calendar.YEAR) != weekHitsCalendar.get(Calendar.YEAR) || nowCalendar.get(Calendar.WEEK_OF_YEAR) > weekHitsCalendar.get(Calendar.WEEK_OF_YEAR)) {
+				final Element element = cache.get(id);
+				final long hits = (Long) element.getObjectValue();
+				final long increment = hits - product.getHits();
+				final Calendar nowCalendar = Calendar.getInstance();
+				final Calendar weekHitsCalendar = DateUtils.toCalendar(product.getWeekHitsDate());
+				final Calendar monthHitsCalendar = DateUtils.toCalendar(product.getMonthHitsDate());
+				if (nowCalendar.get(Calendar.YEAR) != weekHitsCalendar.get(Calendar.YEAR)
+						|| nowCalendar.get(Calendar.WEEK_OF_YEAR) > weekHitsCalendar.get(Calendar.WEEK_OF_YEAR))
+				{
 					product.setWeekHits(increment);
-				} else {
+				}
+				else
+				{
 					product.setWeekHits(product.getWeekHits() + increment);
 				}
-				if (nowCalendar.get(Calendar.YEAR) != monthHitsCalendar.get(Calendar.YEAR) || nowCalendar.get(Calendar.MONTH) > monthHitsCalendar.get(Calendar.MONTH)) {
+				if (nowCalendar.get(Calendar.YEAR) != monthHitsCalendar.get(Calendar.YEAR)
+						|| nowCalendar.get(Calendar.MONTH) > monthHitsCalendar.get(Calendar.MONTH))
+				{
 					product.setMonthHits(increment);
-				} else {
+				}
+				else
+				{
 					product.setMonthHits(product.getMonthHits() + increment);
 				}
 				product.setHits(hits);
@@ -201,8 +256,10 @@ public class ProductServiceImpl extends BaseServiceImpl<Product, Long> implement
 
 	@Override
 	@Transactional
-	@CacheEvict(value = { "product", "productCategory", "review", "consultation" }, allEntries = true)
-	public void save(Product product) {
+	@CacheEvict(value =
+	{ "product", "productCategory", "review", "consultation" }, allEntries = true)
+	public void save(final Product product)
+	{
 		Assert.notNull(product);
 
 		super.save(product);
@@ -212,11 +269,13 @@ public class ProductServiceImpl extends BaseServiceImpl<Product, Long> implement
 
 	@Override
 	@Transactional
-	@CacheEvict(value = { "product", "productCategory", "review", "consultation" }, allEntries = true)
-	public Product update(Product product) {
+	@CacheEvict(value =
+	{ "product", "productCategory", "review", "consultation" }, allEntries = true)
+	public Product update(final Product product)
+	{
 		Assert.notNull(product);
 
-		Product pProduct = super.update(product);
+		final Product pProduct = super.update(product);
 		productDao.flush();
 		staticService.build(pProduct);
 		return pProduct;
@@ -224,30 +283,39 @@ public class ProductServiceImpl extends BaseServiceImpl<Product, Long> implement
 
 	@Override
 	@Transactional
-	@CacheEvict(value = { "product", "productCategory", "review", "consultation" }, allEntries = true)
-	public Product update(Product product, String... ignoreProperties) {
+	@CacheEvict(value =
+	{ "product", "productCategory", "review", "consultation" }, allEntries = true)
+	public Product update(final Product product, final String... ignoreProperties)
+	{
 		return super.update(product, ignoreProperties);
 	}
 
 	@Override
 	@Transactional
-	@CacheEvict(value = { "product", "productCategory", "review", "consultation" }, allEntries = true)
-	public void delete(Long id) {
+	@CacheEvict(value =
+	{ "product", "productCategory", "review", "consultation" }, allEntries = true)
+	public void delete(final Long id)
+	{
 		super.delete(id);
 	}
 
 	@Override
 	@Transactional
-	@CacheEvict(value = { "product", "productCategory", "review", "consultation" }, allEntries = true)
-	public void delete(Long... ids) {
+	@CacheEvict(value =
+	{ "product", "productCategory", "review", "consultation" }, allEntries = true)
+	public void delete(final Long... ids)
+	{
 		super.delete(ids);
 	}
 
 	@Override
 	@Transactional
-	@CacheEvict(value = { "product", "productCategory", "review", "consultation" }, allEntries = true)
-	public void delete(Product product) {
-		if (product != null) {
+	@CacheEvict(value =
+	{ "product", "productCategory", "review", "consultation" }, allEntries = true)
+	public void delete(final Product product)
+	{
+		if (product != null)
+		{
 			staticService.delete(product);
 		}
 		super.delete(product);
