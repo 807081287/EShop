@@ -30,6 +30,7 @@ import net.eshop.util.SettingUtils;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+
 /**
  * Entity - 配送方式
  * 
@@ -39,7 +40,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table(name = "t_shipping_method")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_shipping_method_sequence")
-public class ShippingMethod extends OrderEntity {
+public class ShippingMethod extends OrderEntity
+{
 
 	private static final long serialVersionUID = 5873163245980853245L;
 
@@ -81,7 +83,8 @@ public class ShippingMethod extends OrderEntity {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false)
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
@@ -89,9 +92,10 @@ public class ShippingMethod extends OrderEntity {
 	 * 设置名称
 	 * 
 	 * @param name
-	 *            名称
+	 *           名称
 	 */
-	public void setName(String name) {
+	public void setName(String name)
+	{
 		this.name = name;
 	}
 
@@ -103,7 +107,8 @@ public class ShippingMethod extends OrderEntity {
 	@NotNull
 	@Min(0)
 	@Column(nullable = false)
-	public Integer getFirstWeight() {
+	public Integer getFirstWeight()
+	{
 		return firstWeight;
 	}
 
@@ -111,9 +116,10 @@ public class ShippingMethod extends OrderEntity {
 	 * 设置首重量
 	 * 
 	 * @param firstWeight
-	 *            首重量
+	 *           首重量
 	 */
-	public void setFirstWeight(Integer firstWeight) {
+	public void setFirstWeight(Integer firstWeight)
+	{
 		this.firstWeight = firstWeight;
 	}
 
@@ -125,7 +131,8 @@ public class ShippingMethod extends OrderEntity {
 	@NotNull
 	@Min(1)
 	@Column(nullable = false)
-	public Integer getContinueWeight() {
+	public Integer getContinueWeight()
+	{
 		return continueWeight;
 	}
 
@@ -133,9 +140,10 @@ public class ShippingMethod extends OrderEntity {
 	 * 设置续重量
 	 * 
 	 * @param continueWeight
-	 *            续重量
+	 *           续重量
 	 */
-	public void setContinueWeight(Integer continueWeight) {
+	public void setContinueWeight(Integer continueWeight)
+	{
 		this.continueWeight = continueWeight;
 	}
 
@@ -148,7 +156,8 @@ public class ShippingMethod extends OrderEntity {
 	@Min(0)
 	@Digits(integer = 12, fraction = 3)
 	@Column(nullable = false, precision = 21, scale = 6)
-	public BigDecimal getFirstPrice() {
+	public BigDecimal getFirstPrice()
+	{
 		return firstPrice;
 	}
 
@@ -156,9 +165,10 @@ public class ShippingMethod extends OrderEntity {
 	 * 设置首重价格
 	 * 
 	 * @param firstPrice
-	 *            首重价格
+	 *           首重价格
 	 */
-	public void setFirstPrice(BigDecimal firstPrice) {
+	public void setFirstPrice(BigDecimal firstPrice)
+	{
 		this.firstPrice = firstPrice;
 	}
 
@@ -171,7 +181,8 @@ public class ShippingMethod extends OrderEntity {
 	@Min(0)
 	@Digits(integer = 12, fraction = 3)
 	@Column(nullable = false, precision = 21, scale = 6)
-	public BigDecimal getContinuePrice() {
+	public BigDecimal getContinuePrice()
+	{
 		return continuePrice;
 	}
 
@@ -179,9 +190,10 @@ public class ShippingMethod extends OrderEntity {
 	 * 设置续重价格
 	 * 
 	 * @param continuePrice
-	 *            续重价格
+	 *           续重价格
 	 */
-	public void setContinuePrice(BigDecimal continuePrice) {
+	public void setContinuePrice(BigDecimal continuePrice)
+	{
 		this.continuePrice = continuePrice;
 	}
 
@@ -191,7 +203,8 @@ public class ShippingMethod extends OrderEntity {
 	 * @return 图标
 	 */
 	@Length(max = 200)
-	public String getIcon() {
+	public String getIcon()
+	{
 		return icon;
 	}
 
@@ -199,9 +212,10 @@ public class ShippingMethod extends OrderEntity {
 	 * 设置图标
 	 * 
 	 * @param icon
-	 *            图标
+	 *           图标
 	 */
-	public void setIcon(String icon) {
+	public void setIcon(String icon)
+	{
 		this.icon = icon;
 	}
 
@@ -211,7 +225,8 @@ public class ShippingMethod extends OrderEntity {
 	 * @return 介绍
 	 */
 	@Lob
-	public String getDescription() {
+	public String getDescription()
+	{
 		return description;
 	}
 
@@ -219,9 +234,10 @@ public class ShippingMethod extends OrderEntity {
 	 * 设置介绍
 	 * 
 	 * @param description
-	 *            介绍
+	 *           介绍
 	 */
-	public void setDescription(String description) {
+	public void setDescription(String description)
+	{
 		this.description = description;
 	}
 
@@ -231,7 +247,8 @@ public class ShippingMethod extends OrderEntity {
 	 * @return 默认物流公司
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	public DeliveryCorp getDefaultDeliveryCorp() {
+	public DeliveryCorp getDefaultDeliveryCorp()
+	{
 		return defaultDeliveryCorp;
 	}
 
@@ -239,9 +256,10 @@ public class ShippingMethod extends OrderEntity {
 	 * 设置默认物流公司
 	 * 
 	 * @param defaultDeliveryCorp
-	 *            默认物流公司
+	 *           默认物流公司
 	 */
-	public void setDefaultDeliveryCorp(DeliveryCorp defaultDeliveryCorp) {
+	public void setDefaultDeliveryCorp(DeliveryCorp defaultDeliveryCorp)
+	{
 		this.defaultDeliveryCorp = defaultDeliveryCorp;
 	}
 
@@ -251,7 +269,8 @@ public class ShippingMethod extends OrderEntity {
 	 * @return 支付方式
 	 */
 	@ManyToMany(mappedBy = "shippingMethods", fetch = FetchType.LAZY)
-	public Set<PaymentMethod> getPaymentMethods() {
+	public Set<PaymentMethod> getPaymentMethods()
+	{
 		return paymentMethods;
 	}
 
@@ -259,9 +278,10 @@ public class ShippingMethod extends OrderEntity {
 	 * 设置支付方式
 	 * 
 	 * @param paymentMethods
-	 *            支付方式
+	 *           支付方式
 	 */
-	public void setPaymentMethods(Set<PaymentMethod> paymentMethods) {
+	public void setPaymentMethods(Set<PaymentMethod> paymentMethods)
+	{
 		this.paymentMethods = paymentMethods;
 	}
 
@@ -271,7 +291,8 @@ public class ShippingMethod extends OrderEntity {
 	 * @return 订单
 	 */
 	@OneToMany(mappedBy = "shippingMethod", fetch = FetchType.LAZY)
-	public Set<Order> getOrders() {
+	public Set<Order> getOrders()
+	{
 		return orders;
 	}
 
@@ -279,9 +300,10 @@ public class ShippingMethod extends OrderEntity {
 	 * 设置订单
 	 * 
 	 * @param orders
-	 *            订单
+	 *           订单
 	 */
-	public void setOrders(Set<Order> orders) {
+	public void setOrders(Set<Order> orders)
+	{
 		this.orders = orders;
 	}
 
@@ -289,17 +311,22 @@ public class ShippingMethod extends OrderEntity {
 	 * 计算运费
 	 * 
 	 * @param weight
-	 *            重量
+	 *           重量
 	 * @return 运费
 	 */
 	@Transient
-	public BigDecimal calculateFreight(Integer weight) {
+	public BigDecimal calculateFreight(Integer weight)
+	{
 		Setting setting = SettingUtils.get();
 		BigDecimal freight = new BigDecimal(0);
-		if (weight != null) {
-			if (weight <= getFirstWeight() || getContinuePrice().compareTo(new BigDecimal(0)) == 0) {
+		if (weight != null)
+		{
+			if (weight <= getFirstWeight() || getContinuePrice().compareTo(new BigDecimal(0)) == 0)
+			{
 				freight = getFirstPrice();
-			} else {
+			}
+			else
+			{
 				double contiuneWeightCount = Math.ceil((weight - getFirstWeight()) / (double) getContinueWeight());
 				freight = getFirstPrice().add(getContinuePrice().multiply(new BigDecimal(contiuneWeightCount)));
 			}
@@ -311,16 +338,21 @@ public class ShippingMethod extends OrderEntity {
 	 * 删除前处理
 	 */
 	@PreRemove
-	public void preRemove() {
+	public void preRemove()
+	{
 		Set<PaymentMethod> paymentMethods = getPaymentMethods();
-		if (paymentMethods != null) {
-			for (PaymentMethod paymentMethod : paymentMethods) {
+		if (paymentMethods != null)
+		{
+			for (PaymentMethod paymentMethod : paymentMethods)
+			{
 				paymentMethod.getShippingMethods().remove(this);
 			}
 		}
 		Set<Order> orders = getOrders();
-		if (orders != null) {
-			for (Order order : orders) {
+		if (orders != null)
+		{
+			for (Order order : orders)
+			{
 				order.setShippingMethod(null);
 			}
 		}

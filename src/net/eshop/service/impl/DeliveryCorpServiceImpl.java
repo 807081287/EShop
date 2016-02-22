@@ -13,6 +13,7 @@ import net.eshop.service.DeliveryCorpService;
 
 import org.springframework.stereotype.Service;
 
+
 /**
  * Service - 物流公司
  * 
@@ -20,10 +21,12 @@ import org.springframework.stereotype.Service;
  * 
  */
 @Service("deliveryCorpServiceImpl")
-public class DeliveryCorpServiceImpl extends BaseServiceImpl<DeliveryCorp, Long> implements DeliveryCorpService {
+public class DeliveryCorpServiceImpl extends BaseServiceImpl<DeliveryCorp, Long> implements DeliveryCorpService
+{
 
 	@Resource(name = "deliveryCorpDaoImpl")
-	public void setBaseDao(DeliveryCorpDao deliveryCorpDao) {
+	public void setBaseDao(DeliveryCorpDao deliveryCorpDao)
+	{
 		super.setBaseDao(deliveryCorpDao);
 	}
 

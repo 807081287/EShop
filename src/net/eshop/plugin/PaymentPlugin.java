@@ -43,13 +43,15 @@ import org.apache.http.util.EntityUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
+
 /**
  * Plugin - 支付
  * 
  * 
  * 
  */
-public abstract class PaymentPlugin implements Comparable<PaymentPlugin> {
+public abstract class PaymentPlugin implements Comparable<PaymentPlugin>
+{
 
 	/** 支付方式名称属性名称 */
 	public static final String PAYMENT_NAME_ATTRIBUTE_NAME = "paymentName";
@@ -69,7 +71,8 @@ public abstract class PaymentPlugin implements Comparable<PaymentPlugin> {
 	/**
 	 * 手续费类型
 	 */
-	public enum FeeType {
+	public enum FeeType
+	{
 
 		/** 按比例收费 */
 		scale,
@@ -81,7 +84,8 @@ public abstract class PaymentPlugin implements Comparable<PaymentPlugin> {
 	/**
 	 * 请求方法
 	 */
-	public enum RequestMethod {
+	public enum RequestMethod
+	{
 
 		/** POST */
 		post,
@@ -93,7 +97,8 @@ public abstract class PaymentPlugin implements Comparable<PaymentPlugin> {
 	/**
 	 * 通知方法
 	 */
-	public enum NotifyMethod {
+	public enum NotifyMethod
+	{
 
 		/** 通用 */
 		general,
@@ -115,7 +120,8 @@ public abstract class PaymentPlugin implements Comparable<PaymentPlugin> {
 	 * 
 	 * @return ID
 	 */
-	public final String getId() {
+	public final String getId()
+	{
 		return getClass().getAnnotation(Component.class).value();
 	}
 
@@ -173,7 +179,8 @@ public abstract class PaymentPlugin implements Comparable<PaymentPlugin> {
 	 * 
 	 * @return 是否已安装
 	 */
-	public boolean getIsInstalled() {
+	public boolean getIsInstalled()
+	{
 		return pluginConfigService.pluginIdExists(getId());
 	}
 
@@ -182,7 +189,8 @@ public abstract class PaymentPlugin implements Comparable<PaymentPlugin> {
 	 * 
 	 * @return 插件配置
 	 */
-	public PluginConfig getPluginConfig() {
+	public PluginConfig getPluginConfig()
+	{
 		return pluginConfigService.findByPluginId(getId());
 	}
 
@@ -191,7 +199,8 @@ public abstract class PaymentPlugin implements Comparable<PaymentPlugin> {
 	 * 
 	 * @return 是否已启用
 	 */
-	public boolean getIsEnabled() {
+	public boolean getIsEnabled()
+	{
 		PluginConfig pluginConfig = getPluginConfig();
 		return pluginConfig != null ? pluginConfig.getIsEnabled() : false;
 	}
@@ -200,10 +209,11 @@ public abstract class PaymentPlugin implements Comparable<PaymentPlugin> {
 	 * 获取属性值
 	 * 
 	 * @param name
-	 *            属性名称
+	 *           属性名称
 	 * @return 属性值
 	 */
-	public String getAttribute(String name) {
+	public String getAttribute(String name)
+	{
 		PluginConfig pluginConfig = getPluginConfig();
 		return pluginConfig != null ? pluginConfig.getAttribute(name) : null;
 	}
@@ -213,7 +223,8 @@ public abstract class PaymentPlugin implements Comparable<PaymentPlugin> {
 	 * 
 	 * @return 排序
 	 */
-	public Integer getOrder() {
+	public Integer getOrder()
+	{
 		PluginConfig pluginConfig = getPluginConfig();
 		return pluginConfig != null ? pluginConfig.getOrder() : null;
 	}
@@ -223,7 +234,8 @@ public abstract class PaymentPlugin implements Comparable<PaymentPlugin> {
 	 * 
 	 * @return 支付方式名称
 	 */
-	public String getPaymentName() {
+	public String getPaymentName()
+	{
 		PluginConfig pluginConfig = getPluginConfig();
 		return pluginConfig != null ? pluginConfig.getAttribute(PAYMENT_NAME_ATTRIBUTE_NAME) : null;
 	}
@@ -233,7 +245,8 @@ public abstract class PaymentPlugin implements Comparable<PaymentPlugin> {
 	 * 
 	 * @return 手续费类型
 	 */
-	public FeeType getFeeType() {
+	public FeeType getFeeType()
+	{
 		PluginConfig pluginConfig = getPluginConfig();
 		return pluginConfig != null ? FeeType.valueOf(pluginConfig.getAttribute(FEE_TYPE_ATTRIBUTE_NAME)) : null;
 	}
@@ -243,7 +256,8 @@ public abstract class PaymentPlugin implements Comparable<PaymentPlugin> {
 	 * 
 	 * @return 手续费
 	 */
-	public BigDecimal getFee() {
+	public BigDecimal getFee()
+	{
 		PluginConfig pluginConfig = getPluginConfig();
 		return pluginConfig != null ? new BigDecimal(pluginConfig.getAttribute(FEE_ATTRIBUTE_NAME)) : null;
 	}
@@ -253,7 +267,8 @@ public abstract class PaymentPlugin implements Comparable<PaymentPlugin> {
 	 * 
 	 * @return LOGO
 	 */
-	public String getLogo() {
+	public String getLogo()
+	{
 		PluginConfig pluginConfig = getPluginConfig();
 		return pluginConfig != null ? pluginConfig.getAttribute(LOGO_ATTRIBUTE_NAME) : null;
 	}
@@ -263,7 +278,8 @@ public abstract class PaymentPlugin implements Comparable<PaymentPlugin> {
 	 * 
 	 * @return 描述
 	 */
-	public String getDescription() {
+	public String getDescription()
+	{
 		PluginConfig pluginConfig = getPluginConfig();
 		return pluginConfig != null ? pluginConfig.getAttribute(DESCRIPTION_ATTRIBUTE_NAME) : null;
 	}
@@ -293,11 +309,11 @@ public abstract class PaymentPlugin implements Comparable<PaymentPlugin> {
 	 * 获取请求参数
 	 * 
 	 * @param sn
-	 *            编号
+	 *           编号
 	 * @param description
-	 *            描述
+	 *           描述
 	 * @param request
-	 *            httpServletRequest
+	 *           httpServletRequest
 	 * @return 请求参数
 	 */
 	public abstract Map<String, Object> getParameterMap(String sn, String description, HttpServletRequest request);
@@ -306,11 +322,11 @@ public abstract class PaymentPlugin implements Comparable<PaymentPlugin> {
 	 * 验证通知是否合法
 	 * 
 	 * @param sn
-	 *            编号
+	 *           编号
 	 * @param notifyMethod
-	 *            通知方法
+	 *           通知方法
 	 * @param request
-	 *            httpServletRequest
+	 *           httpServletRequest
 	 * @return 通知是否合法
 	 */
 	public abstract boolean verifyNotify(String sn, NotifyMethod notifyMethod, HttpServletRequest request);
@@ -319,11 +335,11 @@ public abstract class PaymentPlugin implements Comparable<PaymentPlugin> {
 	 * 获取通知返回消息
 	 * 
 	 * @param sn
-	 *            编号
+	 *           编号
 	 * @param notifyMethod
-	 *            通知方法
+	 *           通知方法
 	 * @param request
-	 *            httpServletRequest
+	 *           httpServletRequest
 	 * @return 通知返回消息
 	 */
 	public abstract String getNotifyMessage(String sn, NotifyMethod notifyMethod, HttpServletRequest request);
@@ -339,15 +355,19 @@ public abstract class PaymentPlugin implements Comparable<PaymentPlugin> {
 	 * 计算支付手续费
 	 * 
 	 * @param amount
-	 *            金额
+	 *           金额
 	 * @return 支付手续费
 	 */
-	public BigDecimal calculateFee(BigDecimal amount) {
+	public BigDecimal calculateFee(BigDecimal amount)
+	{
 		Setting setting = SettingUtils.get();
 		BigDecimal fee;
-		if (getFeeType() == FeeType.scale) {
+		if (getFeeType() == FeeType.scale)
+		{
 			fee = amount.multiply(getFee());
-		} else {
+		}
+		else
+		{
 			fee = getFee();
 		}
 		return setting.setScale(fee);
@@ -357,10 +377,11 @@ public abstract class PaymentPlugin implements Comparable<PaymentPlugin> {
 	 * 计算支付金额
 	 * 
 	 * @param amount
-	 *            金额
+	 *           金额
 	 * @return 支付金额
 	 */
-	public BigDecimal calculateAmount(BigDecimal amount) {
+	public BigDecimal calculateAmount(BigDecimal amount)
+	{
 		return amount.add(calculateFee(amount)).setScale(2, RoundingMode.UP);
 	}
 
@@ -368,10 +389,11 @@ public abstract class PaymentPlugin implements Comparable<PaymentPlugin> {
 	 * 根据编号查找收款单
 	 * 
 	 * @param sn
-	 *            编号(忽略大小写)
+	 *           编号(忽略大小写)
 	 * @return 收款单，若不存在则返回null
 	 */
-	protected Payment getPayment(String sn) {
+	protected Payment getPayment(String sn)
+	{
 		return paymentService.findBySn(sn);
 	}
 
@@ -379,14 +401,16 @@ public abstract class PaymentPlugin implements Comparable<PaymentPlugin> {
 	 * 获取通知URL
 	 * 
 	 * @param sn
-	 *            编号
+	 *           编号
 	 * @param notifyMethod
-	 *            通知方法
+	 *           通知方法
 	 * @return 通知URL
 	 */
-	protected String getNotifyUrl(String sn, NotifyMethod notifyMethod) {
+	protected String getNotifyUrl(String sn, NotifyMethod notifyMethod)
+	{
 		Setting setting = SettingUtils.get();
-		if (notifyMethod == null) {
+		if (notifyMethod == null)
+		{
 			return setting.getSiteUrl() + "/payment/notify/" + NotifyMethod.general + "/" + sn + ".jhtml";
 		}
 		return setting.getSiteUrl() + "/payment/notify/" + notifyMethod + "/" + sn + ".jhtml";
@@ -396,26 +420,32 @@ public abstract class PaymentPlugin implements Comparable<PaymentPlugin> {
 	 * 连接Map键值对
 	 * 
 	 * @param map
-	 *            Map
+	 *           Map
 	 * @param prefix
-	 *            前缀
+	 *           前缀
 	 * @param suffix
-	 *            后缀
+	 *           后缀
 	 * @param separator
-	 *            连接符
+	 *           连接符
 	 * @param ignoreEmptyValue
-	 *            忽略空值
+	 *           忽略空值
 	 * @param ignoreKeys
-	 *            忽略Key
+	 *           忽略Key
 	 * @return 字符串
 	 */
-	protected String joinKeyValue(Map<String, Object> map, String prefix, String suffix, String separator, boolean ignoreEmptyValue, String... ignoreKeys) {
+	protected String joinKeyValue(Map<String, Object> map, String prefix, String suffix, String separator,
+			boolean ignoreEmptyValue, String... ignoreKeys)
+	{
 		List<String> list = new ArrayList<String>();
-		if (map != null) {
-			for (Entry<String, Object> entry : map.entrySet()) {
+		if (map != null)
+		{
+			for (Entry<String, Object> entry : map.entrySet())
+			{
 				String key = entry.getKey();
 				String value = ConvertUtils.convert(entry.getValue());
-				if (StringUtils.isNotEmpty(key) && !ArrayUtils.contains(ignoreKeys, key) && (!ignoreEmptyValue || StringUtils.isNotEmpty(value))) {
+				if (StringUtils.isNotEmpty(key) && !ArrayUtils.contains(ignoreKeys, key)
+						&& (!ignoreEmptyValue || StringUtils.isNotEmpty(value)))
+				{
 					list.add(key + "=" + (value != null ? value : ""));
 				}
 			}
@@ -427,26 +457,32 @@ public abstract class PaymentPlugin implements Comparable<PaymentPlugin> {
 	 * 连接Map值
 	 * 
 	 * @param map
-	 *            Map
+	 *           Map
 	 * @param prefix
-	 *            前缀
+	 *           前缀
 	 * @param suffix
-	 *            后缀
+	 *           后缀
 	 * @param separator
-	 *            连接符
+	 *           连接符
 	 * @param ignoreEmptyValue
-	 *            忽略空值
+	 *           忽略空值
 	 * @param ignoreKeys
-	 *            忽略Key
+	 *           忽略Key
 	 * @return 字符串
 	 */
-	protected String joinValue(Map<String, Object> map, String prefix, String suffix, String separator, boolean ignoreEmptyValue, String... ignoreKeys) {
+	protected String joinValue(Map<String, Object> map, String prefix, String suffix, String separator, boolean ignoreEmptyValue,
+			String... ignoreKeys)
+	{
 		List<String> list = new ArrayList<String>();
-		if (map != null) {
-			for (Entry<String, Object> entry : map.entrySet()) {
+		if (map != null)
+		{
+			for (Entry<String, Object> entry : map.entrySet())
+			{
 				String key = entry.getKey();
 				String value = ConvertUtils.convert(entry.getValue());
-				if (StringUtils.isNotEmpty(key) && !ArrayUtils.contains(ignoreKeys, key) && (!ignoreEmptyValue || StringUtils.isNotEmpty(value))) {
+				if (StringUtils.isNotEmpty(key) && !ArrayUtils.contains(ignoreKeys, key)
+						&& (!ignoreEmptyValue || StringUtils.isNotEmpty(value)))
+				{
 					list.add(value != null ? value : "");
 				}
 			}
@@ -458,23 +494,28 @@ public abstract class PaymentPlugin implements Comparable<PaymentPlugin> {
 	 * POST请求
 	 * 
 	 * @param url
-	 *            URL
+	 *           URL
 	 * @param parameterMap
-	 *            请求参数
+	 *           请求参数
 	 * @return 返回结果
 	 */
-	protected String post(String url, Map<String, Object> parameterMap) {
+	protected String post(String url, Map<String, Object> parameterMap)
+	{
 		Assert.hasText(url);
 		String result = null;
 		HttpClient httpClient = new DefaultHttpClient();
-		try {
+		try
+		{
 			HttpPost httpPost = new HttpPost(url);
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-			if (parameterMap != null) {
-				for (Entry<String, Object> entry : parameterMap.entrySet()) {
+			if (parameterMap != null)
+			{
+				for (Entry<String, Object> entry : parameterMap.entrySet())
+				{
 					String name = entry.getKey();
 					String value = ConvertUtils.convert(entry.getValue());
-					if (StringUtils.isNotEmpty(name)) {
+					if (StringUtils.isNotEmpty(name))
+					{
 						nameValuePairs.add(new BasicNameValuePair(name, value));
 					}
 				}
@@ -484,11 +525,17 @@ public abstract class PaymentPlugin implements Comparable<PaymentPlugin> {
 			HttpEntity httpEntity = httpResponse.getEntity();
 			result = EntityUtils.toString(httpEntity);
 			EntityUtils.consume(httpEntity);
-		} catch (ClientProtocolException e) {
+		}
+		catch (ClientProtocolException e)
+		{
 			e.printStackTrace();
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 			e.printStackTrace();
-		} finally {
+		}
+		finally
+		{
 			httpClient.getConnectionManager().shutdown();
 		}
 		return result;
@@ -498,50 +545,66 @@ public abstract class PaymentPlugin implements Comparable<PaymentPlugin> {
 	 * GET请求
 	 * 
 	 * @param url
-	 *            URL
+	 *           URL
 	 * @param parameterMap
-	 *            请求参数
+	 *           请求参数
 	 * @return 返回结果
 	 */
-	protected String get(String url, Map<String, Object> parameterMap) {
+	protected String get(String url, Map<String, Object> parameterMap)
+	{
 		Assert.hasText(url);
 		String result = null;
 		HttpClient httpClient = new DefaultHttpClient();
-		try {
+		try
+		{
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-			if (parameterMap != null) {
-				for (Entry<String, Object> entry : parameterMap.entrySet()) {
+			if (parameterMap != null)
+			{
+				for (Entry<String, Object> entry : parameterMap.entrySet())
+				{
 					String name = entry.getKey();
 					String value = ConvertUtils.convert(entry.getValue());
-					if (StringUtils.isNotEmpty(name)) {
+					if (StringUtils.isNotEmpty(name))
+					{
 						nameValuePairs.add(new BasicNameValuePair(name, value));
 					}
 				}
 			}
-			HttpGet httpGet = new HttpGet(url + (StringUtils.contains(url, "?") ? "&" : "?") + EntityUtils.toString(new UrlEncodedFormEntity(nameValuePairs, "UTF-8")));
+			HttpGet httpGet = new HttpGet(url + (StringUtils.contains(url, "?") ? "&" : "?")
+					+ EntityUtils.toString(new UrlEncodedFormEntity(nameValuePairs, "UTF-8")));
 			HttpResponse httpResponse = httpClient.execute(httpGet);
 			HttpEntity httpEntity = httpResponse.getEntity();
 			result = EntityUtils.toString(httpEntity);
 			EntityUtils.consume(httpEntity);
-		} catch (ClientProtocolException e) {
+		}
+		catch (ClientProtocolException e)
+		{
 			e.printStackTrace();
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 			e.printStackTrace();
-		} finally {
+		}
+		finally
+		{
 			httpClient.getConnectionManager().shutdown();
 		}
 		return result;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (obj == null) {
+	public boolean equals(Object obj)
+	{
+		if (obj == null)
+		{
 			return false;
 		}
-		if (getClass() != obj.getClass()) {
+		if (getClass() != obj.getClass())
+		{
 			return false;
 		}
-		if (this == obj) {
+		if (this == obj)
+		{
 			return true;
 		}
 		PaymentPlugin other = (PaymentPlugin) obj;
@@ -549,12 +612,15 @@ public abstract class PaymentPlugin implements Comparable<PaymentPlugin> {
 	}
 
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 		return new HashCodeBuilder(17, 37).append(getId()).toHashCode();
 	}
 
-	public int compareTo(PaymentPlugin paymentPlugin) {
-		return new CompareToBuilder().append(getOrder(), paymentPlugin.getOrder()).append(getId(), paymentPlugin.getId()).toComparison();
+	public int compareTo(PaymentPlugin paymentPlugin)
+	{
+		return new CompareToBuilder().append(getOrder(), paymentPlugin.getOrder()).append(getId(), paymentPlugin.getId())
+				.toComparison();
 	}
 
 }

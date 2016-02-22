@@ -52,6 +52,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
 /**
  * Controller - 会员注册
  * 
@@ -60,7 +61,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller("shopRegisterController")
 @RequestMapping("/register")
-public class RegisterController extends BaseController {
+public class RegisterController extends BaseController
+{
 
 	@Resource(name = "captchaServiceImpl")
 	private CaptchaService captchaService;
@@ -81,14 +83,18 @@ public class RegisterController extends BaseController {
 	 * 检查用户名是否被禁用或已存在
 	 */
 	@RequestMapping(value = "/check_username", method = RequestMethod.GET)
-	public @ResponseBody
-	boolean checkUsername(String username) {
-		if (StringUtils.isEmpty(username)) {
+	public @ResponseBody boolean checkUsername(String username)
+	{
+		if (StringUtils.isEmpty(username))
+		{
 			return false;
 		}
-		if (memberService.usernameDisabled(username) || memberService.usernameExists(username)) {
+		if (memberService.usernameDisabled(username) || memberService.usernameExists(username))
+		{
 			return false;
-		} else {
+		}
+		else
+		{
 			return true;
 		}
 	}
@@ -97,14 +103,18 @@ public class RegisterController extends BaseController {
 	 * 检查E-mail是否存在
 	 */
 	@RequestMapping(value = "/check_email", method = RequestMethod.GET)
-	public @ResponseBody
-	boolean checkEmail(String email) {
-		if (StringUtils.isEmpty(email)) {
+	public @ResponseBody boolean checkEmail(String email)
+	{
+		if (StringUtils.isEmpty(email))
+		{
 			return false;
 		}
-		if (memberService.emailExists(email)) {
+		if (memberService.emailExists(email))
+		{
 			return false;
-		} else {
+		}
+		else
+		{
 			return true;
 		}
 	}
@@ -113,7 +123,8 @@ public class RegisterController extends BaseController {
 	 * 注册页面
 	 */
 	@RequestMapping(method = RequestMethod.GET)
-	public String index(HttpServletRequest request, HttpServletResponse response, ModelMap model) {
+	public String index(HttpServletRequest request, HttpServletResponse response, ModelMap model)
+	{
 		model.addAttribute("genders", Gender.values());
 		model.addAttribute("captchaId", UUID.randomUUID().toString());
 		return "/shop/register/index";
@@ -123,70 +134,103 @@ public class RegisterController extends BaseController {
 	 * 注册提交
 	 */
 	@RequestMapping(value = "/submit", method = RequestMethod.POST)
-	public @ResponseBody
-	Message submit(String captchaId, String captcha, String username, String email, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public @ResponseBody Message submit(String captchaId, String captcha, String username, String email,
+			HttpServletRequest request, HttpServletResponse response, HttpSession session)
+	{
 		String password = rsaService.decryptParameter("enPassword", request);
 		rsaService.removePrivateKey(request);
 
-		if (!captchaService.isValid(CaptchaType.memberRegister, captchaId, captcha)) {
+		if (!captchaService.isValid(CaptchaType.memberRegister, captchaId, captcha))
+		{
 			return Message.error("shop.captcha.invalid");
 		}
 		Setting setting = SettingUtils.get();
-		if (!setting.getIsRegisterEnabled()) {
+		if (!setting.getIsRegisterEnabled())
+		{
 			return Message.error("shop.register.disabled");
 		}
-		if (!isValid(Member.class, "username", username, Save.class) || !isValid(Member.class, "password", password, Save.class) || !isValid(Member.class, "email", email, Save.class)) {
+		if (!isValid(Member.class, "username", username, Save.class) || !isValid(Member.class, "password", password, Save.class)
+				|| !isValid(Member.class, "email", email, Save.class))
+		{
 			return Message.error("shop.common.invalid");
 		}
-		if (username.length() < setting.getUsernameMinLength() || username.length() > setting.getUsernameMaxLength()) {
+		if (username.length() < setting.getUsernameMinLength() || username.length() > setting.getUsernameMaxLength())
+		{
 			return Message.error("shop.common.invalid");
 		}
-		if (password.length() < setting.getPasswordMinLength() || password.length() > setting.getPasswordMaxLength()) {
+		if (password.length() < setting.getPasswordMinLength() || password.length() > setting.getPasswordMaxLength())
+		{
 			return Message.error("shop.common.invalid");
 		}
-		if (memberService.usernameDisabled(username) || memberService.usernameExists(username)) {
+		if (memberService.usernameDisabled(username) || memberService.usernameExists(username))
+		{
 			return Message.error("shop.register.disabledExist");
 		}
-		if (!setting.getIsDuplicateEmail() && memberService.emailExists(email)) {
+		if (!setting.getIsDuplicateEmail() && memberService.emailExists(email))
+		{
 			return Message.error("shop.register.emailExist");
 		}
 
 		Member member = new Member();
 		List<MemberAttribute> memberAttributes = memberAttributeService.findList();
-		for (MemberAttribute memberAttribute : memberAttributes) {
+		for (MemberAttribute memberAttribute : memberAttributes)
+		{
 			String parameter = request.getParameter("memberAttribute_" + memberAttribute.getId());
-			if (memberAttribute.getType() == Type.name || memberAttribute.getType() == Type.address || memberAttribute.getType() == Type.zipCode || memberAttribute.getType() == Type.phone || memberAttribute.getType() == Type.mobile || memberAttribute.getType() == Type.text || memberAttribute.getType() == Type.select) {
-				if (memberAttribute.getIsRequired() && StringUtils.isEmpty(parameter)) {
+			if (memberAttribute.getType() == Type.name || memberAttribute.getType() == Type.address
+					|| memberAttribute.getType() == Type.zipCode || memberAttribute.getType() == Type.phone
+					|| memberAttribute.getType() == Type.mobile || memberAttribute.getType() == Type.text
+					|| memberAttribute.getType() == Type.select)
+			{
+				if (memberAttribute.getIsRequired() && StringUtils.isEmpty(parameter))
+				{
 					return Message.error("shop.common.invalid");
 				}
 				member.setAttributeValue(memberAttribute, parameter);
-			} else if (memberAttribute.getType() == Type.gender) {
+			}
+			else if (memberAttribute.getType() == Type.gender)
+			{
 				Gender gender = StringUtils.isNotEmpty(parameter) ? Gender.valueOf(parameter) : null;
-				if (memberAttribute.getIsRequired() && gender == null) {
+				if (memberAttribute.getIsRequired() && gender == null)
+				{
 					return Message.error("shop.common.invalid");
 				}
 				member.setGender(gender);
-			} else if (memberAttribute.getType() == Type.birth) {
-				try {
-					Date birth = StringUtils.isNotEmpty(parameter) ? DateUtils.parseDate(parameter, CommonAttributes.DATE_PATTERNS) : null;
-					if (memberAttribute.getIsRequired() && birth == null) {
+			}
+			else if (memberAttribute.getType() == Type.birth)
+			{
+				try
+				{
+					Date birth = StringUtils.isNotEmpty(parameter) ? DateUtils.parseDate(parameter, CommonAttributes.DATE_PATTERNS)
+							: null;
+					if (memberAttribute.getIsRequired() && birth == null)
+					{
 						return Message.error("shop.common.invalid");
 					}
 					member.setBirth(birth);
-				} catch (ParseException e) {
+				}
+				catch (ParseException e)
+				{
 					return Message.error("shop.common.invalid");
 				}
-			} else if (memberAttribute.getType() == Type.area) {
+			}
+			else if (memberAttribute.getType() == Type.area)
+			{
 				Area area = StringUtils.isNotEmpty(parameter) ? areaService.find(Long.valueOf(parameter)) : null;
-				if (area != null) {
+				if (area != null)
+				{
 					member.setArea(area);
-				} else if (memberAttribute.getIsRequired()) {
+				}
+				else if (memberAttribute.getIsRequired())
+				{
 					return Message.error("shop.common.invalid");
 				}
-			} else if (memberAttribute.getType() == Type.checkbox) {
+			}
+			else if (memberAttribute.getType() == Type.checkbox)
+			{
 				String[] parameterValues = request.getParameterValues("memberAttribute_" + memberAttribute.getId());
 				List<String> options = parameterValues != null ? Arrays.asList(parameterValues) : null;
-				if (memberAttribute.getIsRequired() && (options == null || options.isEmpty())) {
+				if (memberAttribute.getIsRequired() && (options == null || options.isEmpty()))
+				{
 					return Message.error("shop.common.invalid");
 				}
 				member.setAttributeValue(memberAttribute, options);
@@ -211,7 +255,8 @@ public class RegisterController extends BaseController {
 		memberService.save(member);
 
 		Cart cart = cartService.getCurrent();
-		if (cart != null && cart.getMember() == null) {
+		if (cart != null && cart.getMember() == null)
+		{
 			cartService.merge(member, cart);
 			WebUtils.removeCookie(request, response, Cart.ID_COOKIE_NAME);
 			WebUtils.removeCookie(request, response, Cart.KEY_COOKIE_NAME);
@@ -219,13 +264,15 @@ public class RegisterController extends BaseController {
 
 		Map<String, Object> attributes = new HashMap<String, Object>();
 		Enumeration<?> keys = session.getAttributeNames();
-		while (keys.hasMoreElements()) {
+		while (keys.hasMoreElements())
+		{
 			String key = (String) keys.nextElement();
 			attributes.put(key, session.getAttribute(key));
 		}
 		session.invalidate();
 		session = request.getSession();
-		for (Entry<String, Object> entry : attributes.entrySet()) {
+		for (Entry<String, Object> entry : attributes.entrySet())
+		{
 			session.setAttribute(entry.getKey(), entry.getValue());
 		}
 

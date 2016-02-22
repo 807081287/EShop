@@ -26,6 +26,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
 /**
  * Entity - 参数组
  * 
@@ -35,7 +36,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Entity
 @Table(name = "t_parameter_group")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_parameter_group_sequence")
-public class ParameterGroup extends OrderEntity {
+public class ParameterGroup extends OrderEntity
+{
 
 	private static final long serialVersionUID = 192003501177471941L;
 
@@ -57,7 +59,8 @@ public class ParameterGroup extends OrderEntity {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false)
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
@@ -65,9 +68,10 @@ public class ParameterGroup extends OrderEntity {
 	 * 设置名称
 	 * 
 	 * @param name
-	 *            名称
+	 *           名称
 	 */
-	public void setName(String name) {
+	public void setName(String name)
+	{
 		this.name = name;
 	}
 
@@ -79,7 +83,8 @@ public class ParameterGroup extends OrderEntity {
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false)
-	public ProductCategory getProductCategory() {
+	public ProductCategory getProductCategory()
+	{
 		return productCategory;
 	}
 
@@ -87,9 +92,10 @@ public class ParameterGroup extends OrderEntity {
 	 * 设置绑定分类
 	 * 
 	 * @param productCategory
-	 *            绑定分类
+	 *           绑定分类
 	 */
-	public void setProductCategory(ProductCategory productCategory) {
+	public void setProductCategory(ProductCategory productCategory)
+	{
 		this.productCategory = productCategory;
 	}
 
@@ -103,7 +109,8 @@ public class ParameterGroup extends OrderEntity {
 	@NotEmpty
 	@OneToMany(mappedBy = "parameterGroup", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	@OrderBy("order asc")
-	public List<Parameter> getParameters() {
+	public List<Parameter> getParameters()
+	{
 		return parameters;
 	}
 
@@ -111,9 +118,10 @@ public class ParameterGroup extends OrderEntity {
 	 * 设置参数
 	 * 
 	 * @param parameters
-	 *            参数
+	 *           参数
 	 */
-	public void setParameters(List<Parameter> parameters) {
+	public void setParameters(List<Parameter> parameters)
+	{
 		this.parameters = parameters;
 	}
 

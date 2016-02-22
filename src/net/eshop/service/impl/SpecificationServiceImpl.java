@@ -13,6 +13,7 @@ import net.eshop.service.SpecificationService;
 
 import org.springframework.stereotype.Service;
 
+
 /**
  * Service - 规格
  * 
@@ -20,10 +21,12 @@ import org.springframework.stereotype.Service;
  * 
  */
 @Service("specificationServiceImpl")
-public class SpecificationServiceImpl extends BaseServiceImpl<Specification, Long> implements SpecificationService {
+public class SpecificationServiceImpl extends BaseServiceImpl<Specification, Long> implements SpecificationService
+{
 
 	@Resource(name = "specificationDaoImpl")
-	public void setBaseDao(SpecificationDao specificationDao) {
+	public void setBaseDao(SpecificationDao specificationDao)
+	{
 		super.setBaseDao(specificationDao);
 	}
 

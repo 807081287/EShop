@@ -16,13 +16,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.filter.OncePerRequestFilter;
 
+
 /**
  * Filter - 编码格式转换
  * 
  * 
  * 
  */
-public class EncodingConvertFilter extends OncePerRequestFilter {
+public class EncodingConvertFilter extends OncePerRequestFilter
+{
 
 	/** 原编码格式 */
 	private String fromEncoding = "ISO-8859-1";
@@ -32,14 +34,22 @@ public class EncodingConvertFilter extends OncePerRequestFilter {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-		if (request.getMethod().equalsIgnoreCase("GET")) {
-			for (Iterator<String[]> iterator = request.getParameterMap().values().iterator(); iterator.hasNext();) {
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws ServletException, IOException
+	{
+		if (request.getMethod().equalsIgnoreCase("GET"))
+		{
+			for (Iterator<String[]> iterator = request.getParameterMap().values().iterator(); iterator.hasNext();)
+			{
 				String[] parames = iterator.next();
-				for (int i = 0; i < parames.length; i++) {
-					try {
+				for (int i = 0; i < parames.length; i++)
+				{
+					try
+					{
 						parames[i] = new String(parames[i].getBytes(fromEncoding), toEncoding);
-					} catch (UnsupportedEncodingException e) {
+					}
+					catch (UnsupportedEncodingException e)
+					{
 						e.printStackTrace();
 					}
 				}
@@ -53,7 +63,8 @@ public class EncodingConvertFilter extends OncePerRequestFilter {
 	 * 
 	 * @return 原编码格式
 	 */
-	public String getFromEncoding() {
+	public String getFromEncoding()
+	{
 		return fromEncoding;
 	}
 
@@ -61,9 +72,10 @@ public class EncodingConvertFilter extends OncePerRequestFilter {
 	 * 设置原编码格式
 	 * 
 	 * @param fromEncoding
-	 *            原编码格式
+	 *           原编码格式
 	 */
-	public void setFromEncoding(String fromEncoding) {
+	public void setFromEncoding(String fromEncoding)
+	{
 		this.fromEncoding = fromEncoding;
 	}
 
@@ -72,7 +84,8 @@ public class EncodingConvertFilter extends OncePerRequestFilter {
 	 * 
 	 * @return 目标编码格式
 	 */
-	public String getToEncoding() {
+	public String getToEncoding()
+	{
 		return toEncoding;
 	}
 
@@ -80,9 +93,10 @@ public class EncodingConvertFilter extends OncePerRequestFilter {
 	 * 设置目标编码格式
 	 * 
 	 * @param toEncoding
-	 *            目标编码格式
+	 *           目标编码格式
 	 */
-	public void setToEncoding(String toEncoding) {
+	public void setToEncoding(String toEncoding)
+	{
 		this.toEncoding = toEncoding;
 	}
 

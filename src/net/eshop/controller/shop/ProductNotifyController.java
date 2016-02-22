@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
 /**
  * Controller - 到货通知
  * 
@@ -31,7 +32,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller("shopProductNotifyController")
 @RequestMapping("/product_notify")
-public class ProductNotifyController extends BaseController {
+public class ProductNotifyController extends BaseController
+{
 
 	@Resource(name = "productNotifyServiceImpl")
 	private ProductNotifyService productNotifyService;
@@ -44,8 +46,8 @@ public class ProductNotifyController extends BaseController {
 	 * 获取当前会员E-mail
 	 */
 	@RequestMapping(value = "/email", method = RequestMethod.GET)
-	public @ResponseBody
-	Map<String, String> email() {
+	public @ResponseBody Map<String, String> email()
+	{
 		Member member = memberService.getCurrent();
 		String email = member != null ? member.getEmail() : null;
 		Map<String, String> data = new HashMap<String, String>();
@@ -57,28 +59,35 @@ public class ProductNotifyController extends BaseController {
 	 * 保存
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public @ResponseBody
-	Map<String, Object> save(String email, Long productId) {
+	public @ResponseBody Map<String, Object> save(String email, Long productId)
+	{
 		Map<String, Object> data = new HashMap<String, Object>();
-		if (!isValid(ProductNotify.class, "email", email)) {
+		if (!isValid(ProductNotify.class, "email", email))
+		{
 			data.put("message", ERROR_MESSAGE);
 			return data;
 		}
 		Product product = productService.find(productId);
-		if (product == null) {
+		if (product == null)
+		{
 			data.put("message", Message.warn("shop.productNotify.productNotExist"));
 			return data;
 		}
-		if (!product.getIsMarketable()) {
+		if (!product.getIsMarketable())
+		{
 			data.put("message", Message.warn("shop.productNotify.productNotMarketable"));
 			return data;
 		}
-		if (!product.getIsOutOfStock()) {
+		if (!product.getIsOutOfStock())
+		{
 			data.put("message", Message.warn("shop.productNotify.productInStock"));
 		}
-		if (productNotifyService.exists(product, email)) {
+		if (productNotifyService.exists(product, email))
+		{
 			data.put("message", Message.warn("shop.productNotify.exist"));
-		} else {
+		}
+		else
+		{
 			ProductNotify productNotify = new ProductNotify();
 			productNotify.setEmail(email);
 			productNotify.setHasSent(false);

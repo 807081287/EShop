@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 /**
  * Controller - 品牌
  * 
@@ -29,7 +30,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller("adminBrandController")
 @RequestMapping("/admin/brand")
-public class BrandController extends BaseController {
+public class BrandController extends BaseController
+{
 
 	@Resource(name = "brandServiceImpl")
 	private BrandService brandService;
@@ -38,7 +40,8 @@ public class BrandController extends BaseController {
 	 * 添加
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public String add(ModelMap model) {
+	public String add(ModelMap model)
+	{
 		model.addAttribute("types", Type.values());
 		return "/admin/brand/add";
 	}
@@ -47,13 +50,18 @@ public class BrandController extends BaseController {
 	 * 保存
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String save(Brand brand, RedirectAttributes redirectAttributes) {
-		if (!isValid(brand)) {
+	public String save(Brand brand, RedirectAttributes redirectAttributes)
+	{
+		if (!isValid(brand))
+		{
 			return ERROR_VIEW;
 		}
-		if (brand.getType() == Type.text) {
+		if (brand.getType() == Type.text)
+		{
 			brand.setLogo(null);
-		} else if (StringUtils.isEmpty(brand.getLogo())) {
+		}
+		else if (StringUtils.isEmpty(brand.getLogo()))
+		{
 			return ERROR_VIEW;
 		}
 		brand.setProducts(null);
@@ -68,7 +76,8 @@ public class BrandController extends BaseController {
 	 * 编辑
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(Long id, ModelMap model) {
+	public String edit(Long id, ModelMap model)
+	{
 		model.addAttribute("types", Type.values());
 		model.addAttribute("brand", brandService.find(id));
 		return "/admin/brand/edit";
@@ -78,13 +87,18 @@ public class BrandController extends BaseController {
 	 * 更新
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(Brand brand, RedirectAttributes redirectAttributes) {
-		if (!isValid(brand)) {
+	public String update(Brand brand, RedirectAttributes redirectAttributes)
+	{
+		if (!isValid(brand))
+		{
 			return ERROR_VIEW;
 		}
-		if (brand.getType() == Type.text) {
+		if (brand.getType() == Type.text)
+		{
 			brand.setLogo(null);
-		} else if (StringUtils.isEmpty(brand.getLogo())) {
+		}
+		else if (StringUtils.isEmpty(brand.getLogo()))
+		{
 			return ERROR_VIEW;
 		}
 		brandService.update(brand, "products", "productCategories", "promotions");
@@ -96,7 +110,8 @@ public class BrandController extends BaseController {
 	 * 列表
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Pageable pageable, ModelMap model) {
+	public String list(Pageable pageable, ModelMap model)
+	{
 		model.addAttribute("page", brandService.findPage(pageable));
 		return "/admin/brand/list";
 	}
@@ -105,8 +120,8 @@ public class BrandController extends BaseController {
 	 * 删除
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public @ResponseBody
-	Message delete(Long[] ids) {
+	public @ResponseBody Message delete(Long[] ids)
+	{
 		brandService.delete(ids);
 		return SUCCESS_MESSAGE;
 	}

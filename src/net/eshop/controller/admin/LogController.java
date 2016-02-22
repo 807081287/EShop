@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
 /**
  * Controller - 管理日志
  * 
@@ -25,7 +26,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller("adminLogController")
 @RequestMapping("/admin/log")
-public class LogController extends BaseController {
+public class LogController extends BaseController
+{
 
 	@Resource(name = "logServiceImpl")
 	private LogService logService;
@@ -34,7 +36,8 @@ public class LogController extends BaseController {
 	 * 列表
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Pageable pageable, ModelMap model) {
+	public String list(Pageable pageable, ModelMap model)
+	{
 		model.addAttribute("page", logService.findPage(pageable));
 		return "/admin/log/list";
 	}
@@ -43,7 +46,8 @@ public class LogController extends BaseController {
 	 * 查看
 	 */
 	@RequestMapping(value = "/view", method = RequestMethod.GET)
-	public String view(Long id, ModelMap model) {
+	public String view(Long id, ModelMap model)
+	{
 		model.addAttribute("log", logService.find(id));
 		return "/admin/log/view";
 	}
@@ -52,8 +56,8 @@ public class LogController extends BaseController {
 	 * 删除
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public @ResponseBody
-	Message delete(Long[] ids) {
+	public @ResponseBody Message delete(Long[] ids)
+	{
 		logService.delete(ids);
 		return SUCCESS_MESSAGE;
 	}
@@ -62,8 +66,8 @@ public class LogController extends BaseController {
 	 * 清空
 	 */
 	@RequestMapping(value = "/clear", method = RequestMethod.POST)
-	public @ResponseBody
-	Message clear() {
+	public @ResponseBody Message clear()
+	{
 		logService.clear();
 		return SUCCESS_MESSAGE;
 	}

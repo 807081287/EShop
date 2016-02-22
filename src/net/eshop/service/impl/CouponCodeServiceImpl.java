@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+
 /**
  * Service - 优惠码
  * 
@@ -30,7 +31,8 @@ import org.springframework.util.Assert;
  * 
  */
 @Service("couponCodeServiceImpl")
-public class CouponCodeServiceImpl extends BaseServiceImpl<CouponCode, Long> implements CouponCodeService {
+public class CouponCodeServiceImpl extends BaseServiceImpl<CouponCode, Long> implements CouponCodeService
+{
 
 	@Resource(name = "couponCodeDaoImpl")
 	private CouponCodeDao couponCodeDao;
@@ -38,29 +40,35 @@ public class CouponCodeServiceImpl extends BaseServiceImpl<CouponCode, Long> imp
 	private MemberDao memberDao;
 
 	@Resource(name = "couponCodeDaoImpl")
-	public void setBaseDao(CouponCodeDao couponCodeDao) {
+	public void setBaseDao(CouponCodeDao couponCodeDao)
+	{
 		super.setBaseDao(couponCodeDao);
 	}
 
 	@Transactional(readOnly = true)
-	public boolean codeExists(String code) {
+	public boolean codeExists(String code)
+	{
 		return couponCodeDao.codeExists(code);
 	}
 
 	@Transactional(readOnly = true)
-	public CouponCode findByCode(String code) {
+	public CouponCode findByCode(String code)
+	{
 		return couponCodeDao.findByCode(code);
 	}
 
-	public CouponCode build(Coupon coupon, Member member) {
+	public CouponCode build(Coupon coupon, Member member)
+	{
 		return couponCodeDao.build(coupon, member);
 	}
 
-	public List<CouponCode> build(Coupon coupon, Member member, Integer count) {
+	public List<CouponCode> build(Coupon coupon, Member member, Integer count)
+	{
 		return couponCodeDao.build(coupon, member, count);
 	}
 
-	public CouponCode exchange(Coupon coupon, Member member) {
+	public CouponCode exchange(Coupon coupon, Member member)
+	{
 		Assert.notNull(coupon);
 		Assert.notNull(member);
 
@@ -72,12 +80,14 @@ public class CouponCodeServiceImpl extends BaseServiceImpl<CouponCode, Long> imp
 	}
 
 	@Transactional(readOnly = true)
-	public Page<CouponCode> findPage(Member member, Pageable pageable) {
+	public Page<CouponCode> findPage(Member member, Pageable pageable)
+	{
 		return couponCodeDao.findPage(member, pageable);
 	}
 
 	@Transactional(readOnly = true)
-	public Long count(Coupon coupon, Member member, Boolean hasBegun, Boolean hasExpired, Boolean isUsed) {
+	public Long count(Coupon coupon, Member member, Boolean hasBegun, Boolean hasExpired, Boolean isUsed)
+	{
 		return couponCodeDao.count(coupon, member, hasBegun, hasExpired, isUsed);
 	}
 

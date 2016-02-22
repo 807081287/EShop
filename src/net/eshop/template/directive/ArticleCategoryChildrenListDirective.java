@@ -23,6 +23,7 @@ import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 
+
 /**
  * 模板指令 - 下级文章分类列表
  * 
@@ -30,7 +31,8 @@ import freemarker.template.TemplateModel;
  * 
  */
 @Component("articleCategoryChildrenListDirective")
-public class ArticleCategoryChildrenListDirective extends BaseDirective {
+public class ArticleCategoryChildrenListDirective extends BaseDirective
+{
 
 	/** "文章分类ID"参数名称 */
 	private static final String ARTICLE_CATEGORY_ID_PARAMETER_NAME = "articleCategoryId";
@@ -41,22 +43,31 @@ public class ArticleCategoryChildrenListDirective extends BaseDirective {
 	@Resource(name = "articleCategoryServiceImpl")
 	private ArticleCategoryService articleCategoryService;
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body) throws TemplateException, IOException {
+	@SuppressWarnings(
+	{ "unchecked", "rawtypes" })
+	public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body)
+			throws TemplateException, IOException
+	{
 		Long articleCategoryId = FreemarkerUtils.getParameter(ARTICLE_CATEGORY_ID_PARAMETER_NAME, Long.class, params);
 
 		ArticleCategory articleCategory = articleCategoryService.find(articleCategoryId);
 
 		List<ArticleCategory> articleCategories;
-		if (articleCategoryId != null && articleCategory == null) {
+		if (articleCategoryId != null && articleCategory == null)
+		{
 			articleCategories = new ArrayList<ArticleCategory>();
-		} else {
+		}
+		else
+		{
 			boolean useCache = useCache(env, params);
 			String cacheRegion = getCacheRegion(env, params);
 			Integer count = getCount(params);
-			if (useCache) {
+			if (useCache)
+			{
 				articleCategories = articleCategoryService.findChildren(articleCategory, count, cacheRegion);
-			} else {
+			}
+			else
+			{
 				articleCategories = articleCategoryService.findChildren(articleCategory, count);
 			}
 		}

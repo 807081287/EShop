@@ -19,6 +19,7 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import freemarker.template.TemplateModelException;
 
+
 /**
  * Service - 缓存
  * 
@@ -26,7 +27,8 @@ import freemarker.template.TemplateModelException;
  * 
  */
 @Service("cacheServiceImpl")
-public class CacheServiceImpl implements CacheService {
+public class CacheServiceImpl implements CacheService
+{
 
 	@Resource(name = "ehCacheManager")
 	private CacheManager cacheManager;
@@ -35,17 +37,22 @@ public class CacheServiceImpl implements CacheService {
 	@Resource(name = "freeMarkerConfigurer")
 	private FreeMarkerConfigurer freeMarkerConfigurer;
 
-	public String getDiskStorePath() {
+	public String getDiskStorePath()
+	{
 		return cacheManager.getConfiguration().getDiskStoreConfiguration().getPath();
 	}
 
-	public int getCacheSize() {
+	public int getCacheSize()
+	{
 		int cacheSize = 0;
 		String[] cacheNames = cacheManager.getCacheNames();
-		if (cacheNames != null) {
-			for (String cacheName : cacheNames) {
+		if (cacheNames != null)
+		{
+			for (String cacheName : cacheNames)
+			{
 				Ehcache cache = cacheManager.getEhcache(cacheName);
-				if (cache != null) {
+				if (cache != null)
+				{
 					cacheSize += cache.getSize();
 				}
 			}
@@ -53,12 +60,19 @@ public class CacheServiceImpl implements CacheService {
 		return cacheSize;
 	}
 
-	@CacheEvict(value = { "setting", "authorization", "logConfig", "template", "shipping", "area", "seo", "adPosition", "memberAttribute", "navigation", "tag", "friendLink", "brand", "article", "articleCategory", "product", "productCategory", "review", "consultation", "promotion" }, allEntries = true)
-	public void clear() {
+	@CacheEvict(value =
+	{ "setting", "authorization", "logConfig", "template", "shipping", "area", "seo", "adPosition", "memberAttribute",
+			"navigation", "tag", "friendLink", "brand", "article", "articleCategory", "product", "productCategory", "review",
+			"consultation", "promotion" }, allEntries = true)
+	public void clear()
+	{
 		reloadableResourceBundleMessageSource.clearCache();
-		try {
+		try
+		{
 			freeMarkerConfigurer.getConfiguration().setSharedVariable("setting", SettingUtils.get());
-		} catch (TemplateModelException e) {
+		}
+		catch (TemplateModelException e)
+		{
 			e.printStackTrace();
 		}
 		freeMarkerConfigurer.getConfiguration().clearTemplateCache();

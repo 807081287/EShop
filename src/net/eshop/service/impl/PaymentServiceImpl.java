@@ -23,6 +23,7 @@ import net.eshop.service.PaymentService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 /**
  * Service - 收款单
  * 
@@ -30,7 +31,8 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  */
 @Service("paymentServiceImpl")
-public class PaymentServiceImpl extends BaseServiceImpl<Payment, Long> implements PaymentService {
+public class PaymentServiceImpl extends BaseServiceImpl<Payment, Long> implements PaymentService
+{
 
 	@Resource(name = "paymentDaoImpl")
 	private PaymentDao paymentDao;
@@ -40,26 +42,35 @@ public class PaymentServiceImpl extends BaseServiceImpl<Payment, Long> implement
 	private MemberService memberService;
 
 	@Resource(name = "paymentDaoImpl")
-	public void setBaseDao(PaymentDao paymentDao) {
+	public void setBaseDao(PaymentDao paymentDao)
+	{
 		super.setBaseDao(paymentDao);
 	}
 
 	@Transactional(readOnly = true)
-	public Payment findBySn(String sn) {
+	public Payment findBySn(String sn)
+	{
 		return paymentDao.findBySn(sn);
 	}
 
-	public void handle(Payment payment) {
+	public void handle(Payment payment)
+	{
 		paymentDao.refresh(payment, LockModeType.PESSIMISTIC_WRITE);
-		if (payment != null && payment.getStatus() == Status.wait) {
-			if (payment.getType() == Type.payment) {
+		if (payment != null && payment.getStatus() == Status.wait)
+		{
+			if (payment.getType() == Type.payment)
+			{
 				Order order = payment.getOrder();
-				if (order != null) {
+				if (order != null)
+				{
 					orderService.payment(order, payment, null);
 				}
-			} else if (payment.getType() == Type.recharge) {
+			}
+			else if (payment.getType() == Type.recharge)
+			{
 				Member member = payment.getMember();
-				if (member != null) {
+				if (member != null)
+				{
 					memberService.update(member, null, payment.getEffectiveAmount(), null, null);
 				}
 			}

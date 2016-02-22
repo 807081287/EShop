@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
 /**
  * Controller - 文章
  * 
@@ -30,7 +31,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller("shopArticleController")
 @RequestMapping("/article")
-public class ArticleController extends BaseController {
+public class ArticleController extends BaseController
+{
 
 	/** 每页记录数 */
 	private static final int PAGE_SIZE = 20;
@@ -46,9 +48,11 @@ public class ArticleController extends BaseController {
 	 * 列表
 	 */
 	@RequestMapping(value = "/list/{id}", method = RequestMethod.GET)
-	public String list(@PathVariable Long id, Integer pageNumber, ModelMap model) {
+	public String list(@PathVariable Long id, Integer pageNumber, ModelMap model)
+	{
 		ArticleCategory articleCategory = articleCategoryService.find(id);
-		if (articleCategory == null) {
+		if (articleCategory == null)
+		{
 			throw new ResourceNotFoundException();
 		}
 		Pageable pageable = new Pageable(pageNumber, PAGE_SIZE);
@@ -61,8 +65,10 @@ public class ArticleController extends BaseController {
 	 * 搜索
 	 */
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
-	public String search(String keyword, Integer pageNumber, ModelMap model) {
-		if (StringUtils.isEmpty(keyword)) {
+	public String search(String keyword, Integer pageNumber, ModelMap model)
+	{
+		if (StringUtils.isEmpty(keyword))
+		{
 			return ERROR_VIEW;
 		}
 		Pageable pageable = new Pageable(pageNumber, PAGE_SIZE);
@@ -75,8 +81,8 @@ public class ArticleController extends BaseController {
 	 * 点击数
 	 */
 	@RequestMapping(value = "/hits/{id}", method = RequestMethod.GET)
-	public @ResponseBody
-	Long hits(@PathVariable Long id) {
+	public @ResponseBody Long hits(@PathVariable Long id)
+	{
 		return articleService.viewHits(id);
 	}
 

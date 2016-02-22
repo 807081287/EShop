@@ -30,6 +30,7 @@ import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 
+
 /**
  * 模板指令 - 评论
  * 
@@ -37,7 +38,8 @@ import freemarker.template.TemplateModel;
  * 
  */
 @Component("reviewListDirective")
-public class ReviewListDirective extends BaseDirective {
+public class ReviewListDirective extends BaseDirective
+{
 
 	/** "会员ID"参数名称 */
 	private static final String MEMBER_ID_PARAMETER_NAME = "memberId";
@@ -58,8 +60,11 @@ public class ReviewListDirective extends BaseDirective {
 	@Resource(name = "productServiceImpl")
 	private ProductService productService;
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body) throws TemplateException, IOException {
+	@SuppressWarnings(
+	{ "unchecked", "rawtypes" })
+	public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body)
+			throws TemplateException, IOException
+	{
 		Long memberId = FreemarkerUtils.getParameter(MEMBER_ID_PARAMETER_NAME, Long.class, params);
 		Long productId = FreemarkerUtils.getParameter(PRODUCT_ID_PARAMETER_NAME, Long.class, params);
 		Type type = FreemarkerUtils.getParameter(TYPE_PARAMETER_NAME, Type.class, params);
@@ -68,17 +73,23 @@ public class ReviewListDirective extends BaseDirective {
 		Product product = productService.find(productId);
 
 		List<Review> reviews;
-		if ((memberId != null && member == null) || (productId != null && product == null)) {
+		if ((memberId != null && member == null) || (productId != null && product == null))
+		{
 			reviews = new ArrayList<Review>();
-		} else {
+		}
+		else
+		{
 			boolean useCache = useCache(env, params);
 			String cacheRegion = getCacheRegion(env, params);
 			Integer count = getCount(params);
 			List<Filter> filters = getFilters(params, Review.class);
 			List<Order> orders = getOrders(params);
-			if (useCache) {
+			if (useCache)
+			{
 				reviews = reviewService.findList(member, product, type, true, count, filters, orders, cacheRegion);
-			} else {
+			}
+			else
+			{
 				reviews = reviewService.findList(member, product, type, true, count, filters, orders);
 			}
 		}

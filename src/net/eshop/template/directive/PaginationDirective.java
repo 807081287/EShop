@@ -20,6 +20,7 @@ import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 
+
 /**
  * 模板指令 - 分页
  * 
@@ -27,7 +28,8 @@ import freemarker.template.TemplateModel;
  * 
  */
 @Component("paginationDirective")
-public class PaginationDirective extends BaseDirective {
+public class PaginationDirective extends BaseDirective
+{
 
 	/** "模式"参数名称 */
 	private static final String PATTERN_PARAMETER_NAME = "pattern";
@@ -80,20 +82,26 @@ public class PaginationDirective extends BaseDirective {
 	/** "中间段页码"变量名称 */
 	private static final String SEGMENT_VARIABLE_NAME = "segment";
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body) throws TemplateException, IOException {
+	@SuppressWarnings(
+	{ "unchecked", "rawtypes" })
+	public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body)
+			throws TemplateException, IOException
+	{
 		String pattern = FreemarkerUtils.getParameter(PATTERN_PARAMETER_NAME, String.class, params);
 		Integer pageNumber = FreemarkerUtils.getParameter(PAGE_NUMBER_PARAMETER_NAME, Integer.class, params);
 		Integer totalPages = FreemarkerUtils.getParameter(TOTAL_PAGES_PARAMETER_NAME, Integer.class, params);
 		Integer segmentCount = FreemarkerUtils.getParameter(SEGMENT_COUNT_PARAMETER_NAME, Integer.class, params);
 
-		if (pageNumber == null || pageNumber < 1) {
+		if (pageNumber == null || pageNumber < 1)
+		{
 			pageNumber = 1;
 		}
-		if (totalPages == null || totalPages < 1) {
+		if (totalPages == null || totalPages < 1)
+		{
 			totalPages = 1;
 		}
-		if (segmentCount == null || segmentCount < 1) {
+		if (segmentCount == null || segmentCount < 1)
+		{
 			segmentCount = 5;
 		}
 		boolean hasPrevious = pageNumber > 1;
@@ -106,14 +114,17 @@ public class PaginationDirective extends BaseDirective {
 		int lastPageNumber = totalPages;
 		int startSegmentPageNumber = pageNumber - (int) Math.floor((segmentCount - 1) / 2D);
 		int endSegmentPageNumber = pageNumber + (int) Math.ceil((segmentCount - 1) / 2D);
-		if (startSegmentPageNumber < 1) {
+		if (startSegmentPageNumber < 1)
+		{
 			startSegmentPageNumber = 1;
 		}
-		if (endSegmentPageNumber > totalPages) {
+		if (endSegmentPageNumber > totalPages)
+		{
 			endSegmentPageNumber = totalPages;
 		}
 		List<Integer> segment = new ArrayList<Integer>();
-		for (int i = startSegmentPageNumber; i <= endSegmentPageNumber; i++) {
+		for (int i = startSegmentPageNumber; i <= endSegmentPageNumber; i++)
+		{
 			segment.add(i);
 		}
 

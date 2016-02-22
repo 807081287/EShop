@@ -26,6 +26,7 @@ import com.aliyun.openservices.oss.model.OSSObjectSummary;
 import com.aliyun.openservices.oss.model.ObjectListing;
 import com.aliyun.openservices.oss.model.ObjectMetadata;
 
+
 /**
  * Plugin - 阿里云存储
  * 
@@ -33,70 +34,87 @@ import com.aliyun.openservices.oss.model.ObjectMetadata;
  * 
  */
 @Component("ossPlugin")
-public class OssPlugin extends StoragePlugin {
+public class OssPlugin extends StoragePlugin
+{
 
 	@Override
-	public String getName() {
+	public String getName()
+	{
 		return "阿里云存储";
 	}
 
 	@Override
-	public String getVersion() {
+	public String getVersion()
+	{
 		return "1.0";
 	}
 
 	@Override
-	public String getAuthor() {
+	public String getAuthor()
+	{
 		return SettingUtils.get().getSiteName();
 	}
 
 	@Override
-	public String getSiteUrl() {
+	public String getSiteUrl()
+	{
 		return SettingUtils.get().getSiteUrl();
 	}
 
 	@Override
-	public String getInstallUrl() {
+	public String getInstallUrl()
+	{
 		return "oss/install.jhtml";
 	}
 
 	@Override
-	public String getUninstallUrl() {
+	public String getUninstallUrl()
+	{
 		return "oss/uninstall.jhtml";
 	}
 
 	@Override
-	public String getSettingUrl() {
+	public String getSettingUrl()
+	{
 		return "oss/setting.jhtml";
 	}
 
 	@Override
-	public void upload(String path, File file, String contentType) {
+	public void upload(String path, File file, String contentType)
+	{
 		PluginConfig pluginConfig = getPluginConfig();
-		if (pluginConfig != null) {
+		if (pluginConfig != null)
+		{
 			String accessId = pluginConfig.getAttribute("accessId");
 			String accessKey = pluginConfig.getAttribute("accessKey");
 			String bucketName = pluginConfig.getAttribute("bucketName");
 			InputStream inputStream = null;
-			try {
+			try
+			{
 				inputStream = new FileInputStream(file);
 				OSSClient ossClient = new OSSClient(accessId, accessKey);
 				ObjectMetadata objectMetadata = new ObjectMetadata();
 				objectMetadata.setContentType(contentType);
 				objectMetadata.setContentLength(file.length());
 				ossClient.putObject(bucketName, StringUtils.removeStart(path, "/"), inputStream, objectMetadata);
-			} catch (Exception e) {
+			}
+			catch (Exception e)
+			{
 				e.printStackTrace();
-			} finally {
+			}
+			finally
+			{
 				IOUtils.closeQuietly(inputStream);
 			}
 		}
 	}
 
 	@Override
-	public String getUrl(String path) {
+	public String getUrl(String path)
+	{
 		PluginConfig pluginConfig = getPluginConfig();
-		if (pluginConfig != null) {
+		if (pluginConfig != null)
+		{
 			String urlPrefix = pluginConfig.getAttribute("urlPrefix");
 			return urlPrefix + path;
 		}
@@ -104,21 +122,25 @@ public class OssPlugin extends StoragePlugin {
 	}
 
 	@Override
-	public List<FileInfo> browser(String path) {
+	public List<FileInfo> browser(String path)
+	{
 		List<FileInfo> fileInfos = new ArrayList<FileInfo>();
 		PluginConfig pluginConfig = getPluginConfig();
-		if (pluginConfig != null) {
+		if (pluginConfig != null)
+		{
 			String accessId = pluginConfig.getAttribute("accessId");
 			String accessKey = pluginConfig.getAttribute("accessKey");
 			String bucketName = pluginConfig.getAttribute("bucketName");
 			String urlPrefix = pluginConfig.getAttribute("urlPrefix");
-			try {
+			try
+			{
 				OSSClient ossClient = new OSSClient(accessId, accessKey);
 				ListObjectsRequest listObjectsRequest = new ListObjectsRequest(bucketName);
 				listObjectsRequest.setPrefix(StringUtils.removeStart(path, "/"));
 				listObjectsRequest.setDelimiter("/");
 				ObjectListing objectListing = ossClient.listObjects(listObjectsRequest);
-				for (String commonPrefix : objectListing.getCommonPrefixes()) {
+				for (String commonPrefix : objectListing.getCommonPrefixes())
+				{
 					FileInfo fileInfo = new FileInfo();
 					fileInfo.setName(StringUtils.substringAfterLast(StringUtils.removeEnd(commonPrefix, "/"), "/"));
 					fileInfo.setUrl(urlPrefix + "/" + commonPrefix);
@@ -126,8 +148,10 @@ public class OssPlugin extends StoragePlugin {
 					fileInfo.setSize(0L);
 					fileInfos.add(fileInfo);
 				}
-				for (OSSObjectSummary ossObjectSummary : objectListing.getObjectSummaries()) {
-					if (ossObjectSummary.getKey().endsWith("/")) {
+				for (OSSObjectSummary ossObjectSummary : objectListing.getObjectSummaries())
+				{
+					if (ossObjectSummary.getKey().endsWith("/"))
+					{
 						continue;
 					}
 					FileInfo fileInfo = new FileInfo();
@@ -138,7 +162,9 @@ public class OssPlugin extends StoragePlugin {
 					fileInfo.setLastModified(ossObjectSummary.getLastModified());
 					fileInfos.add(fileInfo);
 				}
-			} catch (Exception e) {
+			}
+			catch (Exception e)
+			{
 				e.printStackTrace();
 			}
 		}

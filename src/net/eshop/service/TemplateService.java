@@ -10,13 +10,15 @@ import java.util.List;
 import net.eshop.Template;
 import net.eshop.Template.Type;
 
+
 /**
  * Service - 模板
  * 
  * 
  * 
  */
-public interface TemplateService {
+public interface TemplateService
+{
 
 	/**
 	 * 获取所有模板
@@ -29,7 +31,7 @@ public interface TemplateService {
 	 * 获取模板
 	 * 
 	 * @param type
-	 *            类型
+	 *           类型
 	 * @return 模板
 	 */
 	List<Template> getList(Type type);
@@ -38,7 +40,7 @@ public interface TemplateService {
 	 * 获取模板
 	 * 
 	 * @param id
-	 *            ID
+	 *           ID
 	 * @return 模板
 	 */
 	Template get(String id);
@@ -47,7 +49,7 @@ public interface TemplateService {
 	 * 读取模板文件内容
 	 * 
 	 * @param id
-	 *            ID
+	 *           ID
 	 * @return 模板文件内容
 	 */
 	String read(String id);
@@ -56,7 +58,7 @@ public interface TemplateService {
 	 * 读取模板文件内容
 	 * 
 	 * @param template
-	 *            模板
+	 *           模板
 	 * @return 模板文件内容
 	 */
 	String read(Template template);
@@ -65,9 +67,9 @@ public interface TemplateService {
 	 * 写入模板文件内容
 	 * 
 	 * @param id
-	 *            Id
+	 *           Id
 	 * @param content
-	 *            模板文件内容
+	 *           模板文件内容
 	 */
 	void write(String id, String content);
 
@@ -75,9 +77,9 @@ public interface TemplateService {
 	 * 写入模板文件内容
 	 * 
 	 * @param template
-	 *            模板
+	 *           模板
 	 * @param content
-	 *            模板文件内容
+	 *           模板文件内容
 	 */
 	void write(Template template, String content);
 

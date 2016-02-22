@@ -37,6 +37,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.multipart.MultipartFile;
 
+
 /**
  * Service - 文件
  * 
@@ -44,7 +45,8 @@ import org.springframework.web.multipart.MultipartFile;
  * 
  */
 @Service("fileServiceImpl")
-public class FileServiceImpl implements FileService, ServletContextAware {
+public class FileServiceImpl implements FileService, ServletContextAware
+{
 
 	/** servletContext */
 	private ServletContext servletContext;
@@ -54,7 +56,8 @@ public class FileServiceImpl implements FileService, ServletContextAware {
 	@Resource(name = "pluginServiceImpl")
 	private PluginService pluginService;
 
-	public void setServletContext(ServletContext servletContext) {
+	public void setServletContext(ServletContext servletContext)
+	{
 		this.servletContext = servletContext;
 	}
 
@@ -62,188 +65,270 @@ public class FileServiceImpl implements FileService, ServletContextAware {
 	 * 添加上传任务
 	 * 
 	 * @param storagePlugin
-	 *            存储插件
+	 *           存储插件
 	 * @param path
-	 *            上传路径
+	 *           上传路径
 	 * @param tempFile
-	 *            临时文件
+	 *           临时文件
 	 * @param contentType
-	 *            文件类型
+	 *           文件类型
 	 */
-	private void addTask(final StoragePlugin storagePlugin, final String path, final File tempFile, final String contentType) {
-		taskExecutor.execute(new Runnable() {
-			public void run() {
-				try {
+	private void addTask(final StoragePlugin storagePlugin, final String path, final File tempFile, final String contentType)
+	{
+		taskExecutor.execute(new Runnable()
+		{
+			public void run()
+			{
+				try
+				{
 					storagePlugin.upload(path, tempFile, contentType);
-				} finally {
+				}
+				finally
+				{
 					FileUtils.deleteQuietly(tempFile);
 				}
 			}
 		});
 	}
 
-	public boolean isValid(FileType fileType, MultipartFile multipartFile) {
-		if (multipartFile == null) {
+	public boolean isValid(FileType fileType, MultipartFile multipartFile)
+	{
+		if (multipartFile == null)
+		{
 			return false;
 		}
 		Setting setting = SettingUtils.get();
-		if (setting.getUploadMaxSize() != null && setting.getUploadMaxSize() != 0 && multipartFile.getSize() > setting.getUploadMaxSize() * 1024L * 1024L) {
+		if (setting.getUploadMaxSize() != null && setting.getUploadMaxSize() != 0
+				&& multipartFile.getSize() > setting.getUploadMaxSize() * 1024L * 1024L)
+		{
 			return false;
 		}
 		String[] uploadExtensions;
-		if (fileType == FileType.flash) {
+		if (fileType == FileType.flash)
+		{
 			uploadExtensions = setting.getUploadFlashExtensions();
-		} else if (fileType == FileType.media) {
+		}
+		else if (fileType == FileType.media)
+		{
 			uploadExtensions = setting.getUploadMediaExtensions();
-		} else if (fileType == FileType.file) {
+		}
+		else if (fileType == FileType.file)
+		{
 			uploadExtensions = setting.getUploadFileExtensions();
-		} else {
+		}
+		else
+		{
 			uploadExtensions = setting.getUploadImageExtensions();
 		}
-		if (ArrayUtils.isNotEmpty(uploadExtensions)) {
+		if (ArrayUtils.isNotEmpty(uploadExtensions))
+		{
 			return FilenameUtils.isExtension(multipartFile.getOriginalFilename(), uploadExtensions);
 		}
 		return false;
 	}
 
-	public String upload(FileType fileType, MultipartFile multipartFile, boolean async) {
-		if (multipartFile == null) {
+	public String upload(FileType fileType, MultipartFile multipartFile, boolean async)
+	{
+		if (multipartFile == null)
+		{
 			return null;
 		}
 		Setting setting = SettingUtils.get();
 		String uploadPath;
-		if (fileType == FileType.flash) {
+		if (fileType == FileType.flash)
+		{
 			uploadPath = setting.getFlashUploadPath();
-		} else if (fileType == FileType.media) {
+		}
+		else if (fileType == FileType.media)
+		{
 			uploadPath = setting.getMediaUploadPath();
-		} else if (fileType == FileType.file) {
+		}
+		else if (fileType == FileType.file)
+		{
 			uploadPath = setting.getFileUploadPath();
-		} else {
+		}
+		else
+		{
 			uploadPath = setting.getImageUploadPath();
 		}
-		try {
+		try
+		{
 			Map<String, Object> model = new HashMap<String, Object>();
 			model.put("uuid", UUID.randomUUID().toString());
 			String path = FreemarkerUtils.process(uploadPath, model);
 			String destPath = path + UUID.randomUUID() + "." + FilenameUtils.getExtension(multipartFile.getOriginalFilename());
 
-			for (StoragePlugin storagePlugin : pluginService.getStoragePlugins(true)) {
+			for (StoragePlugin storagePlugin : pluginService.getStoragePlugins(true))
+			{
 				File tempFile = new File(System.getProperty("java.io.tmpdir") + "/upload_" + UUID.randomUUID() + ".tmp");
-				if (!tempFile.getParentFile().exists()) {
+				if (!tempFile.getParentFile().exists())
+				{
 					tempFile.getParentFile().mkdirs();
 				}
 				multipartFile.transferTo(tempFile);
-				if (async) {
+				if (async)
+				{
 					addTask(storagePlugin, destPath, tempFile, multipartFile.getContentType());
-				} else {
-					try {
+				}
+				else
+				{
+					try
+					{
 						storagePlugin.upload(destPath, tempFile, multipartFile.getContentType());
-					} finally {
+					}
+					finally
+					{
 						FileUtils.deleteQuietly(tempFile);
 					}
 				}
 				return storagePlugin.getUrl(destPath);
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
 		}
 		return null;
 	}
 
-	public String upload(FileType fileType, MultipartFile multipartFile) {
+	public String upload(FileType fileType, MultipartFile multipartFile)
+	{
 		return upload(fileType, multipartFile, false);
 	}
 
-	public String uploadLocal(FileType fileType, MultipartFile multipartFile) {
-		if (multipartFile == null) {
+	public String uploadLocal(FileType fileType, MultipartFile multipartFile)
+	{
+		if (multipartFile == null)
+		{
 			return null;
 		}
 		Setting setting = SettingUtils.get();
 		String uploadPath;
-		if (fileType == FileType.flash) {
+		if (fileType == FileType.flash)
+		{
 			uploadPath = setting.getFlashUploadPath();
-		} else if (fileType == FileType.media) {
+		}
+		else if (fileType == FileType.media)
+		{
 			uploadPath = setting.getMediaUploadPath();
-		} else if (fileType == FileType.file) {
+		}
+		else if (fileType == FileType.file)
+		{
 			uploadPath = setting.getFileUploadPath();
-		} else {
+		}
+		else
+		{
 			uploadPath = setting.getImageUploadPath();
 		}
-		try {
+		try
+		{
 			Map<String, Object> model = new HashMap<String, Object>();
 			model.put("uuid", UUID.randomUUID().toString());
 			String path = FreemarkerUtils.process(uploadPath, model);
 			String destPath = path + UUID.randomUUID() + "." + FilenameUtils.getExtension(multipartFile.getOriginalFilename());
 			File destFile = new File(servletContext.getRealPath(destPath));
-			if (!destFile.getParentFile().exists()) {
+			if (!destFile.getParentFile().exists())
+			{
 				destFile.getParentFile().mkdirs();
 			}
 			multipartFile.transferTo(destFile);
 			return destPath;
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
 		}
 		return null;
 	}
 
-	public List<FileInfo> browser(String path, FileType fileType, OrderType orderType) {
-		if (path != null) {
-			if (!path.startsWith("/")) {
+	public List<FileInfo> browser(String path, FileType fileType, OrderType orderType)
+	{
+		if (path != null)
+		{
+			if (!path.startsWith("/"))
+			{
 				path = "/" + path;
 			}
-			if (!path.endsWith("/")) {
+			if (!path.endsWith("/"))
+			{
 				path += "/";
 			}
-		} else {
+		}
+		else
+		{
 			path = "/";
 		}
 		Setting setting = SettingUtils.get();
 		String uploadPath;
-		if (fileType == FileType.flash) {
+		if (fileType == FileType.flash)
+		{
 			uploadPath = setting.getFlashUploadPath();
-		} else if (fileType == FileType.media) {
+		}
+		else if (fileType == FileType.media)
+		{
 			uploadPath = setting.getMediaUploadPath();
-		} else if (fileType == FileType.file) {
+		}
+		else if (fileType == FileType.file)
+		{
 			uploadPath = setting.getFileUploadPath();
-		} else {
+		}
+		else
+		{
 			uploadPath = setting.getImageUploadPath();
 		}
 		String browsePath = StringUtils.substringBefore(uploadPath, "${");
 		browsePath = StringUtils.substringBeforeLast(browsePath, "/") + path;
 
 		List<FileInfo> fileInfos = new ArrayList<FileInfo>();
-		if (browsePath.indexOf("..") >= 0) {
+		if (browsePath.indexOf("..") >= 0)
+		{
 			return fileInfos;
 		}
-		for (StoragePlugin storagePlugin : pluginService.getStoragePlugins(true)) {
+		for (StoragePlugin storagePlugin : pluginService.getStoragePlugins(true))
+		{
 			fileInfos = storagePlugin.browser(browsePath);
 			break;
 		}
-		if (orderType == OrderType.size) {
+		if (orderType == OrderType.size)
+		{
 			Collections.sort(fileInfos, new SizeComparator());
-		} else if (orderType == OrderType.type) {
+		}
+		else if (orderType == OrderType.type)
+		{
 			Collections.sort(fileInfos, new TypeComparator());
-		} else {
+		}
+		else
+		{
 			Collections.sort(fileInfos, new NameComparator());
 		}
 		return fileInfos;
 	}
 
-	private class NameComparator implements Comparator<FileInfo> {
-		public int compare(FileInfo fileInfos1, FileInfo fileInfos2) {
-			return new CompareToBuilder().append(!fileInfos1.getIsDirectory(), !fileInfos2.getIsDirectory()).append(fileInfos1.getName(), fileInfos2.getName()).toComparison();
+	private class NameComparator implements Comparator<FileInfo>
+	{
+		public int compare(FileInfo fileInfos1, FileInfo fileInfos2)
+		{
+			return new CompareToBuilder().append(!fileInfos1.getIsDirectory(), !fileInfos2.getIsDirectory())
+					.append(fileInfos1.getName(), fileInfos2.getName()).toComparison();
 		}
 	}
 
-	private class SizeComparator implements Comparator<FileInfo> {
-		public int compare(FileInfo fileInfos1, FileInfo fileInfos2) {
-			return new CompareToBuilder().append(!fileInfos1.getIsDirectory(), !fileInfos2.getIsDirectory()).append(fileInfos1.getSize(), fileInfos2.getSize()).toComparison();
+	private class SizeComparator implements Comparator<FileInfo>
+	{
+		public int compare(FileInfo fileInfos1, FileInfo fileInfos2)
+		{
+			return new CompareToBuilder().append(!fileInfos1.getIsDirectory(), !fileInfos2.getIsDirectory())
+					.append(fileInfos1.getSize(), fileInfos2.getSize()).toComparison();
 		}
 	}
 
-	private class TypeComparator implements Comparator<FileInfo> {
-		public int compare(FileInfo fileInfos1, FileInfo fileInfos2) {
-			return new CompareToBuilder().append(!fileInfos1.getIsDirectory(), !fileInfos2.getIsDirectory()).append(FilenameUtils.getExtension(fileInfos1.getName()), FilenameUtils.getExtension(fileInfos2.getName())).toComparison();
+	private class TypeComparator implements Comparator<FileInfo>
+	{
+		public int compare(FileInfo fileInfos1, FileInfo fileInfos2)
+		{
+			return new CompareToBuilder().append(!fileInfos1.getIsDirectory(), !fileInfos2.getIsDirectory())
+					.append(FilenameUtils.getExtension(fileInfos1.getName()), FilenameUtils.getExtension(fileInfos2.getName()))
+					.toComparison();
 		}
 	}
 

@@ -48,6 +48,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.sun.mail.smtp.SMTPSendFailedException;
 import com.sun.mail.smtp.SMTPSenderFailedException;
 
+
 /**
  * Controller - 系统设置
  * 
@@ -56,7 +57,8 @@ import com.sun.mail.smtp.SMTPSenderFailedException;
  */
 @Controller("adminstingController")
 @RequestMapping("/admin/setting")
-public class SettingController extends BaseController {
+public class SettingController extends BaseController
+{
 
 	@Resource(name = "fileServiceImpl")
 	private FileService fileService;
@@ -71,45 +73,66 @@ public class SettingController extends BaseController {
 	 * 邮件测试
 	 */
 	@RequestMapping(value = "/mail_test", method = RequestMethod.POST)
-	public @ResponseBody
-	Message mailTest(String smtpFromMail, String smtpHost, Integer smtpPort, String smtpUsername, String smtpPassword, String toMail) {
-		if (StringUtils.isEmpty(toMail)) {
+	public @ResponseBody Message mailTest(String smtpFromMail, String smtpHost, Integer smtpPort, String smtpUsername,
+			String smtpPassword, String toMail)
+	{
+		if (StringUtils.isEmpty(toMail))
+		{
 			return ERROR_MESSAGE;
 		}
 		Setting setting = SettingUtils.get();
-		if (StringUtils.isEmpty(smtpPassword)) {
+		if (StringUtils.isEmpty(smtpPassword))
+		{
 			smtpPassword = setting.getSmtpPassword();
 		}
-		try {
-			if (!isValid(Setting.class, "smtpFromMail", smtpFromMail) || !isValid(Setting.class, "smtpHost", smtpHost) || !isValid(Setting.class, "smtpPort", smtpPort) || !isValid(Setting.class, "smtpUsername", smtpUsername)) {
+		try
+		{
+			if (!isValid(Setting.class, "smtpFromMail", smtpFromMail) || !isValid(Setting.class, "smtpHost", smtpHost)
+					|| !isValid(Setting.class, "smtpPort", smtpPort) || !isValid(Setting.class, "smtpUsername", smtpUsername))
+			{
 				return ERROR_MESSAGE;
 			}
 			mailService.sendTestMail(smtpFromMail, smtpHost, smtpPort, smtpUsername, smtpPassword, toMail);
-		} catch (MailSendException e) {
+		}
+		catch (MailSendException e)
+		{
 			Exception[] messageExceptions = e.getMessageExceptions();
-			if (messageExceptions != null) {
-				for (Exception exception : messageExceptions) {
-					if (exception instanceof SMTPSendFailedException) {
+			if (messageExceptions != null)
+			{
+				for (Exception exception : messageExceptions)
+				{
+					if (exception instanceof SMTPSendFailedException)
+					{
 						SMTPSendFailedException smtpSendFailedException = (SMTPSendFailedException) exception;
 						Exception nextException = smtpSendFailedException.getNextException();
-						if (nextException instanceof SMTPSenderFailedException) {
+						if (nextException instanceof SMTPSenderFailedException)
+						{
 							return Message.error("admin.setting.mailTestSenderFailed");
 						}
-					} else if (exception instanceof MessagingException) {
+					}
+					else if (exception instanceof MessagingException)
+					{
 						MessagingException messagingException = (MessagingException) exception;
 						Exception nextException = messagingException.getNextException();
-						if (nextException instanceof UnknownHostException) {
+						if (nextException instanceof UnknownHostException)
+						{
 							return Message.error("admin.setting.mailTestUnknownHost");
-						} else if (nextException instanceof ConnectException) {
+						}
+						else if (nextException instanceof ConnectException)
+						{
 							return Message.error("admin.setting.mailTestConnect");
 						}
 					}
 				}
 			}
 			return Message.error("admin.setting.mailTestError");
-		} catch (MailAuthenticationException e) {
+		}
+		catch (MailAuthenticationException e)
+		{
 			return Message.error("admin.setting.mailTestAuthentication");
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			return Message.error("admin.setting.mailTestError");
 		}
 		return Message.success("admin.setting.mailTestSuccess");
@@ -119,7 +142,8 @@ public class SettingController extends BaseController {
 	 * 编辑
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(ModelMap model) {
+	public String edit(ModelMap model)
+	{
 		model.addAttribute("watermarkPositions", WatermarkPosition.values());
 		model.addAttribute("roundTypes", RoundType.values());
 		model.addAttribute("captchaTypes", CaptchaType.values());
@@ -134,25 +158,34 @@ public class SettingController extends BaseController {
 	 * 更新
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(Setting setting, MultipartFile watermarkImageFile, RedirectAttributes redirectAttributes) {
-		if (!isValid(setting)) {
+	public String update(Setting setting, MultipartFile watermarkImageFile, RedirectAttributes redirectAttributes)
+	{
+		if (!isValid(setting))
+		{
 			return ERROR_VIEW;
 		}
-		if (setting.getUsernameMinLength() > setting.getUsernameMaxLength() || setting.getPasswordMinLength() > setting.getPasswordMinLength()) {
+		if (setting.getUsernameMinLength() > setting.getUsernameMaxLength()
+				|| setting.getPasswordMinLength() > setting.getPasswordMinLength())
+		{
 			return ERROR_VIEW;
 		}
 		Setting srcSetting = SettingUtils.get();
-		if (StringUtils.isEmpty(setting.getSmtpPassword())) {
+		if (StringUtils.isEmpty(setting.getSmtpPassword()))
+		{
 			setting.setSmtpPassword(srcSetting.getSmtpPassword());
 		}
-		if (watermarkImageFile != null && !watermarkImageFile.isEmpty()) {
-			if (!fileService.isValid(FileType.image, watermarkImageFile)) {
+		if (watermarkImageFile != null && !watermarkImageFile.isEmpty())
+		{
+			if (!fileService.isValid(FileType.image, watermarkImageFile))
+			{
 				addFlashMessage(redirectAttributes, Message.error("admin.upload.invalid"));
 				return "redirect:edit.jhtml";
 			}
 			String watermarkImage = fileService.uploadLocal(FileType.image, watermarkImageFile);
 			setting.setWatermarkImage(watermarkImage);
-		} else {
+		}
+		else
+		{
 			setting.setWatermarkImage(srcSetting.getWatermarkImage());
 		}
 		setting.setCnzzSiteId(srcSetting.getCnzzSiteId());
@@ -163,29 +196,39 @@ public class SettingController extends BaseController {
 		staticService.buildOther();
 
 		OutputStream outputStream = null;
-		try {
+		try
+		{
 			org.springframework.core.io.Resource resource = new ClassPathResource(CommonAttributes.eshop_PROPERTIES_PATH);
 			Properties properties = PropertiesLoaderUtils.loadProperties(resource);
 			String templateUpdateDelay = properties.getProperty("template.update_delay");
 			String messageCacheSeconds = properties.getProperty("message.cache_seconds");
-			if (setting.getIsDevelopmentEnabled()) {
-				if (!templateUpdateDelay.equals("0") || !messageCacheSeconds.equals("0")) {
+			if (setting.getIsDevelopmentEnabled())
+			{
+				if (!templateUpdateDelay.equals("0") || !messageCacheSeconds.equals("0"))
+				{
 					outputStream = new FileOutputStream(resource.getFile());
 					properties.setProperty("template.update_delay", "0");
 					properties.setProperty("message.cache_seconds", "0");
 					properties.store(outputStream, "EShop PROPERTIES");
 				}
-			} else {
-				if (templateUpdateDelay.equals("0") || messageCacheSeconds.equals("0")) {
+			}
+			else
+			{
+				if (templateUpdateDelay.equals("0") || messageCacheSeconds.equals("0"))
+				{
 					outputStream = new FileOutputStream(resource.getFile());
 					properties.setProperty("template.update_delay", "3600");
 					properties.setProperty("message.cache_seconds", "3600");
 					properties.store(outputStream, "EShop PROPERTIES");
 				}
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
-		} finally {
+		}
+		finally
+		{
 			IOUtils.closeQuietly(outputStream);
 		}
 		addFlashMessage(redirectAttributes, SUCCESS_MESSAGE);

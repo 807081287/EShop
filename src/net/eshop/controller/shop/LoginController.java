@@ -42,6 +42,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
 /**
  * Controller - 会员登录
  * 
@@ -50,7 +51,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller("shopLoginController")
 @RequestMapping("/login")
-public class LoginController extends BaseController {
+public class LoginController extends BaseController
+{
 
 	@Resource(name = "captchaServiceImpl")
 	private CaptchaService captchaService;
@@ -65,8 +67,8 @@ public class LoginController extends BaseController {
 	 * 登录检测
 	 */
 	@RequestMapping(value = "/check", method = RequestMethod.GET)
-	public @ResponseBody
-	Boolean check() {
+	public @ResponseBody Boolean check()
+	{
 		return memberService.isAuthenticated();
 	}
 
@@ -74,9 +76,12 @@ public class LoginController extends BaseController {
 	 * 登录页面
 	 */
 	@RequestMapping(method = RequestMethod.GET)
-	public String index(String redirectUrl, HttpServletRequest request, ModelMap model) {
+	public String index(String redirectUrl, HttpServletRequest request, ModelMap model)
+	{
 		Setting setting = SettingUtils.get();
-		if (redirectUrl != null && !redirectUrl.equalsIgnoreCase(setting.getSiteUrl()) && !redirectUrl.startsWith(request.getContextPath() + "/") && !redirectUrl.startsWith(setting.getSiteUrl() + "/")) {
+		if (redirectUrl != null && !redirectUrl.equalsIgnoreCase(setting.getSiteUrl())
+				&& !redirectUrl.startsWith(request.getContextPath() + "/") && !redirectUrl.startsWith(setting.getSiteUrl() + "/"))
+		{
 			redirectUrl = null;
 		}
 		model.addAttribute("redirectUrl", redirectUrl);
@@ -88,54 +93,75 @@ public class LoginController extends BaseController {
 	 * 登录提交
 	 */
 	@RequestMapping(value = "/submit", method = RequestMethod.POST)
-	public @ResponseBody
-	Message submit(String captchaId, String captcha, String username, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public @ResponseBody Message submit(String captchaId, String captcha, String username, HttpServletRequest request,
+			HttpServletResponse response, HttpSession session)
+	{
 		String password = rsaService.decryptParameter("enPassword", request);
 		rsaService.removePrivateKey(request);
 
-		if (!captchaService.isValid(CaptchaType.memberLogin, captchaId, captcha)) {
+		if (!captchaService.isValid(CaptchaType.memberLogin, captchaId, captcha))
+		{
 			return Message.error("shop.captcha.invalid");
 		}
-		if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
+		if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password))
+		{
 			return Message.error("shop.common.invalid");
 		}
 		Member member;
 		Setting setting = SettingUtils.get();
-		if (setting.getIsEmailLogin() && username.contains("@")) {
+		if (setting.getIsEmailLogin() && username.contains("@"))
+		{
 			List<Member> members = memberService.findListByEmail(username);
-			if (members.isEmpty()) {
+			if (members.isEmpty())
+			{
 				member = null;
-			} else if (members.size() == 1) {
+			}
+			else if (members.size() == 1)
+			{
 				member = members.get(0);
-			} else {
+			}
+			else
+			{
 				return Message.error("shop.login.unsupportedAccount");
 			}
-		} else {
+		}
+		else
+		{
 			member = memberService.findByUsername(username);
 		}
-		if (member == null) {
+		if (member == null)
+		{
 			return Message.error("shop.login.unknownAccount");
 		}
-		if (!member.getIsEnabled()) {
+		if (!member.getIsEnabled())
+		{
 			return Message.error("shop.login.disabledAccount");
 		}
-		if (member.getIsLocked()) {
-			if (ArrayUtils.contains(setting.getAccountLockTypes(), AccountLockType.member)) {
+		if (member.getIsLocked())
+		{
+			if (ArrayUtils.contains(setting.getAccountLockTypes(), AccountLockType.member))
+			{
 				int loginFailureLockTime = setting.getAccountLockTime();
-				if (loginFailureLockTime == 0) {
+				if (loginFailureLockTime == 0)
+				{
 					return Message.error("shop.login.lockedAccount");
 				}
 				Date lockedDate = member.getLockedDate();
 				Date unlockDate = DateUtils.addMinutes(lockedDate, loginFailureLockTime);
-				if (new Date().after(unlockDate)) {
+				if (new Date().after(unlockDate))
+				{
 					member.setLoginFailureCount(0);
 					member.setIsLocked(false);
 					member.setLockedDate(null);
 					memberService.update(member);
-				} else {
+				}
+				else
+				{
 					return Message.error("shop.login.lockedAccount");
 				}
-			} else {
+			}
+			else
+			{
 				member.setLoginFailureCount(0);
 				member.setIsLocked(false);
 				member.setLockedDate(null);
@@ -143,17 +169,22 @@ public class LoginController extends BaseController {
 			}
 		}
 
-		if (!DigestUtils.md5Hex(password).equals(member.getPassword())) {
+		if (!DigestUtils.md5Hex(password).equals(member.getPassword()))
+		{
 			int loginFailureCount = member.getLoginFailureCount() + 1;
-			if (loginFailureCount >= setting.getAccountLockCount()) {
+			if (loginFailureCount >= setting.getAccountLockCount())
+			{
 				member.setIsLocked(true);
 				member.setLockedDate(new Date());
 			}
 			member.setLoginFailureCount(loginFailureCount);
 			memberService.update(member);
-			if (ArrayUtils.contains(setting.getAccountLockTypes(), AccountLockType.member)) {
+			if (ArrayUtils.contains(setting.getAccountLockTypes(), AccountLockType.member))
+			{
 				return Message.error("shop.login.accountLockCount", setting.getAccountLockCount());
-			} else {
+			}
+			else
+			{
 				return Message.error("shop.login.incorrectCredentials");
 			}
 		}
@@ -163,8 +194,10 @@ public class LoginController extends BaseController {
 		memberService.update(member);
 
 		Cart cart = cartService.getCurrent();
-		if (cart != null) {
-			if (cart.getMember() == null) {
+		if (cart != null)
+		{
+			if (cart.getMember() == null)
+			{
 				cartService.merge(member, cart);
 				WebUtils.removeCookie(request, response, Cart.ID_COOKIE_NAME);
 				WebUtils.removeCookie(request, response, Cart.KEY_COOKIE_NAME);
@@ -173,13 +206,15 @@ public class LoginController extends BaseController {
 
 		Map<String, Object> attributes = new HashMap<String, Object>();
 		Enumeration<?> keys = session.getAttributeNames();
-		while (keys.hasMoreElements()) {
+		while (keys.hasMoreElements())
+		{
 			String key = (String) keys.nextElement();
 			attributes.put(key, session.getAttribute(key));
 		}
 		session.invalidate();
 		session = request.getSession();
-		for (Entry<String, Object> entry : attributes.entrySet()) {
+		for (Entry<String, Object> entry : attributes.entrySet())
+		{
 			session.setAttribute(entry.getKey(), entry.getValue());
 		}
 

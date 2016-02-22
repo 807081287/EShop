@@ -10,20 +10,23 @@ import java.io.Serializable;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
+
 /**
  * 排序
  * 
  * 
  * 
  */
-public class Order implements Serializable {
+public class Order implements Serializable
+{
 
 	private static final long serialVersionUID = -3078342809727773232L;
 
 	/**
 	 * 方向
 	 */
-	public enum Direction {
+	public enum Direction
+	{
 
 		/** 递增 */
 		asc,
@@ -35,10 +38,11 @@ public class Order implements Serializable {
 		 * 从String中获取Direction
 		 * 
 		 * @param value
-		 *            值
+		 *           值
 		 * @return String对应的Direction
 		 */
-		public static Direction fromString(String value) {
+		public static Direction fromString(String value)
+		{
 			return Direction.valueOf(value.toLowerCase());
 		}
 	}
@@ -55,16 +59,18 @@ public class Order implements Serializable {
 	/**
 	 * 初始化一个新创建的Order对象
 	 */
-	public Order() {
+	public Order()
+	{
 	}
 
 	/**
 	 * @param property
-	 *            属性
+	 *           属性
 	 * @param direction
-	 *            方向
+	 *           方向
 	 */
-	public Order(String property, Direction direction) {
+	public Order(String property, Direction direction)
+	{
 		this.property = property;
 		this.direction = direction;
 	}
@@ -73,10 +79,11 @@ public class Order implements Serializable {
 	 * 返回递增排序
 	 * 
 	 * @param property
-	 *            属性
+	 *           属性
 	 * @return 递增排序
 	 */
-	public static Order asc(String property) {
+	public static Order asc(String property)
+	{
 		return new Order(property, Direction.asc);
 	}
 
@@ -84,10 +91,11 @@ public class Order implements Serializable {
 	 * 返回递减排序
 	 * 
 	 * @param property
-	 *            属性
+	 *           属性
 	 * @return 递减排序
 	 */
-	public static Order desc(String property) {
+	public static Order desc(String property)
+	{
 		return new Order(property, Direction.desc);
 	}
 
@@ -96,7 +104,8 @@ public class Order implements Serializable {
 	 * 
 	 * @return 属性
 	 */
-	public String getProperty() {
+	public String getProperty()
+	{
 		return property;
 	}
 
@@ -104,9 +113,10 @@ public class Order implements Serializable {
 	 * 设置属性
 	 * 
 	 * @param property
-	 *            属性
+	 *           属性
 	 */
-	public void setProperty(String property) {
+	public void setProperty(String property)
+	{
 		this.property = property;
 	}
 
@@ -115,7 +125,8 @@ public class Order implements Serializable {
 	 * 
 	 * @return 方向
 	 */
-	public Direction getDirection() {
+	public Direction getDirection()
+	{
 		return direction;
 	}
 
@@ -123,29 +134,36 @@ public class Order implements Serializable {
 	 * 设置方向
 	 * 
 	 * @param direction
-	 *            方向
+	 *           方向
 	 */
-	public void setDirection(Direction direction) {
+	public void setDirection(Direction direction)
+	{
 		this.direction = direction;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (obj == null) {
+	public boolean equals(Object obj)
+	{
+		if (obj == null)
+		{
 			return false;
 		}
-		if (getClass() != obj.getClass()) {
+		if (getClass() != obj.getClass())
+		{
 			return false;
 		}
-		if (this == obj) {
+		if (this == obj)
+		{
 			return true;
 		}
 		Order other = (Order) obj;
-		return new EqualsBuilder().append(getProperty(), other.getProperty()).append(getDirection(), other.getDirection()).isEquals();
+		return new EqualsBuilder().append(getProperty(), other.getProperty()).append(getDirection(), other.getDirection())
+				.isEquals();
 	}
 
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 		return new HashCodeBuilder(17, 37).append(getProperty()).append(getDirection()).toHashCode();
 	}
 

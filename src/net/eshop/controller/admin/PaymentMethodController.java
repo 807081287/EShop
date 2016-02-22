@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 /**
  * Controller - 支付方式
  * 
@@ -32,7 +33,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller("adminPaymentMethodController")
 @RequestMapping("/admin/payment_method")
-public class PaymentMethodController extends BaseController {
+public class PaymentMethodController extends BaseController
+{
 
 	@Resource(name = "paymentMethodServiceImpl")
 	private PaymentMethodService paymentMethodService;
@@ -43,7 +45,8 @@ public class PaymentMethodController extends BaseController {
 	 * 添加
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public String add(ModelMap model) {
+	public String add(ModelMap model)
+	{
 		model.addAttribute("methods", Method.values());
 		model.addAttribute("shippingMethods", shippingMethodService.findAll());
 		return "/admin/payment_method/add";
@@ -53,9 +56,11 @@ public class PaymentMethodController extends BaseController {
 	 * 保存
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String save(PaymentMethod paymentMethod, Long[] shippingMethodIds, RedirectAttributes redirectAttributes) {
+	public String save(PaymentMethod paymentMethod, Long[] shippingMethodIds, RedirectAttributes redirectAttributes)
+	{
 		paymentMethod.setShippingMethods(new HashSet<ShippingMethod>(shippingMethodService.findList(shippingMethodIds)));
-		if (!isValid(paymentMethod)) {
+		if (!isValid(paymentMethod))
+		{
 			return ERROR_VIEW;
 		}
 		paymentMethod.setOrders(null);
@@ -68,7 +73,8 @@ public class PaymentMethodController extends BaseController {
 	 * 编辑
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(Long id, ModelMap model) {
+	public String edit(Long id, ModelMap model)
+	{
 		model.addAttribute("methods", Method.values());
 		model.addAttribute("shippingMethods", shippingMethodService.findAll());
 		model.addAttribute("paymentMethod", paymentMethodService.find(id));
@@ -79,9 +85,11 @@ public class PaymentMethodController extends BaseController {
 	 * 更新
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(PaymentMethod paymentMethod, Long[] shippingMethodIds, RedirectAttributes redirectAttributes) {
+	public String update(PaymentMethod paymentMethod, Long[] shippingMethodIds, RedirectAttributes redirectAttributes)
+	{
 		paymentMethod.setShippingMethods(new HashSet<ShippingMethod>(shippingMethodService.findList(shippingMethodIds)));
-		if (!isValid(paymentMethod)) {
+		if (!isValid(paymentMethod))
+		{
 			return ERROR_VIEW;
 		}
 		paymentMethodService.update(paymentMethod, "orders");
@@ -93,7 +101,8 @@ public class PaymentMethodController extends BaseController {
 	 * 列表
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Pageable pageable, ModelMap model) {
+	public String list(Pageable pageable, ModelMap model)
+	{
 		model.addAttribute("page", paymentMethodService.findPage(pageable));
 		return "/admin/payment_method/list";
 	}
@@ -102,9 +111,10 @@ public class PaymentMethodController extends BaseController {
 	 * 删除
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public @ResponseBody
-	Message delete(Long[] ids) {
-		if (ids.length >= paymentMethodService.count()) {
+	public @ResponseBody Message delete(Long[] ids)
+	{
+		if (ids.length >= paymentMethodService.count())
+		{
 			return Message.error("admin.common.deleteAllNotAllowed");
 		}
 		paymentMethodService.delete(ids);

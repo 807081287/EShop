@@ -16,6 +16,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+
 /**
  * Entity - 货品
  * 
@@ -25,7 +26,8 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "t_goods")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_goods_sequence")
-public class Goods extends BaseEntity {
+public class Goods extends BaseEntity
+{
 
 	private static final long serialVersionUID = -6977025562650112419L;
 
@@ -38,7 +40,8 @@ public class Goods extends BaseEntity {
 	 * @return 商品
 	 */
 	@OneToMany(mappedBy = "goods", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-	public Set<Product> getProducts() {
+	public Set<Product> getProducts()
+	{
 		return products;
 	}
 
@@ -46,9 +49,10 @@ public class Goods extends BaseEntity {
 	 * 设置商品
 	 * 
 	 * @param products
-	 *            商品
+	 *           商品
 	 */
-	public void setProducts(Set<Product> products) {
+	public void setProducts(Set<Product> products)
+	{
 		this.products = products;
 	}
 
@@ -58,10 +62,13 @@ public class Goods extends BaseEntity {
 	 * @return 规格值
 	 */
 	@Transient
-	public Set<SpecificationValue> getSpecificationValues() {
+	public Set<SpecificationValue> getSpecificationValues()
+	{
 		Set<SpecificationValue> specificationValues = new HashSet<SpecificationValue>();
-		if (getProducts() != null) {
-			for (Product product : getProducts()) {
+		if (getProducts() != null)
+		{
+			for (Product product : getProducts())
+			{
 				specificationValues.addAll(product.getSpecificationValues());
 			}
 		}

@@ -20,6 +20,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
+
 /**
  * Entity - 退款单
  * 
@@ -29,14 +30,16 @@ import org.hibernate.validator.constraints.Length;
 @Entity
 @Table(name = "t_refunds")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_refunds_sequence")
-public class Refunds extends BaseEntity {
+public class Refunds extends BaseEntity
+{
 
 	private static final long serialVersionUID = 354885216604823632L;
 
 	/**
 	 * 方式
 	 */
-	public enum Method {
+	public enum Method
+	{
 
 		/** 在线支付 */
 		online,
@@ -84,7 +87,8 @@ public class Refunds extends BaseEntity {
 	 * @return 编号
 	 */
 	@Column(nullable = false, updatable = false, unique = true, length = 100)
-	public String getSn() {
+	public String getSn()
+	{
 		return sn;
 	}
 
@@ -92,9 +96,10 @@ public class Refunds extends BaseEntity {
 	 * 设置编号
 	 * 
 	 * @param sn
-	 *            编号
+	 *           编号
 	 */
-	public void setSn(String sn) {
+	public void setSn(String sn)
+	{
 		this.sn = sn;
 	}
 
@@ -105,7 +110,8 @@ public class Refunds extends BaseEntity {
 	 */
 	@NotNull
 	@Column(nullable = false, updatable = false)
-	public Method getMethod() {
+	public Method getMethod()
+	{
 		return method;
 	}
 
@@ -113,9 +119,10 @@ public class Refunds extends BaseEntity {
 	 * 设置方式
 	 * 
 	 * @param method
-	 *            方式
+	 *           方式
 	 */
-	public void setMethod(Method method) {
+	public void setMethod(Method method)
+	{
 		this.method = method;
 	}
 
@@ -125,7 +132,8 @@ public class Refunds extends BaseEntity {
 	 * @return 支付方式
 	 */
 	@Column(updatable = false)
-	public String getPaymentMethod() {
+	public String getPaymentMethod()
+	{
 		return paymentMethod;
 	}
 
@@ -133,9 +141,10 @@ public class Refunds extends BaseEntity {
 	 * 设置支付方式
 	 * 
 	 * @param paymentMethod
-	 *            支付方式
+	 *           支付方式
 	 */
-	public void setPaymentMethod(String paymentMethod) {
+	public void setPaymentMethod(String paymentMethod)
+	{
 		this.paymentMethod = paymentMethod;
 	}
 
@@ -146,7 +155,8 @@ public class Refunds extends BaseEntity {
 	 */
 	@Length(max = 200)
 	@Column(updatable = false)
-	public String getBank() {
+	public String getBank()
+	{
 		return bank;
 	}
 
@@ -154,9 +164,10 @@ public class Refunds extends BaseEntity {
 	 * 设置退款银行
 	 * 
 	 * @param bank
-	 *            退款银行
+	 *           退款银行
 	 */
-	public void setBank(String bank) {
+	public void setBank(String bank)
+	{
 		this.bank = bank;
 	}
 
@@ -167,7 +178,8 @@ public class Refunds extends BaseEntity {
 	 */
 	@Length(max = 200)
 	@Column(updatable = false)
-	public String getAccount() {
+	public String getAccount()
+	{
 		return account;
 	}
 
@@ -175,9 +187,10 @@ public class Refunds extends BaseEntity {
 	 * 设置退款账号
 	 * 
 	 * @param account
-	 *            退款账号
+	 *           退款账号
 	 */
-	public void setAccount(String account) {
+	public void setAccount(String account)
+	{
 		this.account = account;
 	}
 
@@ -190,7 +203,8 @@ public class Refunds extends BaseEntity {
 	@Min(0)
 	@Digits(integer = 12, fraction = 3)
 	@Column(nullable = false, updatable = false, precision = 21, scale = 6)
-	public BigDecimal getAmount() {
+	public BigDecimal getAmount()
+	{
 		return amount;
 	}
 
@@ -198,9 +212,10 @@ public class Refunds extends BaseEntity {
 	 * 设置退款金额
 	 * 
 	 * @param amount
-	 *            退款金额
+	 *           退款金额
 	 */
-	public void setAmount(BigDecimal amount) {
+	public void setAmount(BigDecimal amount)
+	{
 		this.amount = amount;
 	}
 
@@ -211,7 +226,8 @@ public class Refunds extends BaseEntity {
 	 */
 	@Length(max = 200)
 	@Column(updatable = false)
-	public String getPayee() {
+	public String getPayee()
+	{
 		return payee;
 	}
 
@@ -219,9 +235,10 @@ public class Refunds extends BaseEntity {
 	 * 设置收款人
 	 * 
 	 * @param payee
-	 *            收款人
+	 *           收款人
 	 */
-	public void setPayee(String payee) {
+	public void setPayee(String payee)
+	{
 		this.payee = payee;
 	}
 
@@ -231,7 +248,8 @@ public class Refunds extends BaseEntity {
 	 * @return 操作员
 	 */
 	@Column(nullable = false, updatable = false)
-	public String getOperator() {
+	public String getOperator()
+	{
 		return operator;
 	}
 
@@ -239,9 +257,10 @@ public class Refunds extends BaseEntity {
 	 * 设置操作员
 	 * 
 	 * @param operator
-	 *            操作员
+	 *           操作员
 	 */
-	public void setOperator(String operator) {
+	public void setOperator(String operator)
+	{
 		this.operator = operator;
 	}
 
@@ -252,7 +271,8 @@ public class Refunds extends BaseEntity {
 	 */
 	@Length(max = 200)
 	@Column(updatable = false)
-	public String getMemo() {
+	public String getMemo()
+	{
 		return memo;
 	}
 
@@ -260,9 +280,10 @@ public class Refunds extends BaseEntity {
 	 * 设置备注
 	 * 
 	 * @param memo
-	 *            备注
+	 *           备注
 	 */
-	public void setMemo(String memo) {
+	public void setMemo(String memo)
+	{
 		this.memo = memo;
 	}
 
@@ -274,7 +295,8 @@ public class Refunds extends BaseEntity {
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "orders", nullable = false, updatable = false)
-	public Order getOrder() {
+	public Order getOrder()
+	{
 		return order;
 	}
 
@@ -282,9 +304,10 @@ public class Refunds extends BaseEntity {
 	 * 设置订单
 	 * 
 	 * @param order
-	 *            订单
+	 *           订单
 	 */
-	public void setOrder(Order order) {
+	public void setOrder(Order order)
+	{
 		this.order = order;
 	}
 

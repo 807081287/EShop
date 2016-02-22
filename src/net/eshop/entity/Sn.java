@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+
 /**
  * Entity - 序列号
  * 
@@ -19,14 +20,16 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "t_sn")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_sn_sequence")
-public class Sn extends BaseEntity {
+public class Sn extends BaseEntity
+{
 
 	private static final long serialVersionUID = -2330598144835706164L;
 
 	/**
 	 * 类型
 	 */
-	public enum Type {
+	public enum Type
+	{
 
 		/** 商品 */
 		product,
@@ -59,7 +62,8 @@ public class Sn extends BaseEntity {
 	 * @return 类型
 	 */
 	@Column(nullable = false, updatable = false, unique = true)
-	public Type getType() {
+	public Type getType()
+	{
 		return type;
 	}
 
@@ -67,9 +71,10 @@ public class Sn extends BaseEntity {
 	 * 设置类型
 	 * 
 	 * @param type
-	 *            类型
+	 *           类型
 	 */
-	public void setType(Type type) {
+	public void setType(Type type)
+	{
 		this.type = type;
 	}
 
@@ -79,7 +84,8 @@ public class Sn extends BaseEntity {
 	 * @return 末值
 	 */
 	@Column(nullable = false)
-	public Long getLastValue() {
+	public Long getLastValue()
+	{
 		return lastValue;
 	}
 
@@ -87,9 +93,10 @@ public class Sn extends BaseEntity {
 	 * 设置末值
 	 * 
 	 * @param lastValue
-	 *            末值
+	 *           末值
 	 */
-	public void setLastValue(Long lastValue) {
+	public void setLastValue(Long lastValue)
+	{
 		this.lastValue = lastValue;
 	}
 

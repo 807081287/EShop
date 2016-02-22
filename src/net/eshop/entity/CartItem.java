@@ -20,6 +20,7 @@ import javax.persistence.Transient;
 import net.eshop.Setting;
 import net.eshop.util.SettingUtils;
 
+
 /**
  * Entity - 购物车项
  * 
@@ -29,7 +30,8 @@ import net.eshop.util.SettingUtils;
 @Entity
 @Table(name = "t_cart_item")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_cart_item_sequence")
-public class CartItem extends BaseEntity {
+public class CartItem extends BaseEntity
+{
 
 	private static final long serialVersionUID = 2979296789363163144L;
 
@@ -57,7 +59,8 @@ public class CartItem extends BaseEntity {
 	 * @return 数量
 	 */
 	@Column(nullable = false)
-	public Integer getQuantity() {
+	public Integer getQuantity()
+	{
 		return quantity;
 	}
 
@@ -65,9 +68,10 @@ public class CartItem extends BaseEntity {
 	 * 设置数量
 	 * 
 	 * @param quantity
-	 *            数量
+	 *           数量
 	 */
-	public void setQuantity(Integer quantity) {
+	public void setQuantity(Integer quantity)
+	{
 		this.quantity = quantity;
 	}
 
@@ -78,7 +82,8 @@ public class CartItem extends BaseEntity {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false, updatable = false)
-	public Product getProduct() {
+	public Product getProduct()
+	{
 		return product;
 	}
 
@@ -86,9 +91,10 @@ public class CartItem extends BaseEntity {
 	 * 设置商品
 	 * 
 	 * @param product
-	 *            商品
+	 *           商品
 	 */
-	public void setProduct(Product product) {
+	public void setProduct(Product product)
+	{
 		this.product = product;
 	}
 
@@ -99,7 +105,8 @@ public class CartItem extends BaseEntity {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false)
-	public Cart getCart() {
+	public Cart getCart()
+	{
 		return cart;
 	}
 
@@ -107,9 +114,10 @@ public class CartItem extends BaseEntity {
 	 * 设置购物车
 	 * 
 	 * @param cart
-	 *            购物车
+	 *           购物车
 	 */
-	public void setCart(Cart cart) {
+	public void setCart(Cart cart)
+	{
 		this.cart = cart;
 	}
 
@@ -119,8 +127,10 @@ public class CartItem extends BaseEntity {
 	 * @return 临时商品价格
 	 */
 	@Transient
-	public BigDecimal getTempPrice() {
-		if (tempPrice == null) {
+	public BigDecimal getTempPrice()
+	{
+		if (tempPrice == null)
+		{
 			return getSubtotal();
 		}
 		return tempPrice;
@@ -130,10 +140,11 @@ public class CartItem extends BaseEntity {
 	 * 设置临时商品价格
 	 * 
 	 * @param tempPrice
-	 *            临时商品价格
+	 *           临时商品价格
 	 */
 	@Transient
-	public void setTempPrice(BigDecimal tempPrice) {
+	public void setTempPrice(BigDecimal tempPrice)
+	{
 		this.tempPrice = tempPrice;
 	}
 
@@ -143,8 +154,10 @@ public class CartItem extends BaseEntity {
 	 * @return 临时赠送积分
 	 */
 	@Transient
-	public Long getTempPoint() {
-		if (tempPoint == null) {
+	public Long getTempPoint()
+	{
+		if (tempPoint == null)
+		{
 			return getPoint();
 		}
 		return tempPoint;
@@ -154,10 +167,11 @@ public class CartItem extends BaseEntity {
 	 * 设置临时赠送积分
 	 * 
 	 * @param tempPoint
-	 *            临时赠送积分
+	 *           临时赠送积分
 	 */
 	@Transient
-	public void setTempPoint(Long tempPoint) {
+	public void setTempPoint(Long tempPoint)
+	{
 		this.tempPoint = tempPoint;
 	}
 
@@ -167,10 +181,14 @@ public class CartItem extends BaseEntity {
 	 * @return 赠送积分
 	 */
 	@Transient
-	public long getPoint() {
-		if (getProduct() != null && getProduct().getPoint() != null && getQuantity() != null) {
+	public long getPoint()
+	{
+		if (getProduct() != null && getProduct().getPoint() != null && getQuantity() != null)
+		{
 			return getProduct().getPoint() * getQuantity();
-		} else {
+		}
+		else
+		{
 			return 0L;
 		}
 	}
@@ -181,10 +199,14 @@ public class CartItem extends BaseEntity {
 	 * @return 商品重量
 	 */
 	@Transient
-	public int getWeight() {
-		if (getProduct() != null && getProduct().getWeight() != null && getQuantity() != null) {
+	public int getWeight()
+	{
+		if (getProduct() != null && getProduct().getWeight() != null && getQuantity() != null)
+		{
 			return getProduct().getWeight() * getQuantity();
-		} else {
+		}
+		else
+		{
 			return 0;
 		}
 	}
@@ -195,23 +217,31 @@ public class CartItem extends BaseEntity {
 	 * @return 价格
 	 */
 	@Transient
-	public BigDecimal getPrice() {
-		if (getProduct() != null && getProduct().getPrice() != null) {
+	public BigDecimal getPrice()
+	{
+		if (getProduct() != null && getProduct().getPrice() != null)
+		{
 			Setting setting = SettingUtils.get();
-			if (getCart() != null && getCart().getMember() != null && getCart().getMember().getMemberRank() != null) {
+			if (getCart() != null && getCart().getMember() != null && getCart().getMember().getMemberRank() != null)
+			{
 				MemberRank memberRank = getCart().getMember().getMemberRank();
 				Map<MemberRank, BigDecimal> memberPrice = getProduct().getMemberPrice();
-				if (memberPrice != null && !memberPrice.isEmpty()) {
-					if (memberPrice.containsKey(memberRank)) {
+				if (memberPrice != null && !memberPrice.isEmpty())
+				{
+					if (memberPrice.containsKey(memberRank))
+					{
 						return setting.setScale(memberPrice.get(memberRank));
 					}
 				}
-				if (memberRank.getScale() != null) {
+				if (memberRank.getScale() != null)
+				{
 					return setting.setScale(getProduct().getPrice().multiply(new BigDecimal(memberRank.getScale())));
 				}
 			}
 			return setting.setScale(getProduct().getPrice());
-		} else {
+		}
+		else
+		{
 			return new BigDecimal(0);
 		}
 	}
@@ -222,10 +252,14 @@ public class CartItem extends BaseEntity {
 	 * @return 小计
 	 */
 	@Transient
-	public BigDecimal getSubtotal() {
-		if (getQuantity() != null) {
+	public BigDecimal getSubtotal()
+	{
+		if (getQuantity() != null)
+		{
 			return getPrice().multiply(new BigDecimal(getQuantity()));
-		} else {
+		}
+		else
+		{
 			return new BigDecimal(0);
 		}
 	}
@@ -236,10 +270,15 @@ public class CartItem extends BaseEntity {
 	 * @return 是否库存不足
 	 */
 	@Transient
-	public boolean getIsLowStock() {
-		if (getQuantity() != null && getProduct() != null && getProduct().getStock() != null && getQuantity() > getProduct().getAvailableStock()) {
+	public boolean getIsLowStock()
+	{
+		if (getQuantity() != null && getProduct() != null && getProduct().getStock() != null
+				&& getQuantity() > getProduct().getAvailableStock())
+		{
 			return true;
-		} else {
+		}
+		else
+		{
 			return false;
 		}
 	}
@@ -248,14 +287,19 @@ public class CartItem extends BaseEntity {
 	 * 增加商品数量
 	 * 
 	 * @param quantity
-	 *            数量
+	 *           数量
 	 */
 	@Transient
-	public void add(int quantity) {
-		if (quantity > 0) {
-			if (getQuantity() != null) {
+	public void add(int quantity)
+	{
+		if (quantity > 0)
+		{
+			if (getQuantity() != null)
+			{
 				setQuantity(getQuantity() + quantity);
-			} else {
+			}
+			else
+			{
 				setQuantity(quantity);
 			}
 		}

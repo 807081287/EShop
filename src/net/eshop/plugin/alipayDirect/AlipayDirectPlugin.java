@@ -22,6 +22,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 
+
 /**
  * Plugin - 支付宝(即时交易)
  * 
@@ -29,60 +30,72 @@ import org.springframework.stereotype.Component;
  * 
  */
 @Component("alipayDirectPlugin")
-public class AlipayDirectPlugin extends PaymentPlugin {
+public class AlipayDirectPlugin extends PaymentPlugin
+{
 
 	@Override
-	public String getName() {
+	public String getName()
+	{
 		return "支付宝(即时交易)";
 	}
 
 	@Override
-	public String getVersion() {
+	public String getVersion()
+	{
 		return "1.0";
 	}
 
 	@Override
-	public String getAuthor() {
+	public String getAuthor()
+	{
 		return SettingUtils.get().getSiteName();
 	}
 
 	@Override
-	public String getSiteUrl() {
+	public String getSiteUrl()
+	{
 		return SettingUtils.get().getSiteUrl();
 	}
 
 	@Override
-	public String getInstallUrl() {
+	public String getInstallUrl()
+	{
 		return "alipay_direct/install.jhtml";
 	}
 
 	@Override
-	public String getUninstallUrl() {
+	public String getUninstallUrl()
+	{
 		return "alipay_direct/uninstall.jhtml";
 	}
 
 	@Override
-	public String getSettingUrl() {
+	public String getSettingUrl()
+	{
 		return "alipay_direct/setting.jhtml";
 	}
 
 	@Override
-	public String getRequestUrl() {
+	public String getRequestUrl()
+	{
 		return "https://mapi.alipay.com/gateway.do";
 	}
 
 	@Override
-	public RequestMethod getRequestMethod() {
+	public RequestMethod getRequestMethod()
+	{
 		return RequestMethod.get;
 	}
 
 	@Override
-	public String getRequestCharset() {
+	public String getRequestCharset()
+	{
 		return "UTF-8";
 	}
 
 	@Override
-	public Map<String, Object> getParameterMap(String sn, String description, HttpServletRequest request) {
+	public Map<String, Object> getParameterMap(String sn, String description, HttpServletRequest request)
+	{
 		Setting setting = SettingUtils.get();
 		PluginConfig pluginConfig = getPluginConfig();
 		Payment payment = getPayment(sn);
@@ -109,16 +122,23 @@ public class AlipayDirectPlugin extends PaymentPlugin {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean verifyNotify(String sn, NotifyMethod notifyMethod, HttpServletRequest request) {
+	public boolean verifyNotify(String sn, NotifyMethod notifyMethod, HttpServletRequest request)
+	{
 		PluginConfig pluginConfig = getPluginConfig();
 		Payment payment = getPayment(sn);
-		if (generateSign(request.getParameterMap()).equals(request.getParameter("sign")) && pluginConfig.getAttribute("partner").equals(request.getParameter("seller_id")) && sn.equals(request.getParameter("out_trade_no")) && ("TRADE_SUCCESS".equals(request.getParameter("trade_status")) || "TRADE_FINISHED".equals(request.getParameter("trade_status")))
-				&& payment.getAmount().compareTo(new BigDecimal(request.getParameter("total_fee"))) == 0) {
+		if (generateSign(request.getParameterMap()).equals(request.getParameter("sign"))
+				&& pluginConfig.getAttribute("partner").equals(request.getParameter("seller_id"))
+				&& sn.equals(request.getParameter("out_trade_no"))
+				&& ("TRADE_SUCCESS".equals(request.getParameter("trade_status")) || "TRADE_FINISHED".equals(request
+						.getParameter("trade_status")))
+				&& payment.getAmount().compareTo(new BigDecimal(request.getParameter("total_fee"))) == 0)
+		{
 			Map<String, Object> parameterMap = new HashMap<String, Object>();
 			parameterMap.put("service", "notify_verify");
 			parameterMap.put("partner", pluginConfig.getAttribute("partner"));
 			parameterMap.put("notify_id", request.getParameter("notify_id"));
-			if ("true".equals(post("https://mapi.alipay.com/gateway.do", parameterMap))) {
+			if ("true".equals(post("https://mapi.alipay.com/gateway.do", parameterMap)))
+			{
 				return true;
 			}
 		}
@@ -126,15 +146,18 @@ public class AlipayDirectPlugin extends PaymentPlugin {
 	}
 
 	@Override
-	public String getNotifyMessage(String sn, NotifyMethod notifyMethod, HttpServletRequest request) {
-		if (notifyMethod == NotifyMethod.async) {
+	public String getNotifyMessage(String sn, NotifyMethod notifyMethod, HttpServletRequest request)
+	{
+		if (notifyMethod == NotifyMethod.async)
+		{
 			return "success";
 		}
 		return null;
 	}
 
 	@Override
-	public Integer getTimeout() {
+	public Integer getTimeout()
+	{
 		return 21600;
 	}
 
@@ -142,12 +165,14 @@ public class AlipayDirectPlugin extends PaymentPlugin {
 	 * 生成签名
 	 * 
 	 * @param parameterMap
-	 *            参数
+	 *           参数
 	 * @return 签名
 	 */
-	private String generateSign(Map<String, ?> parameterMap) {
+	private String generateSign(Map<String, ?> parameterMap)
+	{
 		PluginConfig pluginConfig = getPluginConfig();
-		return DigestUtils.md5Hex(joinKeyValue(new TreeMap<String, Object>(parameterMap), null, pluginConfig.getAttribute("key"), "&", true, "sign_type", "sign"));
+		return DigestUtils.md5Hex(joinKeyValue(new TreeMap<String, Object>(parameterMap), null, pluginConfig.getAttribute("key"),
+				"&", true, "sign_type", "sign"));
 	}
 
 }

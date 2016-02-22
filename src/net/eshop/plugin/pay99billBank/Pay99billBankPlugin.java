@@ -22,6 +22,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 
+
 /**
  * Plugin - 快钱支付(网银直连)
  * 
@@ -29,7 +30,8 @@ import org.springframework.stereotype.Component;
  * 
  */
 @Component("pay99billBankPlugin")
-public class Pay99billBankPlugin extends PaymentPlugin {
+public class Pay99billBankPlugin extends PaymentPlugin
+{
 
 	/** 默认银行 */
 	private static final String DEFAULT_BANK = "ICBC";
@@ -38,57 +40,68 @@ public class Pay99billBankPlugin extends PaymentPlugin {
 	public static final String BANK_PARAMETER_NAME = "bank";
 
 	@Override
-	public String getName() {
+	public String getName()
+	{
 		return "快钱支付(网银直连)";
 	}
 
 	@Override
-	public String getVersion() {
+	public String getVersion()
+	{
 		return "1.0";
 	}
 
 	@Override
-	public String getAuthor() {
+	public String getAuthor()
+	{
 		return SettingUtils.get().getSiteName();
 	}
 
 	@Override
-	public String getSiteUrl() {
+	public String getSiteUrl()
+	{
 		return SettingUtils.get().getSiteUrl();
 	}
 
 	@Override
-	public String getInstallUrl() {
+	public String getInstallUrl()
+	{
 		return "pay_99bill_bank/install.jhtml";
 	}
 
 	@Override
-	public String getUninstallUrl() {
+	public String getUninstallUrl()
+	{
 		return "pay_99bill_bank/uninstall.jhtml";
 	}
 
 	@Override
-	public String getSettingUrl() {
+	public String getSettingUrl()
+	{
 		return "pay_99bill_bank/setting.jhtml";
 	}
 
 	@Override
-	public String getRequestUrl() {
+	public String getRequestUrl()
+	{
 		return "https://www.99bill.com/gateway/recvMerchantInfoAction.htm";
 	}
 
 	@Override
-	public RequestMethod getRequestMethod() {
+	public RequestMethod getRequestMethod()
+	{
 		return RequestMethod.get;
 	}
 
 	@Override
-	public String getRequestCharset() {
+	public String getRequestCharset()
+	{
 		return "UTF-8";
 	}
 
 	@Override
-	public Map<String, Object> getParameterMap(String sn, String description, HttpServletRequest request) {
+	public Map<String, Object> getParameterMap(String sn, String description, HttpServletRequest request)
+	{
 		PluginConfig pluginConfig = getPluginConfig();
 		Payment payment = getPayment(sn);
 		Map<String, Object> parameterMap = new LinkedHashMap<String, Object>();
@@ -115,7 +128,8 @@ public class Pay99billBankPlugin extends PaymentPlugin {
 	}
 
 	@Override
-	public boolean verifyNotify(String sn, NotifyMethod notifyMethod, HttpServletRequest request) {
+	public boolean verifyNotify(String sn, NotifyMethod notifyMethod, HttpServletRequest request)
+	{
 		PluginConfig pluginConfig = getPluginConfig();
 		Payment payment = getPayment(sn);
 		Map<String, Object> parameterMap = new LinkedHashMap<String, Object>();
@@ -140,22 +154,30 @@ public class Pay99billBankPlugin extends PaymentPlugin {
 		parameterMap.put("payResult", request.getParameter("payResult"));
 		parameterMap.put("errCode", request.getParameter("errCode"));
 		parameterMap.put("signMsg", request.getParameter("signMsg"));
-		if (generateSign(parameterMap).equals(request.getParameter("signMsg")) && pluginConfig.getAttribute("partner").equals(request.getParameter("merchantAcctId")) && sn.equals(request.getParameter("orderId")) && "10".equals(request.getParameter("payResult")) && payment.getAmount().multiply(new BigDecimal(100)).compareTo(new BigDecimal(request.getParameter("payAmount"))) == 0) {
+		if (generateSign(parameterMap).equals(request.getParameter("signMsg"))
+				&& pluginConfig.getAttribute("partner").equals(request.getParameter("merchantAcctId"))
+				&& sn.equals(request.getParameter("orderId"))
+				&& "10".equals(request.getParameter("payResult"))
+				&& payment.getAmount().multiply(new BigDecimal(100)).compareTo(new BigDecimal(request.getParameter("payAmount"))) == 0)
+		{
 			return true;
 		}
 		return false;
 	}
 
 	@Override
-	public String getNotifyMessage(String sn, NotifyMethod notifyMethod, HttpServletRequest request) {
-		if (notifyMethod == NotifyMethod.async) {
+	public String getNotifyMessage(String sn, NotifyMethod notifyMethod, HttpServletRequest request)
+	{
+		if (notifyMethod == NotifyMethod.async)
+		{
 			return "<result>1</result>";
 		}
 		return null;
 	}
 
 	@Override
-	public Integer getTimeout() {
+	public Integer getTimeout()
+	{
 		return 21600;
 	}
 
@@ -163,12 +185,14 @@ public class Pay99billBankPlugin extends PaymentPlugin {
 	 * 生成签名
 	 * 
 	 * @param parameterMap
-	 *            参数
+	 *           参数
 	 * @return 签名
 	 */
-	private String generateSign(Map<String, Object> parameterMap) {
+	private String generateSign(Map<String, Object> parameterMap)
+	{
 		PluginConfig pluginConfig = getPluginConfig();
-		return DigestUtils.md5Hex(joinKeyValue(parameterMap, null, "&key=" + pluginConfig.getAttribute("key"), "&", true, "signMsg")).toUpperCase();
+		return DigestUtils.md5Hex(
+				joinKeyValue(parameterMap, null, "&key=" + pluginConfig.getAttribute("key"), "&", true, "signMsg")).toUpperCase();
 	}
 
 }

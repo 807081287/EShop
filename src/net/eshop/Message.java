@@ -7,18 +7,21 @@ package net.eshop;
 
 import net.eshop.util.SpringUtils;
 
+
 /**
  * 消息
  * 
  * 
  * 
  */
-public class Message {
+public class Message
+{
 
 	/**
 	 * 类型
 	 */
-	public enum Type {
+	public enum Type
+	{
 
 		/** 成功 */
 		success,
@@ -39,7 +42,8 @@ public class Message {
 	/**
 	 * 初始化一个新创建的 Message 对象，使其表示一个空消息。
 	 */
-	public Message() {
+	public Message()
+	{
 
 	}
 
@@ -47,24 +51,26 @@ public class Message {
 	 * 初始化一个新创建的 Message 对象
 	 * 
 	 * @param type
-	 *            类型
+	 *           类型
 	 * @param content
-	 *            内容
+	 *           内容
 	 */
-	public Message(Type type, String content) {
+	public Message(Type type, String content)
+	{
 		this.type = type;
 		this.content = content;
 	}
 
 	/**
 	 * @param type
-	 *            类型
+	 *           类型
 	 * @param content
-	 *            内容
+	 *           内容
 	 * @param args
-	 *            参数
+	 *           参数
 	 */
-	public Message(Type type, String content, Object... args) {
+	public Message(Type type, String content, Object... args)
+	{
 		this.type = type;
 		this.content = SpringUtils.getMessage(content, args);
 	}
@@ -73,12 +79,13 @@ public class Message {
 	 * 返回成功消息
 	 * 
 	 * @param content
-	 *            内容
+	 *           内容
 	 * @param args
-	 *            参数
+	 *           参数
 	 * @return 成功消息
 	 */
-	public static Message success(String content, Object... args) {
+	public static Message success(String content, Object... args)
+	{
 		return new Message(Type.success, content, args);
 	}
 
@@ -86,12 +93,13 @@ public class Message {
 	 * 返回警告消息
 	 * 
 	 * @param content
-	 *            内容
+	 *           内容
 	 * @param args
-	 *            参数
+	 *           参数
 	 * @return 警告消息
 	 */
-	public static Message warn(String content, Object... args) {
+	public static Message warn(String content, Object... args)
+	{
 		return new Message(Type.warn, content, args);
 	}
 
@@ -99,12 +107,13 @@ public class Message {
 	 * 返回错误消息
 	 * 
 	 * @param content
-	 *            内容
+	 *           内容
 	 * @param args
-	 *            参数
+	 *           参数
 	 * @return 错误消息
 	 */
-	public static Message error(String content, Object... args) {
+	public static Message error(String content, Object... args)
+	{
 		return new Message(Type.error, content, args);
 	}
 
@@ -113,7 +122,8 @@ public class Message {
 	 * 
 	 * @return 类型
 	 */
-	public Type getType() {
+	public Type getType()
+	{
 		return type;
 	}
 
@@ -121,9 +131,10 @@ public class Message {
 	 * 设置类型
 	 * 
 	 * @param type
-	 *            类型
+	 *           类型
 	 */
-	public void setType(Type type) {
+	public void setType(Type type)
+	{
 		this.type = type;
 	}
 
@@ -132,7 +143,8 @@ public class Message {
 	 * 
 	 * @return 内容
 	 */
-	public String getContent() {
+	public String getContent()
+	{
 		return content;
 	}
 
@@ -140,14 +152,16 @@ public class Message {
 	 * 设置内容
 	 * 
 	 * @param content
-	 *            内容
+	 *           内容
 	 */
-	public void setContent(String content) {
+	public void setContent(String content)
+	{
 		this.content = content;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return SpringUtils.getMessage(content);
 	}
 

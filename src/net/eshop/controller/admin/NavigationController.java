@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 /**
  * Controller - 导航
  * 
@@ -30,7 +31,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller("adminNavigationController")
 @RequestMapping("/admin/navigation")
-public class NavigationController extends BaseController {
+public class NavigationController extends BaseController
+{
 
 	@Resource(name = "navigationServiceImpl")
 	private NavigationService navigationService;
@@ -43,7 +45,8 @@ public class NavigationController extends BaseController {
 	 * 添加
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public String add(ModelMap model) {
+	public String add(ModelMap model)
+	{
 		model.addAttribute("positions", Position.values());
 		model.addAttribute("articleCategoryTree", articleCategoryService.findTree());
 		model.addAttribute("productCategoryTree", productCategoryService.findTree());
@@ -54,8 +57,10 @@ public class NavigationController extends BaseController {
 	 * 保存
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String save(Navigation navigation, RedirectAttributes redirectAttributes) {
-		if (!isValid(navigation)) {
+	public String save(Navigation navigation, RedirectAttributes redirectAttributes)
+	{
+		if (!isValid(navigation))
+		{
 			return ERROR_VIEW;
 		}
 		navigationService.save(navigation);
@@ -67,7 +72,8 @@ public class NavigationController extends BaseController {
 	 * 编辑
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(Long id, ModelMap model) {
+	public String edit(Long id, ModelMap model)
+	{
 		model.addAttribute("positions", Position.values());
 		model.addAttribute("articleCategoryTree", articleCategoryService.findTree());
 		model.addAttribute("productCategoryTree", productCategoryService.findTree());
@@ -79,8 +85,10 @@ public class NavigationController extends BaseController {
 	 * 更新
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(Navigation navigation, RedirectAttributes redirectAttributes) {
-		if (!isValid(navigation)) {
+	public String update(Navigation navigation, RedirectAttributes redirectAttributes)
+	{
+		if (!isValid(navigation))
+		{
 			return ERROR_VIEW;
 		}
 		navigationService.update(navigation);
@@ -92,7 +100,8 @@ public class NavigationController extends BaseController {
 	 * 列表
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Pageable pageable, ModelMap model) {
+	public String list(Pageable pageable, ModelMap model)
+	{
 		model.addAttribute("topNavigations", navigationService.findList(Position.top));
 		model.addAttribute("middleNavigations", navigationService.findList(Position.middle));
 		model.addAttribute("bottomNavigations", navigationService.findList(Position.bottom));
@@ -103,8 +112,8 @@ public class NavigationController extends BaseController {
 	 * 删除
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public @ResponseBody
-	Message delete(Long[] ids) {
+	public @ResponseBody Message delete(Long[] ids)
+	{
 		navigationService.delete(ids);
 		return SUCCESS_MESSAGE;
 	}

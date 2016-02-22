@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
 /**
  * Controller - 购物车
  * 
@@ -41,7 +42,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller("shopCartController")
 @RequestMapping("/cart")
-public class CartController extends BaseController {
+public class CartController extends BaseController
+{
 
 	@Resource(name = "memberServiceImpl")
 	private MemberService memberService;
@@ -56,51 +58,64 @@ public class CartController extends BaseController {
 	 * 添加
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public @ResponseBody
-	Message add(Long id, Integer quantity, HttpServletRequest request, HttpServletResponse response) {
-		if (quantity == null || quantity < 1) {
+	public @ResponseBody Message add(Long id, Integer quantity, HttpServletRequest request, HttpServletResponse response)
+	{
+		if (quantity == null || quantity < 1)
+		{
 			return ERROR_MESSAGE;
 		}
 		Product product = productService.find(id);
-		if (product == null) {
+		if (product == null)
+		{
 			return Message.warn("shop.cart.productNotExsit");
 		}
-		if (!product.getIsMarketable()) {
+		if (!product.getIsMarketable())
+		{
 			return Message.warn("shop.cart.productNotMarketable");
 		}
-		if (product.getIsGift()) {
+		if (product.getIsGift())
+		{
 			return Message.warn("shop.cart.notForSale");
 		}
 
 		Cart cart = cartService.getCurrent();
 		Member member = memberService.getCurrent();
 
-		if (cart == null) {
+		if (cart == null)
+		{
 			cart = new Cart();
 			cart.setKey(UUID.randomUUID().toString() + DigestUtils.md5Hex(RandomStringUtils.randomAlphabetic(30)));
 			cart.setMember(member);
 			cartService.save(cart);
 		}
 
-		if (Cart.MAX_PRODUCT_COUNT != null && cart.getCartItems().size() >= Cart.MAX_PRODUCT_COUNT) {
+		if (Cart.MAX_PRODUCT_COUNT != null && cart.getCartItems().size() >= Cart.MAX_PRODUCT_COUNT)
+		{
 			return Message.warn("shop.cart.addCountNotAllowed", Cart.MAX_PRODUCT_COUNT);
 		}
 
-		if (cart.contains(product)) {
+		if (cart.contains(product))
+		{
 			CartItem cartItem = cart.getCartItem(product);
-			if (CartItem.MAX_QUANTITY != null && cartItem.getQuantity() + quantity > CartItem.MAX_QUANTITY) {
+			if (CartItem.MAX_QUANTITY != null && cartItem.getQuantity() + quantity > CartItem.MAX_QUANTITY)
+			{
 				return Message.warn("shop.cart.maxCartItemQuantity", CartItem.MAX_QUANTITY);
 			}
-			if (product.getStock() != null && cartItem.getQuantity() + quantity > product.getAvailableStock()) {
+			if (product.getStock() != null && cartItem.getQuantity() + quantity > product.getAvailableStock())
+			{
 				return Message.warn("shop.cart.productLowStock");
 			}
 			cartItem.add(quantity);
 			cartItemService.update(cartItem);
-		} else {
-			if (CartItem.MAX_QUANTITY != null && quantity > CartItem.MAX_QUANTITY) {
+		}
+		else
+		{
+			if (CartItem.MAX_QUANTITY != null && quantity > CartItem.MAX_QUANTITY)
+			{
 				return Message.warn("shop.cart.maxCartItemQuantity", CartItem.MAX_QUANTITY);
 			}
-			if (product.getStock() != null && quantity > product.getAvailableStock()) {
+			if (product.getStock() != null && quantity > product.getAvailableStock())
+			{
 				return Message.warn("shop.cart.productLowStock");
 			}
 			CartItem cartItem = new CartItem();
@@ -111,7 +126,8 @@ public class CartController extends BaseController {
 			cart.getCartItems().add(cartItem);
 		}
 
-		if (member == null) {
+		if (member == null)
+		{
 			WebUtils.addCookie(request, response, Cart.ID_COOKIE_NAME, cart.getId().toString(), Cart.TIMEOUT);
 			WebUtils.addCookie(request, response, Cart.KEY_COOKIE_NAME, cart.getKey(), Cart.TIMEOUT);
 		}
@@ -122,7 +138,8 @@ public class CartController extends BaseController {
 	 * 列表
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(ModelMap model) {
+	public String list(ModelMap model)
+	{
 		model.addAttribute("cart", cartService.getCurrent());
 		return "/shop/cart/list";
 	}
@@ -131,30 +148,35 @@ public class CartController extends BaseController {
 	 * 编辑
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
-	public @ResponseBody
-	Map<String, Object> edit(Long id, Integer quantity) {
+	public @ResponseBody Map<String, Object> edit(Long id, Integer quantity)
+	{
 		Map<String, Object> data = new HashMap<String, Object>();
-		if (quantity == null || quantity < 1) {
+		if (quantity == null || quantity < 1)
+		{
 			data.put("message", ERROR_MESSAGE);
 			return data;
 		}
 		Cart cart = cartService.getCurrent();
-		if (cart == null || cart.isEmpty()) {
+		if (cart == null || cart.isEmpty())
+		{
 			data.put("message", Message.error("shop.cart.notEmpty"));
 			return data;
 		}
 		CartItem cartItem = cartItemService.find(id);
 		Set<CartItem> cartItems = cart.getCartItems();
-		if (cartItem == null || cartItems == null || !cartItems.contains(cartItem)) {
+		if (cartItem == null || cartItems == null || !cartItems.contains(cartItem))
+		{
 			data.put("message", Message.error("shop.cart.cartItemNotExsit"));
 			return data;
 		}
-		if (CartItem.MAX_QUANTITY != null && quantity > CartItem.MAX_QUANTITY) {
+		if (CartItem.MAX_QUANTITY != null && quantity > CartItem.MAX_QUANTITY)
+		{
 			data.put("message", Message.warn("shop.cart.maxCartItemQuantity", CartItem.MAX_QUANTITY));
 			return data;
 		}
 		Product product = cartItem.getProduct();
-		if (product.getStock() != null && quantity > product.getAvailableStock()) {
+		if (product.getStock() != null && quantity > product.getAvailableStock())
+		{
 			data.put("message", Message.warn("shop.cart.productLowStock"));
 			return data;
 		}
@@ -176,17 +198,19 @@ public class CartController extends BaseController {
 	 * 删除
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public @ResponseBody
-	Map<String, Object> delete(Long id) {
+	public @ResponseBody Map<String, Object> delete(Long id)
+	{
 		Map<String, Object> data = new HashMap<String, Object>();
 		Cart cart = cartService.getCurrent();
-		if (cart == null || cart.isEmpty()) {
+		if (cart == null || cart.isEmpty())
+		{
 			data.put("message", Message.error("shop.cart.notEmpty"));
 			return data;
 		}
 		CartItem cartItem = cartItemService.find(id);
 		Set<CartItem> cartItems = cart.getCartItems();
-		if (cartItem == null || cartItems == null || !cartItems.contains(cartItem)) {
+		if (cartItem == null || cartItems == null || !cartItems.contains(cartItem))
+		{
 			data.put("message", Message.error("shop.cart.cartItemNotExsit"));
 			return data;
 		}
@@ -206,8 +230,8 @@ public class CartController extends BaseController {
 	 * 清空
 	 */
 	@RequestMapping(value = "/clear", method = RequestMethod.POST)
-	public @ResponseBody
-	Message clear() {
+	public @ResponseBody Message clear()
+	{
 		Cart cart = cartService.getCurrent();
 		cartService.delete(cart);
 		return SUCCESS_MESSAGE;

@@ -12,6 +12,7 @@ import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Length;
 
+
 /**
  * Entity - SEO设置
  * 
@@ -21,14 +22,16 @@ import org.hibernate.validator.constraints.Length;
 @Entity
 @Table(name = "t_seo")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_seo_sequence")
-public class Seo extends BaseEntity {
+public class Seo extends BaseEntity
+{
 
 	private static final long serialVersionUID = -3503657242384822672L;
 
 	/**
 	 * 类型
 	 */
-	public enum Type {
+	public enum Type
+	{
 
 		/** 首页 */
 		index,
@@ -76,7 +79,8 @@ public class Seo extends BaseEntity {
 	 * @return 类型
 	 */
 	@Column(nullable = false, updatable = false, unique = true)
-	public Type getType() {
+	public Type getType()
+	{
 		return type;
 	}
 
@@ -84,9 +88,10 @@ public class Seo extends BaseEntity {
 	 * 设置类型
 	 * 
 	 * @param type
-	 *            类型
+	 *           类型
 	 */
-	public void setType(Type type) {
+	public void setType(Type type)
+	{
 		this.type = type;
 	}
 
@@ -96,7 +101,8 @@ public class Seo extends BaseEntity {
 	 * @return 页面标题
 	 */
 	@Length(max = 200)
-	public String getTitle() {
+	public String getTitle()
+	{
 		return title;
 	}
 
@@ -104,9 +110,10 @@ public class Seo extends BaseEntity {
 	 * 设置页面标题
 	 * 
 	 * @param title
-	 *            页面标题
+	 *           页面标题
 	 */
-	public void setTitle(String title) {
+	public void setTitle(String title)
+	{
 		this.title = title;
 	}
 
@@ -116,7 +123,8 @@ public class Seo extends BaseEntity {
 	 * @return 页面关键词
 	 */
 	@Length(max = 200)
-	public String getKeywords() {
+	public String getKeywords()
+	{
 		return keywords;
 	}
 
@@ -124,10 +132,12 @@ public class Seo extends BaseEntity {
 	 * 设置页面关键词
 	 * 
 	 * @param keywords
-	 *            页面关键词
+	 *           页面关键词
 	 */
-	public void setKeywords(String keywords) {
-		if (keywords != null) {
+	public void setKeywords(String keywords)
+	{
+		if (keywords != null)
+		{
 			keywords = keywords.replaceAll("[,\\s]*,[,\\s]*", ",").replaceAll("^,|,$", "");
 		}
 		this.keywords = keywords;
@@ -139,7 +149,8 @@ public class Seo extends BaseEntity {
 	 * @return 页面描述
 	 */
 	@Length(max = 200)
-	public String getDescription() {
+	public String getDescription()
+	{
 		return description;
 	}
 
@@ -147,9 +158,10 @@ public class Seo extends BaseEntity {
 	 * 设置页面描述
 	 * 
 	 * @param description
-	 *            页面描述
+	 *           页面描述
 	 */
-	public void setDescription(String description) {
+	public void setDescription(String description)
+	{
 		this.description = description;
 	}
 

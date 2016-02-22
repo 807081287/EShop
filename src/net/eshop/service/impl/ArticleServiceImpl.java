@@ -31,6 +31,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+
 /**
  * Service - 文章
  * 
@@ -38,7 +39,8 @@ import org.springframework.util.Assert;
  * 
  */
 @Service("articleServiceImpl")
-public class ArticleServiceImpl extends BaseServiceImpl<Article, Long> implements ArticleService, DisposableBean {
+public class ArticleServiceImpl extends BaseServiceImpl<Article, Long> implements ArticleService, DisposableBean
+{
 
 	/** 查看点击数时间 */
 	private long viewHitsTime = System.currentTimeMillis();
@@ -51,40 +53,52 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article, Long> implement
 	private StaticService staticService;
 
 	@Resource(name = "articleDaoImpl")
-	public void setBaseDao(ArticleDao articleDao) {
+	public void setBaseDao(ArticleDao articleDao)
+	{
 		super.setBaseDao(articleDao);
 	}
 
 	@Transactional(readOnly = true)
-	public List<Article> findList(ArticleCategory articleCategory, List<Tag> tags, Integer count, List<Filter> filters, List<Order> orders) {
+	public List<Article> findList(ArticleCategory articleCategory, List<Tag> tags, Integer count, List<Filter> filters,
+			List<Order> orders)
+	{
 		return articleDao.findList(articleCategory, tags, count, filters, orders);
 	}
 
 	@Transactional(readOnly = true)
 	@Cacheable("article")
-	public List<Article> findList(ArticleCategory articleCategory, List<Tag> tags, Integer count, List<Filter> filters, List<Order> orders, String cacheRegion) {
+	public List<Article> findList(ArticleCategory articleCategory, List<Tag> tags, Integer count, List<Filter> filters,
+			List<Order> orders, String cacheRegion)
+	{
 		return articleDao.findList(articleCategory, tags, count, filters, orders);
 	}
 
 	@Transactional(readOnly = true)
-	public List<Article> findList(ArticleCategory articleCategory, Date beginDate, Date endDate, Integer first, Integer count) {
+	public List<Article> findList(ArticleCategory articleCategory, Date beginDate, Date endDate, Integer first, Integer count)
+	{
 		return articleDao.findList(articleCategory, beginDate, endDate, first, count);
 	}
 
 	@Transactional(readOnly = true)
-	public Page<Article> findPage(ArticleCategory articleCategory, List<Tag> tags, Pageable pageable) {
+	public Page<Article> findPage(ArticleCategory articleCategory, List<Tag> tags, Pageable pageable)
+	{
 		return articleDao.findPage(articleCategory, tags, pageable);
 	}
 
-	public long viewHits(Long id) {
+	public long viewHits(Long id)
+	{
 		Ehcache cache = cacheManager.getEhcache(Article.HITS_CACHE_NAME);
 		Element element = cache.get(id);
 		Long hits;
-		if (element != null) {
+		if (element != null)
+		{
 			hits = (Long) element.getObjectValue();
-		} else {
+		}
+		else
+		{
 			Article article = articleDao.find(id);
-			if (article == null) {
+			if (article == null)
+			{
 				return 0L;
 			}
 			hits = article.getHits();
@@ -92,7 +106,8 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article, Long> implement
 		hits++;
 		cache.put(new Element(id, hits));
 		long time = System.currentTimeMillis();
-		if (time > viewHitsTime + Article.HITS_CACHE_INTERVAL) {
+		if (time > viewHitsTime + Article.HITS_CACHE_INTERVAL)
+		{
 			viewHitsTime = time;
 			updateHits();
 			cache.removeAll();
@@ -100,7 +115,8 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article, Long> implement
 		return hits;
 	}
 
-	public void destroy() throws Exception {
+	public void destroy() throws Exception
+	{
 		updateHits();
 	}
 
@@ -108,12 +124,15 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article, Long> implement
 	 * 更新点击数
 	 */
 	@SuppressWarnings("unchecked")
-	private void updateHits() {
+	private void updateHits()
+	{
 		Ehcache cache = cacheManager.getEhcache(Article.HITS_CACHE_NAME);
 		List<Long> ids = cache.getKeys();
-		for (Long id : ids) {
+		for (Long id : ids)
+		{
 			Article article = articleDao.find(id);
-			if (article != null) {
+			if (article != null)
+			{
 				Element element = cache.get(id);
 				long hits = (Long) element.getObjectValue();
 				article.setHits(hits);
@@ -124,8 +143,10 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article, Long> implement
 
 	@Override
 	@Transactional
-	@CacheEvict(value = { "article", "articleCategory" }, allEntries = true)
-	public void save(Article article) {
+	@CacheEvict(value =
+	{ "article", "articleCategory" }, allEntries = true)
+	public void save(Article article)
+	{
 		Assert.notNull(article);
 
 		super.save(article);
@@ -135,8 +156,10 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article, Long> implement
 
 	@Override
 	@Transactional
-	@CacheEvict(value = { "article", "articleCategory" }, allEntries = true)
-	public Article update(Article article) {
+	@CacheEvict(value =
+	{ "article", "articleCategory" }, allEntries = true)
+	public Article update(Article article)
+	{
 		Assert.notNull(article);
 
 		Article pArticle = super.update(article);
@@ -147,30 +170,39 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article, Long> implement
 
 	@Override
 	@Transactional
-	@CacheEvict(value = { "article", "articleCategory" }, allEntries = true)
-	public Article update(Article article, String... ignoreProperties) {
+	@CacheEvict(value =
+	{ "article", "articleCategory" }, allEntries = true)
+	public Article update(Article article, String... ignoreProperties)
+	{
 		return super.update(article, ignoreProperties);
 	}
 
 	@Override
 	@Transactional
-	@CacheEvict(value = { "article", "articleCategory" }, allEntries = true)
-	public void delete(Long id) {
+	@CacheEvict(value =
+	{ "article", "articleCategory" }, allEntries = true)
+	public void delete(Long id)
+	{
 		super.delete(id);
 	}
 
 	@Override
 	@Transactional
-	@CacheEvict(value = { "article", "articleCategory" }, allEntries = true)
-	public void delete(Long... ids) {
+	@CacheEvict(value =
+	{ "article", "articleCategory" }, allEntries = true)
+	public void delete(Long... ids)
+	{
 		super.delete(ids);
 	}
 
 	@Override
 	@Transactional
-	@CacheEvict(value = { "article", "articleCategory" }, allEntries = true)
-	public void delete(Article article) {
-		if (article != null) {
+	@CacheEvict(value =
+	{ "article", "articleCategory" }, allEntries = true)
+	public void delete(Article article)
+	{
+		if (article != null)
+		{
 			staticService.delete(article);
 		}
 		super.delete(article);

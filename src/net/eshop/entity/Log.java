@@ -11,6 +11,7 @@ import javax.persistence.Lob;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+
 /**
  * Entity - 日志
  * 
@@ -20,7 +21,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "t_log")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_log_sequence")
-public class Log extends BaseEntity {
+public class Log extends BaseEntity
+{
 
 	private static final long serialVersionUID = -4494144902110236826L;
 
@@ -48,7 +50,8 @@ public class Log extends BaseEntity {
 	 * @return 操作
 	 */
 	@Column(nullable = false, updatable = false)
-	public String getOperation() {
+	public String getOperation()
+	{
 		return operation;
 	}
 
@@ -56,9 +59,10 @@ public class Log extends BaseEntity {
 	 * 设置操作
 	 * 
 	 * @param operation
-	 *            操作
+	 *           操作
 	 */
-	public void setOperation(String operation) {
+	public void setOperation(String operation)
+	{
 		this.operation = operation;
 	}
 
@@ -68,7 +72,8 @@ public class Log extends BaseEntity {
 	 * @return 操作员
 	 */
 	@Column(updatable = false)
-	public String getOperator() {
+	public String getOperator()
+	{
 		return operator;
 	}
 
@@ -76,9 +81,10 @@ public class Log extends BaseEntity {
 	 * 设置操作员
 	 * 
 	 * @param operator
-	 *            操作员
+	 *           操作员
 	 */
-	public void setOperator(String operator) {
+	public void setOperator(String operator)
+	{
 		this.operator = operator;
 	}
 
@@ -88,7 +94,8 @@ public class Log extends BaseEntity {
 	 * @return 内容
 	 */
 	@Column(length = 3000, updatable = false)
-	public String getContent() {
+	public String getContent()
+	{
 		return content;
 	}
 
@@ -96,9 +103,10 @@ public class Log extends BaseEntity {
 	 * 设置内容
 	 * 
 	 * @param content
-	 *            内容
+	 *           内容
 	 */
-	public void setContent(String content) {
+	public void setContent(String content)
+	{
 		this.content = content;
 	}
 
@@ -109,7 +117,8 @@ public class Log extends BaseEntity {
 	 */
 	@Lob
 	@Column(updatable = false)
-	public String getParameter() {
+	public String getParameter()
+	{
 		return parameter;
 	}
 
@@ -117,9 +126,10 @@ public class Log extends BaseEntity {
 	 * 设置请求参数
 	 * 
 	 * @param parameter
-	 *            请求参数
+	 *           请求参数
 	 */
-	public void setParameter(String parameter) {
+	public void setParameter(String parameter)
+	{
 		this.parameter = parameter;
 	}
 
@@ -129,7 +139,8 @@ public class Log extends BaseEntity {
 	 * @return IP
 	 */
 	@Column(nullable = false, updatable = false)
-	public String getIp() {
+	public String getIp()
+	{
 		return ip;
 	}
 
@@ -137,9 +148,10 @@ public class Log extends BaseEntity {
 	 * 设置IP
 	 * 
 	 * @param ip
-	 *            IP
+	 *           IP
 	 */
-	public void setIp(String ip) {
+	public void setIp(String ip)
+	{
 		this.ip = ip;
 	}
 

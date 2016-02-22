@@ -17,6 +17,7 @@ import org.apache.commons.lang.builder.CompareToBuilder;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.web.multipart.MultipartFile;
 
+
 /**
  * Entity - 商品图片
  * 
@@ -24,7 +25,8 @@ import org.springframework.web.multipart.MultipartFile;
  * 
  */
 @Embeddable
-public class ProductImage implements Serializable, Comparable<ProductImage> {
+public class ProductImage implements Serializable, Comparable<ProductImage>
+{
 
 	private static final long serialVersionUID = -673883300094536107L;
 
@@ -55,7 +57,8 @@ public class ProductImage implements Serializable, Comparable<ProductImage> {
 	 * @return 标题
 	 */
 	@Length(max = 200)
-	public String getTitle() {
+	public String getTitle()
+	{
 		return title;
 	}
 
@@ -63,9 +66,10 @@ public class ProductImage implements Serializable, Comparable<ProductImage> {
 	 * 设置标题
 	 * 
 	 * @param title
-	 *            标题
+	 *           标题
 	 */
-	public void setTitle(String title) {
+	public void setTitle(String title)
+	{
 		this.title = title;
 	}
 
@@ -74,7 +78,8 @@ public class ProductImage implements Serializable, Comparable<ProductImage> {
 	 * 
 	 * @return 原图片
 	 */
-	public String getSource() {
+	public String getSource()
+	{
 		return source;
 	}
 
@@ -82,9 +87,10 @@ public class ProductImage implements Serializable, Comparable<ProductImage> {
 	 * 设置原图片
 	 * 
 	 * @param source
-	 *            原图片
+	 *           原图片
 	 */
-	public void setSource(String source) {
+	public void setSource(String source)
+	{
 		this.source = source;
 	}
 
@@ -93,7 +99,8 @@ public class ProductImage implements Serializable, Comparable<ProductImage> {
 	 * 
 	 * @return 大图片
 	 */
-	public String getLarge() {
+	public String getLarge()
+	{
 		return large;
 	}
 
@@ -101,9 +108,10 @@ public class ProductImage implements Serializable, Comparable<ProductImage> {
 	 * 设置大图片
 	 * 
 	 * @param large
-	 *            大图片
+	 *           大图片
 	 */
-	public void setLarge(String large) {
+	public void setLarge(String large)
+	{
 		this.large = large;
 	}
 
@@ -112,7 +120,8 @@ public class ProductImage implements Serializable, Comparable<ProductImage> {
 	 * 
 	 * @return 中图片
 	 */
-	public String getMedium() {
+	public String getMedium()
+	{
 		return medium;
 	}
 
@@ -120,9 +129,10 @@ public class ProductImage implements Serializable, Comparable<ProductImage> {
 	 * 设置中图片
 	 * 
 	 * @param medium
-	 *            中图片
+	 *           中图片
 	 */
-	public void setMedium(String medium) {
+	public void setMedium(String medium)
+	{
 		this.medium = medium;
 	}
 
@@ -131,7 +141,8 @@ public class ProductImage implements Serializable, Comparable<ProductImage> {
 	 * 
 	 * @return 缩略图
 	 */
-	public String getThumbnail() {
+	public String getThumbnail()
+	{
 		return thumbnail;
 	}
 
@@ -139,9 +150,10 @@ public class ProductImage implements Serializable, Comparable<ProductImage> {
 	 * 设置缩略图
 	 * 
 	 * @param thumbnail
-	 *            缩略图
+	 *           缩略图
 	 */
-	public void setThumbnail(String thumbnail) {
+	public void setThumbnail(String thumbnail)
+	{
 		this.thumbnail = thumbnail;
 	}
 
@@ -152,7 +164,8 @@ public class ProductImage implements Serializable, Comparable<ProductImage> {
 	 */
 	@Min(0)
 	@Column(name = "orders")
-	public Integer getOrder() {
+	public Integer getOrder()
+	{
 		return order;
 	}
 
@@ -160,9 +173,10 @@ public class ProductImage implements Serializable, Comparable<ProductImage> {
 	 * 设置排序
 	 * 
 	 * @param order
-	 *            排序
+	 *           排序
 	 */
-	public void setOrder(Integer order) {
+	public void setOrder(Integer order)
+	{
 		this.order = order;
 	}
 
@@ -172,7 +186,8 @@ public class ProductImage implements Serializable, Comparable<ProductImage> {
 	 * @return 文件
 	 */
 	@Transient
-	public MultipartFile getFile() {
+	public MultipartFile getFile()
+	{
 		return file;
 	}
 
@@ -180,9 +195,10 @@ public class ProductImage implements Serializable, Comparable<ProductImage> {
 	 * 设置文件
 	 * 
 	 * @param file
-	 *            文件
+	 *           文件
 	 */
-	public void setFile(MultipartFile file) {
+	public void setFile(MultipartFile file)
+	{
 		this.file = file;
 	}
 
@@ -192,18 +208,22 @@ public class ProductImage implements Serializable, Comparable<ProductImage> {
 	 * @return 是否为空
 	 */
 	@Transient
-	public boolean isEmpty() {
-		return (getFile() == null || getFile().isEmpty()) && (StringUtils.isEmpty(getSource()) || StringUtils.isEmpty(getLarge()) || StringUtils.isEmpty(getMedium()) || StringUtils.isEmpty(getThumbnail()));
+	public boolean isEmpty()
+	{
+		return (getFile() == null || getFile().isEmpty())
+				&& (StringUtils.isEmpty(getSource()) || StringUtils.isEmpty(getLarge()) || StringUtils.isEmpty(getMedium()) || StringUtils
+						.isEmpty(getThumbnail()));
 	}
 
 	/**
 	 * 实现compareTo方法
 	 * 
 	 * @param productImage
-	 *            商品图片
+	 *           商品图片
 	 * @return 比较结果
 	 */
-	public int compareTo(ProductImage productImage) {
+	public int compareTo(ProductImage productImage)
+	{
 		return new CompareToBuilder().append(getOrder(), productImage.getOrder()).toComparison();
 	}
 

@@ -7,20 +7,23 @@ package net.eshop;
 
 import java.io.Serializable;
 
+
 /**
  * 模板
  * 
  * 
  * 
  */
-public class Template implements Serializable {
+public class Template implements Serializable
+{
 
 	private static final long serialVersionUID = -517540800437045215L;
 
 	/**
 	 * 类型
 	 */
-	public enum Type {
+	public enum Type
+	{
 
 		/** 页面模板 */
 		page,
@@ -55,7 +58,8 @@ public class Template implements Serializable {
 	 * 
 	 * @return ID
 	 */
-	public String getId() {
+	public String getId()
+	{
 		return id;
 	}
 
@@ -63,9 +67,10 @@ public class Template implements Serializable {
 	 * 设置ID
 	 * 
 	 * @param id
-	 *            ID
+	 *           ID
 	 */
-	public void setId(String id) {
+	public void setId(String id)
+	{
 		this.id = id;
 	}
 
@@ -74,7 +79,8 @@ public class Template implements Serializable {
 	 * 
 	 * @return 类型
 	 */
-	public Type getType() {
+	public Type getType()
+	{
 		return type;
 	}
 
@@ -82,9 +88,10 @@ public class Template implements Serializable {
 	 * 设置类型
 	 * 
 	 * @param type
-	 *            类型
+	 *           类型
 	 */
-	public void setType(Type type) {
+	public void setType(Type type)
+	{
 		this.type = type;
 	}
 
@@ -93,7 +100,8 @@ public class Template implements Serializable {
 	 * 
 	 * @return 名称
 	 */
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
@@ -101,9 +109,10 @@ public class Template implements Serializable {
 	 * 设置名称
 	 * 
 	 * @param name
-	 *            名称
+	 *           名称
 	 */
-	public void setName(String name) {
+	public void setName(String name)
+	{
 		this.name = name;
 	}
 
@@ -112,7 +121,8 @@ public class Template implements Serializable {
 	 * 
 	 * @return 模板文件路径
 	 */
-	public String getTemplatePath() {
+	public String getTemplatePath()
+	{
 		return templatePath;
 	}
 
@@ -120,9 +130,10 @@ public class Template implements Serializable {
 	 * 设置模板文件路径
 	 * 
 	 * @param templatePath
-	 *            模板文件路径
+	 *           模板文件路径
 	 */
-	public void setTemplatePath(String templatePath) {
+	public void setTemplatePath(String templatePath)
+	{
 		this.templatePath = templatePath;
 	}
 
@@ -131,7 +142,8 @@ public class Template implements Serializable {
 	 * 
 	 * @return 静态文件路径
 	 */
-	public String getStaticPath() {
+	public String getStaticPath()
+	{
 		return staticPath;
 	}
 
@@ -139,9 +151,10 @@ public class Template implements Serializable {
 	 * 设置静态文件路径
 	 * 
 	 * @param staticPath
-	 *            静态文件路径
+	 *           静态文件路径
 	 */
-	public void setStaticPath(String staticPath) {
+	public void setStaticPath(String staticPath)
+	{
 		this.staticPath = staticPath;
 	}
 
@@ -150,7 +163,8 @@ public class Template implements Serializable {
 	 * 
 	 * @return 描述
 	 */
-	public String getDescription() {
+	public String getDescription()
+	{
 		return description;
 	}
 
@@ -158,9 +172,10 @@ public class Template implements Serializable {
 	 * 设置描述
 	 * 
 	 * @param description
-	 *            描述
+	 *           描述
 	 */
-	public void setDescription(String description) {
+	public void setDescription(String description)
+	{
 		this.description = description;
 	}
 

@@ -9,13 +9,15 @@ import java.util.List;
 
 import net.eshop.entity.ArticleCategory;
 
+
 /**
  * Service - 文章分类
  * 
  * 
  * 
  */
-public interface ArticleCategoryService extends BaseService<ArticleCategory, Long> {
+public interface ArticleCategoryService extends BaseService<ArticleCategory, Long>
+{
 
 	/**
 	 * 查找顶级文章分类
@@ -28,7 +30,7 @@ public interface ArticleCategoryService extends BaseService<ArticleCategory, Lon
 	 * 查找顶级文章分类
 	 * 
 	 * @param count
-	 *            数量
+	 *           数量
 	 * @return 顶级文章分类
 	 */
 	List<ArticleCategory> findRoots(Integer count);
@@ -37,9 +39,9 @@ public interface ArticleCategoryService extends BaseService<ArticleCategory, Lon
 	 * 查找顶级文章分类(缓存)
 	 * 
 	 * @param count
-	 *            数量
+	 *           数量
 	 * @param cacheRegion
-	 *            缓存区域
+	 *           缓存区域
 	 * @return 顶级文章分类(缓存)
 	 */
 	List<ArticleCategory> findRoots(Integer count, String cacheRegion);
@@ -48,7 +50,7 @@ public interface ArticleCategoryService extends BaseService<ArticleCategory, Lon
 	 * 查找上级文章分类
 	 * 
 	 * @param articleCategory
-	 *            文章分类
+	 *           文章分类
 	 * @return 上级文章分类
 	 */
 	List<ArticleCategory> findParents(ArticleCategory articleCategory);
@@ -57,9 +59,9 @@ public interface ArticleCategoryService extends BaseService<ArticleCategory, Lon
 	 * 查找上级文章分类
 	 * 
 	 * @param articleCategory
-	 *            文章分类
+	 *           文章分类
 	 * @param count
-	 *            数量
+	 *           数量
 	 * @return 上级文章分类
 	 */
 	List<ArticleCategory> findParents(ArticleCategory articleCategory, Integer count);
@@ -68,11 +70,11 @@ public interface ArticleCategoryService extends BaseService<ArticleCategory, Lon
 	 * 查找上级文章分类(缓存)
 	 * 
 	 * @param articleCategory
-	 *            文章分类
+	 *           文章分类
 	 * @param count
-	 *            数量
+	 *           数量
 	 * @param cacheRegion
-	 *            缓存区域
+	 *           缓存区域
 	 * @return 上级文章分类(缓存)
 	 */
 	List<ArticleCategory> findParents(ArticleCategory articleCategory, Integer count, String cacheRegion);
@@ -88,7 +90,7 @@ public interface ArticleCategoryService extends BaseService<ArticleCategory, Lon
 	 * 查找下级文章分类
 	 * 
 	 * @param articleCategory
-	 *            文章分类
+	 *           文章分类
 	 * @return 下级文章分类
 	 */
 	List<ArticleCategory> findChildren(ArticleCategory articleCategory);
@@ -97,9 +99,9 @@ public interface ArticleCategoryService extends BaseService<ArticleCategory, Lon
 	 * 查找下级文章分类
 	 * 
 	 * @param articleCategory
-	 *            文章分类
+	 *           文章分类
 	 * @param count
-	 *            数量
+	 *           数量
 	 * @return 下级文章分类
 	 */
 	List<ArticleCategory> findChildren(ArticleCategory articleCategory, Integer count);
@@ -108,11 +110,11 @@ public interface ArticleCategoryService extends BaseService<ArticleCategory, Lon
 	 * 查找下级文章分类(缓存)
 	 * 
 	 * @param articleCategory
-	 *            文章分类
+	 *           文章分类
 	 * @param count
-	 *            数量
+	 *           数量
 	 * @param cacheRegion
-	 *            缓存区域
+	 *           缓存区域
 	 * @return 下级文章分类(缓存)
 	 */
 	List<ArticleCategory> findChildren(ArticleCategory articleCategory, Integer count, String cacheRegion);

@@ -49,6 +49,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
 /**
  * Controller - 会员中心 - 订单
  * 
@@ -57,7 +58,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller("shopMemberOrderController")
 @RequestMapping("/member/order")
-public class OrderController extends BaseController {
+public class OrderController extends BaseController
+{
 
 	/** 每页记录数 */
 	private static final int PAGE_SIZE = 10;
@@ -87,16 +89,18 @@ public class OrderController extends BaseController {
 	 * 保存收货地址
 	 */
 	@RequestMapping(value = "/save_receiver", method = RequestMethod.POST)
-	public @ResponseBody
-	Map<String, Object> saveReceiver(Receiver receiver, Long areaId) {
+	public @ResponseBody Map<String, Object> saveReceiver(Receiver receiver, Long areaId)
+	{
 		Map<String, Object> data = new HashMap<String, Object>();
 		receiver.setArea(areaService.find(areaId));
-		if (!isValid(receiver)) {
+		if (!isValid(receiver))
+		{
 			data.put("message", ERROR_MESSAGE);
 			return data;
 		}
 		Member member = memberService.getCurrent();
-		if (Receiver.MAX_RECEIVER_COUNT != null && member.getReceivers().size() >= Receiver.MAX_RECEIVER_COUNT) {
+		if (Receiver.MAX_RECEIVER_COUNT != null && member.getReceivers().size() >= Receiver.MAX_RECEIVER_COUNT)
+		{
 			data.put("message", Message.error("shop.order.addReceiverCountNotAllowed", Receiver.MAX_RECEIVER_COUNT));
 			return data;
 		}
@@ -111,10 +115,13 @@ public class OrderController extends BaseController {
 	 * 订单锁定
 	 */
 	@RequestMapping(value = "/lock", method = RequestMethod.POST)
-	public @ResponseBody
-	boolean lock(String sn) {
+	public @ResponseBody boolean lock(String sn)
+	{
 		Order order = orderService.findBySn(sn);
-		if (order != null && memberService.getCurrent().equals(order.getMember()) && !order.isExpired() && !order.isLocked(null) && order.getPaymentMethod() != null && order.getPaymentMethod().getMethod() == PaymentMethod.Method.online && (order.getPaymentStatus() == PaymentStatus.unpaid || order.getPaymentStatus() == PaymentStatus.partialPayment)) {
+		if (order != null && memberService.getCurrent().equals(order.getMember()) && !order.isExpired() && !order.isLocked(null)
+				&& order.getPaymentMethod() != null && order.getPaymentMethod().getMethod() == PaymentMethod.Method.online
+				&& (order.getPaymentStatus() == PaymentStatus.unpaid || order.getPaymentStatus() == PaymentStatus.partialPayment))
+		{
 			order.setLockExpire(DateUtils.addSeconds(new Date(), 20));
 			order.setOperator(null);
 			orderService.update(order);
@@ -127,10 +134,11 @@ public class OrderController extends BaseController {
 	 * 检查支付
 	 */
 	@RequestMapping(value = "/check_payment", method = RequestMethod.POST)
-	public @ResponseBody
-	boolean checkPayment(String sn) {
+	public @ResponseBody boolean checkPayment(String sn)
+	{
 		Order order = orderService.findBySn(sn);
-		if (order != null && memberService.getCurrent().equals(order.getMember()) && order.getPaymentStatus() == PaymentStatus.paid) {
+		if (order != null && memberService.getCurrent().equals(order.getMember()) && order.getPaymentStatus() == PaymentStatus.paid)
+		{
 			return true;
 		}
 		return false;
@@ -140,45 +148,55 @@ public class OrderController extends BaseController {
 	 * 优惠券信息
 	 */
 	@RequestMapping(value = "/coupon_info", method = RequestMethod.POST)
-	public @ResponseBody
-	Map<String, Object> couponInfo(String code) {
+	public @ResponseBody Map<String, Object> couponInfo(String code)
+	{
 		Map<String, Object> data = new HashMap<String, Object>();
 		Cart cart = cartService.getCurrent();
-		if (cart == null || cart.isEmpty()) {
+		if (cart == null || cart.isEmpty())
+		{
 			data.put("message", Message.warn("shop.order.cartNotEmpty"));
 			return data;
 		}
-		if (!cart.isCouponAllowed()) {
+		if (!cart.isCouponAllowed())
+		{
 			data.put("message", Message.warn("shop.order.couponNotAllowed"));
 			return data;
 		}
 		CouponCode couponCode = couponCodeService.findByCode(code);
-		if (couponCode != null && couponCode.getCoupon() != null) {
+		if (couponCode != null && couponCode.getCoupon() != null)
+		{
 			Coupon coupon = couponCode.getCoupon();
-			if (!coupon.getIsEnabled()) {
+			if (!coupon.getIsEnabled())
+			{
 				data.put("message", Message.warn("shop.order.couponDisabled"));
 				return data;
 			}
-			if (!coupon.hasBegun()) {
+			if (!coupon.hasBegun())
+			{
 				data.put("message", Message.warn("shop.order.couponNotBegin"));
 				return data;
 			}
-			if (coupon.hasExpired()) {
+			if (coupon.hasExpired())
+			{
 				data.put("message", Message.warn("shop.order.couponHasExpired"));
 				return data;
 			}
-			if (!cart.isValid(coupon)) {
+			if (!cart.isValid(coupon))
+			{
 				data.put("message", Message.warn("shop.order.couponInvalid"));
 				return data;
 			}
-			if (couponCode.getIsUsed()) {
+			if (couponCode.getIsUsed())
+			{
 				data.put("message", Message.warn("shop.order.couponCodeUsed"));
 				return data;
 			}
 			data.put("message", SUCCESS_MESSAGE);
 			data.put("couponName", coupon.getName());
 			return data;
-		} else {
+		}
+		else
+		{
 			data.put("message", Message.warn("shop.order.couponCodeNotExist"));
 			return data;
 		}
@@ -188,12 +206,15 @@ public class OrderController extends BaseController {
 	 * 信息
 	 */
 	@RequestMapping(value = "/info", method = RequestMethod.GET)
-	public String info(ModelMap model) {
+	public String info(ModelMap model)
+	{
 		Cart cart = cartService.getCurrent();
-		if (cart == null || cart.isEmpty()) {
+		if (cart == null || cart.isEmpty())
+		{
 			return "redirect:/cart/list.jhtml";
 		}
-		if (!isValid(cart)) {
+		if (!isValid(cart))
+		{
 			return ERROR_VIEW;
 		}
 		Order order = orderService.build(cart, null, null, null, null, false, null, false, null);
@@ -208,18 +229,22 @@ public class OrderController extends BaseController {
 	 * 计算
 	 */
 	@RequestMapping(value = "/calculate", method = RequestMethod.POST)
-	public @ResponseBody
-	Map<String, Object> calculate(Long paymentMethodId, Long shippingMethodId, String code, @RequestParam(defaultValue = "false") Boolean isInvoice, String invoiceTitle, @RequestParam(defaultValue = "false") Boolean useBalance, String memo) {
+	public @ResponseBody Map<String, Object> calculate(Long paymentMethodId, Long shippingMethodId, String code,
+			@RequestParam(defaultValue = "false") Boolean isInvoice, String invoiceTitle,
+			@RequestParam(defaultValue = "false") Boolean useBalance, String memo)
+	{
 		Map<String, Object> data = new HashMap<String, Object>();
 		Cart cart = cartService.getCurrent();
-		if (cart == null || cart.isEmpty()) {
+		if (cart == null || cart.isEmpty())
+		{
 			data.put("message", Message.error("shop.order.cartNotEmpty"));
 			return data;
 		}
 		PaymentMethod paymentMethod = paymentMethodService.find(paymentMethodId);
 		ShippingMethod shippingMethod = shippingMethodService.find(shippingMethodId);
 		CouponCode couponCode = couponCodeService.findByCode(code);
-		Order order = orderService.build(cart, null, paymentMethod, shippingMethod, couponCode, isInvoice, invoiceTitle, useBalance, memo);
+		Order order = orderService.build(cart, null, paymentMethod, shippingMethod, couponCode, isInvoice, invoiceTitle,
+				useBalance, memo);
 
 		data.put("message", SUCCESS_MESSAGE);
 		data.put("quantity", order.getQuantity());
@@ -236,35 +261,45 @@ public class OrderController extends BaseController {
 	 * 创建
 	 */
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	public @ResponseBody
-	Message create(String cartToken, Long receiverId, Long paymentMethodId, Long shippingMethodId, String code, @RequestParam(defaultValue = "false") Boolean isInvoice, String invoiceTitle, @RequestParam(defaultValue = "false") Boolean useBalance, String memo) {
+	public @ResponseBody Message create(String cartToken, Long receiverId, Long paymentMethodId, Long shippingMethodId,
+			String code, @RequestParam(defaultValue = "false") Boolean isInvoice, String invoiceTitle,
+			@RequestParam(defaultValue = "false") Boolean useBalance, String memo)
+	{
 		Cart cart = cartService.getCurrent();
-		if (cart == null || cart.isEmpty()) {
+		if (cart == null || cart.isEmpty())
+		{
 			return Message.warn("shop.order.cartNotEmpty");
 		}
-		if (!StringUtils.equals(cart.getToken(), cartToken)) {
+		if (!StringUtils.equals(cart.getToken(), cartToken))
+		{
 			return Message.warn("shop.order.cartHasChanged");
 		}
-		if (cart.getIsLowStock()) {
+		if (cart.getIsLowStock())
+		{
 			return Message.warn("shop.order.cartLowStock");
 		}
 		Receiver receiver = receiverService.find(receiverId);
-		if (receiver == null) {
+		if (receiver == null)
+		{
 			return Message.error("shop.order.receiverNotExsit");
 		}
 		PaymentMethod paymentMethod = paymentMethodService.find(paymentMethodId);
-		if (paymentMethod == null) {
+		if (paymentMethod == null)
+		{
 			return Message.error("shop.order.paymentMethodNotExsit");
 		}
 		ShippingMethod shippingMethod = shippingMethodService.find(shippingMethodId);
-		if (shippingMethod == null) {
+		if (shippingMethod == null)
+		{
 			return Message.error("shop.order.shippingMethodNotExsit");
 		}
-		if (!paymentMethod.getShippingMethods().contains(shippingMethod)) {
+		if (!paymentMethod.getShippingMethods().contains(shippingMethod))
+		{
 			return Message.error("shop.order.deliveryUnsupported");
 		}
 		CouponCode couponCode = couponCodeService.findByCode(code);
-		Order order = orderService.create(cart, receiver, paymentMethod, shippingMethod, couponCode, isInvoice, invoiceTitle, useBalance, memo, null);
+		Order order = orderService.create(cart, receiver, paymentMethod, shippingMethod, couponCode, isInvoice, invoiceTitle,
+				useBalance, memo, null);
 		return Message.success(order.getSn());
 	}
 
@@ -272,16 +307,22 @@ public class OrderController extends BaseController {
 	 * 支付
 	 */
 	@RequestMapping(value = "/payment", method = RequestMethod.GET)
-	public String payment(String sn, ModelMap model) {
+	public String payment(String sn, ModelMap model)
+	{
 		Order order = orderService.findBySn(sn);
-		if (order == null || !memberService.getCurrent().equals(order.getMember()) || order.isExpired() || order.getPaymentMethod() == null) {
+		if (order == null || !memberService.getCurrent().equals(order.getMember()) || order.isExpired()
+				|| order.getPaymentMethod() == null)
+		{
 			return ERROR_VIEW;
 		}
-		if (order.getPaymentMethod().getMethod() == PaymentMethod.Method.online) {
+		if (order.getPaymentMethod().getMethod() == PaymentMethod.Method.online)
+		{
 			List<PaymentPlugin> paymentPlugins = pluginService.getPaymentPlugins(true);
-			if (!paymentPlugins.isEmpty()) {
+			if (!paymentPlugins.isEmpty())
+			{
 				PaymentPlugin defaultPaymentPlugin = paymentPlugins.get(0);
-				if (order.getPaymentStatus() == PaymentStatus.unpaid || order.getPaymentStatus() == PaymentStatus.partialPayment) {
+				if (order.getPaymentStatus() == PaymentStatus.unpaid || order.getPaymentStatus() == PaymentStatus.partialPayment)
+				{
 					model.addAttribute("fee", defaultPaymentPlugin.calculateFee(order.getAmountPayable()));
 					model.addAttribute("amount", defaultPaymentPlugin.calculateAmount(order.getAmountPayable()));
 				}
@@ -297,12 +338,15 @@ public class OrderController extends BaseController {
 	 * 计算支付金额
 	 */
 	@RequestMapping(value = "/calculate_amount", method = RequestMethod.POST)
-	public @ResponseBody
-	Map<String, Object> calculateAmount(String paymentPluginId, String sn) {
+	public @ResponseBody Map<String, Object> calculateAmount(String paymentPluginId, String sn)
+	{
 		Map<String, Object> data = new HashMap<String, Object>();
 		Order order = orderService.findBySn(sn);
 		PaymentPlugin paymentPlugin = pluginService.getPaymentPlugin(paymentPluginId);
-		if (order == null || !memberService.getCurrent().equals(order.getMember()) || order.isExpired() || order.isLocked(null) || order.getPaymentMethod() == null || order.getPaymentMethod().getMethod() == PaymentMethod.Method.offline || paymentPlugin == null || !paymentPlugin.getIsEnabled()) {
+		if (order == null || !memberService.getCurrent().equals(order.getMember()) || order.isExpired() || order.isLocked(null)
+				|| order.getPaymentMethod() == null || order.getPaymentMethod().getMethod() == PaymentMethod.Method.offline
+				|| paymentPlugin == null || !paymentPlugin.getIsEnabled())
+		{
 			data.put("message", ERROR_MESSAGE);
 			return data;
 		}
@@ -316,7 +360,8 @@ public class OrderController extends BaseController {
 	 * 列表
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Integer pageNumber, ModelMap model) {
+	public String list(Integer pageNumber, ModelMap model)
+	{
 		Member member = memberService.getCurrent();
 		Pageable pageable = new Pageable(pageNumber, PAGE_SIZE);
 		model.addAttribute("page", orderService.findPage(member, pageable));
@@ -327,13 +372,16 @@ public class OrderController extends BaseController {
 	 * 查看
 	 */
 	@RequestMapping(value = "/view", method = RequestMethod.GET)
-	public String view(String sn, ModelMap model) {
+	public String view(String sn, ModelMap model)
+	{
 		Order order = orderService.findBySn(sn);
-		if (order == null) {
+		if (order == null)
+		{
 			return ERROR_VIEW;
 		}
 		Member member = memberService.getCurrent();
-		if (!member.getOrders().contains(order)) {
+		if (!member.getOrders().contains(order))
+		{
 			return ERROR_VIEW;
 		}
 		model.addAttribute("order", order);
@@ -344,11 +392,14 @@ public class OrderController extends BaseController {
 	 * 取消
 	 */
 	@RequestMapping(value = "/cancel", method = RequestMethod.POST)
-	public @ResponseBody
-	Message cancel(String sn) {
+	public @ResponseBody Message cancel(String sn)
+	{
 		Order order = orderService.findBySn(sn);
-		if (order != null && memberService.getCurrent().equals(order.getMember()) && !order.isExpired() && order.getOrderStatus() == OrderStatus.unconfirmed && order.getPaymentStatus() == PaymentStatus.unpaid) {
-			if (order.isLocked(null)) {
+		if (order != null && memberService.getCurrent().equals(order.getMember()) && !order.isExpired()
+				&& order.getOrderStatus() == OrderStatus.unconfirmed && order.getPaymentStatus() == PaymentStatus.unpaid)
+		{
+			if (order.isLocked(null))
+			{
 				return Message.warn("shop.member.order.locked");
 			}
 			orderService.cancel(order, null);
@@ -361,12 +412,15 @@ public class OrderController extends BaseController {
 	 * 物流动态
 	 */
 	@RequestMapping(value = "/delivery_query", method = RequestMethod.GET)
-	public @ResponseBody
-	Map<String, Object> deliveryQuery(String sn) {
+	public @ResponseBody Map<String, Object> deliveryQuery(String sn)
+	{
 		Map<String, Object> data = new HashMap<String, Object>();
 		Shipping shipping = shippingService.findBySn(sn);
 		Setting setting = SettingUtils.get();
-		if (shipping != null && shipping.getOrder() != null && memberService.getCurrent().equals(shipping.getOrder().getMember()) && StringUtils.isNotEmpty(setting.getKuaidi100Key()) && StringUtils.isNotEmpty(shipping.getDeliveryCorpCode()) && StringUtils.isNotEmpty(shipping.getTrackingNo())) {
+		if (shipping != null && shipping.getOrder() != null && memberService.getCurrent().equals(shipping.getOrder().getMember())
+				&& StringUtils.isNotEmpty(setting.getKuaidi100Key()) && StringUtils.isNotEmpty(shipping.getDeliveryCorpCode())
+				&& StringUtils.isNotEmpty(shipping.getTrackingNo()))
+		{
 			data = shippingService.query(shipping);
 		}
 		return data;

@@ -10,13 +10,15 @@ import java.util.List;
 import net.eshop.plugin.PaymentPlugin;
 import net.eshop.plugin.StoragePlugin;
 
+
 /**
  * Service - 插件
  * 
  * 
  * 
  */
-public interface PluginService {
+public interface PluginService
+{
 
 	/**
 	 * 获取支付插件
@@ -36,7 +38,7 @@ public interface PluginService {
 	 * 获取支付插件
 	 * 
 	 * @param isEnabled
-	 *            是否启用
+	 *           是否启用
 	 * @return 支付插件
 	 */
 	List<PaymentPlugin> getPaymentPlugins(boolean isEnabled);
@@ -45,7 +47,7 @@ public interface PluginService {
 	 * 获取存储插件
 	 * 
 	 * @param isEnabled
-	 *            是否启用
+	 *           是否启用
 	 * @return 存储插件
 	 */
 	List<StoragePlugin> getStoragePlugins(boolean isEnabled);
@@ -54,7 +56,7 @@ public interface PluginService {
 	 * 获取支付插件
 	 * 
 	 * @param id
-	 *            ID
+	 *           ID
 	 * @return 支付插件
 	 */
 	PaymentPlugin getPaymentPlugin(String id);
@@ -63,7 +65,7 @@ public interface PluginService {
 	 * 获取存储插件
 	 * 
 	 * @param id
-	 *            ID
+	 *           ID
 	 * @return 存储插件
 	 */
 	StoragePlugin getStoragePlugin(String id);

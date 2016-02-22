@@ -11,7 +11,8 @@ package net.eshop.service;
  * 
  * 
  */
-public interface CacheService {
+public interface CacheService
+{
 
 	/**
 	 * 获取缓存存储路径

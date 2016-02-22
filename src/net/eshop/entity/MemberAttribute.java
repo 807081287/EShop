@@ -19,6 +19,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+
 /**
  * Entity - 会员注册项
  * 
@@ -28,14 +29,16 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table(name = "t_member_attribute")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_member_attribute_sequence")
-public class MemberAttribute extends OrderEntity {
+public class MemberAttribute extends OrderEntity
+{
 
 	private static final long serialVersionUID = 4513705276569738136L;
 
 	/**
 	 * 类型
 	 */
-	public enum Type {
+	public enum Type
+	{
 
 		/** 姓名 */
 		name,
@@ -97,7 +100,8 @@ public class MemberAttribute extends OrderEntity {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false)
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
@@ -105,9 +109,10 @@ public class MemberAttribute extends OrderEntity {
 	 * 设置名称
 	 * 
 	 * @param name
-	 *            名称
+	 *           名称
 	 */
-	public void setName(String name) {
+	public void setName(String name)
+	{
 		this.name = name;
 	}
 
@@ -118,7 +123,8 @@ public class MemberAttribute extends OrderEntity {
 	 */
 	@NotNull(groups = Save.class)
 	@Column(nullable = false, updatable = false)
-	public Type getType() {
+	public Type getType()
+	{
 		return type;
 	}
 
@@ -126,9 +132,10 @@ public class MemberAttribute extends OrderEntity {
 	 * 设置类型
 	 * 
 	 * @param type
-	 *            类型
+	 *           类型
 	 */
-	public void setType(Type type) {
+	public void setType(Type type)
+	{
 		this.type = type;
 	}
 
@@ -139,7 +146,8 @@ public class MemberAttribute extends OrderEntity {
 	 */
 	@NotNull
 	@Column(nullable = false)
-	public Boolean getIsEnabled() {
+	public Boolean getIsEnabled()
+	{
 		return isEnabled;
 	}
 
@@ -147,9 +155,10 @@ public class MemberAttribute extends OrderEntity {
 	 * 设置是否启用
 	 * 
 	 * @param isEnabled
-	 *            是否启用
+	 *           是否启用
 	 */
-	public void setIsEnabled(Boolean isEnabled) {
+	public void setIsEnabled(Boolean isEnabled)
+	{
 		this.isEnabled = isEnabled;
 	}
 
@@ -160,7 +169,8 @@ public class MemberAttribute extends OrderEntity {
 	 */
 	@NotNull
 	@Column(nullable = false)
-	public Boolean getIsRequired() {
+	public Boolean getIsRequired()
+	{
 		return isRequired;
 	}
 
@@ -168,9 +178,10 @@ public class MemberAttribute extends OrderEntity {
 	 * 设置是否必填
 	 * 
 	 * @param isRequired
-	 *            是否必填
+	 *           是否必填
 	 */
-	public void setIsRequired(Boolean isRequired) {
+	public void setIsRequired(Boolean isRequired)
+	{
 		this.isRequired = isRequired;
 	}
 
@@ -180,7 +191,8 @@ public class MemberAttribute extends OrderEntity {
 	 * @return 属性序号
 	 */
 	@Column(updatable = false)
-	public Integer getPropertyIndex() {
+	public Integer getPropertyIndex()
+	{
 		return propertyIndex;
 	}
 
@@ -188,9 +200,10 @@ public class MemberAttribute extends OrderEntity {
 	 * 设置属性序号
 	 * 
 	 * @param propertyIndex
-	 *            属性序号
+	 *           属性序号
 	 */
-	public void setPropertyIndex(Integer propertyIndex) {
+	public void setPropertyIndex(Integer propertyIndex)
+	{
 		this.propertyIndex = propertyIndex;
 	}
 
@@ -201,7 +214,8 @@ public class MemberAttribute extends OrderEntity {
 	 */
 	@ElementCollection
 	@CollectionTable(name = "t_member_attribute_option")
-	public List<String> getOptions() {
+	public List<String> getOptions()
+	{
 		return options;
 	}
 
@@ -209,9 +223,10 @@ public class MemberAttribute extends OrderEntity {
 	 * 设置可选项
 	 * 
 	 * @param options
-	 *            可选项
+	 *           可选项
 	 */
-	public void setOptions(List<String> options) {
+	public void setOptions(List<String> options)
+	{
 		this.options = options;
 	}
 

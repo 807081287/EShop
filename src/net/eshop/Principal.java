@@ -7,13 +7,15 @@ package net.eshop;
 
 import java.io.Serializable;
 
+
 /**
  * 身份信息
  * 
  * 
  * 
  */
-public class Principal implements Serializable {
+public class Principal implements Serializable
+{
 
 	private static final long serialVersionUID = 5798882004228239559L;
 
@@ -25,11 +27,12 @@ public class Principal implements Serializable {
 
 	/**
 	 * @param id
-	 *            ID
+	 *           ID
 	 * @param username
-	 *            用户名
+	 *           用户名
 	 */
-	public Principal(Long id, String username) {
+	public Principal(Long id, String username)
+	{
 		this.id = id;
 		this.username = username;
 	}
@@ -39,7 +42,8 @@ public class Principal implements Serializable {
 	 * 
 	 * @return ID
 	 */
-	public Long getId() {
+	public Long getId()
+	{
 		return id;
 	}
 
@@ -47,9 +51,10 @@ public class Principal implements Serializable {
 	 * 设置ID
 	 * 
 	 * @param id
-	 *            ID
+	 *           ID
 	 */
-	public void setId(Long id) {
+	public void setId(Long id)
+	{
 		this.id = id;
 	}
 
@@ -58,7 +63,8 @@ public class Principal implements Serializable {
 	 * 
 	 * @return 用户名
 	 */
-	public String getUsername() {
+	public String getUsername()
+	{
 		return username;
 	}
 
@@ -66,14 +72,16 @@ public class Principal implements Serializable {
 	 * 设置用户名
 	 * 
 	 * @param username
-	 *            用户名
+	 *           用户名
 	 */
-	public void setUsername(String username) {
+	public void setUsername(String username)
+	{
 		this.username = username;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return username;
 	}
 

@@ -11,13 +11,15 @@ import java.util.List;
 
 import net.eshop.Order.Direction;
 
+
 /**
  * 分页
  * 
  * 
  * 
  */
-public class Page<T> implements Serializable {
+public class Page<T> implements Serializable
+{
 
 	private static final long serialVersionUID = -2053800594583879853L;
 
@@ -33,20 +35,22 @@ public class Page<T> implements Serializable {
 	/**
 	 * 初始化一个新创建的Page对象
 	 */
-	public Page() {
+	public Page()
+	{
 		this.total = 0L;
 		this.pageable = new Pageable();
 	}
 
 	/**
 	 * @param content
-	 *            内容
+	 *           内容
 	 * @param total
-	 *            总记录数
+	 *           总记录数
 	 * @param pageable
-	 *            分页信息
+	 *           分页信息
 	 */
-	public Page(List<T> content, long total, Pageable pageable) {
+	public Page(List<T> content, long total, Pageable pageable)
+	{
 		this.content.addAll(content);
 		this.total = total;
 		this.pageable = pageable;
@@ -57,7 +61,8 @@ public class Page<T> implements Serializable {
 	 * 
 	 * @return 页码
 	 */
-	public int getPageNumber() {
+	public int getPageNumber()
+	{
 		return pageable.getPageNumber();
 	}
 
@@ -66,7 +71,8 @@ public class Page<T> implements Serializable {
 	 * 
 	 * @return 每页记录数
 	 */
-	public int getPageSize() {
+	public int getPageSize()
+	{
 		return pageable.getPageSize();
 	}
 
@@ -75,7 +81,8 @@ public class Page<T> implements Serializable {
 	 * 
 	 * @return 搜索属性
 	 */
-	public String getSearchProperty() {
+	public String getSearchProperty()
+	{
 		return pageable.getSearchProperty();
 	}
 
@@ -84,7 +91,8 @@ public class Page<T> implements Serializable {
 	 * 
 	 * @return 搜索值
 	 */
-	public String getSearchValue() {
+	public String getSearchValue()
+	{
 		return pageable.getSearchValue();
 	}
 
@@ -93,7 +101,8 @@ public class Page<T> implements Serializable {
 	 * 
 	 * @return 排序属性
 	 */
-	public String getOrderProperty() {
+	public String getOrderProperty()
+	{
 		return pageable.getOrderProperty();
 	}
 
@@ -102,7 +111,8 @@ public class Page<T> implements Serializable {
 	 * 
 	 * @return 排序方向
 	 */
-	public Direction getOrderDirection() {
+	public Direction getOrderDirection()
+	{
 		return pageable.getOrderDirection();
 	}
 
@@ -111,7 +121,8 @@ public class Page<T> implements Serializable {
 	 * 
 	 * @return 排序
 	 */
-	public List<Order> getOrders() {
+	public List<Order> getOrders()
+	{
 		return pageable.getOrders();
 	}
 
@@ -120,7 +131,8 @@ public class Page<T> implements Serializable {
 	 * 
 	 * @return 筛选
 	 */
-	public List<Filter> getFilters() {
+	public List<Filter> getFilters()
+	{
 		return pageable.getFilters();
 	}
 
@@ -129,7 +141,8 @@ public class Page<T> implements Serializable {
 	 * 
 	 * @return 总页数
 	 */
-	public int getTotalPages() {
+	public int getTotalPages()
+	{
 		return (int) Math.ceil((double) getTotal() / (double) getPageSize());
 	}
 
@@ -138,7 +151,8 @@ public class Page<T> implements Serializable {
 	 * 
 	 * @return 内容
 	 */
-	public List<T> getContent() {
+	public List<T> getContent()
+	{
 		return content;
 	}
 
@@ -147,7 +161,8 @@ public class Page<T> implements Serializable {
 	 * 
 	 * @return 总记录数
 	 */
-	public long getTotal() {
+	public long getTotal()
+	{
 		return total;
 	}
 
@@ -156,7 +171,8 @@ public class Page<T> implements Serializable {
 	 * 
 	 * @return 分页信息
 	 */
-	public Pageable getPageable() {
+	public Pageable getPageable()
+	{
 		return pageable;
 	}
 

@@ -40,6 +40,7 @@ import net.eshop.util.SettingUtils;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+
 /**
  * Entity - 订单
  * 
@@ -49,7 +50,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table(name = "t_order")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_order_sequence")
-public class Order extends BaseEntity {
+public class Order extends BaseEntity
+{
 
 	private static final long serialVersionUID = 8370942500343156156L;
 
@@ -59,7 +61,8 @@ public class Order extends BaseEntity {
 	/**
 	 * 订单状态
 	 */
-	public enum OrderStatus {
+	public enum OrderStatus
+	{
 
 		/** 未确认 */
 		unconfirmed,
@@ -77,7 +80,8 @@ public class Order extends BaseEntity {
 	/**
 	 * 支付状态
 	 */
-	public enum PaymentStatus {
+	public enum PaymentStatus
+	{
 
 		/** 未支付 */
 		unpaid,
@@ -98,7 +102,8 @@ public class Order extends BaseEntity {
 	/**
 	 * 配送状态
 	 */
-	public enum ShippingStatus {
+	public enum ShippingStatus
+	{
 
 		/** 未发货 */
 		unshipped,
@@ -242,7 +247,8 @@ public class Order extends BaseEntity {
 	 * @return 订单编号
 	 */
 	@Column(nullable = false, updatable = false, unique = true, length = 100)
-	public String getSn() {
+	public String getSn()
+	{
 		return sn;
 	}
 
@@ -250,9 +256,10 @@ public class Order extends BaseEntity {
 	 * 设置订单编号
 	 * 
 	 * @param sn
-	 *            订单编号
+	 *           订单编号
 	 */
-	public void setSn(String sn) {
+	public void setSn(String sn)
+	{
 		this.sn = sn;
 	}
 
@@ -262,7 +269,8 @@ public class Order extends BaseEntity {
 	 * @return 订单状态
 	 */
 	@Column(nullable = false)
-	public OrderStatus getOrderStatus() {
+	public OrderStatus getOrderStatus()
+	{
 		return orderStatus;
 	}
 
@@ -270,9 +278,10 @@ public class Order extends BaseEntity {
 	 * 设置订单状态
 	 * 
 	 * @param orderStatus
-	 *            订单状态
+	 *           订单状态
 	 */
-	public void setOrderStatus(OrderStatus orderStatus) {
+	public void setOrderStatus(OrderStatus orderStatus)
+	{
 		this.orderStatus = orderStatus;
 	}
 
@@ -282,7 +291,8 @@ public class Order extends BaseEntity {
 	 * @return 支付状态
 	 */
 	@Column(nullable = false)
-	public PaymentStatus getPaymentStatus() {
+	public PaymentStatus getPaymentStatus()
+	{
 		return paymentStatus;
 	}
 
@@ -290,9 +300,10 @@ public class Order extends BaseEntity {
 	 * 设置支付状态
 	 * 
 	 * @param paymentStatus
-	 *            支付状态
+	 *           支付状态
 	 */
-	public void setPaymentStatus(PaymentStatus paymentStatus) {
+	public void setPaymentStatus(PaymentStatus paymentStatus)
+	{
 		this.paymentStatus = paymentStatus;
 	}
 
@@ -302,7 +313,8 @@ public class Order extends BaseEntity {
 	 * @return 配送状态
 	 */
 	@Column(nullable = false)
-	public ShippingStatus getShippingStatus() {
+	public ShippingStatus getShippingStatus()
+	{
 		return shippingStatus;
 	}
 
@@ -310,9 +322,10 @@ public class Order extends BaseEntity {
 	 * 设置配送状态
 	 * 
 	 * @param shippingStatus
-	 *            配送状态
+	 *           配送状态
 	 */
-	public void setShippingStatus(ShippingStatus shippingStatus) {
+	public void setShippingStatus(ShippingStatus shippingStatus)
+	{
 		this.shippingStatus = shippingStatus;
 	}
 
@@ -322,7 +335,8 @@ public class Order extends BaseEntity {
 	 * @return 支付手续费
 	 */
 	@Column(nullable = false, precision = 21, scale = 6)
-	public BigDecimal getFee() {
+	public BigDecimal getFee()
+	{
 		return fee;
 	}
 
@@ -330,9 +344,10 @@ public class Order extends BaseEntity {
 	 * 设置支付手续费
 	 * 
 	 * @param fee
-	 *            支付手续费
+	 *           支付手续费
 	 */
-	public void setFee(BigDecimal fee) {
+	public void setFee(BigDecimal fee)
+	{
 		this.fee = fee;
 	}
 
@@ -345,7 +360,8 @@ public class Order extends BaseEntity {
 	@Min(0)
 	@Digits(integer = 12, fraction = 3)
 	@Column(nullable = false, precision = 21, scale = 6)
-	public BigDecimal getFreight() {
+	public BigDecimal getFreight()
+	{
 		return freight;
 	}
 
@@ -353,9 +369,10 @@ public class Order extends BaseEntity {
 	 * 设置运费
 	 * 
 	 * @param freight
-	 *            运费
+	 *           运费
 	 */
-	public void setFreight(BigDecimal freight) {
+	public void setFreight(BigDecimal freight)
+	{
 		this.freight = freight;
 	}
 
@@ -365,7 +382,8 @@ public class Order extends BaseEntity {
 	 * @return 促销折扣
 	 */
 	@Column(nullable = false, updatable = false, precision = 21, scale = 6)
-	public BigDecimal getPromotionDiscount() {
+	public BigDecimal getPromotionDiscount()
+	{
 		return promotionDiscount;
 	}
 
@@ -373,9 +391,10 @@ public class Order extends BaseEntity {
 	 * 设置促销折扣
 	 * 
 	 * @param promotionDiscount
-	 *            促销折扣
+	 *           促销折扣
 	 */
-	public void setPromotionDiscount(BigDecimal promotionDiscount) {
+	public void setPromotionDiscount(BigDecimal promotionDiscount)
+	{
 		this.promotionDiscount = promotionDiscount;
 	}
 
@@ -385,7 +404,8 @@ public class Order extends BaseEntity {
 	 * @return 优惠券折扣
 	 */
 	@Column(nullable = false, updatable = false, precision = 21, scale = 6)
-	public BigDecimal getCouponDiscount() {
+	public BigDecimal getCouponDiscount()
+	{
 		return couponDiscount;
 	}
 
@@ -393,9 +413,10 @@ public class Order extends BaseEntity {
 	 * 设置优惠券折扣
 	 * 
 	 * @param couponDiscount
-	 *            优惠券折扣
+	 *           优惠券折扣
 	 */
-	public void setCouponDiscount(BigDecimal couponDiscount) {
+	public void setCouponDiscount(BigDecimal couponDiscount)
+	{
 		this.couponDiscount = couponDiscount;
 	}
 
@@ -407,7 +428,8 @@ public class Order extends BaseEntity {
 	@NotNull
 	@Digits(integer = 12, fraction = 3)
 	@Column(nullable = false, precision = 21, scale = 6)
-	public BigDecimal getOffsetAmount() {
+	public BigDecimal getOffsetAmount()
+	{
 		return offsetAmount;
 	}
 
@@ -415,9 +437,10 @@ public class Order extends BaseEntity {
 	 * 设置调整金额
 	 * 
 	 * @param offsetAmount
-	 *            调整金额
+	 *           调整金额
 	 */
-	public void setOffsetAmount(BigDecimal offsetAmount) {
+	public void setOffsetAmount(BigDecimal offsetAmount)
+	{
 		this.offsetAmount = offsetAmount;
 	}
 
@@ -427,7 +450,8 @@ public class Order extends BaseEntity {
 	 * @return 已付金额
 	 */
 	@Column(nullable = false, precision = 21, scale = 6)
-	public BigDecimal getAmountPaid() {
+	public BigDecimal getAmountPaid()
+	{
 		return amountPaid;
 	}
 
@@ -435,9 +459,10 @@ public class Order extends BaseEntity {
 	 * 设置已付金额
 	 * 
 	 * @param amountPaid
-	 *            已付金额
+	 *           已付金额
 	 */
-	public void setAmountPaid(BigDecimal amountPaid) {
+	public void setAmountPaid(BigDecimal amountPaid)
+	{
 		this.amountPaid = amountPaid;
 	}
 
@@ -449,7 +474,8 @@ public class Order extends BaseEntity {
 	@NotNull
 	@Min(0)
 	@Column(nullable = false)
-	public Long getPoint() {
+	public Long getPoint()
+	{
 		return point;
 	}
 
@@ -457,9 +483,10 @@ public class Order extends BaseEntity {
 	 * 设置赠送积分
 	 * 
 	 * @param point
-	 *            赠送积分
+	 *           赠送积分
 	 */
-	public void setPoint(Long point) {
+	public void setPoint(Long point)
+	{
 		this.point = point;
 	}
 
@@ -471,7 +498,8 @@ public class Order extends BaseEntity {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false)
-	public String getConsignee() {
+	public String getConsignee()
+	{
 		return consignee;
 	}
 
@@ -479,9 +507,10 @@ public class Order extends BaseEntity {
 	 * 设置收货人
 	 * 
 	 * @param consignee
-	 *            收货人
+	 *           收货人
 	 */
-	public void setConsignee(String consignee) {
+	public void setConsignee(String consignee)
+	{
 		this.consignee = consignee;
 	}
 
@@ -491,7 +520,8 @@ public class Order extends BaseEntity {
 	 * @return 地区名称
 	 */
 	@Column(nullable = false)
-	public String getAreaName() {
+	public String getAreaName()
+	{
 		return areaName;
 	}
 
@@ -499,9 +529,10 @@ public class Order extends BaseEntity {
 	 * 设置地区名称
 	 * 
 	 * @param areaName
-	 *            地区名称
+	 *           地区名称
 	 */
-	public void setAreaName(String areaName) {
+	public void setAreaName(String areaName)
+	{
 		this.areaName = areaName;
 	}
 
@@ -513,7 +544,8 @@ public class Order extends BaseEntity {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false)
-	public String getAddress() {
+	public String getAddress()
+	{
 		return address;
 	}
 
@@ -521,9 +553,10 @@ public class Order extends BaseEntity {
 	 * 设置地址
 	 * 
 	 * @param address
-	 *            地址
+	 *           地址
 	 */
-	public void setAddress(String address) {
+	public void setAddress(String address)
+	{
 		this.address = address;
 	}
 
@@ -535,7 +568,8 @@ public class Order extends BaseEntity {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false)
-	public String getZipCode() {
+	public String getZipCode()
+	{
 		return zipCode;
 	}
 
@@ -543,9 +577,10 @@ public class Order extends BaseEntity {
 	 * 设置邮编
 	 * 
 	 * @param zipCode
-	 *            邮编
+	 *           邮编
 	 */
-	public void setZipCode(String zipCode) {
+	public void setZipCode(String zipCode)
+	{
 		this.zipCode = zipCode;
 	}
 
@@ -557,7 +592,8 @@ public class Order extends BaseEntity {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false)
-	public String getPhone() {
+	public String getPhone()
+	{
 		return phone;
 	}
 
@@ -565,9 +601,10 @@ public class Order extends BaseEntity {
 	 * 设置电话
 	 * 
 	 * @param phone
-	 *            电话
+	 *           电话
 	 */
-	public void setPhone(String phone) {
+	public void setPhone(String phone)
+	{
 		this.phone = phone;
 	}
 
@@ -578,7 +615,8 @@ public class Order extends BaseEntity {
 	 */
 	@NotNull
 	@Column(nullable = false)
-	public Boolean getIsInvoice() {
+	public Boolean getIsInvoice()
+	{
 		return isInvoice;
 	}
 
@@ -586,9 +624,10 @@ public class Order extends BaseEntity {
 	 * 设置是否开据发票
 	 * 
 	 * @param isInvoice
-	 *            是否开据发票
+	 *           是否开据发票
 	 */
-	public void setIsInvoice(Boolean isInvoice) {
+	public void setIsInvoice(Boolean isInvoice)
+	{
 		this.isInvoice = isInvoice;
 	}
 
@@ -598,7 +637,8 @@ public class Order extends BaseEntity {
 	 * @return 发票抬头
 	 */
 	@Length(max = 200)
-	public String getInvoiceTitle() {
+	public String getInvoiceTitle()
+	{
 		return invoiceTitle;
 	}
 
@@ -606,9 +646,10 @@ public class Order extends BaseEntity {
 	 * 设置发票抬头
 	 * 
 	 * @param invoiceTitle
-	 *            发票抬头
+	 *           发票抬头
 	 */
-	public void setInvoiceTitle(String invoiceTitle) {
+	public void setInvoiceTitle(String invoiceTitle)
+	{
 		this.invoiceTitle = invoiceTitle;
 	}
 
@@ -620,7 +661,8 @@ public class Order extends BaseEntity {
 	@Min(0)
 	@Digits(integer = 12, fraction = 3)
 	@Column(nullable = false, precision = 21, scale = 6)
-	public BigDecimal getTax() {
+	public BigDecimal getTax()
+	{
 		return tax;
 	}
 
@@ -628,9 +670,10 @@ public class Order extends BaseEntity {
 	 * 设置税金
 	 * 
 	 * @param tax
-	 *            税金
+	 *           税金
 	 */
-	public void setTax(BigDecimal tax) {
+	public void setTax(BigDecimal tax)
+	{
 		this.tax = tax;
 	}
 
@@ -640,7 +683,8 @@ public class Order extends BaseEntity {
 	 * @return 附言
 	 */
 	@Length(max = 200)
-	public String getMemo() {
+	public String getMemo()
+	{
 		return memo;
 	}
 
@@ -648,9 +692,10 @@ public class Order extends BaseEntity {
 	 * 设置附言
 	 * 
 	 * @param memo
-	 *            附言
+	 *           附言
 	 */
-	public void setMemo(String memo) {
+	public void setMemo(String memo)
+	{
 		this.memo = memo;
 	}
 
@@ -660,7 +705,8 @@ public class Order extends BaseEntity {
 	 * @return 促销
 	 */
 	@Column(updatable = false)
-	public String getPromotion() {
+	public String getPromotion()
+	{
 		return promotion;
 	}
 
@@ -668,9 +714,10 @@ public class Order extends BaseEntity {
 	 * 设置促销
 	 * 
 	 * @param promotion
-	 *            促销
+	 *           促销
 	 */
-	public void setPromotion(String promotion) {
+	public void setPromotion(String promotion)
+	{
 		this.promotion = promotion;
 	}
 
@@ -679,7 +726,8 @@ public class Order extends BaseEntity {
 	 * 
 	 * @return 到期时间
 	 */
-	public Date getExpire() {
+	public Date getExpire()
+	{
 		return expire;
 	}
 
@@ -687,9 +735,10 @@ public class Order extends BaseEntity {
 	 * 设置到期时间
 	 * 
 	 * @param expire
-	 *            到期时间
+	 *           到期时间
 	 */
-	public void setExpire(Date expire) {
+	public void setExpire(Date expire)
+	{
 		this.expire = expire;
 	}
 
@@ -698,7 +747,8 @@ public class Order extends BaseEntity {
 	 * 
 	 * @return 锁定到期时间
 	 */
-	public Date getLockExpire() {
+	public Date getLockExpire()
+	{
 		return lockExpire;
 	}
 
@@ -706,9 +756,10 @@ public class Order extends BaseEntity {
 	 * 设置锁定到期时间
 	 * 
 	 * @param lockExpire
-	 *            锁定到期时间
+	 *           锁定到期时间
 	 */
-	public void setLockExpire(Date lockExpire) {
+	public void setLockExpire(Date lockExpire)
+	{
 		this.lockExpire = lockExpire;
 	}
 
@@ -718,7 +769,8 @@ public class Order extends BaseEntity {
 	 * @return 是否已分配库存
 	 */
 	@Column(nullable = false)
-	public Boolean getIsAllocatedStock() {
+	public Boolean getIsAllocatedStock()
+	{
 		return isAllocatedStock;
 	}
 
@@ -726,9 +778,10 @@ public class Order extends BaseEntity {
 	 * 设置是否已分配库存
 	 * 
 	 * @param isAllocatedStock
-	 *            是否已分配库存
+	 *           是否已分配库存
 	 */
-	public void setIsAllocatedStock(Boolean isAllocatedStock) {
+	public void setIsAllocatedStock(Boolean isAllocatedStock)
+	{
 		this.isAllocatedStock = isAllocatedStock;
 	}
 
@@ -738,7 +791,8 @@ public class Order extends BaseEntity {
 	 * @return 支付方式名称
 	 */
 	@Column(nullable = false)
-	public String getPaymentMethodName() {
+	public String getPaymentMethodName()
+	{
 		return paymentMethodName;
 	}
 
@@ -746,9 +800,10 @@ public class Order extends BaseEntity {
 	 * 设置支付方式名称
 	 * 
 	 * @param paymentMethodName
-	 *            支付方式名称
+	 *           支付方式名称
 	 */
-	public void setPaymentMethodName(String paymentMethodName) {
+	public void setPaymentMethodName(String paymentMethodName)
+	{
 		this.paymentMethodName = paymentMethodName;
 	}
 
@@ -758,7 +813,8 @@ public class Order extends BaseEntity {
 	 * @return 配送方式名称
 	 */
 	@Column(nullable = false)
-	public String getShippingMethodName() {
+	public String getShippingMethodName()
+	{
 		return shippingMethodName;
 	}
 
@@ -766,9 +822,10 @@ public class Order extends BaseEntity {
 	 * 设置配送方式名称
 	 * 
 	 * @param shippingMethodName
-	 *            配送方式名称
+	 *           配送方式名称
 	 */
-	public void setShippingMethodName(String shippingMethodName) {
+	public void setShippingMethodName(String shippingMethodName)
+	{
 		this.shippingMethodName = shippingMethodName;
 	}
 
@@ -779,7 +836,8 @@ public class Order extends BaseEntity {
 	 */
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
-	public Area getArea() {
+	public Area getArea()
+	{
 		return area;
 	}
 
@@ -787,9 +845,10 @@ public class Order extends BaseEntity {
 	 * 设置地区
 	 * 
 	 * @param area
-	 *            地区
+	 *           地区
 	 */
-	public void setArea(Area area) {
+	public void setArea(Area area)
+	{
 		this.area = area;
 	}
 
@@ -800,7 +859,8 @@ public class Order extends BaseEntity {
 	 */
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
-	public PaymentMethod getPaymentMethod() {
+	public PaymentMethod getPaymentMethod()
+	{
 		return paymentMethod;
 	}
 
@@ -808,9 +868,10 @@ public class Order extends BaseEntity {
 	 * 设置支付方式
 	 * 
 	 * @param paymentMethod
-	 *            支付方式
+	 *           支付方式
 	 */
-	public void setPaymentMethod(PaymentMethod paymentMethod) {
+	public void setPaymentMethod(PaymentMethod paymentMethod)
+	{
 		this.paymentMethod = paymentMethod;
 	}
 
@@ -821,7 +882,8 @@ public class Order extends BaseEntity {
 	 */
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
-	public ShippingMethod getShippingMethod() {
+	public ShippingMethod getShippingMethod()
+	{
 		return shippingMethod;
 	}
 
@@ -829,9 +891,10 @@ public class Order extends BaseEntity {
 	 * 设置配送方式
 	 * 
 	 * @param shippingMethod
-	 *            配送方式
+	 *           配送方式
 	 */
-	public void setShippingMethod(ShippingMethod shippingMethod) {
+	public void setShippingMethod(ShippingMethod shippingMethod)
+	{
 		this.shippingMethod = shippingMethod;
 	}
 
@@ -841,7 +904,8 @@ public class Order extends BaseEntity {
 	 * @return 操作员
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	public Admin getOperator() {
+	public Admin getOperator()
+	{
 		return operator;
 	}
 
@@ -849,9 +913,10 @@ public class Order extends BaseEntity {
 	 * 设置操作员
 	 * 
 	 * @param operator
-	 *            操作员
+	 *           操作员
 	 */
-	public void setOperator(Admin operator) {
+	public void setOperator(Admin operator)
+	{
 		this.operator = operator;
 	}
 
@@ -862,7 +927,8 @@ public class Order extends BaseEntity {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false, updatable = false)
-	public Member getMember() {
+	public Member getMember()
+	{
 		return member;
 	}
 
@@ -870,9 +936,10 @@ public class Order extends BaseEntity {
 	 * 设置会员
 	 * 
 	 * @param member
-	 *            会员
+	 *           会员
 	 */
-	public void setMember(Member member) {
+	public void setMember(Member member)
+	{
 		this.member = member;
 	}
 
@@ -882,7 +949,8 @@ public class Order extends BaseEntity {
 	 * @return 优惠码
 	 */
 	@OneToOne(fetch = FetchType.LAZY)
-	public CouponCode getCouponCode() {
+	public CouponCode getCouponCode()
+	{
 		return couponCode;
 	}
 
@@ -890,9 +958,10 @@ public class Order extends BaseEntity {
 	 * 设置优惠码
 	 * 
 	 * @param couponCode
-	 *            优惠码
+	 *           优惠码
 	 */
-	public void setCouponCode(CouponCode couponCode) {
+	public void setCouponCode(CouponCode couponCode)
+	{
 		this.couponCode = couponCode;
 	}
 
@@ -903,7 +972,8 @@ public class Order extends BaseEntity {
 	 */
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "t_order_coupon")
-	public List<Coupon> getCoupons() {
+	public List<Coupon> getCoupons()
+	{
 		return coupons;
 	}
 
@@ -911,9 +981,10 @@ public class Order extends BaseEntity {
 	 * 设置优惠券
 	 * 
 	 * @param coupons
-	 *            优惠券
+	 *           优惠券
 	 */
-	public void setCoupons(List<Coupon> coupons) {
+	public void setCoupons(List<Coupon> coupons)
+	{
 		this.coupons = coupons;
 	}
 
@@ -926,7 +997,8 @@ public class Order extends BaseEntity {
 	@NotEmpty
 	@OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	@OrderBy("isGift asc")
-	public List<OrderItem> getOrderItems() {
+	public List<OrderItem> getOrderItems()
+	{
 		return orderItems;
 	}
 
@@ -934,9 +1006,10 @@ public class Order extends BaseEntity {
 	 * 设置订单项
 	 * 
 	 * @param orderItems
-	 *            订单项
+	 *           订单项
 	 */
-	public void setOrderItems(List<OrderItem> orderItems) {
+	public void setOrderItems(List<OrderItem> orderItems)
+	{
 		this.orderItems = orderItems;
 	}
 
@@ -947,7 +1020,8 @@ public class Order extends BaseEntity {
 	 */
 	@OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	@OrderBy("createDate asc")
-	public Set<OrderLog> getOrderLogs() {
+	public Set<OrderLog> getOrderLogs()
+	{
 		return orderLogs;
 	}
 
@@ -955,9 +1029,10 @@ public class Order extends BaseEntity {
 	 * 设置订单日志
 	 * 
 	 * @param orderLogs
-	 *            订单日志
+	 *           订单日志
 	 */
-	public void setOrderLogs(Set<OrderLog> orderLogs) {
+	public void setOrderLogs(Set<OrderLog> orderLogs)
+	{
 		this.orderLogs = orderLogs;
 	}
 
@@ -967,7 +1042,8 @@ public class Order extends BaseEntity {
 	 * @return 预存款
 	 */
 	@OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
-	public Set<Deposit> getDeposits() {
+	public Set<Deposit> getDeposits()
+	{
 		return deposits;
 	}
 
@@ -975,9 +1051,10 @@ public class Order extends BaseEntity {
 	 * 设置预存款
 	 * 
 	 * @param deposits
-	 *            预存款
+	 *           预存款
 	 */
-	public void setDeposits(Set<Deposit> deposits) {
+	public void setDeposits(Set<Deposit> deposits)
+	{
 		this.deposits = deposits;
 	}
 
@@ -988,7 +1065,8 @@ public class Order extends BaseEntity {
 	 */
 	@OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	@OrderBy("createDate asc")
-	public Set<Payment> getPayments() {
+	public Set<Payment> getPayments()
+	{
 		return payments;
 	}
 
@@ -996,9 +1074,10 @@ public class Order extends BaseEntity {
 	 * 设置收款单
 	 * 
 	 * @param payments
-	 *            收款单
+	 *           收款单
 	 */
-	public void setPayments(Set<Payment> payments) {
+	public void setPayments(Set<Payment> payments)
+	{
 		this.payments = payments;
 	}
 
@@ -1009,7 +1088,8 @@ public class Order extends BaseEntity {
 	 */
 	@OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	@OrderBy("createDate asc")
-	public Set<Refunds> getRefunds() {
+	public Set<Refunds> getRefunds()
+	{
 		return refunds;
 	}
 
@@ -1017,9 +1097,10 @@ public class Order extends BaseEntity {
 	 * 设置退款单
 	 * 
 	 * @param refunds
-	 *            退款单
+	 *           退款单
 	 */
-	public void setRefunds(Set<Refunds> refunds) {
+	public void setRefunds(Set<Refunds> refunds)
+	{
 		this.refunds = refunds;
 	}
 
@@ -1030,7 +1111,8 @@ public class Order extends BaseEntity {
 	 */
 	@OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	@OrderBy("createDate asc")
-	public Set<Shipping> getShippings() {
+	public Set<Shipping> getShippings()
+	{
 		return shippings;
 	}
 
@@ -1038,9 +1120,10 @@ public class Order extends BaseEntity {
 	 * 设置发货单
 	 * 
 	 * @param shippings
-	 *            发货单
+	 *           发货单
 	 */
-	public void setShippings(Set<Shipping> shippings) {
+	public void setShippings(Set<Shipping> shippings)
+	{
 		this.shippings = shippings;
 	}
 
@@ -1051,7 +1134,8 @@ public class Order extends BaseEntity {
 	 */
 	@OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	@OrderBy("createDate asc")
-	public Set<Returns> getReturns() {
+	public Set<Returns> getReturns()
+	{
 		return returns;
 	}
 
@@ -1059,9 +1143,10 @@ public class Order extends BaseEntity {
 	 * 设置退货单
 	 * 
 	 * @param returns
-	 *            退货单
+	 *           退货单
 	 */
-	public void setReturns(Set<Returns> returns) {
+	public void setReturns(Set<Returns> returns)
+	{
 		this.returns = returns;
 	}
 
@@ -1071,15 +1156,20 @@ public class Order extends BaseEntity {
 	 * @return 订单名称
 	 */
 	@Transient
-	public String getName() {
+	public String getName()
+	{
 		StringBuffer name = new StringBuffer();
-		if (getOrderItems() != null) {
-			for (OrderItem orderItem : getOrderItems()) {
-				if (orderItem != null && orderItem.getFullName() != null) {
+		if (getOrderItems() != null)
+		{
+			for (OrderItem orderItem : getOrderItems())
+			{
+				if (orderItem != null && orderItem.getFullName() != null)
+				{
 					name.append(NAME_SEPARATOR).append(orderItem.getFullName());
 				}
 			}
-			if (name.length() > 0) {
+			if (name.length() > 0)
+			{
 				name.deleteCharAt(0);
 			}
 		}
@@ -1092,11 +1182,15 @@ public class Order extends BaseEntity {
 	 * @return 商品重量
 	 */
 	@Transient
-	public int getWeight() {
+	public int getWeight()
+	{
 		int weight = 0;
-		if (getOrderItems() != null) {
-			for (OrderItem orderItem : getOrderItems()) {
-				if (orderItem != null) {
+		if (getOrderItems() != null)
+		{
+			for (OrderItem orderItem : getOrderItems())
+			{
+				if (orderItem != null)
+				{
 					weight += orderItem.getTotalWeight();
 				}
 			}
@@ -1110,11 +1204,15 @@ public class Order extends BaseEntity {
 	 * @return 商品数量
 	 */
 	@Transient
-	public int getQuantity() {
+	public int getQuantity()
+	{
 		int quantity = 0;
-		if (getOrderItems() != null) {
-			for (OrderItem orderItem : getOrderItems()) {
-				if (orderItem != null && orderItem.getQuantity() != null) {
+		if (getOrderItems() != null)
+		{
+			for (OrderItem orderItem : getOrderItems())
+			{
+				if (orderItem != null && orderItem.getQuantity() != null)
+				{
 					quantity += orderItem.getQuantity();
 				}
 			}
@@ -1128,11 +1226,15 @@ public class Order extends BaseEntity {
 	 * @return 已发货数量
 	 */
 	@Transient
-	public int getShippedQuantity() {
+	public int getShippedQuantity()
+	{
 		int shippedQuantity = 0;
-		if (getOrderItems() != null) {
-			for (OrderItem orderItem : getOrderItems()) {
-				if (orderItem != null && orderItem.getShippedQuantity() != null) {
+		if (getOrderItems() != null)
+		{
+			for (OrderItem orderItem : getOrderItems())
+			{
+				if (orderItem != null && orderItem.getShippedQuantity() != null)
+				{
 					shippedQuantity += orderItem.getShippedQuantity();
 				}
 			}
@@ -1146,11 +1248,15 @@ public class Order extends BaseEntity {
 	 * @return 已退货数量
 	 */
 	@Transient
-	public int getReturnQuantity() {
+	public int getReturnQuantity()
+	{
 		int returnQuantity = 0;
-		if (getOrderItems() != null) {
-			for (OrderItem orderItem : getOrderItems()) {
-				if (orderItem != null && orderItem.getReturnQuantity() != null) {
+		if (getOrderItems() != null)
+		{
+			for (OrderItem orderItem : getOrderItems())
+			{
+				if (orderItem != null && orderItem.getReturnQuantity() != null)
+				{
 					returnQuantity += orderItem.getReturnQuantity();
 				}
 			}
@@ -1164,11 +1270,15 @@ public class Order extends BaseEntity {
 	 * @return 商品价格
 	 */
 	@Transient
-	public BigDecimal getPrice() {
+	public BigDecimal getPrice()
+	{
 		BigDecimal price = new BigDecimal(0);
-		if (getOrderItems() != null) {
-			for (OrderItem orderItem : getOrderItems()) {
-				if (orderItem != null && orderItem.getSubtotal() != null) {
+		if (getOrderItems() != null)
+		{
+			for (OrderItem orderItem : getOrderItems())
+			{
+				if (orderItem != null && orderItem.getSubtotal() != null)
+				{
 					price = price.add(orderItem.getSubtotal());
 				}
 			}
@@ -1182,24 +1292,31 @@ public class Order extends BaseEntity {
 	 * @return 订单金额
 	 */
 	@Transient
-	public BigDecimal getAmount() {
+	public BigDecimal getAmount()
+	{
 		BigDecimal amount = getPrice();
-		if (getFee() != null) {
+		if (getFee() != null)
+		{
 			amount = amount.add(getFee());
 		}
-		if (getFreight() != null) {
+		if (getFreight() != null)
+		{
 			amount = amount.add(getFreight());
 		}
-		if (getPromotionDiscount() != null) {
+		if (getPromotionDiscount() != null)
+		{
 			amount = amount.subtract(getPromotionDiscount());
 		}
-		if (getCouponDiscount() != null) {
+		if (getCouponDiscount() != null)
+		{
 			amount = amount.subtract(getCouponDiscount());
 		}
-		if (getOffsetAmount() != null) {
+		if (getOffsetAmount() != null)
+		{
 			amount = amount.add(getOffsetAmount());
 		}
-		if (getTax() != null) {
+		if (getTax() != null)
+		{
 			amount = amount.add(getTax());
 		}
 		return amount.compareTo(new BigDecimal(0)) > 0 ? amount : new BigDecimal(0);
@@ -1211,7 +1328,8 @@ public class Order extends BaseEntity {
 	 * @return 应付金额
 	 */
 	@Transient
-	public BigDecimal getAmountPayable() {
+	public BigDecimal getAmountPayable()
+	{
 		BigDecimal amountPayable = getAmount().subtract(getAmountPaid());
 		return amountPayable.compareTo(new BigDecimal(0)) > 0 ? amountPayable : new BigDecimal(0);
 	}
@@ -1222,7 +1340,8 @@ public class Order extends BaseEntity {
 	 * @return 是否已过期
 	 */
 	@Transient
-	public boolean isExpired() {
+	public boolean isExpired()
+	{
 		return getExpire() != null && new Date().after(getExpire());
 	}
 
@@ -1230,14 +1349,18 @@ public class Order extends BaseEntity {
 	 * 获取订单项
 	 * 
 	 * @param sn
-	 *            商品编号
+	 *           商品编号
 	 * @return 订单项
 	 */
 	@Transient
-	public OrderItem getOrderItem(String sn) {
-		if (sn != null && getOrderItems() != null) {
-			for (OrderItem orderItem : getOrderItems()) {
-				if (orderItem != null && sn.equalsIgnoreCase(orderItem.getSn())) {
+	public OrderItem getOrderItem(String sn)
+	{
+		if (sn != null && getOrderItems() != null)
+		{
+			for (OrderItem orderItem : getOrderItems())
+			{
+				if (orderItem != null && sn.equalsIgnoreCase(orderItem.getSn()))
+				{
 					return orderItem;
 				}
 			}
@@ -1249,12 +1372,14 @@ public class Order extends BaseEntity {
 	 * 判断是否已锁定
 	 * 
 	 * @param operator
-	 *            操作员
+	 *           操作员
 	 * @return 是否已锁定
 	 */
 	@Transient
-	public boolean isLocked(Admin operator) {
-		return getLockExpire() != null && new Date().before(getLockExpire()) && ((operator != null && !operator.equals(getOperator())) || (operator == null && getOperator() != null));
+	public boolean isLocked(Admin operator)
+	{
+		return getLockExpire() != null && new Date().before(getLockExpire())
+				&& ((operator != null && !operator.equals(getOperator())) || (operator == null && getOperator() != null));
 	}
 
 	/**
@@ -1263,18 +1388,23 @@ public class Order extends BaseEntity {
 	 * @return 税金
 	 */
 	@Transient
-	public BigDecimal calculateTax() {
+	public BigDecimal calculateTax()
+	{
 		BigDecimal tax = new BigDecimal(0);
 		Setting setting = SettingUtils.get();
-		if (setting.getIsTaxPriceEnabled()) {
+		if (setting.getIsTaxPriceEnabled())
+		{
 			BigDecimal amount = getPrice();
-			if (getPromotionDiscount() != null) {
+			if (getPromotionDiscount() != null)
+			{
 				amount = amount.subtract(getPromotionDiscount());
 			}
-			if (getCouponDiscount() != null) {
+			if (getCouponDiscount() != null)
+			{
 				amount = amount.subtract(getCouponDiscount());
 			}
-			if (getOffsetAmount() != null) {
+			if (getOffsetAmount() != null)
+			{
 				amount = amount.add(getOffsetAmount());
 			}
 			tax = amount.multiply(new BigDecimal(setting.getTaxRate().toString()));
@@ -1286,14 +1416,18 @@ public class Order extends BaseEntity {
 	 * 持久化前处理
 	 */
 	@PrePersist
-	public void prePersist() {
-		if (getArea() != null) {
+	public void prePersist()
+	{
+		if (getArea() != null)
+		{
 			setAreaName(getArea().getFullName());
 		}
-		if (getPaymentMethod() != null) {
+		if (getPaymentMethod() != null)
+		{
 			setPaymentMethodName(getPaymentMethod().getName());
 		}
-		if (getShippingMethod() != null) {
+		if (getShippingMethod() != null)
+		{
 			setShippingMethodName(getShippingMethod().getName());
 		}
 	}
@@ -1302,14 +1436,18 @@ public class Order extends BaseEntity {
 	 * 更新前处理
 	 */
 	@PreUpdate
-	public void preUpdate() {
-		if (getArea() != null) {
+	public void preUpdate()
+	{
+		if (getArea() != null)
+		{
 			setAreaName(getArea().getFullName());
 		}
-		if (getPaymentMethod() != null) {
+		if (getPaymentMethod() != null)
+		{
 			setPaymentMethodName(getPaymentMethod().getName());
 		}
-		if (getShippingMethod() != null) {
+		if (getShippingMethod() != null)
+		{
 			setShippingMethodName(getShippingMethod().getName());
 		}
 	}
@@ -1318,10 +1456,13 @@ public class Order extends BaseEntity {
 	 * 删除前处理
 	 */
 	@PreRemove
-	public void preRemove() {
+	public void preRemove()
+	{
 		Set<Deposit> deposits = getDeposits();
-		if (deposits != null) {
-			for (Deposit deposit : deposits) {
+		if (deposits != null)
+		{
+			for (Deposit deposit : deposits)
+			{
 				deposit.setOrder(null);
 			}
 		}

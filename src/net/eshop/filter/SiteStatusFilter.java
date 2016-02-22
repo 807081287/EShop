@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+
 /**
  * Filter - 网站状态
  * 
@@ -26,10 +27,12 @@ import org.springframework.web.filter.OncePerRequestFilter;
  * 
  */
 @Component("siteStatusFilter")
-public class SiteStatusFilter extends OncePerRequestFilter {
+public class SiteStatusFilter extends OncePerRequestFilter
+{
 
 	/** 默认忽略URL */
-	private static final String[] DEFAULT_IGNORE_URL_PATTERNS = new String[] { "/admin/**" };
+	private static final String[] DEFAULT_IGNORE_URL_PATTERNS = new String[]
+	{ "/admin/**" };
 
 	/** 默认重定向URL */
 	private static final String DEFAULT_REDIRECT_URL = "/common/site_close.jhtml";
@@ -44,19 +47,28 @@ public class SiteStatusFilter extends OncePerRequestFilter {
 	private String redirectUrl = DEFAULT_REDIRECT_URL;
 
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws ServletException, IOException
+	{
 		Setting setting = SettingUtils.get();
-		if (setting.getIsSiteEnabled()) {
+		if (setting.getIsSiteEnabled())
+		{
 			filterChain.doFilter(request, response);
-		} else {
+		}
+		else
+		{
 			String path = request.getServletPath();
-			if (path.equals(redirectUrl)) {
+			if (path.equals(redirectUrl))
+			{
 				filterChain.doFilter(request, response);
 				return;
 			}
-			if (ignoreUrlPatterns != null) {
-				for (String ignoreUrlPattern : ignoreUrlPatterns) {
-					if (antPathMatcher.match(ignoreUrlPattern, path)) {
+			if (ignoreUrlPatterns != null)
+			{
+				for (String ignoreUrlPattern : ignoreUrlPatterns)
+				{
+					if (antPathMatcher.match(ignoreUrlPattern, path))
+					{
 						filterChain.doFilter(request, response);
 						return;
 					}
@@ -71,7 +83,8 @@ public class SiteStatusFilter extends OncePerRequestFilter {
 	 * 
 	 * @return 忽略URL
 	 */
-	public String[] getIgnoreUrlPatterns() {
+	public String[] getIgnoreUrlPatterns()
+	{
 		return ignoreUrlPatterns;
 	}
 
@@ -79,9 +92,10 @@ public class SiteStatusFilter extends OncePerRequestFilter {
 	 * 设置忽略URL
 	 * 
 	 * @param ignoreUrlPatterns
-	 *            忽略URL
+	 *           忽略URL
 	 */
-	public void setIgnoreUrlPatterns(String[] ignoreUrlPatterns) {
+	public void setIgnoreUrlPatterns(String[] ignoreUrlPatterns)
+	{
 		this.ignoreUrlPatterns = ignoreUrlPatterns;
 	}
 
@@ -90,7 +104,8 @@ public class SiteStatusFilter extends OncePerRequestFilter {
 	 * 
 	 * @return 重定向URL
 	 */
-	public String getRedirectUrl() {
+	public String getRedirectUrl()
+	{
 		return redirectUrl;
 	}
 
@@ -98,9 +113,10 @@ public class SiteStatusFilter extends OncePerRequestFilter {
 	 * 设置重定向URL
 	 * 
 	 * @param redirectUrl
-	 *            重定向URL
+	 *           重定向URL
 	 */
-	public void setRedirectUrl(String redirectUrl) {
+	public void setRedirectUrl(String redirectUrl)
+	{
 		this.redirectUrl = redirectUrl;
 	}
 

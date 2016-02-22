@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 /**
  * Controller - 标签
  * 
@@ -29,7 +30,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller("adminTagController")
 @RequestMapping("/admin/tag")
-public class TagController extends BaseController {
+public class TagController extends BaseController
+{
 
 	@Resource(name = "tagServiceImpl")
 	private TagService tagService;
@@ -38,7 +40,8 @@ public class TagController extends BaseController {
 	 * 添加
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public String add(ModelMap model) {
+	public String add(ModelMap model)
+	{
 		model.addAttribute("types", Type.values());
 		return "/admin/tag/add";
 	}
@@ -47,8 +50,10 @@ public class TagController extends BaseController {
 	 * 保存
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String save(Tag tag, RedirectAttributes redirectAttributes) {
-		if (!isValid(tag, Save.class)) {
+	public String save(Tag tag, RedirectAttributes redirectAttributes)
+	{
+		if (!isValid(tag, Save.class))
+		{
 			return ERROR_VIEW;
 		}
 		tag.setArticles(null);
@@ -62,7 +67,8 @@ public class TagController extends BaseController {
 	 * 编辑
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(Long id, ModelMap model) {
+	public String edit(Long id, ModelMap model)
+	{
 		model.addAttribute("types", Type.values());
 		model.addAttribute("tag", tagService.find(id));
 		return "/admin/tag/edit";
@@ -72,8 +78,10 @@ public class TagController extends BaseController {
 	 * 更新
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(Tag tag, RedirectAttributes redirectAttributes) {
-		if (!isValid(tag)) {
+	public String update(Tag tag, RedirectAttributes redirectAttributes)
+	{
+		if (!isValid(tag))
+		{
 			return ERROR_VIEW;
 		}
 		tagService.update(tag, "type", "articles", "products");
@@ -85,7 +93,8 @@ public class TagController extends BaseController {
 	 * 列表
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Pageable pageable, ModelMap model) {
+	public String list(Pageable pageable, ModelMap model)
+	{
 		model.addAttribute("page", tagService.findPage(pageable));
 		return "/admin/tag/list";
 	}
@@ -94,8 +103,8 @@ public class TagController extends BaseController {
 	 * 删除
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public @ResponseBody
-	Message delete(Long[] ids) {
+	public @ResponseBody Message delete(Long[] ids)
+	{
 		tagService.delete(ids);
 		return SUCCESS_MESSAGE;
 	}

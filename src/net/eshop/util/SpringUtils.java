@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.web.servlet.LocaleResolver;
 
+
 /**
  * Utils - Spring
  * 
@@ -23,7 +24,8 @@ import org.springframework.web.servlet.LocaleResolver;
  */
 @Component("springUtils")
 @Lazy(false)
-public final class SpringUtils implements ApplicationContextAware, DisposableBean {
+public final class SpringUtils implements ApplicationContextAware, DisposableBean
+{
 
 	/** applicationContext */
 	private static ApplicationContext applicationContext;
@@ -31,14 +33,17 @@ public final class SpringUtils implements ApplicationContextAware, DisposableBea
 	/**
 	 * 不可实例化
 	 */
-	private SpringUtils() {
+	private SpringUtils()
+	{
 	}
 
-	public void setApplicationContext(ApplicationContext applicationContext) {
+	public void setApplicationContext(ApplicationContext applicationContext)
+	{
 		SpringUtils.applicationContext = applicationContext;
 	}
 
-	public void destroy() throws Exception {
+	public void destroy() throws Exception
+	{
 		applicationContext = null;
 	}
 
@@ -47,7 +52,8 @@ public final class SpringUtils implements ApplicationContextAware, DisposableBea
 	 * 
 	 * @return applicationContext
 	 */
-	public static ApplicationContext getApplicationContext() {
+	public static ApplicationContext getApplicationContext()
+	{
 		return applicationContext;
 	}
 
@@ -55,10 +61,11 @@ public final class SpringUtils implements ApplicationContextAware, DisposableBea
 	 * 获取实例
 	 * 
 	 * @param name
-	 *            Bean名称
+	 *           Bean名称
 	 * @return 实例
 	 */
-	public static Object getBean(String name) {
+	public static Object getBean(String name)
+	{
 		Assert.hasText(name);
 		return applicationContext.getBean(name);
 	}
@@ -67,12 +74,13 @@ public final class SpringUtils implements ApplicationContextAware, DisposableBea
 	 * 获取实例
 	 * 
 	 * @param name
-	 *            Bean名称
+	 *           Bean名称
 	 * @param type
-	 *            Bean类型
+	 *           Bean类型
 	 * @return 实例
 	 */
-	public static <T> T getBean(String name, Class<T> type) {
+	public static <T> T getBean(String name, Class<T> type)
+	{
 		Assert.hasText(name);
 		Assert.notNull(type);
 		return applicationContext.getBean(name, type);
@@ -82,12 +90,13 @@ public final class SpringUtils implements ApplicationContextAware, DisposableBea
 	 * 获取国际化消息
 	 * 
 	 * @param code
-	 *            代码
+	 *           代码
 	 * @param args
-	 *            参数
+	 *           参数
 	 * @return 国际化消息
 	 */
-	public static String getMessage(String code, Object... args) {
+	public static String getMessage(String code, Object... args)
+	{
 		LocaleResolver localeResolver = getBean("localeResolver", LocaleResolver.class);
 		Locale locale = localeResolver.resolveLocale(null);
 		return applicationContext.getMessage(code, args, locale);

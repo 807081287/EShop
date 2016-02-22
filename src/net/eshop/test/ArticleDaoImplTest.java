@@ -32,6 +32,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+
 /**
  * Test - 文章
  * 
@@ -39,9 +40,11 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath*:/applicationContext.xml", "classpath*:/applicationContext-mvc.xml" })
+@ContextConfiguration(locations =
+{ "classpath*:/applicationContext.xml", "classpath*:/applicationContext-mvc.xml" })
 @Transactional
-public class ArticleDaoImplTest {
+public class ArticleDaoImplTest
+{
 
 	@Resource(name = "articleCategoryDaoImpl")
 	private ArticleCategoryDao articleCategoryDao;
@@ -66,15 +69,20 @@ public class ArticleDaoImplTest {
 	 * 准备测试数据
 	 */
 	@Before
-	public void prepareTestData() throws Exception {
-		for (int i = 0; i < articleCategoryIds.length; i++) {
+	public void prepareTestData() throws Exception
+	{
+		for (int i = 0; i < articleCategoryIds.length; i++)
+		{
 			String name = "test" + i;
 			ArticleCategory articleCategory = new ArticleCategory();
-			if (i < 20) {
+			if (i < 20)
+			{
 				articleCategory.setName(name);
 				articleCategory.setOrder(i);
 				articleCategoryDao.persist(articleCategory);
-			} else {
+			}
+			else
+			{
 				articleCategory.setName(name);
 				articleCategory.setOrder(i);
 				articleCategory.setParent(articleCategoryDao.find(articleCategoryIds[0]));
@@ -85,7 +93,8 @@ public class ArticleDaoImplTest {
 		articleCategoryDao.flush();
 		articleCategoryDao.clear();
 
-		for (int i = 0; i < tagIds.length; i++) {
+		for (int i = 0; i < tagIds.length; i++)
+		{
 			String name = "test" + i;
 			Tag tag = new Tag();
 			tag.setName(name);
@@ -97,7 +106,8 @@ public class ArticleDaoImplTest {
 		tagDao.flush();
 		tagDao.clear();
 
-		for (int i = 0; i < articleIds.length; i++) {
+		for (int i = 0; i < articleIds.length; i++)
+		{
 			String name = "test" + i;
 			Article article = new Article();
 			article.setTitle(name);
@@ -105,15 +115,20 @@ public class ArticleDaoImplTest {
 			article.setIsPublication(true);
 			article.setIsTop(false);
 			article.setHits(0L);
-			if (i < 20) {
+			if (i < 20)
+			{
 				article.setArticleCategory(articleCategoryDao.find(articleCategoryIds[0]));
-			} else {
+			}
+			else
+			{
 				article.setArticleCategory(articleCategoryDao.find(articleCategoryIds[1]));
 			}
 
-			if (i < 20) {
+			if (i < 20)
+			{
 				Set<Tag> tags = new HashSet<Tag>();
-				if (i < 10) {
+				if (i < 10)
+				{
 					tags.add(tagDao.find(tagIds[0]));
 					tags.add(tagDao.find(tagIds[1]));
 				}
@@ -133,7 +148,8 @@ public class ArticleDaoImplTest {
 	 * 测试FindList
 	 */
 	@Test
-	public void testFindList() {
+	public void testFindList()
+	{
 		List<Tag> tags = new ArrayList<Tag>();
 		tags.add(tagDao.find(tagIds[0]));
 		tags.add(tagDao.find(tagIds[2]));

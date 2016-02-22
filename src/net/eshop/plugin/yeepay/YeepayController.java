@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 /**
  * Controller - 易宝支付
  * 
@@ -32,7 +33,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller("adminYeepayController")
 @RequestMapping("/admin/payment_plugin/yeepay")
-public class YeepayController extends BaseController {
+public class YeepayController extends BaseController
+{
 
 	@Resource(name = "yeepayPlugin")
 	private YeepayPlugin yeepayPlugin;
@@ -43,9 +45,10 @@ public class YeepayController extends BaseController {
 	 * 安装
 	 */
 	@RequestMapping(value = "/install", method = RequestMethod.POST)
-	public @ResponseBody
-	Message install() {
-		if (!yeepayPlugin.getIsInstalled()) {
+	public @ResponseBody Message install()
+	{
+		if (!yeepayPlugin.getIsInstalled())
+		{
 			PluginConfig pluginConfig = new PluginConfig();
 			pluginConfig.setPluginId(yeepayPlugin.getId());
 			pluginConfig.setIsEnabled(false);
@@ -58,9 +61,10 @@ public class YeepayController extends BaseController {
 	 * 卸载
 	 */
 	@RequestMapping(value = "/uninstall", method = RequestMethod.POST)
-	public @ResponseBody
-	Message uninstall() {
-		if (yeepayPlugin.getIsInstalled()) {
+	public @ResponseBody Message uninstall()
+	{
+		if (yeepayPlugin.getIsInstalled())
+		{
 			PluginConfig pluginConfig = yeepayPlugin.getPluginConfig();
 			pluginConfigService.delete(pluginConfig);
 		}
@@ -71,7 +75,8 @@ public class YeepayController extends BaseController {
 	 * 设置
 	 */
 	@RequestMapping(value = "/setting", method = RequestMethod.GET)
-	public String setting(ModelMap model) {
+	public String setting(ModelMap model)
+	{
 		PluginConfig pluginConfig = yeepayPlugin.getPluginConfig();
 		model.addAttribute("feeTypes", FeeType.values());
 		model.addAttribute("pluginConfig", pluginConfig);
@@ -82,7 +87,10 @@ public class YeepayController extends BaseController {
 	 * 更新
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(String paymentName, String partner, String key, FeeType feeType, BigDecimal fee, String logo, String description, @RequestParam(defaultValue = "false") Boolean isEnabled, Integer order, RedirectAttributes redirectAttributes) {
+	public String update(String paymentName, String partner, String key, FeeType feeType, BigDecimal fee, String logo,
+			String description, @RequestParam(defaultValue = "false") Boolean isEnabled, Integer order,
+			RedirectAttributes redirectAttributes)
+	{
 		PluginConfig pluginConfig = yeepayPlugin.getPluginConfig();
 		pluginConfig.setAttribute(PaymentPlugin.PAYMENT_NAME_ATTRIBUTE_NAME, paymentName);
 		pluginConfig.setAttribute("partner", partner);

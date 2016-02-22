@@ -13,13 +13,15 @@ import net.eshop.entity.Article;
 import net.eshop.entity.Product;
 import net.eshop.entity.Product.OrderType;
 
+
 /**
  * Service - 搜索
  * 
  * 
  * 
  */
-public interface SearchService {
+public interface SearchService
+{
 
 	/**
 	 * 创建索引
@@ -30,7 +32,7 @@ public interface SearchService {
 	 * 创建索引
 	 * 
 	 * @param type
-	 *            索引类型
+	 *           索引类型
 	 */
 	void index(Class<?> type);
 
@@ -38,7 +40,7 @@ public interface SearchService {
 	 * 创建索引
 	 * 
 	 * @param article
-	 *            文章
+	 *           文章
 	 */
 	void index(Article article);
 
@@ -46,7 +48,7 @@ public interface SearchService {
 	 * 创建索引
 	 * 
 	 * @param product
-	 *            商品
+	 *           商品
 	 */
 	void index(Product product);
 
@@ -59,7 +61,7 @@ public interface SearchService {
 	 * 删除索引
 	 * 
 	 * @param type
-	 *            索引类型
+	 *           索引类型
 	 */
 	void purge(Class<?> type);
 
@@ -67,7 +69,7 @@ public interface SearchService {
 	 * 删除索引
 	 * 
 	 * @param article
-	 *            文章
+	 *           文章
 	 */
 	void purge(Article article);
 
@@ -75,7 +77,7 @@ public interface SearchService {
 	 * 删除索引
 	 * 
 	 * @param product
-	 *            商品
+	 *           商品
 	 */
 	void purge(Product product);
 
@@ -83,9 +85,9 @@ public interface SearchService {
 	 * 搜索文章分页
 	 * 
 	 * @param keyword
-	 *            关键词
+	 *           关键词
 	 * @param pageable
-	 *            分页信息
+	 *           分页信息
 	 * @return 文章分页
 	 */
 	Page<Article> search(String keyword, Pageable pageable);
@@ -94,15 +96,15 @@ public interface SearchService {
 	 * 搜索商品分页
 	 * 
 	 * @param keyword
-	 *            关键词
+	 *           关键词
 	 * @param startPrice
-	 *            最低价格
+	 *           最低价格
 	 * @param endPrice
-	 *            最高价格
+	 *           最高价格
 	 * @param orderType
-	 *            排序类型
+	 *           排序类型
 	 * @param pageable
-	 *            分页信息
+	 *           分页信息
 	 * @return 商品分页
 	 */
 	Page<Product> search(String keyword, BigDecimal startPrice, BigDecimal endPrice, OrderType orderType, Pageable pageable);

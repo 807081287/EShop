@@ -18,6 +18,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
 /**
  * Entity - 参数
  * 
@@ -27,7 +28,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Entity
 @Table(name = "t_parameter")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_parameter_sequence")
-public class Parameter extends OrderEntity {
+public class Parameter extends OrderEntity
+{
 
 	private static final long serialVersionUID = -5833568086582136314L;
 
@@ -46,7 +48,8 @@ public class Parameter extends OrderEntity {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false)
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
@@ -54,9 +57,10 @@ public class Parameter extends OrderEntity {
 	 * 设置名称
 	 * 
 	 * @param name
-	 *            名称
+	 *           名称
 	 */
-	public void setName(String name) {
+	public void setName(String name)
+	{
 		this.name = name;
 	}
 
@@ -67,7 +71,8 @@ public class Parameter extends OrderEntity {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false)
-	public ParameterGroup getParameterGroup() {
+	public ParameterGroup getParameterGroup()
+	{
 		return parameterGroup;
 	}
 
@@ -75,9 +80,10 @@ public class Parameter extends OrderEntity {
 	 * 设置参数组
 	 * 
 	 * @param parameterGroup
-	 *            参数组
+	 *           参数组
 	 */
-	public void setParameterGroup(ParameterGroup parameterGroup) {
+	public void setParameterGroup(ParameterGroup parameterGroup)
+	{
 		this.parameterGroup = parameterGroup;
 	}
 

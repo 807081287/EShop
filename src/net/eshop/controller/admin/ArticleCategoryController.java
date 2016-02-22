@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 /**
  * Controller - 文章分类
  * 
@@ -30,7 +31,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller("adminArticleCategoryController")
 @RequestMapping("/admin/article_category")
-public class ArticleCategoryController extends BaseController {
+public class ArticleCategoryController extends BaseController
+{
 
 	@Resource(name = "articleCategoryServiceImpl")
 	private ArticleCategoryService articleCategoryService;
@@ -39,7 +41,8 @@ public class ArticleCategoryController extends BaseController {
 	 * 添加
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public String add(ModelMap model) {
+	public String add(ModelMap model)
+	{
 		model.addAttribute("articleCategoryTree", articleCategoryService.findTree());
 		return "/admin/article_category/add";
 	}
@@ -48,9 +51,11 @@ public class ArticleCategoryController extends BaseController {
 	 * 保存
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String save(ArticleCategory articleCategory, Long parentId, RedirectAttributes redirectAttributes) {
+	public String save(ArticleCategory articleCategory, Long parentId, RedirectAttributes redirectAttributes)
+	{
 		articleCategory.setParent(articleCategoryService.find(parentId));
-		if (!isValid(articleCategory)) {
+		if (!isValid(articleCategory))
+		{
 			return ERROR_VIEW;
 		}
 		articleCategory.setTreePath(null);
@@ -66,7 +71,8 @@ public class ArticleCategoryController extends BaseController {
 	 * 编辑
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(Long id, ModelMap model) {
+	public String edit(Long id, ModelMap model)
+	{
 		ArticleCategory articleCategory = articleCategoryService.find(id);
 		model.addAttribute("articleCategoryTree", articleCategoryService.findTree());
 		model.addAttribute("articleCategory", articleCategory);
@@ -78,18 +84,23 @@ public class ArticleCategoryController extends BaseController {
 	 * 更新
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(ArticleCategory articleCategory, Long parentId, RedirectAttributes redirectAttributes) {
+	public String update(ArticleCategory articleCategory, Long parentId, RedirectAttributes redirectAttributes)
+	{
 		articleCategory.setParent(articleCategoryService.find(parentId));
-		if (!isValid(articleCategory)) {
+		if (!isValid(articleCategory))
+		{
 			return ERROR_VIEW;
 		}
-		if (articleCategory.getParent() != null) {
+		if (articleCategory.getParent() != null)
+		{
 			ArticleCategory parent = articleCategory.getParent();
-			if (parent.equals(articleCategory)) {
+			if (parent.equals(articleCategory))
+			{
 				return ERROR_VIEW;
 			}
 			List<ArticleCategory> children = articleCategoryService.findChildren(parent);
-			if (children != null && children.contains(parent)) {
+			if (children != null && children.contains(parent))
+			{
 				return ERROR_VIEW;
 			}
 		}
@@ -102,7 +113,8 @@ public class ArticleCategoryController extends BaseController {
 	 * 列表
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(ModelMap model) {
+	public String list(ModelMap model)
+	{
 		model.addAttribute("articleCategoryTree", articleCategoryService.findTree());
 		return "/admin/article_category/list";
 	}
@@ -111,18 +123,21 @@ public class ArticleCategoryController extends BaseController {
 	 * 删除
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public @ResponseBody
-	Message delete(Long id) {
+	public @ResponseBody Message delete(Long id)
+	{
 		ArticleCategory articleCategory = articleCategoryService.find(id);
-		if (articleCategory == null) {
+		if (articleCategory == null)
+		{
 			return ERROR_MESSAGE;
 		}
 		Set<ArticleCategory> children = articleCategory.getChildren();
-		if (children != null && !children.isEmpty()) {
+		if (children != null && !children.isEmpty())
+		{
 			return Message.error("admin.articleCategory.deleteExistChildrenNotAllowed");
 		}
 		Set<Article> articles = articleCategory.getArticles();
-		if (articles != null && !articles.isEmpty()) {
+		if (articles != null && !articles.isEmpty())
+		{
 			return Message.error("admin.articleCategory.deleteExistArticleNotAllowed");
 		}
 		articleCategoryService.delete(id);

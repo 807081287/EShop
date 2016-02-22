@@ -7,13 +7,15 @@ package net.eshop.dao;
 
 import net.eshop.entity.DeliveryTemplate;
 
+
 /**
  * Dao - 快递单模板
  * 
  * 
  * 
  */
-public interface DeliveryTemplateDao extends BaseDao<DeliveryTemplate, Long> {
+public interface DeliveryTemplateDao extends BaseDao<DeliveryTemplate, Long>
+{
 
 	/**
 	 * 查找默认快递单模板

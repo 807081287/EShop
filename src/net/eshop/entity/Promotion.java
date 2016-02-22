@@ -41,6 +41,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import freemarker.template.TemplateException;
 
+
 /**
  * Entity - 促销
  * 
@@ -50,7 +51,8 @@ import freemarker.template.TemplateException;
 @Entity
 @Table(name = "t_promotion")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_promotion_sequence")
-public class Promotion extends OrderEntity {
+public class Promotion extends OrderEntity
+{
 
 	private static final long serialVersionUID = 3536993535267962279L;
 
@@ -126,7 +128,8 @@ public class Promotion extends OrderEntity {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false)
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
@@ -134,9 +137,10 @@ public class Promotion extends OrderEntity {
 	 * 设置名称
 	 * 
 	 * @param name
-	 *            名称
+	 *           名称
 	 */
-	public void setName(String name) {
+	public void setName(String name)
+	{
 		this.name = name;
 	}
 
@@ -149,7 +153,8 @@ public class Promotion extends OrderEntity {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false)
-	public String getTitle() {
+	public String getTitle()
+	{
 		return title;
 	}
 
@@ -157,9 +162,10 @@ public class Promotion extends OrderEntity {
 	 * 设置标题
 	 * 
 	 * @param title
-	 *            标题
+	 *           标题
 	 */
-	public void setTitle(String title) {
+	public void setTitle(String title)
+	{
 		this.title = title;
 	}
 
@@ -169,7 +175,8 @@ public class Promotion extends OrderEntity {
 	 * @return 起始日期
 	 */
 	@JsonProperty
-	public Date getBeginDate() {
+	public Date getBeginDate()
+	{
 		return beginDate;
 	}
 
@@ -177,9 +184,10 @@ public class Promotion extends OrderEntity {
 	 * 设置起始日期
 	 * 
 	 * @param beginDate
-	 *            起始日期
+	 *           起始日期
 	 */
-	public void setBeginDate(Date beginDate) {
+	public void setBeginDate(Date beginDate)
+	{
 		this.beginDate = beginDate;
 	}
 
@@ -189,7 +197,8 @@ public class Promotion extends OrderEntity {
 	 * @return 结束日期
 	 */
 	@JsonProperty
-	public Date getEndDate() {
+	public Date getEndDate()
+	{
 		return endDate;
 	}
 
@@ -197,9 +206,10 @@ public class Promotion extends OrderEntity {
 	 * 设置结束日期
 	 * 
 	 * @param endDate
-	 *            结束日期
+	 *           结束日期
 	 */
-	public void setEndDate(Date endDate) {
+	public void setEndDate(Date endDate)
+	{
 		this.endDate = endDate;
 	}
 
@@ -210,7 +220,8 @@ public class Promotion extends OrderEntity {
 	 */
 	@JsonProperty
 	@Min(0)
-	public Integer getMinimumQuantity() {
+	public Integer getMinimumQuantity()
+	{
 		return minimumQuantity;
 	}
 
@@ -218,9 +229,10 @@ public class Promotion extends OrderEntity {
 	 * 设置最小商品数量
 	 * 
 	 * @param minimumQuantity
-	 *            最小商品数量
+	 *           最小商品数量
 	 */
-	public void setMinimumQuantity(Integer minimumQuantity) {
+	public void setMinimumQuantity(Integer minimumQuantity)
+	{
 		this.minimumQuantity = minimumQuantity;
 	}
 
@@ -231,7 +243,8 @@ public class Promotion extends OrderEntity {
 	 */
 	@JsonProperty
 	@Min(0)
-	public Integer getMaximumQuantity() {
+	public Integer getMaximumQuantity()
+	{
 		return maximumQuantity;
 	}
 
@@ -239,9 +252,10 @@ public class Promotion extends OrderEntity {
 	 * 设置最大商品数量
 	 * 
 	 * @param maximumQuantity
-	 *            最大商品数量
+	 *           最大商品数量
 	 */
-	public void setMaximumQuantity(Integer maximumQuantity) {
+	public void setMaximumQuantity(Integer maximumQuantity)
+	{
 		this.maximumQuantity = maximumQuantity;
 	}
 
@@ -254,7 +268,8 @@ public class Promotion extends OrderEntity {
 	@Min(0)
 	@Digits(integer = 12, fraction = 3)
 	@Column(precision = 21, scale = 6)
-	public BigDecimal getMinimumPrice() {
+	public BigDecimal getMinimumPrice()
+	{
 		return minimumPrice;
 	}
 
@@ -262,9 +277,10 @@ public class Promotion extends OrderEntity {
 	 * 设置最小商品价格
 	 * 
 	 * @param minimumPrice
-	 *            最小商品价格
+	 *           最小商品价格
 	 */
-	public void setMinimumPrice(BigDecimal minimumPrice) {
+	public void setMinimumPrice(BigDecimal minimumPrice)
+	{
 		this.minimumPrice = minimumPrice;
 	}
 
@@ -277,7 +293,8 @@ public class Promotion extends OrderEntity {
 	@Min(0)
 	@Digits(integer = 12, fraction = 3)
 	@Column(precision = 21, scale = 6)
-	public BigDecimal getMaximumPrice() {
+	public BigDecimal getMaximumPrice()
+	{
 		return maximumPrice;
 	}
 
@@ -285,9 +302,10 @@ public class Promotion extends OrderEntity {
 	 * 设置最大商品价格
 	 * 
 	 * @param maximumPrice
-	 *            最大商品价格
+	 *           最大商品价格
 	 */
-	public void setMaximumPrice(BigDecimal maximumPrice) {
+	public void setMaximumPrice(BigDecimal maximumPrice)
+	{
 		this.maximumPrice = maximumPrice;
 	}
 
@@ -296,7 +314,8 @@ public class Promotion extends OrderEntity {
 	 * 
 	 * @return 价格运算表达式
 	 */
-	public String getPriceExpression() {
+	public String getPriceExpression()
+	{
 		return priceExpression;
 	}
 
@@ -304,9 +323,10 @@ public class Promotion extends OrderEntity {
 	 * 设置价格运算表达式
 	 * 
 	 * @param priceExpression
-	 *            价格运算表达式
+	 *           价格运算表达式
 	 */
-	public void setPriceExpression(String priceExpression) {
+	public void setPriceExpression(String priceExpression)
+	{
 		this.priceExpression = priceExpression;
 	}
 
@@ -315,7 +335,8 @@ public class Promotion extends OrderEntity {
 	 * 
 	 * @return 积分运算表达式
 	 */
-	public String getPointExpression() {
+	public String getPointExpression()
+	{
 		return pointExpression;
 	}
 
@@ -323,9 +344,10 @@ public class Promotion extends OrderEntity {
 	 * 设置积分运算表达式
 	 * 
 	 * @param pointExpression
-	 *            积分运算表达式
+	 *           积分运算表达式
 	 */
-	public void setPointExpression(String pointExpression) {
+	public void setPointExpression(String pointExpression)
+	{
 		this.pointExpression = pointExpression;
 	}
 
@@ -336,7 +358,8 @@ public class Promotion extends OrderEntity {
 	 */
 	@NotNull
 	@Column(nullable = false)
-	public Boolean getIsFreeShipping() {
+	public Boolean getIsFreeShipping()
+	{
 		return isFreeShipping;
 	}
 
@@ -344,9 +367,10 @@ public class Promotion extends OrderEntity {
 	 * 设置是否免运费
 	 * 
 	 * @param isFreeShipping
-	 *            是否免运费
+	 *           是否免运费
 	 */
-	public void setIsFreeShipping(Boolean isFreeShipping) {
+	public void setIsFreeShipping(Boolean isFreeShipping)
+	{
 		this.isFreeShipping = isFreeShipping;
 	}
 
@@ -358,7 +382,8 @@ public class Promotion extends OrderEntity {
 	@JsonProperty
 	@NotNull
 	@Column(nullable = false)
-	public Boolean getIsCouponAllowed() {
+	public Boolean getIsCouponAllowed()
+	{
 		return isCouponAllowed;
 	}
 
@@ -366,9 +391,10 @@ public class Promotion extends OrderEntity {
 	 * 设置是否允许使用优惠券
 	 * 
 	 * @param isCouponAllowed
-	 *            是否允许使用优惠券
+	 *           是否允许使用优惠券
 	 */
-	public void setIsCouponAllowed(Boolean isCouponAllowed) {
+	public void setIsCouponAllowed(Boolean isCouponAllowed)
+	{
 		this.isCouponAllowed = isCouponAllowed;
 	}
 
@@ -378,7 +404,8 @@ public class Promotion extends OrderEntity {
 	 * @return 介绍
 	 */
 	@Lob
-	public String getIntroduction() {
+	public String getIntroduction()
+	{
 		return introduction;
 	}
 
@@ -386,9 +413,10 @@ public class Promotion extends OrderEntity {
 	 * 设置介绍
 	 * 
 	 * @param introduction
-	 *            介绍
+	 *           介绍
 	 */
-	public void setIntroduction(String introduction) {
+	public void setIntroduction(String introduction)
+	{
 		this.introduction = introduction;
 	}
 
@@ -399,7 +427,8 @@ public class Promotion extends OrderEntity {
 	 */
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "t_promotion_member_rank")
-	public Set<MemberRank> getMemberRanks() {
+	public Set<MemberRank> getMemberRanks()
+	{
 		return memberRanks;
 	}
 
@@ -407,9 +436,10 @@ public class Promotion extends OrderEntity {
 	 * 设置允许参加会员等级
 	 * 
 	 * @param memberRanks
-	 *            允许参加会员等级
+	 *           允许参加会员等级
 	 */
-	public void setMemberRanks(Set<MemberRank> memberRanks) {
+	public void setMemberRanks(Set<MemberRank> memberRanks)
+	{
 		this.memberRanks = memberRanks;
 	}
 
@@ -420,7 +450,8 @@ public class Promotion extends OrderEntity {
 	 */
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "t_promotion_product_category")
-	public Set<ProductCategory> getProductCategories() {
+	public Set<ProductCategory> getProductCategories()
+	{
 		return productCategories;
 	}
 
@@ -428,9 +459,10 @@ public class Promotion extends OrderEntity {
 	 * 设置允许参与商品分类
 	 * 
 	 * @param productCategories
-	 *            允许参与商品分类
+	 *           允许参与商品分类
 	 */
-	public void setProductCategories(Set<ProductCategory> productCategories) {
+	public void setProductCategories(Set<ProductCategory> productCategories)
+	{
 		this.productCategories = productCategories;
 	}
 
@@ -441,7 +473,8 @@ public class Promotion extends OrderEntity {
 	 */
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "t_promotion_product")
-	public Set<Product> getProducts() {
+	public Set<Product> getProducts()
+	{
 		return products;
 	}
 
@@ -449,9 +482,10 @@ public class Promotion extends OrderEntity {
 	 * 设置允许参与商品
 	 * 
 	 * @param products
-	 *            允许参与商品
+	 *           允许参与商品
 	 */
-	public void setProducts(Set<Product> products) {
+	public void setProducts(Set<Product> products)
+	{
 		this.products = products;
 	}
 
@@ -462,7 +496,8 @@ public class Promotion extends OrderEntity {
 	 */
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "t_promotion_brand")
-	public Set<Brand> getBrands() {
+	public Set<Brand> getBrands()
+	{
 		return brands;
 	}
 
@@ -470,9 +505,10 @@ public class Promotion extends OrderEntity {
 	 * 设置允许参与品牌
 	 * 
 	 * @param brands
-	 *            允许参与品牌
+	 *           允许参与品牌
 	 */
-	public void setBrands(Set<Brand> brands) {
+	public void setBrands(Set<Brand> brands)
+	{
 		this.brands = brands;
 	}
 
@@ -483,7 +519,8 @@ public class Promotion extends OrderEntity {
 	 */
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "t_promotion_coupon")
-	public Set<Coupon> getCoupons() {
+	public Set<Coupon> getCoupons()
+	{
 		return coupons;
 	}
 
@@ -491,9 +528,10 @@ public class Promotion extends OrderEntity {
 	 * 设置赠送优惠券
 	 * 
 	 * @param coupons
-	 *            赠送优惠券
+	 *           赠送优惠券
 	 */
-	public void setCoupons(Set<Coupon> coupons) {
+	public void setCoupons(Set<Coupon> coupons)
+	{
 		this.coupons = coupons;
 	}
 
@@ -504,7 +542,8 @@ public class Promotion extends OrderEntity {
 	 */
 	@Valid
 	@OneToMany(mappedBy = "promotion", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-	public List<GiftItem> getGiftItems() {
+	public List<GiftItem> getGiftItems()
+	{
 		return giftItems;
 	}
 
@@ -512,9 +551,10 @@ public class Promotion extends OrderEntity {
 	 * 设置赠品
 	 * 
 	 * @param giftItems
-	 *            赠品
+	 *           赠品
 	 */
-	public void setGiftItems(List<GiftItem> giftItems) {
+	public void setGiftItems(List<GiftItem> giftItems)
+	{
 		this.giftItems = giftItems;
 	}
 
@@ -524,7 +564,8 @@ public class Promotion extends OrderEntity {
 	 * @return 是否已开始
 	 */
 	@Transient
-	public boolean hasBegun() {
+	public boolean hasBegun()
+	{
 		return getBeginDate() == null || new Date().after(getBeginDate());
 	}
 
@@ -534,7 +575,8 @@ public class Promotion extends OrderEntity {
 	 * @return 是否已结束
 	 */
 	@Transient
-	public boolean hasEnded() {
+	public boolean hasEnded()
+	{
 		return getEndDate() != null && new Date().after(getEndDate());
 	}
 
@@ -544,8 +586,10 @@ public class Promotion extends OrderEntity {
 	 * @return 访问路径
 	 */
 	@Transient
-	public String getPath() {
-		if (getId() != null) {
+	public String getPath()
+	{
+		if (getId() != null)
+		{
 			return PATH_PREFIX + "/" + getId() + PATH_SUFFIX;
 		}
 		return null;
@@ -555,28 +599,36 @@ public class Promotion extends OrderEntity {
 	 * 计算促销价格
 	 * 
 	 * @param quantity
-	 *            商品数量
+	 *           商品数量
 	 * @param price
-	 *            商品价格
+	 *           商品价格
 	 * @return 促销价格
 	 */
 	@Transient
-	public BigDecimal calculatePrice(Integer quantity, BigDecimal price) {
-		if (price == null || StringUtils.isEmpty(getPriceExpression())) {
+	public BigDecimal calculatePrice(Integer quantity, BigDecimal price)
+	{
+		if (price == null || StringUtils.isEmpty(getPriceExpression()))
+		{
 			return price;
 		}
 		BigDecimal result = new BigDecimal(0);
-		try {
+		try
+		{
 			Map<String, Object> model = new HashMap<String, Object>();
 			model.put("quantity", quantity);
 			model.put("price", price);
 			result = new BigDecimal(FreemarkerUtils.process("#{(" + getPriceExpression() + ");M50}", model));
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (TemplateException e) {
+		}
+		catch (IOException e)
+		{
 			e.printStackTrace();
 		}
-		if (result.compareTo(price) > 0) {
+		catch (TemplateException e)
+		{
+			e.printStackTrace();
+		}
+		if (result.compareTo(price) > 0)
+		{
 			return price;
 		}
 		return result.compareTo(new BigDecimal(0)) > 0 ? result : new BigDecimal(0);
@@ -586,30 +638,40 @@ public class Promotion extends OrderEntity {
 	 * 计算促销赠送积分
 	 * 
 	 * @param quantity
-	 *            商品数量
+	 *           商品数量
 	 * @param point
-	 *            赠送积分
+	 *           赠送积分
 	 * @return 促销赠送积分
 	 */
 	@Transient
-	public Long calculatePoint(Integer quantity, Long point) {
-		if (point == null || StringUtils.isEmpty(getPointExpression())) {
+	public Long calculatePoint(Integer quantity, Long point)
+	{
+		if (point == null || StringUtils.isEmpty(getPointExpression()))
+		{
 			return point;
 		}
 		Long result = 0L;
-		try {
+		try
+		{
 			Map<String, Object> model = new HashMap<String, Object>();
 			model.put("quantity", quantity);
 			model.put("point", point);
 			result = Double.valueOf(FreemarkerUtils.process("#{(" + getPointExpression() + ");M50}", model)).longValue();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (TemplateException e) {
-			e.printStackTrace();
-		} catch (NumberFormatException e) {
+		}
+		catch (IOException e)
+		{
 			e.printStackTrace();
 		}
-		if (result < point) {
+		catch (TemplateException e)
+		{
+			e.printStackTrace();
+		}
+		catch (NumberFormatException e)
+		{
+			e.printStackTrace();
+		}
+		if (result < point)
+		{
 			return point;
 		}
 		return result > 0L ? result : 0L;

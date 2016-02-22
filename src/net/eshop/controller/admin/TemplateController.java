@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
+
 /**
  * Controller - 模板
  * 
@@ -26,7 +27,8 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
  */
 @Controller("adminTemplateController")
 @RequestMapping("/admin/template")
-public class TemplateController extends BaseController {
+public class TemplateController extends BaseController
+{
 
 	@Resource(name = "freeMarkerConfigurer")
 	private FreeMarkerConfigurer freeMarkerConfigurer;
@@ -38,8 +40,10 @@ public class TemplateController extends BaseController {
 	 * 编辑
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(String id, ModelMap model) {
-		if (StringUtils.isEmpty(id)) {
+	public String edit(String id, ModelMap model)
+	{
+		if (StringUtils.isEmpty(id))
+		{
 			return ERROR_VIEW;
 		}
 		model.addAttribute("template", templateService.get(id));
@@ -51,8 +55,10 @@ public class TemplateController extends BaseController {
 	 * 更新
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(String id, String content, RedirectAttributes redirectAttributes) {
-		if (StringUtils.isEmpty(id) || content == null) {
+	public String update(String id, String content, RedirectAttributes redirectAttributes)
+	{
+		if (StringUtils.isEmpty(id) || content == null)
+		{
 			return ERROR_VIEW;
 		}
 		templateService.write(id, content);
@@ -65,7 +71,8 @@ public class TemplateController extends BaseController {
 	 * 列表
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Type type, ModelMap model) {
+	public String list(Type type, ModelMap model)
+	{
 		model.addAttribute("type", type);
 		model.addAttribute("types", Type.values());
 		model.addAttribute("templates", templateService.getList(type));

@@ -16,6 +16,7 @@ import org.hibernate.search.annotations.Store;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
 /**
  * Entity - 排序基类
  * 
@@ -23,7 +24,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * 
  */
 @MappedSuperclass
-public abstract class OrderEntity extends BaseEntity implements Comparable<OrderEntity> {
+public abstract class OrderEntity extends BaseEntity implements Comparable<OrderEntity>
+{
 
 	private static final long serialVersionUID = 5995013015967525827L;
 
@@ -42,7 +44,8 @@ public abstract class OrderEntity extends BaseEntity implements Comparable<Order
 	@Field(store = Store.YES, index = Index.UN_TOKENIZED)
 	@Min(0)
 	@Column(name = "orders")
-	public Integer getOrder() {
+	public Integer getOrder()
+	{
 		return order;
 	}
 
@@ -50,9 +53,10 @@ public abstract class OrderEntity extends BaseEntity implements Comparable<Order
 	 * 设置排序
 	 * 
 	 * @param order
-	 *            排序
+	 *           排序
 	 */
-	public void setOrder(Integer order) {
+	public void setOrder(Integer order)
+	{
 		this.order = order;
 	}
 
@@ -60,11 +64,13 @@ public abstract class OrderEntity extends BaseEntity implements Comparable<Order
 	 * 实现compareTo方法
 	 * 
 	 * @param orderEntity
-	 *            排序对象
+	 *           排序对象
 	 * @return 比较结果
 	 */
-	public int compareTo(OrderEntity orderEntity) {
-		return new CompareToBuilder().append(getOrder(), orderEntity.getOrder()).append(getId(), orderEntity.getId()).toComparison();
+	public int compareTo(OrderEntity orderEntity)
+	{
+		return new CompareToBuilder().append(getOrder(), orderEntity.getOrder()).append(getId(), orderEntity.getId())
+				.toComparison();
 	}
 
 }

@@ -12,13 +12,15 @@ import java.util.Date;
 
 import org.apache.commons.lang.time.DateUtils;
 
+
 /**
  * 日期类型转换
  * 
  * 
  * 
  */
-public class DateEditor extends PropertyEditorSupport {
+public class DateEditor extends PropertyEditorSupport
+{
 
 	/** 默认日期格式 */
 	private static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
@@ -31,19 +33,21 @@ public class DateEditor extends PropertyEditorSupport {
 
 	/**
 	 * @param emptyAsNull
-	 *            是否将空转换为null
+	 *           是否将空转换为null
 	 */
-	public DateEditor(boolean emptyAsNull) {
+	public DateEditor(boolean emptyAsNull)
+	{
 		this.emptyAsNull = emptyAsNull;
 	}
 
 	/**
 	 * @param emptyAsNull
-	 *            是否将空转换为null
+	 *           是否将空转换为null
 	 * @param dateFormat
-	 *            日期格式
+	 *           日期格式
 	 */
-	public DateEditor(boolean emptyAsNull, String dateFormat) {
+	public DateEditor(boolean emptyAsNull, String dateFormat)
+	{
 		this.emptyAsNull = emptyAsNull;
 		this.dateFormat = dateFormat;
 	}
@@ -54,7 +58,8 @@ public class DateEditor extends PropertyEditorSupport {
 	 * @return 日期
 	 */
 	@Override
-	public String getAsText() {
+	public String getAsText()
+	{
 		Date value = (Date) getValue();
 		return value != null ? new SimpleDateFormat(dateFormat).format(value) : "";
 	}
@@ -63,20 +68,30 @@ public class DateEditor extends PropertyEditorSupport {
 	 * 设置日期
 	 * 
 	 * @param text
-	 *            字符串
+	 *           字符串
 	 */
 	@Override
-	public void setAsText(String text) {
-		if (text == null) {
+	public void setAsText(String text)
+	{
+		if (text == null)
+		{
 			setValue(null);
-		} else {
+		}
+		else
+		{
 			String value = text.trim();
-			if (emptyAsNull && "".equals(value)) {
+			if (emptyAsNull && "".equals(value))
+			{
 				setValue(null);
-			} else {
-				try {
+			}
+			else
+			{
+				try
+				{
 					setValue(DateUtils.parseDate(value, CommonAttributes.DATE_PATTERNS));
-				} catch (ParseException e) {
+				}
+				catch (ParseException e)
+				{
 					setValue(null);
 				}
 			}

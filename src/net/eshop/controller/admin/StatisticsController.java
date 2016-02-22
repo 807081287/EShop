@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 /**
  * Controller - 统计
  * 
@@ -33,7 +34,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller("statisticsController")
 @RequestMapping("/admin/statistics")
-public class StatisticsController extends BaseController {
+public class StatisticsController extends BaseController
+{
 
 	@Resource(name = "cacheServiceImpl")
 	private CacheService cacheService;
@@ -42,7 +44,8 @@ public class StatisticsController extends BaseController {
 	 * 查看
 	 */
 	@RequestMapping(value = "/view", method = RequestMethod.GET)
-	public String view() {
+	public String view()
+	{
 		return "/admin/statistics/view";
 	}
 
@@ -50,7 +53,8 @@ public class StatisticsController extends BaseController {
 	 * 设置
 	 */
 	@RequestMapping(value = "/setting", method = RequestMethod.GET)
-	public String setting() {
+	public String setting()
+	{
 		return "/admin/statistics/setting";
 	}
 
@@ -58,25 +62,35 @@ public class StatisticsController extends BaseController {
 	 * 设置
 	 */
 	@RequestMapping(value = "/setting", method = RequestMethod.POST)
-	public String setting(@RequestParam(defaultValue = "false") Boolean isEnabled, RedirectAttributes redirectAttributes) {
+	public String setting(@RequestParam(defaultValue = "false") Boolean isEnabled, RedirectAttributes redirectAttributes)
+	{
 		Setting setting = SettingUtils.get();
-		if (isEnabled) {
-			if (StringUtils.isEmpty(setting.getCnzzSiteId()) || StringUtils.isEmpty(setting.getCnzzPassword())) {
-				try {
-					String createAccountUrl = "http://intf.cnzz.com/user/companion/eshop.php?domain=" + setting.getSiteUrl() + "&key=" + DigestUtils.md5Hex(setting.getSiteUrl() + "Lfg4uP0H");
+		if (isEnabled)
+		{
+			if (StringUtils.isEmpty(setting.getCnzzSiteId()) || StringUtils.isEmpty(setting.getCnzzPassword()))
+			{
+				try
+				{
+					String createAccountUrl = "http://intf.cnzz.com/user/companion/eshop.php?domain=" + setting.getSiteUrl() + "&key="
+							+ DigestUtils.md5Hex(setting.getSiteUrl() + "Lfg4uP0H");
 					URLConnection urlConnection = new URL(createAccountUrl).openConnection();
 					BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 					String line = null;
-					while ((line = in.readLine()) != null) {
-						if (line.contains("@")) {
+					while ((line = in.readLine()) != null)
+					{
+						if (line.contains("@"))
+						{
 							break;
 						}
 					}
-					if (line != null) {
+					if (line != null)
+					{
 						setting.setCnzzSiteId(StringUtils.substringBefore(line, "@"));
 						setting.setCnzzPassword(StringUtils.substringAfter(line, "@"));
 					}
-				} catch (IOException e) {
+				}
+				catch (IOException e)
+				{
 					e.printStackTrace();
 				}
 			}

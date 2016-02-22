@@ -22,6 +22,7 @@ import javax.persistence.Table;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+
 /**
  * Entity - 消息
  * 
@@ -31,7 +32,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table(name = "t_message")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_message_sequence")
-public class Message extends BaseEntity {
+public class Message extends BaseEntity
+{
 
 	private static final long serialVersionUID = -5035343536762850722L;
 
@@ -77,7 +79,8 @@ public class Message extends BaseEntity {
 	 * @return 标题
 	 */
 	@Column(nullable = false, updatable = false)
-	public String getTitle() {
+	public String getTitle()
+	{
 		return title;
 	}
 
@@ -85,9 +88,10 @@ public class Message extends BaseEntity {
 	 * 设置标题
 	 * 
 	 * @param title
-	 *            标题
+	 *           标题
 	 */
-	public void setTitle(String title) {
+	public void setTitle(String title)
+	{
 		this.title = title;
 	}
 
@@ -99,7 +103,8 @@ public class Message extends BaseEntity {
 	@NotEmpty
 	@Length(max = 1000)
 	@Column(nullable = false, updatable = false, length = 1000)
-	public String getContent() {
+	public String getContent()
+	{
 		return content;
 	}
 
@@ -107,9 +112,10 @@ public class Message extends BaseEntity {
 	 * 设置内容
 	 * 
 	 * @param content
-	 *            内容
+	 *           内容
 	 */
-	public void setContent(String content) {
+	public void setContent(String content)
+	{
 		this.content = content;
 	}
 
@@ -119,7 +125,8 @@ public class Message extends BaseEntity {
 	 * @return ip
 	 */
 	@Column(nullable = false, updatable = false)
-	public String getIp() {
+	public String getIp()
+	{
 		return ip;
 	}
 
@@ -127,9 +134,10 @@ public class Message extends BaseEntity {
 	 * 设置ip
 	 * 
 	 * @param ip
-	 *            ip
+	 *           ip
 	 */
-	public void setIp(String ip) {
+	public void setIp(String ip)
+	{
 		this.ip = ip;
 	}
 
@@ -139,7 +147,8 @@ public class Message extends BaseEntity {
 	 * @return 是否为草稿
 	 */
 	@Column(nullable = false, updatable = false)
-	public Boolean getIsDraft() {
+	public Boolean getIsDraft()
+	{
 		return isDraft;
 	}
 
@@ -147,9 +156,10 @@ public class Message extends BaseEntity {
 	 * 设置是否为草稿
 	 * 
 	 * @param isDraft
-	 *            是否为草稿
+	 *           是否为草稿
 	 */
-	public void setIsDraft(Boolean isDraft) {
+	public void setIsDraft(Boolean isDraft)
+	{
 		this.isDraft = isDraft;
 	}
 
@@ -159,7 +169,8 @@ public class Message extends BaseEntity {
 	 * @return 发件人已读
 	 */
 	@Column(nullable = false)
-	public Boolean getSenderRead() {
+	public Boolean getSenderRead()
+	{
 		return senderRead;
 	}
 
@@ -167,9 +178,10 @@ public class Message extends BaseEntity {
 	 * 设置发件人已读
 	 * 
 	 * @param senderRead
-	 *            发件人已读
+	 *           发件人已读
 	 */
-	public void setSenderRead(Boolean senderRead) {
+	public void setSenderRead(Boolean senderRead)
+	{
 		this.senderRead = senderRead;
 	}
 
@@ -179,7 +191,8 @@ public class Message extends BaseEntity {
 	 * @return 收件人已读
 	 */
 	@Column(nullable = false)
-	public Boolean getReceiverRead() {
+	public Boolean getReceiverRead()
+	{
 		return receiverRead;
 	}
 
@@ -187,9 +200,10 @@ public class Message extends BaseEntity {
 	 * 设置收件人已读
 	 * 
 	 * @param receiverRead
-	 *            收件人已读
+	 *           收件人已读
 	 */
-	public void setReceiverRead(Boolean receiverRead) {
+	public void setReceiverRead(Boolean receiverRead)
+	{
 		this.receiverRead = receiverRead;
 	}
 
@@ -199,7 +213,8 @@ public class Message extends BaseEntity {
 	 * @return 发件人删除
 	 */
 	@Column(nullable = false)
-	public Boolean getSenderDelete() {
+	public Boolean getSenderDelete()
+	{
 		return senderDelete;
 	}
 
@@ -207,9 +222,10 @@ public class Message extends BaseEntity {
 	 * 设置发件人删除
 	 * 
 	 * @param senderDelete
-	 *            发件人删除
+	 *           发件人删除
 	 */
-	public void setSenderDelete(Boolean senderDelete) {
+	public void setSenderDelete(Boolean senderDelete)
+	{
 		this.senderDelete = senderDelete;
 	}
 
@@ -219,7 +235,8 @@ public class Message extends BaseEntity {
 	 * @return 收件人删除
 	 */
 	@Column(nullable = false)
-	public Boolean getReceiverDelete() {
+	public Boolean getReceiverDelete()
+	{
 		return receiverDelete;
 	}
 
@@ -227,9 +244,10 @@ public class Message extends BaseEntity {
 	 * 设置收件人删除
 	 * 
 	 * @param receiverDelete
-	 *            收件人删除
+	 *           收件人删除
 	 */
-	public void setReceiverDelete(Boolean receiverDelete) {
+	public void setReceiverDelete(Boolean receiverDelete)
+	{
 		this.receiverDelete = receiverDelete;
 	}
 
@@ -240,7 +258,8 @@ public class Message extends BaseEntity {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(updatable = false)
-	public Member getSender() {
+	public Member getSender()
+	{
 		return sender;
 	}
 
@@ -248,9 +267,10 @@ public class Message extends BaseEntity {
 	 * 设置发件人
 	 * 
 	 * @param sender
-	 *            发件人
+	 *           发件人
 	 */
-	public void setSender(Member sender) {
+	public void setSender(Member sender)
+	{
 		this.sender = sender;
 	}
 
@@ -261,7 +281,8 @@ public class Message extends BaseEntity {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(updatable = false)
-	public Member getReceiver() {
+	public Member getReceiver()
+	{
 		return receiver;
 	}
 
@@ -269,9 +290,10 @@ public class Message extends BaseEntity {
 	 * 设置收件人
 	 * 
 	 * @param receiver
-	 *            收件人
+	 *           收件人
 	 */
-	public void setReceiver(Member receiver) {
+	public void setReceiver(Member receiver)
+	{
 		this.receiver = receiver;
 	}
 
@@ -282,7 +304,8 @@ public class Message extends BaseEntity {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(updatable = false)
-	public Message getForMessage() {
+	public Message getForMessage()
+	{
 		return forMessage;
 	}
 
@@ -290,9 +313,10 @@ public class Message extends BaseEntity {
 	 * 设置原消息
 	 * 
 	 * @param forMessage
-	 *            原消息
+	 *           原消息
 	 */
-	public void setForMessage(Message forMessage) {
+	public void setForMessage(Message forMessage)
+	{
 		this.forMessage = forMessage;
 	}
 
@@ -303,7 +327,8 @@ public class Message extends BaseEntity {
 	 */
 	@OneToMany(mappedBy = "forMessage", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	@OrderBy(value = "createDate asc")
-	public Set<Message> getReplyMessages() {
+	public Set<Message> getReplyMessages()
+	{
 		return replyMessages;
 	}
 
@@ -311,9 +336,10 @@ public class Message extends BaseEntity {
 	 * 设置回复消息
 	 * 
 	 * @param replyMessages
-	 *            回复消息
+	 *           回复消息
 	 */
-	public void setReplyMessages(Set<Message> replyMessages) {
+	public void setReplyMessages(Set<Message> replyMessages)
+	{
 		this.replyMessages = replyMessages;
 	}
 

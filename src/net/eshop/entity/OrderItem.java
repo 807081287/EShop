@@ -24,6 +24,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
 /**
  * Entity - 订单项
  * 
@@ -33,7 +34,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Entity
 @Table(name = "t_order_item")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_order_item_sequence")
-public class OrderItem extends BaseEntity {
+public class OrderItem extends BaseEntity
+{
 
 	private static final long serialVersionUID = -4999926022604479334L;
 
@@ -81,7 +83,8 @@ public class OrderItem extends BaseEntity {
 	@JsonProperty
 	@NotEmpty
 	@Column(nullable = false, updatable = false)
-	public String getSn() {
+	public String getSn()
+	{
 		return sn;
 	}
 
@@ -89,9 +92,10 @@ public class OrderItem extends BaseEntity {
 	 * 设置商品编号
 	 * 
 	 * @param sn
-	 *            商品编号
+	 *           商品编号
 	 */
-	public void setSn(String sn) {
+	public void setSn(String sn)
+	{
 		this.sn = sn;
 	}
 
@@ -102,7 +106,8 @@ public class OrderItem extends BaseEntity {
 	 */
 	@JsonProperty
 	@Column(nullable = false, updatable = false)
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
@@ -110,9 +115,10 @@ public class OrderItem extends BaseEntity {
 	 * 设置商品名称
 	 * 
 	 * @param name
-	 *            商品名称
+	 *           商品名称
 	 */
-	public void setName(String name) {
+	public void setName(String name)
+	{
 		this.name = name;
 	}
 
@@ -123,7 +129,8 @@ public class OrderItem extends BaseEntity {
 	 */
 	@JsonProperty
 	@Column(nullable = false, updatable = false)
-	public String getFullName() {
+	public String getFullName()
+	{
 		return fullName;
 	}
 
@@ -131,9 +138,10 @@ public class OrderItem extends BaseEntity {
 	 * 设置商品全称
 	 * 
 	 * @param fullName
-	 *            商品全称
+	 *           商品全称
 	 */
-	public void setFullName(String fullName) {
+	public void setFullName(String fullName)
+	{
 		this.fullName = fullName;
 	}
 
@@ -147,7 +155,8 @@ public class OrderItem extends BaseEntity {
 	@Min(0)
 	@Digits(integer = 12, fraction = 3)
 	@Column(nullable = false, precision = 21, scale = 6)
-	public BigDecimal getPrice() {
+	public BigDecimal getPrice()
+	{
 		return price;
 	}
 
@@ -155,9 +164,10 @@ public class OrderItem extends BaseEntity {
 	 * 设置商品价格
 	 * 
 	 * @param price
-	 *            商品价格
+	 *           商品价格
 	 */
-	public void setPrice(BigDecimal price) {
+	public void setPrice(BigDecimal price)
+	{
 		this.price = price;
 	}
 
@@ -168,7 +178,8 @@ public class OrderItem extends BaseEntity {
 	 */
 	@JsonProperty
 	@Column(updatable = false)
-	public Integer getWeight() {
+	public Integer getWeight()
+	{
 		return weight;
 	}
 
@@ -176,9 +187,10 @@ public class OrderItem extends BaseEntity {
 	 * 设置商品重量
 	 * 
 	 * @param weight
-	 *            商品重量
+	 *           商品重量
 	 */
-	public void setWeight(Integer weight) {
+	public void setWeight(Integer weight)
+	{
 		this.weight = weight;
 	}
 
@@ -189,7 +201,8 @@ public class OrderItem extends BaseEntity {
 	 */
 	@JsonProperty
 	@Column(updatable = false)
-	public String getThumbnail() {
+	public String getThumbnail()
+	{
 		return thumbnail;
 	}
 
@@ -197,9 +210,10 @@ public class OrderItem extends BaseEntity {
 	 * 设置商品缩略图
 	 * 
 	 * @param thumbnail
-	 *            商品缩略图
+	 *           商品缩略图
 	 */
-	public void setThumbnail(String thumbnail) {
+	public void setThumbnail(String thumbnail)
+	{
 		this.thumbnail = thumbnail;
 	}
 
@@ -210,7 +224,8 @@ public class OrderItem extends BaseEntity {
 	 */
 	@JsonProperty
 	@Column(nullable = false, updatable = false)
-	public Boolean getIsGift() {
+	public Boolean getIsGift()
+	{
 		return isGift;
 	}
 
@@ -218,9 +233,10 @@ public class OrderItem extends BaseEntity {
 	 * 设置是否为赠品
 	 * 
 	 * @param isGift
-	 *            是否为赠品
+	 *           是否为赠品
 	 */
-	public void setIsGift(Boolean isGift) {
+	public void setIsGift(Boolean isGift)
+	{
 		this.isGift = isGift;
 	}
 
@@ -234,7 +250,8 @@ public class OrderItem extends BaseEntity {
 	@Min(1)
 	@Max(10000)
 	@Column(nullable = false)
-	public Integer getQuantity() {
+	public Integer getQuantity()
+	{
 		return quantity;
 	}
 
@@ -242,9 +259,10 @@ public class OrderItem extends BaseEntity {
 	 * 设置数量
 	 * 
 	 * @param quantity
-	 *            数量
+	 *           数量
 	 */
-	public void setQuantity(Integer quantity) {
+	public void setQuantity(Integer quantity)
+	{
 		this.quantity = quantity;
 	}
 
@@ -254,7 +272,8 @@ public class OrderItem extends BaseEntity {
 	 * @return 已发货数量
 	 */
 	@Column(nullable = false)
-	public Integer getShippedQuantity() {
+	public Integer getShippedQuantity()
+	{
 		return shippedQuantity;
 	}
 
@@ -262,9 +281,10 @@ public class OrderItem extends BaseEntity {
 	 * 设置已发货数量
 	 * 
 	 * @param shippedQuantity
-	 *            已发货数量
+	 *           已发货数量
 	 */
-	public void setShippedQuantity(Integer shippedQuantity) {
+	public void setShippedQuantity(Integer shippedQuantity)
+	{
 		this.shippedQuantity = shippedQuantity;
 	}
 
@@ -274,7 +294,8 @@ public class OrderItem extends BaseEntity {
 	 * @return 已退货数量
 	 */
 	@Column(nullable = false)
-	public Integer getReturnQuantity() {
+	public Integer getReturnQuantity()
+	{
 		return returnQuantity;
 	}
 
@@ -282,9 +303,10 @@ public class OrderItem extends BaseEntity {
 	 * 设置已退货数量
 	 * 
 	 * @param returnQuantity
-	 *            已退货数量
+	 *           已退货数量
 	 */
-	public void setReturnQuantity(Integer returnQuantity) {
+	public void setReturnQuantity(Integer returnQuantity)
+	{
 		this.returnQuantity = returnQuantity;
 	}
 
@@ -294,7 +316,8 @@ public class OrderItem extends BaseEntity {
 	 * @return 商品
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	public Product getProduct() {
+	public Product getProduct()
+	{
 		return product;
 	}
 
@@ -302,9 +325,10 @@ public class OrderItem extends BaseEntity {
 	 * 设置商品
 	 * 
 	 * @param product
-	 *            商品
+	 *           商品
 	 */
-	public void setProduct(Product product) {
+	public void setProduct(Product product)
+	{
 		this.product = product;
 	}
 
@@ -315,7 +339,8 @@ public class OrderItem extends BaseEntity {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "orders", nullable = false, updatable = false)
-	public Order getOrder() {
+	public Order getOrder()
+	{
 		return order;
 	}
 
@@ -323,9 +348,10 @@ public class OrderItem extends BaseEntity {
 	 * 设置订单
 	 * 
 	 * @param order
-	 *            订单
+	 *           订单
 	 */
-	public void setOrder(Order order) {
+	public void setOrder(Order order)
+	{
 		this.order = order;
 	}
 
@@ -336,10 +362,14 @@ public class OrderItem extends BaseEntity {
 	 */
 	@JsonProperty
 	@Transient
-	public int getTotalWeight() {
-		if (getWeight() != null && getQuantity() != null) {
+	public int getTotalWeight()
+	{
+		if (getWeight() != null && getQuantity() != null)
+		{
 			return getWeight() * getQuantity();
-		} else {
+		}
+		else
+		{
 			return 0;
 		}
 	}
@@ -351,10 +381,14 @@ public class OrderItem extends BaseEntity {
 	 */
 	@JsonProperty
 	@Transient
-	public BigDecimal getSubtotal() {
-		if (getPrice() != null && getQuantity() != null) {
+	public BigDecimal getSubtotal()
+	{
+		if (getPrice() != null && getQuantity() != null)
+		{
 			return getPrice().multiply(new BigDecimal(getQuantity()));
-		} else {
+		}
+		else
+		{
 			return new BigDecimal(0);
 		}
 	}

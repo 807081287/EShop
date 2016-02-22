@@ -34,6 +34,7 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
+
 /**
  * Service - 邮件
  * 
@@ -41,7 +42,8 @@ import freemarker.template.TemplateException;
  * 
  */
 @Service("mailServiceImpl")
-public class MailServiceImpl implements MailService {
+public class MailServiceImpl implements MailService
+{
 
 	@Resource(name = "freeMarkerConfigurer")
 	private FreeMarkerConfigurer freeMarkerConfigurer;
@@ -56,21 +58,29 @@ public class MailServiceImpl implements MailService {
 	 * 添加邮件发送任务
 	 * 
 	 * @param mimeMessage
-	 *            MimeMessage
+	 *           MimeMessage
 	 */
-	private void addSendTask(final MimeMessage mimeMessage) {
-		try {
-			taskExecutor.execute(new Runnable() {
-				public void run() {
+	private void addSendTask(final MimeMessage mimeMessage)
+	{
+		try
+		{
+			taskExecutor.execute(new Runnable()
+			{
+				public void run()
+				{
 					javaMailSender.send(mimeMessage);
 				}
 			});
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
 		}
 	}
 
-	public void send(String smtpFromMail, String smtpHost, Integer smtpPort, String smtpUsername, String smtpPassword, String toMail, String subject, String templatePath, Map<String, Object> model, boolean async) {
+	public void send(String smtpFromMail, String smtpHost, Integer smtpPort, String smtpUsername, String smtpPassword,
+			String toMail, String subject, String templatePath, Map<String, Object> model, boolean async)
+	{
 		Assert.hasText(smtpFromMail);
 		Assert.hasText(smtpHost);
 		Assert.notNull(smtpPort);
@@ -79,7 +89,8 @@ public class MailServiceImpl implements MailService {
 		Assert.hasText(toMail);
 		Assert.hasText(subject);
 		Assert.hasText(templatePath);
-		try {
+		try
+		{
 			Setting setting = SettingUtils.get();
 			Configuration configuration = freeMarkerConfigurer.getConfiguration();
 			Template template = configuration.getTemplate(templatePath);
@@ -94,43 +105,62 @@ public class MailServiceImpl implements MailService {
 			mimeMessageHelper.setSubject(subject);
 			mimeMessageHelper.setTo(toMail);
 			mimeMessageHelper.setText(text, true);
-			if (async) {
+			if (async)
+			{
 				addSendTask(mimeMessage);
-			} else {
+			}
+			else
+			{
 				javaMailSender.send(mimeMessage);
 			}
-		} catch (TemplateException e) {
+		}
+		catch (TemplateException e)
+		{
 			e.printStackTrace();
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 			e.printStackTrace();
-		} catch (MessagingException e) {
+		}
+		catch (MessagingException e)
+		{
 			e.printStackTrace();
 		}
 	}
 
-	public void send(String toMail, String subject, String templatePath, Map<String, Object> model, boolean async) {
+	public void send(String toMail, String subject, String templatePath, Map<String, Object> model, boolean async)
+	{
 		Setting setting = SettingUtils.get();
-		send(setting.getSmtpFromMail(), setting.getSmtpHost(), setting.getSmtpPort(), setting.getSmtpUsername(), setting.getSmtpPassword(), toMail, subject, templatePath, model, async);
+		send(setting.getSmtpFromMail(), setting.getSmtpHost(), setting.getSmtpPort(), setting.getSmtpUsername(),
+				setting.getSmtpPassword(), toMail, subject, templatePath, model, async);
 	}
 
-	public void send(String toMail, String subject, String templatePath, Map<String, Object> model) {
+	public void send(String toMail, String subject, String templatePath, Map<String, Object> model)
+	{
 		Setting setting = SettingUtils.get();
-		send(setting.getSmtpFromMail(), setting.getSmtpHost(), setting.getSmtpPort(), setting.getSmtpUsername(), setting.getSmtpPassword(), toMail, subject, templatePath, model, true);
+		send(setting.getSmtpFromMail(), setting.getSmtpHost(), setting.getSmtpPort(), setting.getSmtpUsername(),
+				setting.getSmtpPassword(), toMail, subject, templatePath, model, true);
 	}
 
-	public void send(String toMail, String subject, String templatePath) {
+	public void send(String toMail, String subject, String templatePath)
+	{
 		Setting setting = SettingUtils.get();
-		send(setting.getSmtpFromMail(), setting.getSmtpHost(), setting.getSmtpPort(), setting.getSmtpUsername(), setting.getSmtpPassword(), toMail, subject, templatePath, null, true);
+		send(setting.getSmtpFromMail(), setting.getSmtpHost(), setting.getSmtpPort(), setting.getSmtpUsername(),
+				setting.getSmtpPassword(), toMail, subject, templatePath, null, true);
 	}
 
-	public void sendTestMail(String smtpFromMail, String smtpHost, Integer smtpPort, String smtpUsername, String smtpPassword, String toMail) {
+	public void sendTestMail(String smtpFromMail, String smtpHost, Integer smtpPort, String smtpUsername, String smtpPassword,
+			String toMail)
+	{
 		Setting setting = SettingUtils.get();
 		String subject = SpringUtils.getMessage("admin.setting.testMailSubject", setting.getSiteName());
 		net.eshop.Template testMailTemplate = templateService.get("testMail");
-		send(smtpFromMail, smtpHost, smtpPort, smtpUsername, smtpPassword, toMail, subject, testMailTemplate.getTemplatePath(), null, false);
+		send(smtpFromMail, smtpHost, smtpPort, smtpUsername, smtpPassword, toMail, subject, testMailTemplate.getTemplatePath(),
+				null, false);
 	}
 
-	public void sendFindPasswordMail(String toMail, String username, SafeKey safeKey) {
+	public void sendFindPasswordMail(String toMail, String username, SafeKey safeKey)
+	{
 		Setting setting = SettingUtils.get();
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("username", username);
@@ -140,7 +170,8 @@ public class MailServiceImpl implements MailService {
 		send(toMail, subject, findPasswordMailTemplate.getTemplatePath(), model);
 	}
 
-	public void sendProductNotifyMail(ProductNotify productNotify) {
+	public void sendProductNotifyMail(ProductNotify productNotify)
+	{
 		Setting setting = SettingUtils.get();
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("productNotify", productNotify);

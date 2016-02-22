@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 /**
  * Controller - 会员注册项
  * 
@@ -34,7 +35,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller("adminMemberAttributeController")
 @RequestMapping("/admin/member_attribute")
-public class MemberAttributeController extends BaseController {
+public class MemberAttributeController extends BaseController
+{
 
 	@Resource(name = "memberAttributeServiceImpl")
 	private MemberAttributeService memberAttributeService;
@@ -43,9 +45,12 @@ public class MemberAttributeController extends BaseController {
 	 * 添加
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public String add(ModelMap model, RedirectAttributes redirectAttributes) {
-		if (memberAttributeService.count() - 8 >= Member.ATTRIBUTE_VALUE_PROPERTY_COUNT) {
-			addFlashMessage(redirectAttributes, Message.warn("admin.memberAttribute.addCountNotAllowed", Member.ATTRIBUTE_VALUE_PROPERTY_COUNT));
+	public String add(ModelMap model, RedirectAttributes redirectAttributes)
+	{
+		if (memberAttributeService.count() - 8 >= Member.ATTRIBUTE_VALUE_PROPERTY_COUNT)
+		{
+			addFlashMessage(redirectAttributes,
+					Message.warn("admin.memberAttribute.addCountNotAllowed", Member.ATTRIBUTE_VALUE_PROPERTY_COUNT));
 		}
 		return "/admin/member_attribute/add";
 	}
@@ -54,30 +59,42 @@ public class MemberAttributeController extends BaseController {
 	 * 保存
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String save(MemberAttribute memberAttribute, RedirectAttributes redirectAttributes) {
-		if (!isValid(memberAttribute, Save.class)) {
+	public String save(MemberAttribute memberAttribute, RedirectAttributes redirectAttributes)
+	{
+		if (!isValid(memberAttribute, Save.class))
+		{
 			return ERROR_VIEW;
 		}
-		if (memberAttribute.getType() == Type.select || memberAttribute.getType() == Type.checkbox) {
+		if (memberAttribute.getType() == Type.select || memberAttribute.getType() == Type.checkbox)
+		{
 			List<String> options = memberAttribute.getOptions();
-			if (options != null) {
-				for (Iterator<String> iterator = options.iterator(); iterator.hasNext();) {
+			if (options != null)
+			{
+				for (Iterator<String> iterator = options.iterator(); iterator.hasNext();)
+				{
 					String option = iterator.next();
-					if (StringUtils.isEmpty(option)) {
+					if (StringUtils.isEmpty(option))
+					{
 						iterator.remove();
 					}
 				}
 			}
-			if (options == null || options.isEmpty()) {
+			if (options == null || options.isEmpty())
+			{
 				return ERROR_VIEW;
 			}
-		} else if (memberAttribute.getType() == Type.text) {
+		}
+		else if (memberAttribute.getType() == Type.text)
+		{
 			memberAttribute.setOptions(null);
-		} else {
+		}
+		else
+		{
 			return ERROR_VIEW;
 		}
 		Integer propertyIndex = memberAttributeService.findUnusedPropertyIndex();
-		if (propertyIndex == null) {
+		if (propertyIndex == null)
+		{
 			return ERROR_VIEW;
 		}
 		memberAttribute.setPropertyIndex(propertyIndex);
@@ -90,7 +107,8 @@ public class MemberAttributeController extends BaseController {
 	 * 编辑
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(Long id, ModelMap model) {
+	public String edit(Long id, ModelMap model)
+	{
 		model.addAttribute("memberAttribute", memberAttributeService.find(id));
 		return "/admin/member_attribute/edit";
 	}
@@ -99,28 +117,38 @@ public class MemberAttributeController extends BaseController {
 	 * 更新
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(MemberAttribute memberAttribute, RedirectAttributes redirectAttributes) {
-		if (!isValid(memberAttribute)) {
+	public String update(MemberAttribute memberAttribute, RedirectAttributes redirectAttributes)
+	{
+		if (!isValid(memberAttribute))
+		{
 			return ERROR_VIEW;
 		}
 		MemberAttribute pMemberAttribute = memberAttributeService.find(memberAttribute.getId());
-		if (pMemberAttribute == null) {
+		if (pMemberAttribute == null)
+		{
 			return ERROR_VIEW;
 		}
-		if (pMemberAttribute.getType() == Type.select || pMemberAttribute.getType() == Type.checkbox) {
+		if (pMemberAttribute.getType() == Type.select || pMemberAttribute.getType() == Type.checkbox)
+		{
 			List<String> options = memberAttribute.getOptions();
-			if (options != null) {
-				for (Iterator<String> iterator = options.iterator(); iterator.hasNext();) {
+			if (options != null)
+			{
+				for (Iterator<String> iterator = options.iterator(); iterator.hasNext();)
+				{
 					String option = iterator.next();
-					if (StringUtils.isEmpty(option)) {
+					if (StringUtils.isEmpty(option))
+					{
 						iterator.remove();
 					}
 				}
 			}
-			if (options == null || options.isEmpty()) {
+			if (options == null || options.isEmpty())
+			{
 				return ERROR_VIEW;
 			}
-		} else {
+		}
+		else
+		{
 			memberAttribute.setOptions(null);
 		}
 		memberAttributeService.update(memberAttribute, "type", "propertyIndex");
@@ -132,7 +160,8 @@ public class MemberAttributeController extends BaseController {
 	 * 列表
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Pageable pageable, ModelMap model) {
+	public String list(Pageable pageable, ModelMap model)
+	{
 		model.addAttribute("page", memberAttributeService.findPage(pageable));
 		return "/admin/member_attribute/list";
 	}
@@ -141,8 +170,8 @@ public class MemberAttributeController extends BaseController {
 	 * 删除
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public @ResponseBody
-	Message delete(Long[] ids) {
+	public @ResponseBody Message delete(Long[] ids)
+	{
 		memberAttributeService.delete(ids);
 		return SUCCESS_MESSAGE;
 	}

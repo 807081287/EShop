@@ -9,19 +9,21 @@ import java.util.List;
 
 import net.eshop.entity.Admin;
 
+
 /**
  * Service - 管理员
  * 
  * 
  * 
  */
-public interface AdminService extends BaseService<Admin, Long> {
+public interface AdminService extends BaseService<Admin, Long>
+{
 
 	/**
 	 * 判断用户名是否存在
 	 * 
 	 * @param username
-	 *            用户名(忽略大小写)
+	 *           用户名(忽略大小写)
 	 * @return 用户名是否存在
 	 */
 	boolean usernameExists(String username);
@@ -30,7 +32,7 @@ public interface AdminService extends BaseService<Admin, Long> {
 	 * 根据用户名查找管理员
 	 * 
 	 * @param username
-	 *            用户名(忽略大小写)
+	 *           用户名(忽略大小写)
 	 * @return 管理员，若不存在则返回null
 	 */
 	Admin findByUsername(String username);
@@ -39,7 +41,7 @@ public interface AdminService extends BaseService<Admin, Long> {
 	 * 根据ID查找权限
 	 * 
 	 * @param id
-	 *            ID
+	 *           ID
 	 * @return 权限,若不存在则返回null
 	 */
 	List<String> findAuthorities(Long id);

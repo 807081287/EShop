@@ -27,6 +27,7 @@ import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
 import org.springframework.stereotype.Component;
 
+
 /**
  * Plugin - 财付通(担保交易)
  * 
@@ -34,60 +35,72 @@ import org.springframework.stereotype.Component;
  * 
  */
 @Component("tenpayPartnerPlugin")
-public class TenpayPartnerPlugin extends PaymentPlugin {
+public class TenpayPartnerPlugin extends PaymentPlugin
+{
 
 	@Override
-	public String getName() {
+	public String getName()
+	{
 		return "财付通(担保交易)";
 	}
 
 	@Override
-	public String getVersion() {
+	public String getVersion()
+	{
 		return "1.0";
 	}
 
 	@Override
-	public String getAuthor() {
+	public String getAuthor()
+	{
 		return SettingUtils.get().getSiteName();
 	}
 
 	@Override
-	public String getSiteUrl() {
+	public String getSiteUrl()
+	{
 		return SettingUtils.get().getSiteUrl();
 	}
 
 	@Override
-	public String getInstallUrl() {
+	public String getInstallUrl()
+	{
 		return "tenpay_partner/install.jhtml";
 	}
 
 	@Override
-	public String getUninstallUrl() {
+	public String getUninstallUrl()
+	{
 		return "tenpay_partner/uninstall.jhtml";
 	}
 
 	@Override
-	public String getSettingUrl() {
+	public String getSettingUrl()
+	{
 		return "tenpay_partner/setting.jhtml";
 	}
 
 	@Override
-	public String getRequestUrl() {
+	public String getRequestUrl()
+	{
 		return "https://gw.tenpay.com/gateway/pay.htm";
 	}
 
 	@Override
-	public RequestMethod getRequestMethod() {
+	public RequestMethod getRequestMethod()
+	{
 		return RequestMethod.get;
 	}
 
 	@Override
-	public String getRequestCharset() {
+	public String getRequestCharset()
+	{
 		return "UTF-8";
 	}
 
 	@Override
-	public Map<String, Object> getParameterMap(String sn, String description, HttpServletRequest request) {
+	public Map<String, Object> getParameterMap(String sn, String description, HttpServletRequest request)
+	{
 		PluginConfig pluginConfig = getPluginConfig();
 		Payment payment = getPayment(sn);
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
@@ -112,24 +125,39 @@ public class TenpayPartnerPlugin extends PaymentPlugin {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean verifyNotify(String sn, NotifyMethod notifyMethod, HttpServletRequest request) {
+	public boolean verifyNotify(String sn, NotifyMethod notifyMethod, HttpServletRequest request)
+	{
 		PluginConfig pluginConfig = getPluginConfig();
-		if (generateSign(request.getParameterMap()).equals(request.getParameter("sign")) && pluginConfig.getAttribute("partner").equals(request.getParameter("partner")) && sn.equals(request.getParameter("out_trade_no")) && "0".equals(request.getParameter("trade_state"))) {
-			try {
+		if (generateSign(request.getParameterMap()).equals(request.getParameter("sign"))
+				&& pluginConfig.getAttribute("partner").equals(request.getParameter("partner"))
+				&& sn.equals(request.getParameter("out_trade_no")) && "0".equals(request.getParameter("trade_state")))
+		{
+			try
+			{
 				Map<String, Object> parameterMap = new HashMap<String, Object>();
 				parameterMap.put("input_charset", "utf-8");
 				parameterMap.put("sign_type", "MD5");
 				parameterMap.put("partner", pluginConfig.getAttribute("partner"));
 				parameterMap.put("notify_id", request.getParameter("notify_id"));
-				String verifyUrl = "https://gw.tenpay.com/gateway/simpleverifynotifyid.xml?input_charset=utf-8&sign_type=MD5&partner=" + pluginConfig.getAttribute("partner") + "&notify_id=" + request.getParameter("notify_id") + "&sign=" + generateSign(parameterMap);
+				String verifyUrl = "https://gw.tenpay.com/gateway/simpleverifynotifyid.xml?input_charset=utf-8&sign_type=MD5&partner="
+						+ pluginConfig.getAttribute("partner")
+						+ "&notify_id="
+						+ request.getParameter("notify_id")
+						+ "&sign="
+						+ generateSign(parameterMap);
 				Document document = new SAXReader().read(new URL(verifyUrl));
 				Node node = document.selectSingleNode("/root/retcode");
-				if ("0".equals(node.getText().trim())) {
+				if ("0".equals(node.getText().trim()))
+				{
 					return true;
 				}
-			} catch (DocumentException e) {
+			}
+			catch (DocumentException e)
+			{
 				e.printStackTrace();
-			} catch (MalformedURLException e) {
+			}
+			catch (MalformedURLException e)
+			{
 				e.printStackTrace();
 			}
 		}
@@ -137,15 +165,18 @@ public class TenpayPartnerPlugin extends PaymentPlugin {
 	}
 
 	@Override
-	public String getNotifyMessage(String sn, NotifyMethod notifyMethod, HttpServletRequest request) {
-		if (notifyMethod == NotifyMethod.async) {
+	public String getNotifyMessage(String sn, NotifyMethod notifyMethod, HttpServletRequest request)
+	{
+		if (notifyMethod == NotifyMethod.async)
+		{
 			return "Success";
 		}
 		return null;
 	}
 
 	@Override
-	public Integer getTimeout() {
+	public Integer getTimeout()
+	{
 		return 21600;
 	}
 
@@ -153,12 +184,15 @@ public class TenpayPartnerPlugin extends PaymentPlugin {
 	 * 生成签名
 	 * 
 	 * @param parameterMap
-	 *            参数
+	 *           参数
 	 * @return 签名
 	 */
-	private String generateSign(Map<String, ?> parameterMap) {
+	private String generateSign(Map<String, ?> parameterMap)
+	{
 		PluginConfig pluginConfig = getPluginConfig();
-		return DigestUtils.md5Hex(joinKeyValue(new TreeMap<String, Object>(parameterMap), null, "&key=" + pluginConfig.getAttribute("key"), "&", true, "sign")).toUpperCase();
+		return DigestUtils.md5Hex(
+				joinKeyValue(new TreeMap<String, Object>(parameterMap), null, "&key=" + pluginConfig.getAttribute("key"), "&", true,
+						"sign")).toUpperCase();
 	}
 
 }

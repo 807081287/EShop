@@ -19,6 +19,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
+
 /**
  * Service - 日志配置
  * 
@@ -26,17 +27,21 @@ import org.springframework.stereotype.Service;
  * 
  */
 @Service("logConfigServiceImpl")
-public class LogConfigServiceImpl implements LogConfigService {
+public class LogConfigServiceImpl implements LogConfigService
+{
 
 	@SuppressWarnings("unchecked")
 	@Cacheable("logConfig")
-	public List<LogConfig> getAll() {
-		try {
+	public List<LogConfig> getAll()
+	{
+		try
+		{
 			File eshopXmlFile = new ClassPathResource(CommonAttributes.eshop_XML_PATH).getFile();
 			Document document = new SAXReader().read(eshopXmlFile);
 			List<org.dom4j.Element> elements = document.selectNodes("/eshop/logConfig");
 			List<LogConfig> logConfigs = new ArrayList<LogConfig>();
-			for (org.dom4j.Element element : elements) {
+			for (org.dom4j.Element element : elements)
+			{
 				String operation = element.attributeValue("operation");
 				String urlPattern = element.attributeValue("urlPattern");
 				LogConfig logConfig = new LogConfig();
@@ -45,7 +50,9 @@ public class LogConfigServiceImpl implements LogConfigService {
 				logConfigs.add(logConfig);
 			}
 			return logConfigs;
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
 			return null;
 		}

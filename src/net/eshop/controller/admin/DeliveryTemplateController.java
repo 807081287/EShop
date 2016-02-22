@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 /**
  * Controller - 快递单模板
  * 
@@ -27,7 +28,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller("adminDeliveryTemplateController")
 @RequestMapping("/admin/delivery_template")
-public class DeliveryTemplateController extends BaseController {
+public class DeliveryTemplateController extends BaseController
+{
 
 	@Resource(name = "deliveryTemplateServiceImpl")
 	private DeliveryTemplateService deliveryTemplateService;
@@ -36,7 +38,8 @@ public class DeliveryTemplateController extends BaseController {
 	 * 添加
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public String add(Pageable pageable) {
+	public String add(Pageable pageable)
+	{
 		return "/admin/delivery_template/add";
 	}
 
@@ -44,8 +47,10 @@ public class DeliveryTemplateController extends BaseController {
 	 * 保存
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String save(DeliveryTemplate deliveryTemplate, RedirectAttributes redirectAttributes) {
-		if (!isValid(deliveryTemplate)) {
+	public String save(DeliveryTemplate deliveryTemplate, RedirectAttributes redirectAttributes)
+	{
+		if (!isValid(deliveryTemplate))
+		{
 			return ERROR_VIEW;
 		}
 		deliveryTemplateService.save(deliveryTemplate);
@@ -57,7 +62,8 @@ public class DeliveryTemplateController extends BaseController {
 	 * 编辑
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String eidt(Long id, Model model) {
+	public String eidt(Long id, Model model)
+	{
 		model.addAttribute("deliveryTemplate", deliveryTemplateService.find(id));
 		return "/admin/delivery_template/edit";
 	}
@@ -66,8 +72,10 @@ public class DeliveryTemplateController extends BaseController {
 	 * 更新
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String udpate(DeliveryTemplate deliveryTemplate, RedirectAttributes redirectAttributes) {
-		if (!isValid(deliveryTemplate)) {
+	public String udpate(DeliveryTemplate deliveryTemplate, RedirectAttributes redirectAttributes)
+	{
+		if (!isValid(deliveryTemplate))
+		{
 			return ERROR_VIEW;
 		}
 		deliveryTemplateService.update(deliveryTemplate);
@@ -79,7 +87,8 @@ public class DeliveryTemplateController extends BaseController {
 	 * 列表
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Pageable pageable, Model model) {
+	public String list(Pageable pageable, Model model)
+	{
 		model.addAttribute("page", deliveryTemplateService.findPage(pageable));
 		return "/admin/delivery_template/list";
 	}
@@ -88,8 +97,8 @@ public class DeliveryTemplateController extends BaseController {
 	 * 删除
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public @ResponseBody
-	Message delete(Long[] ids) {
+	public @ResponseBody Message delete(Long[] ids)
+	{
 		deliveryTemplateService.delete(ids);
 		return SUCCESS_MESSAGE;
 	}

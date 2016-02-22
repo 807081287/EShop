@@ -18,6 +18,7 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
 /**
  * Entity - 赠品项
  * 
@@ -25,9 +26,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * 
  */
 @Entity
-@Table(name = "t_gift_item", uniqueConstraints = { @UniqueConstraint(columnNames = { "gift", "promotion" }) })
+@Table(name = "t_gift_item", uniqueConstraints =
+{ @UniqueConstraint(columnNames =
+{ "gift", "promotion" }) })
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_gift_item_sequence")
-public class GiftItem extends BaseEntity {
+public class GiftItem extends BaseEntity
+{
 
 	private static final long serialVersionUID = 6593657730952481829L;
 
@@ -49,7 +53,8 @@ public class GiftItem extends BaseEntity {
 	@NotNull
 	@Min(1)
 	@Column(nullable = false)
-	public Integer getQuantity() {
+	public Integer getQuantity()
+	{
 		return quantity;
 	}
 
@@ -57,9 +62,10 @@ public class GiftItem extends BaseEntity {
 	 * 设置数量
 	 * 
 	 * @param quantity
-	 *            数量
+	 *           数量
 	 */
-	public void setQuantity(Integer quantity) {
+	public void setQuantity(Integer quantity)
+	{
 		this.quantity = quantity;
 	}
 
@@ -72,7 +78,8 @@ public class GiftItem extends BaseEntity {
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false, updatable = false)
-	public Product getGift() {
+	public Product getGift()
+	{
 		return gift;
 	}
 
@@ -80,9 +87,10 @@ public class GiftItem extends BaseEntity {
 	 * 设置赠品
 	 * 
 	 * @param gift
-	 *            赠品
+	 *           赠品
 	 */
-	public void setGift(Product gift) {
+	public void setGift(Product gift)
+	{
 		this.gift = gift;
 	}
 
@@ -93,7 +101,8 @@ public class GiftItem extends BaseEntity {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false, updatable = false)
-	public Promotion getPromotion() {
+	public Promotion getPromotion()
+	{
 		return promotion;
 	}
 
@@ -101,9 +110,10 @@ public class GiftItem extends BaseEntity {
 	 * 设置促销
 	 * 
 	 * @param promotion
-	 *            促销
+	 *           促销
 	 */
-	public void setPromotion(Promotion promotion) {
+	public void setPromotion(Promotion promotion)
+	{
 		this.promotion = promotion;
 	}
 

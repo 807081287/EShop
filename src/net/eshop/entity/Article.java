@@ -54,6 +54,7 @@ import org.wltea.analyzer.lucene.IKSimilarity;
 
 import freemarker.template.TemplateException;
 
+
 /**
  * Entity - 文章
  * 
@@ -65,7 +66,8 @@ import freemarker.template.TemplateException;
 @Entity
 @Table(name = "t_article")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_article_sequence")
-public class Article extends BaseEntity {
+public class Article extends BaseEntity
+{
 
 	private static final long serialVersionUID = 1475773294701585482L;
 
@@ -123,13 +125,17 @@ public class Article extends BaseEntity {
 	/** 标签 */
 	private Set<Tag> tags = new HashSet<Tag>();
 
-	static {
-		try {
+	static
+	{
+		try
+		{
 			File eshopXmlFile = new ClassPathResource(CommonAttributes.eshop_XML_PATH).getFile();
 			org.dom4j.Document document = new SAXReader().read(eshopXmlFile);
 			org.dom4j.Element element = (org.dom4j.Element) document.selectSingleNode("/eshop/template[@id='articleContent']");
 			staticPath = element.attributeValue("staticPath");
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
 		}
 	}
@@ -143,7 +149,8 @@ public class Article extends BaseEntity {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false)
-	public String getTitle() {
+	public String getTitle()
+	{
 		return title;
 	}
 
@@ -151,9 +158,10 @@ public class Article extends BaseEntity {
 	 * 设置标题
 	 * 
 	 * @param title
-	 *            标题
+	 *           标题
 	 */
-	public void setTitle(String title) {
+	public void setTitle(String title)
+	{
 		this.title = title;
 	}
 
@@ -164,7 +172,8 @@ public class Article extends BaseEntity {
 	 */
 	@Field(store = Store.YES, index = Index.NO)
 	@Length(max = 200)
-	public String getAuthor() {
+	public String getAuthor()
+	{
 		return author;
 	}
 
@@ -172,9 +181,10 @@ public class Article extends BaseEntity {
 	 * 设置作者
 	 * 
 	 * @param author
-	 *            作者
+	 *           作者
 	 */
-	public void setAuthor(String author) {
+	public void setAuthor(String author)
+	{
 		this.author = author;
 	}
 
@@ -185,17 +195,23 @@ public class Article extends BaseEntity {
 	 */
 	@Field(store = Store.YES, index = Index.TOKENIZED, analyzer = @Analyzer(impl = IKAnalyzer.class))
 	@Lob
-	public String getContent() {
-		if (pageNumber != null) {
+	public String getContent()
+	{
+		if (pageNumber != null)
+		{
 			String[] pageContents = getPageContents();
-			if (pageNumber < 1) {
+			if (pageNumber < 1)
+			{
 				pageNumber = 1;
 			}
-			if (pageNumber > pageContents.length) {
+			if (pageNumber > pageContents.length)
+			{
 				pageNumber = pageContents.length;
 			}
 			return pageContents[pageNumber - 1];
-		} else {
+		}
+		else
+		{
 			return content;
 		}
 	}
@@ -204,9 +220,10 @@ public class Article extends BaseEntity {
 	 * 设置内容
 	 * 
 	 * @param content
-	 *            内容
+	 *           内容
 	 */
-	public void setContent(String content) {
+	public void setContent(String content)
+	{
 		this.content = content;
 	}
 
@@ -216,7 +233,8 @@ public class Article extends BaseEntity {
 	 * @return 页面标题
 	 */
 	@Length(max = 200)
-	public String getSeoTitle() {
+	public String getSeoTitle()
+	{
 		return seoTitle;
 	}
 
@@ -224,9 +242,10 @@ public class Article extends BaseEntity {
 	 * 设置页面标题
 	 * 
 	 * @param seoTitle
-	 *            页面标题
+	 *           页面标题
 	 */
-	public void setSeoTitle(String seoTitle) {
+	public void setSeoTitle(String seoTitle)
+	{
 		this.seoTitle = seoTitle;
 	}
 
@@ -236,7 +255,8 @@ public class Article extends BaseEntity {
 	 * @return 页面关键词
 	 */
 	@Length(max = 200)
-	public String getSeoKeywords() {
+	public String getSeoKeywords()
+	{
 		return seoKeywords;
 	}
 
@@ -244,10 +264,12 @@ public class Article extends BaseEntity {
 	 * 设置页面关键词
 	 * 
 	 * @param seoKeywords
-	 *            页面关键词
+	 *           页面关键词
 	 */
-	public void setSeoKeywords(String seoKeywords) {
-		if (seoKeywords != null) {
+	public void setSeoKeywords(String seoKeywords)
+	{
+		if (seoKeywords != null)
+		{
 			seoKeywords = seoKeywords.replaceAll("[,\\s]*,[,\\s]*", ",").replaceAll("^,|,$", "");
 		}
 		this.seoKeywords = seoKeywords;
@@ -259,7 +281,8 @@ public class Article extends BaseEntity {
 	 * @return 页面描述
 	 */
 	@Length(max = 200)
-	public String getSeoDescription() {
+	public String getSeoDescription()
+	{
 		return seoDescription;
 	}
 
@@ -267,9 +290,10 @@ public class Article extends BaseEntity {
 	 * 设置页面描述
 	 * 
 	 * @param seoDescription
-	 *            页面描述
+	 *           页面描述
 	 */
-	public void setSeoDescription(String seoDescription) {
+	public void setSeoDescription(String seoDescription)
+	{
 		this.seoDescription = seoDescription;
 	}
 
@@ -281,7 +305,8 @@ public class Article extends BaseEntity {
 	@Field(store = Store.YES, index = Index.UN_TOKENIZED)
 	@NotNull
 	@Column(nullable = false)
-	public Boolean getIsPublication() {
+	public Boolean getIsPublication()
+	{
 		return isPublication;
 	}
 
@@ -289,9 +314,10 @@ public class Article extends BaseEntity {
 	 * 设置是否发布
 	 * 
 	 * @param isPublication
-	 *            是否发布
+	 *           是否发布
 	 */
-	public void setIsPublication(Boolean isPublication) {
+	public void setIsPublication(Boolean isPublication)
+	{
 		this.isPublication = isPublication;
 	}
 
@@ -303,7 +329,8 @@ public class Article extends BaseEntity {
 	@Field(store = Store.YES, index = Index.UN_TOKENIZED)
 	@NotNull
 	@Column(nullable = false)
-	public Boolean getIsTop() {
+	public Boolean getIsTop()
+	{
 		return isTop;
 	}
 
@@ -311,9 +338,10 @@ public class Article extends BaseEntity {
 	 * 设置是否置顶
 	 * 
 	 * @param isTop
-	 *            是否置顶
+	 *           是否置顶
 	 */
-	public void setIsTop(Boolean isTop) {
+	public void setIsTop(Boolean isTop)
+	{
 		this.isTop = isTop;
 	}
 
@@ -323,7 +351,8 @@ public class Article extends BaseEntity {
 	 * @return 点击数
 	 */
 	@Column(nullable = false)
-	public Long getHits() {
+	public Long getHits()
+	{
 		return hits;
 	}
 
@@ -331,9 +360,10 @@ public class Article extends BaseEntity {
 	 * 设置点击数
 	 * 
 	 * @param hits
-	 *            点击数
+	 *           点击数
 	 */
-	public void setHits(Long hits) {
+	public void setHits(Long hits)
+	{
 		this.hits = hits;
 	}
 
@@ -343,7 +373,8 @@ public class Article extends BaseEntity {
 	 * @return 页码
 	 */
 	@Transient
-	public Integer getPageNumber() {
+	public Integer getPageNumber()
+	{
 		return pageNumber;
 	}
 
@@ -351,10 +382,11 @@ public class Article extends BaseEntity {
 	 * 设置页码
 	 * 
 	 * @param pageNumber
-	 *            页码
+	 *           页码
 	 */
 	@Transient
-	public void setPageNumber(Integer pageNumber) {
+	public void setPageNumber(Integer pageNumber)
+	{
 		this.pageNumber = pageNumber;
 	}
 
@@ -366,7 +398,8 @@ public class Article extends BaseEntity {
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false)
-	public ArticleCategory getArticleCategory() {
+	public ArticleCategory getArticleCategory()
+	{
 		return articleCategory;
 	}
 
@@ -374,9 +407,10 @@ public class Article extends BaseEntity {
 	 * 设置文章分类
 	 * 
 	 * @param articleCategory
-	 *            文章分类
+	 *           文章分类
 	 */
-	public void setArticleCategory(ArticleCategory articleCategory) {
+	public void setArticleCategory(ArticleCategory articleCategory)
+	{
 		this.articleCategory = articleCategory;
 	}
 
@@ -388,7 +422,8 @@ public class Article extends BaseEntity {
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "t_article_tag")
 	@OrderBy("order asc")
-	public Set<Tag> getTags() {
+	public Set<Tag> getTags()
+	{
 		return tags;
 	}
 
@@ -396,9 +431,10 @@ public class Article extends BaseEntity {
 	 * 设置标签
 	 * 
 	 * @param tags
-	 *            标签
+	 *           标签
 	 */
-	public void setTags(Set<Tag> tags) {
+	public void setTags(Set<Tag> tags)
+	{
 		this.tags = tags;
 	}
 
@@ -408,7 +444,8 @@ public class Article extends BaseEntity {
 	 * @return 访问路径
 	 */
 	@Transient
-	public String getPath() {
+	public String getPath()
+	{
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("id", getId());
 		model.put("createDate", getCreateDate());
@@ -419,11 +456,16 @@ public class Article extends BaseEntity {
 		model.put("seoDescription", getSeoDescription());
 		model.put("pageNumber", getPageNumber());
 		model.put("articleCategory", getArticleCategory());
-		try {
+		try
+		{
 			return FreemarkerUtils.process(staticPath, model);
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 			e.printStackTrace();
-		} catch (TemplateException e) {
+		}
+		catch (TemplateException e)
+		{
 			e.printStackTrace();
 		}
 		return null;
@@ -435,8 +477,10 @@ public class Article extends BaseEntity {
 	 * @return 文本内容
 	 */
 	@Transient
-	public String getText() {
-		if (getContent() != null) {
+	public String getText()
+	{
+		if (getContent() != null)
+		{
 			return Jsoup.parse(getContent()).text();
 		}
 		return null;
@@ -448,41 +492,56 @@ public class Article extends BaseEntity {
 	 * @return 分页内容
 	 */
 	@Transient
-	public String[] getPageContents() {
-		if (StringUtils.isEmpty(content)) {
-			return new String[] { "" };
+	public String[] getPageContents()
+	{
+		if (StringUtils.isEmpty(content))
+		{
+			return new String[]
+			{ "" };
 		}
-		if (content.contains(PAGE_BREAK_SEPARATOR)) {
+		if (content.contains(PAGE_BREAK_SEPARATOR))
+		{
 			return content.split(PAGE_BREAK_SEPARATOR);
-		} else {
+		}
+		else
+		{
 			List<String> pageContents = new ArrayList<String>();
 			Document document = Jsoup.parse(content);
 			List<Node> children = document.body().childNodes();
-			if (children != null) {
+			if (children != null)
+			{
 				int textLength = 0;
 				StringBuffer html = new StringBuffer();
-				for (Node node : children) {
-					if (node instanceof Element) {
+				for (Node node : children)
+				{
+					if (node instanceof Element)
+					{
 						Element element = (Element) node;
 						html.append(element.outerHtml());
 						textLength += element.text().length();
-						if (textLength >= PAGE_CONTENT_LENGTH) {
+						if (textLength >= PAGE_CONTENT_LENGTH)
+						{
 							pageContents.add(html.toString());
 							textLength = 0;
 							html.setLength(0);
 						}
-					} else if (node instanceof TextNode) {
+					}
+					else if (node instanceof TextNode)
+					{
 						TextNode textNode = (TextNode) node;
 						String text = textNode.text();
 						String[] contents = PARAGRAPH_SEPARATOR_PATTERN.split(text);
 						Matcher matcher = PARAGRAPH_SEPARATOR_PATTERN.matcher(text);
-						for (String content : contents) {
-							if (matcher.find()) {
+						for (String content : contents)
+						{
+							if (matcher.find())
+							{
 								content += matcher.group();
 							}
 							html.append(content);
 							textLength += content.length();
-							if (textLength >= PAGE_CONTENT_LENGTH) {
+							if (textLength >= PAGE_CONTENT_LENGTH)
+							{
 								pageContents.add(html.toString());
 								textLength = 0;
 								html.setLength(0);
@@ -491,7 +550,8 @@ public class Article extends BaseEntity {
 					}
 				}
 				String pageContent = html.toString();
-				if (StringUtils.isNotEmpty(pageContent)) {
+				if (StringUtils.isNotEmpty(pageContent))
+				{
 					pageContents.add(pageContent);
 				}
 			}
@@ -505,7 +565,8 @@ public class Article extends BaseEntity {
 	 * @return 总页数
 	 */
 	@Transient
-	public int getTotalPages() {
+	public int getTotalPages()
+	{
 		return getPageContents().length;
 	}
 

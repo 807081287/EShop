@@ -19,13 +19,15 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.springframework.stereotype.Component;
 
+
 /**
  * Plugin - 存储
  * 
  * 
  * 
  */
-public abstract class StoragePlugin implements Comparable<StoragePlugin> {
+public abstract class StoragePlugin implements Comparable<StoragePlugin>
+{
 
 	@Resource(name = "pluginConfigServiceImpl")
 	private PluginConfigService pluginConfigService;
@@ -35,7 +37,8 @@ public abstract class StoragePlugin implements Comparable<StoragePlugin> {
 	 * 
 	 * @return ID
 	 */
-	public final String getId() {
+	public final String getId()
+	{
 		return getClass().getAnnotation(Component.class).value();
 	}
 
@@ -93,7 +96,8 @@ public abstract class StoragePlugin implements Comparable<StoragePlugin> {
 	 * 
 	 * @return 是否已安装
 	 */
-	public boolean getIsInstalled() {
+	public boolean getIsInstalled()
+	{
 		return pluginConfigService.pluginIdExists(getId());
 	}
 
@@ -102,7 +106,8 @@ public abstract class StoragePlugin implements Comparable<StoragePlugin> {
 	 * 
 	 * @return 插件配置
 	 */
-	public PluginConfig getPluginConfig() {
+	public PluginConfig getPluginConfig()
+	{
 		return pluginConfigService.findByPluginId(getId());
 	}
 
@@ -111,7 +116,8 @@ public abstract class StoragePlugin implements Comparable<StoragePlugin> {
 	 * 
 	 * @return 是否已启用
 	 */
-	public boolean getIsEnabled() {
+	public boolean getIsEnabled()
+	{
 		PluginConfig pluginConfig = getPluginConfig();
 		return pluginConfig != null ? pluginConfig.getIsEnabled() : false;
 	}
@@ -120,10 +126,11 @@ public abstract class StoragePlugin implements Comparable<StoragePlugin> {
 	 * 获取属性值
 	 * 
 	 * @param name
-	 *            属性名称
+	 *           属性名称
 	 * @return 属性值
 	 */
-	public String getAttribute(String name) {
+	public String getAttribute(String name)
+	{
 		PluginConfig pluginConfig = getPluginConfig();
 		return pluginConfig != null ? pluginConfig.getAttribute(name) : null;
 	}
@@ -133,7 +140,8 @@ public abstract class StoragePlugin implements Comparable<StoragePlugin> {
 	 * 
 	 * @return 排序
 	 */
-	public Integer getOrder() {
+	public Integer getOrder()
+	{
 		PluginConfig pluginConfig = getPluginConfig();
 		return pluginConfig != null ? pluginConfig.getOrder() : null;
 	}
@@ -142,11 +150,11 @@ public abstract class StoragePlugin implements Comparable<StoragePlugin> {
 	 * 文件上传
 	 * 
 	 * @param path
-	 *            上传路径
+	 *           上传路径
 	 * @param file
-	 *            上传文件
+	 *           上传文件
 	 * @param contentType
-	 *            文件类型
+	 *           文件类型
 	 */
 	public abstract void upload(String path, File file, String contentType);
 
@@ -154,7 +162,7 @@ public abstract class StoragePlugin implements Comparable<StoragePlugin> {
 	 * 获取访问URL
 	 * 
 	 * @param path
-	 *            上传路径
+	 *           上传路径
 	 * @return 访问URL
 	 */
 	public abstract String getUrl(String path);
@@ -163,20 +171,24 @@ public abstract class StoragePlugin implements Comparable<StoragePlugin> {
 	 * 文件浏览
 	 * 
 	 * @param path
-	 *            浏览路径
+	 *           浏览路径
 	 * @return 文件信息
 	 */
 	public abstract List<FileInfo> browser(String path);
 
 	@Override
-	public boolean equals(Object obj) {
-		if (obj == null) {
+	public boolean equals(Object obj)
+	{
+		if (obj == null)
+		{
 			return false;
 		}
-		if (getClass() != obj.getClass()) {
+		if (getClass() != obj.getClass())
+		{
 			return false;
 		}
-		if (this == obj) {
+		if (this == obj)
+		{
 			return true;
 		}
 		StoragePlugin other = (StoragePlugin) obj;
@@ -184,12 +196,15 @@ public abstract class StoragePlugin implements Comparable<StoragePlugin> {
 	}
 
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 		return new HashCodeBuilder(17, 37).append(getId()).toHashCode();
 	}
 
-	public int compareTo(StoragePlugin storagePlugin) {
-		return new CompareToBuilder().append(getOrder(), storagePlugin.getOrder()).append(getId(), storagePlugin.getId()).toComparison();
+	public int compareTo(StoragePlugin storagePlugin)
+	{
+		return new CompareToBuilder().append(getOrder(), storagePlugin.getOrder()).append(getId(), storagePlugin.getId())
+				.toComparison();
 	}
 
 }

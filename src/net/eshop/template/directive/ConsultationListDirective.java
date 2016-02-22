@@ -30,6 +30,7 @@ import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 
+
 /**
  * 模板指令 - 咨询
  * 
@@ -37,7 +38,8 @@ import freemarker.template.TemplateModel;
  * 
  */
 @Component("consultationListDirective")
-public class ConsultationListDirective extends BaseDirective {
+public class ConsultationListDirective extends BaseDirective
+{
 
 	/** "会员ID"参数名称 */
 	private static final String MEMBER_ID_PARAMETER_NAME = "memberId";
@@ -55,8 +57,11 @@ public class ConsultationListDirective extends BaseDirective {
 	@Resource(name = "productServiceImpl")
 	private ProductService productService;
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body) throws TemplateException, IOException {
+	@SuppressWarnings(
+	{ "unchecked", "rawtypes" })
+	public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body)
+			throws TemplateException, IOException
+	{
 		Long memberId = FreemarkerUtils.getParameter(MEMBER_ID_PARAMETER_NAME, Long.class, params);
 		Long productId = FreemarkerUtils.getParameter(PRODUCT_ID_PARAMETER_NAME, Long.class, params);
 
@@ -69,12 +74,18 @@ public class ConsultationListDirective extends BaseDirective {
 		Integer count = getCount(params);
 		List<Filter> filters = getFilters(params, Brand.class);
 		List<Order> orders = getOrders(params);
-		if ((memberId != null && member == null) || (productId != null && product == null)) {
+		if ((memberId != null && member == null) || (productId != null && product == null))
+		{
 			consultations = new ArrayList<Consultation>();
-		} else {
-			if (useCache) {
+		}
+		else
+		{
+			if (useCache)
+			{
 				consultations = consultationService.findList(member, product, true, count, filters, orders, cacheRegion);
-			} else {
+			}
+			else
+			{
 				consultations = consultationService.findList(member, product, true, count, filters, orders);
 			}
 		}

@@ -8,13 +8,15 @@ package net.eshop.service;
 import net.eshop.entity.Cart;
 import net.eshop.entity.Member;
 
+
 /**
  * Service - 购物车
  * 
  * 
  * 
  */
-public interface CartService extends BaseService<Cart, Long> {
+public interface CartService extends BaseService<Cart, Long>
+{
 
 	/**
 	 * 获取当前购物车
@@ -27,9 +29,9 @@ public interface CartService extends BaseService<Cart, Long> {
 	 * 合并临时购物车至会员
 	 * 
 	 * @param member
-	 *            会员
+	 *           会员
 	 * @param cart
-	 *            临时购物车
+	 *           临时购物车
 	 */
 	void merge(Member member, Cart cart);
 

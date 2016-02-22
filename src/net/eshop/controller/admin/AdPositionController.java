@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 /**
  * Controller - 广告位
  * 
@@ -27,7 +28,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller("adminAdPositionController")
 @RequestMapping("/admin/ad_position")
-public class AdPositionController extends BaseController {
+public class AdPositionController extends BaseController
+{
 
 	@Resource(name = "adPositionServiceImpl")
 	private AdPositionService adPositionService;
@@ -36,7 +38,8 @@ public class AdPositionController extends BaseController {
 	 * 添加
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public String add(ModelMap model) {
+	public String add(ModelMap model)
+	{
 		return "/admin/ad_position/add";
 	}
 
@@ -44,8 +47,10 @@ public class AdPositionController extends BaseController {
 	 * 保存
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String save(AdPosition adPosition, RedirectAttributes redirectAttributes) {
-		if (!isValid(adPosition)) {
+	public String save(AdPosition adPosition, RedirectAttributes redirectAttributes)
+	{
+		if (!isValid(adPosition))
+		{
 			return ERROR_VIEW;
 		}
 		adPosition.setAds(null);
@@ -58,7 +63,8 @@ public class AdPositionController extends BaseController {
 	 * 编辑
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(Long id, ModelMap model) {
+	public String edit(Long id, ModelMap model)
+	{
 		model.addAttribute("adPosition", adPositionService.find(id));
 		return "/admin/ad_position/edit";
 	}
@@ -67,8 +73,10 @@ public class AdPositionController extends BaseController {
 	 * 更新
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(AdPosition adPosition, RedirectAttributes redirectAttributes) {
-		if (!isValid(adPosition)) {
+	public String update(AdPosition adPosition, RedirectAttributes redirectAttributes)
+	{
+		if (!isValid(adPosition))
+		{
 			return ERROR_VIEW;
 		}
 		adPositionService.update(adPosition, "ads");
@@ -80,7 +88,8 @@ public class AdPositionController extends BaseController {
 	 * 列表
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Pageable pageable, ModelMap model) {
+	public String list(Pageable pageable, ModelMap model)
+	{
 		model.addAttribute("page", adPositionService.findPage(pageable));
 		return "/admin/ad_position/list";
 	}
@@ -89,8 +98,8 @@ public class AdPositionController extends BaseController {
 	 * 删除
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public @ResponseBody
-	Message delete(Long[] ids) {
+	public @ResponseBody Message delete(Long[] ids)
+	{
 		adPositionService.delete(ids);
 		return SUCCESS_MESSAGE;
 	}

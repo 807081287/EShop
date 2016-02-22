@@ -21,13 +21,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+
 /**
  * Interceptor - 会员权限
  * 
  * 
  * 
  */
-public class MemberInterceptor extends HandlerInterceptorAdapter {
+public class MemberInterceptor extends HandlerInterceptorAdapter
+{
 
 	/** 重定向视图名称前缀 */
 	private static final String REDIRECT_VIEW_NAME_PREFIX = "redirect:";
@@ -51,22 +53,34 @@ public class MemberInterceptor extends HandlerInterceptorAdapter {
 	private MemberService memberService;
 
 	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception
+	{
 		HttpSession session = request.getSession();
 		Principal principal = (Principal) session.getAttribute(Member.PRINCIPAL_ATTRIBUTE_NAME);
-		if (principal != null) {
+		if (principal != null)
+		{
 			return true;
-		} else {
+		}
+		else
+		{
 			String requestType = request.getHeader("X-Requested-With");
-			if (requestType != null && requestType.equalsIgnoreCase("XMLHttpRequest")) {
+			if (requestType != null && requestType.equalsIgnoreCase("XMLHttpRequest"))
+			{
 				response.addHeader("loginStatus", "accessDenied");
 				response.sendError(HttpServletResponse.SC_FORBIDDEN);
 				return false;
-			} else {
-				if (request.getMethod().equalsIgnoreCase("GET")) {
-					String redirectUrl = request.getQueryString() != null ? request.getRequestURI() + "?" + request.getQueryString() : request.getRequestURI();
-					response.sendRedirect(request.getContextPath() + loginUrl + "?" + REDIRECT_URL_PARAMETER_NAME + "=" + URLEncoder.encode(redirectUrl, urlEscapingCharset));
-				} else {
+			}
+			else
+			{
+				if (request.getMethod().equalsIgnoreCase("GET"))
+				{
+					String redirectUrl = request.getQueryString() != null ? request.getRequestURI() + "?" + request.getQueryString()
+							: request.getRequestURI();
+					response.sendRedirect(request.getContextPath() + loginUrl + "?" + REDIRECT_URL_PARAMETER_NAME + "="
+							+ URLEncoder.encode(redirectUrl, urlEscapingCharset));
+				}
+				else
+				{
 					response.sendRedirect(request.getContextPath() + loginUrl);
 				}
 				return false;
@@ -75,10 +89,14 @@ public class MemberInterceptor extends HandlerInterceptorAdapter {
 	}
 
 	@Override
-	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-		if (modelAndView != null) {
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)
+			throws Exception
+	{
+		if (modelAndView != null)
+		{
 			String viewName = modelAndView.getViewName();
-			if (!StringUtils.startsWith(viewName, REDIRECT_VIEW_NAME_PREFIX)) {
+			if (!StringUtils.startsWith(viewName, REDIRECT_VIEW_NAME_PREFIX))
+			{
 				modelAndView.addObject(MEMBER_ATTRIBUTE_NAME, memberService.getCurrent());
 			}
 		}
@@ -89,7 +107,8 @@ public class MemberInterceptor extends HandlerInterceptorAdapter {
 	 * 
 	 * @return 登录URL
 	 */
-	public String getLoginUrl() {
+	public String getLoginUrl()
+	{
 		return loginUrl;
 	}
 
@@ -97,9 +116,10 @@ public class MemberInterceptor extends HandlerInterceptorAdapter {
 	 * 设置登录URL
 	 * 
 	 * @param loginUrl
-	 *            登录URL
+	 *           登录URL
 	 */
-	public void setLoginUrl(String loginUrl) {
+	public void setLoginUrl(String loginUrl)
+	{
 		this.loginUrl = loginUrl;
 	}
 

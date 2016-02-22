@@ -25,6 +25,7 @@ import net.eshop.entity.Tag;
 
 import org.springframework.stereotype.Repository;
 
+
 /**
  * Dao - 文章
  * 
@@ -32,19 +33,30 @@ import org.springframework.stereotype.Repository;
  * 
  */
 @Repository("articleDaoImpl")
-public class ArticleDaoImpl extends BaseDaoImpl<Article, Long> implements ArticleDao {
+public class ArticleDaoImpl extends BaseDaoImpl<Article, Long> implements ArticleDao
+{
 
-	public List<Article> findList(ArticleCategory articleCategory, List<Tag> tags, Integer count, List<Filter> filters, List<Order> orders) {
+	public List<Article> findList(ArticleCategory articleCategory, List<Tag> tags, Integer count, List<Filter> filters,
+			List<Order> orders)
+	{
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Article> criteriaQuery = criteriaBuilder.createQuery(Article.class);
 		Root<Article> root = criteriaQuery.from(Article.class);
 		criteriaQuery.select(root);
 		Predicate restrictions = criteriaBuilder.conjunction();
 		restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.equal(root.get("isPublication"), true));
-		if (articleCategory != null) {
-			restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.or(criteriaBuilder.equal(root.get("articleCategory"), articleCategory), criteriaBuilder.like(root.get("articleCategory").<String> get("treePath"), "%" + ArticleCategory.TREE_PATH_SEPARATOR + articleCategory.getId() + ArticleCategory.TREE_PATH_SEPARATOR + "%")));
+		if (articleCategory != null)
+		{
+			restrictions = criteriaBuilder.and(
+					restrictions,
+					criteriaBuilder.or(
+							criteriaBuilder.equal(root.get("articleCategory"), articleCategory),
+							criteriaBuilder.like(root.get("articleCategory").<String> get("treePath"), "%"
+									+ ArticleCategory.TREE_PATH_SEPARATOR + articleCategory.getId() + ArticleCategory.TREE_PATH_SEPARATOR
+									+ "%")));
 		}
-		if (tags != null && !tags.isEmpty()) {
+		if (tags != null && !tags.isEmpty())
+		{
 			Subquery<Article> subquery = criteriaQuery.subquery(Article.class);
 			Root<Article> subqueryRoot = subquery.from(Article.class);
 			subquery.select(subqueryRoot);
@@ -56,38 +68,59 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Long> implements Articl
 		return super.findList(criteriaQuery, null, count, filters, orders);
 	}
 
-	public List<Article> findList(ArticleCategory articleCategory, Date beginDate, Date endDate, Integer first, Integer count) {
+	public List<Article> findList(ArticleCategory articleCategory, Date beginDate, Date endDate, Integer first, Integer count)
+	{
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Article> criteriaQuery = criteriaBuilder.createQuery(Article.class);
 		Root<Article> root = criteriaQuery.from(Article.class);
 		criteriaQuery.select(root);
 		Predicate restrictions = criteriaBuilder.conjunction();
 		restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.equal(root.get("isPublication"), true));
-		if (articleCategory != null) {
-			restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.or(criteriaBuilder.equal(root.get("articleCategory"), articleCategory), criteriaBuilder.like(root.get("articleCategory").<String> get("treePath"), "%" + ArticleCategory.TREE_PATH_SEPARATOR + articleCategory.getId() + ArticleCategory.TREE_PATH_SEPARATOR + "%")));
+		if (articleCategory != null)
+		{
+			restrictions = criteriaBuilder.and(
+					restrictions,
+					criteriaBuilder.or(
+							criteriaBuilder.equal(root.get("articleCategory"), articleCategory),
+							criteriaBuilder.like(root.get("articleCategory").<String> get("treePath"), "%"
+									+ ArticleCategory.TREE_PATH_SEPARATOR + articleCategory.getId() + ArticleCategory.TREE_PATH_SEPARATOR
+									+ "%")));
 		}
-		if (beginDate != null) {
-			restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.greaterThanOrEqualTo(root.<Date> get("createDate"), beginDate));
+		if (beginDate != null)
+		{
+			restrictions = criteriaBuilder.and(restrictions,
+					criteriaBuilder.greaterThanOrEqualTo(root.<Date> get("createDate"), beginDate));
 		}
-		if (endDate != null) {
-			restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.lessThanOrEqualTo(root.<Date> get("createDate"), endDate));
+		if (endDate != null)
+		{
+			restrictions = criteriaBuilder.and(restrictions,
+					criteriaBuilder.lessThanOrEqualTo(root.<Date> get("createDate"), endDate));
 		}
 		criteriaQuery.where(restrictions);
 		criteriaQuery.orderBy(criteriaBuilder.desc(root.get("isTop")));
 		return super.findList(criteriaQuery, first, count, null, null);
 	}
 
-	public Page<Article> findPage(ArticleCategory articleCategory, List<Tag> tags, Pageable pageable) {
+	public Page<Article> findPage(ArticleCategory articleCategory, List<Tag> tags, Pageable pageable)
+	{
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Article> criteriaQuery = criteriaBuilder.createQuery(Article.class);
 		Root<Article> root = criteriaQuery.from(Article.class);
 		criteriaQuery.select(root);
 		Predicate restrictions = criteriaBuilder.conjunction();
 		restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.equal(root.get("isPublication"), true));
-		if (articleCategory != null) {
-			restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.or(criteriaBuilder.equal(root.get("articleCategory"), articleCategory), criteriaBuilder.like(root.get("articleCategory").<String> get("treePath"), "%" + ArticleCategory.TREE_PATH_SEPARATOR + articleCategory.getId() + ArticleCategory.TREE_PATH_SEPARATOR + "%")));
+		if (articleCategory != null)
+		{
+			restrictions = criteriaBuilder.and(
+					restrictions,
+					criteriaBuilder.or(
+							criteriaBuilder.equal(root.get("articleCategory"), articleCategory),
+							criteriaBuilder.like(root.get("articleCategory").<String> get("treePath"), "%"
+									+ ArticleCategory.TREE_PATH_SEPARATOR + articleCategory.getId() + ArticleCategory.TREE_PATH_SEPARATOR
+									+ "%")));
 		}
-		if (tags != null && !tags.isEmpty()) {
+		if (tags != null && !tags.isEmpty())
+		{
 			Subquery<Article> subquery = criteriaQuery.subquery(Article.class);
 			Root<Article> subqueryRoot = subquery.from(Article.class);
 			subquery.select(subqueryRoot);

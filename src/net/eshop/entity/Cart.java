@@ -31,6 +31,7 @@ import org.apache.commons.collections.Predicate;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.time.DateUtils;
 
+
 /**
  * Entity - 购物车
  * 
@@ -40,7 +41,8 @@ import org.apache.commons.lang.time.DateUtils;
 @Entity
 @Table(name = "t_cart")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_cart_sequence")
-public class Cart extends BaseEntity {
+public class Cart extends BaseEntity
+{
 
 	private static final long serialVersionUID = -6565967051825794561L;
 
@@ -71,7 +73,8 @@ public class Cart extends BaseEntity {
 	 * @return 密钥
 	 */
 	@Column(name = "cart_key", nullable = false, updatable = false)
-	public String getKey() {
+	public String getKey()
+	{
 		return key;
 	}
 
@@ -79,9 +82,10 @@ public class Cart extends BaseEntity {
 	 * 设置密钥
 	 * 
 	 * @param key
-	 *            密钥
+	 *           密钥
 	 */
-	public void setKey(String key) {
+	public void setKey(String key)
+	{
 		this.key = key;
 	}
 
@@ -91,7 +95,8 @@ public class Cart extends BaseEntity {
 	 * @return 会员
 	 */
 	@OneToOne(fetch = FetchType.LAZY)
-	public Member getMember() {
+	public Member getMember()
+	{
 		return member;
 	}
 
@@ -99,9 +104,10 @@ public class Cart extends BaseEntity {
 	 * 设置会员
 	 * 
 	 * @param member
-	 *            会员
+	 *           会员
 	 */
-	public void setMember(Member member) {
+	public void setMember(Member member)
+	{
 		this.member = member;
 	}
 
@@ -111,7 +117,8 @@ public class Cart extends BaseEntity {
 	 * @return 购物车项
 	 */
 	@OneToMany(mappedBy = "cart", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-	public Set<CartItem> getCartItems() {
+	public Set<CartItem> getCartItems()
+	{
 		return cartItems;
 	}
 
@@ -119,9 +126,10 @@ public class Cart extends BaseEntity {
 	 * 设置购物车项
 	 * 
 	 * @param cartItems
-	 *            购物车项
+	 *           购物车项
 	 */
-	public void setCartItems(Set<CartItem> cartItems) {
+	public void setCartItems(Set<CartItem> cartItems)
+	{
 		this.cartItems = cartItems;
 	}
 
@@ -131,11 +139,15 @@ public class Cart extends BaseEntity {
 	 * @return 商品重量
 	 */
 	@Transient
-	public int getWeight() {
+	public int getWeight()
+	{
 		int weight = 0;
-		if (getCartItems() != null) {
-			for (CartItem cartItem : getCartItems()) {
-				if (cartItem != null) {
+		if (getCartItems() != null)
+		{
+			for (CartItem cartItem : getCartItems())
+			{
+				if (cartItem != null)
+				{
 					weight += cartItem.getWeight();
 				}
 			}
@@ -149,11 +161,15 @@ public class Cart extends BaseEntity {
 	 * @return 商品数量
 	 */
 	@Transient
-	public int getQuantity() {
+	public int getQuantity()
+	{
 		int quantity = 0;
-		if (getCartItems() != null) {
-			for (CartItem cartItem : getCartItems()) {
-				if (cartItem != null && cartItem.getQuantity() != null) {
+		if (getCartItems() != null)
+		{
+			for (CartItem cartItem : getCartItems())
+			{
+				if (cartItem != null && cartItem.getQuantity() != null)
+				{
 					quantity += cartItem.getQuantity();
 				}
 			}
@@ -167,11 +183,15 @@ public class Cart extends BaseEntity {
 	 * @return 赠送积分
 	 */
 	@Transient
-	public long getPoint() {
+	public long getPoint()
+	{
 		long point = 0L;
-		if (getCartItems() != null) {
-			for (CartItem cartItem : getCartItems()) {
-				if (cartItem != null) {
+		if (getCartItems() != null)
+		{
+			for (CartItem cartItem : getCartItems())
+			{
+				if (cartItem != null)
+				{
 					point += cartItem.getPoint();
 				}
 			}
@@ -185,23 +205,31 @@ public class Cart extends BaseEntity {
 	 * @return 赠送积分增加值
 	 */
 	@Transient
-	public long getAddedPoint() {
+	public long getAddedPoint()
+	{
 		long originalPoint = 0L;
 		long currentPoint = 0L;
-		for (Promotion promotion : getPromotions()) {
-			if (promotion != null) {
+		for (Promotion promotion : getPromotions())
+		{
+			if (promotion != null)
+			{
 				int promotionQuantity = getQuantity(promotion);
 				long originalPromotionPoint = getTempPoint(promotion);
 				long currentPromotionPoint = promotion.calculatePoint(promotionQuantity, originalPromotionPoint);
 				originalPoint += originalPromotionPoint;
 				currentPoint += currentPromotionPoint;
 				Set<CartItem> cartItems = getCartItems(promotion);
-				for (CartItem cartItem : cartItems) {
-					if (cartItem != null && cartItem.getTempPoint() != null) {
+				for (CartItem cartItem : cartItems)
+				{
+					if (cartItem != null && cartItem.getTempPoint() != null)
+					{
 						long tempPoint;
-						if (originalPromotionPoint > 0) {
+						if (originalPromotionPoint > 0)
+						{
 							tempPoint = (long) (currentPromotionPoint / (double) originalPromotionPoint * cartItem.getTempPoint());
-						} else {
+						}
+						else
+						{
 							tempPoint = (currentPromotionPoint - originalPromotionPoint) / promotionQuantity;
 						}
 						cartItem.setTempPoint(tempPoint > 0 ? tempPoint : 0L);
@@ -209,9 +237,12 @@ public class Cart extends BaseEntity {
 				}
 			}
 		}
-		if (getCartItems() != null) {
-			for (CartItem cartItem : getCartItems()) {
-				if (cartItem != null) {
+		if (getCartItems() != null)
+		{
+			for (CartItem cartItem : getCartItems())
+			{
+				if (cartItem != null)
+				{
 					cartItem.setTempPoint(null);
 				}
 			}
@@ -226,7 +257,8 @@ public class Cart extends BaseEntity {
 	 * @return 有效赠送积分
 	 */
 	@Transient
-	public long getEffectivePoint() {
+	public long getEffectivePoint()
+	{
 		long effectivePoint = getPoint() + getAddedPoint();
 		return effectivePoint > 0L ? effectivePoint : 0L;
 	}
@@ -237,11 +269,15 @@ public class Cart extends BaseEntity {
 	 * @return 商品价格
 	 */
 	@Transient
-	public BigDecimal getPrice() {
+	public BigDecimal getPrice()
+	{
 		BigDecimal price = new BigDecimal(0);
-		if (getCartItems() != null) {
-			for (CartItem cartItem : getCartItems()) {
-				if (cartItem != null && cartItem.getSubtotal() != null) {
+		if (getCartItems() != null)
+		{
+			for (CartItem cartItem : getCartItems())
+			{
+				if (cartItem != null && cartItem.getSubtotal() != null)
+				{
 					price = price.add(cartItem.getSubtotal());
 				}
 			}
@@ -255,23 +291,32 @@ public class Cart extends BaseEntity {
 	 * @return 折扣
 	 */
 	@Transient
-	public BigDecimal getDiscount() {
+	public BigDecimal getDiscount()
+	{
 		BigDecimal originalPrice = new BigDecimal(0);
 		BigDecimal currentPrice = new BigDecimal(0);
-		for (Promotion promotion : getPromotions()) {
-			if (promotion != null) {
+		for (Promotion promotion : getPromotions())
+		{
+			if (promotion != null)
+			{
 				int promotionQuantity = getQuantity(promotion);
 				BigDecimal originalPromotionPrice = getTempPrice(promotion);
 				BigDecimal currentPromotionPrice = promotion.calculatePrice(promotionQuantity, originalPromotionPrice);
 				originalPrice = originalPrice.add(originalPromotionPrice);
 				currentPrice = currentPrice.add(currentPromotionPrice);
 				Set<CartItem> cartItems = getCartItems(promotion);
-				for (CartItem cartItem : cartItems) {
-					if (cartItem != null && cartItem.getTempPrice() != null) {
+				for (CartItem cartItem : cartItems)
+				{
+					if (cartItem != null && cartItem.getTempPrice() != null)
+					{
 						BigDecimal tempPrice;
-						if (originalPromotionPrice.compareTo(new BigDecimal(0)) > 0) {
-							tempPrice = currentPromotionPrice.divide(originalPromotionPrice, 50, RoundingMode.DOWN).multiply(cartItem.getTempPrice());
-						} else {
+						if (originalPromotionPrice.compareTo(new BigDecimal(0)) > 0)
+						{
+							tempPrice = currentPromotionPrice.divide(originalPromotionPrice, 50, RoundingMode.DOWN).multiply(
+									cartItem.getTempPrice());
+						}
+						else
+						{
 							tempPrice = new BigDecimal(0);
 						}
 						cartItem.setTempPrice(tempPrice.compareTo(new BigDecimal(0)) > 0 ? tempPrice : new BigDecimal(0));
@@ -279,9 +324,12 @@ public class Cart extends BaseEntity {
 				}
 			}
 		}
-		if (getCartItems() != null) {
-			for (CartItem cartItem : getCartItems()) {
-				if (cartItem != null) {
+		if (getCartItems() != null)
+		{
+			for (CartItem cartItem : getCartItems())
+			{
+				if (cartItem != null)
+				{
 					cartItem.setTempPrice(null);
 				}
 			}
@@ -297,7 +345,8 @@ public class Cart extends BaseEntity {
 	 * @return 有效商品价格
 	 */
 	@Transient
-	public BigDecimal getEffectivePrice() {
+	public BigDecimal getEffectivePrice()
+	{
 		BigDecimal effectivePrice = getPrice().subtract(getDiscount());
 		return effectivePrice.compareTo(new BigDecimal(0)) > 0 ? effectivePrice : new BigDecimal(0);
 	}
@@ -308,20 +357,29 @@ public class Cart extends BaseEntity {
 	 * @return 赠品项
 	 */
 	@Transient
-	public Set<GiftItem> getGiftItems() {
+	public Set<GiftItem> getGiftItems()
+	{
 		Set<GiftItem> giftItems = new HashSet<GiftItem>();
-		for (Promotion promotion : getPromotions()) {
-			if (promotion.getGiftItems() != null) {
-				for (final GiftItem giftItem : promotion.getGiftItems()) {
-					GiftItem target = (GiftItem) CollectionUtils.find(giftItems, new Predicate() {
-						public boolean evaluate(Object object) {
+		for (Promotion promotion : getPromotions())
+		{
+			if (promotion.getGiftItems() != null)
+			{
+				for (final GiftItem giftItem : promotion.getGiftItems())
+				{
+					GiftItem target = (GiftItem) CollectionUtils.find(giftItems, new Predicate()
+					{
+						public boolean evaluate(Object object)
+						{
 							GiftItem other = (GiftItem) object;
 							return other != null && other.getGift().equals(giftItem.getGift());
 						}
 					});
-					if (target != null) {
+					if (target != null)
+					{
 						target.setQuantity(target.getQuantity() + giftItem.getQuantity());
-					} else {
+					}
+					else
+					{
 						giftItems.add(giftItem);
 					}
 				}
@@ -336,18 +394,24 @@ public class Cart extends BaseEntity {
 	 * @return 促销
 	 */
 	@Transient
-	public Set<Promotion> getPromotions() {
+	public Set<Promotion> getPromotions()
+	{
 		Set<Promotion> allPromotions = new HashSet<Promotion>();
-		if (getCartItems() != null) {
-			for (CartItem cartItem : getCartItems()) {
-				if (cartItem != null && cartItem.getProduct() != null) {
+		if (getCartItems() != null)
+		{
+			for (CartItem cartItem : getCartItems())
+			{
+				if (cartItem != null && cartItem.getProduct() != null)
+				{
 					allPromotions.addAll(cartItem.getProduct().getValidPromotions());
 				}
 			}
 		}
 		Set<Promotion> promotions = new TreeSet<Promotion>();
-		for (Promotion promotion : allPromotions) {
-			if (isValid(promotion)) {
+		for (Promotion promotion : allPromotions)
+		{
+			if (isValid(promotion))
+			{
 				promotions.add(promotion);
 			}
 		}
@@ -358,15 +422,19 @@ public class Cart extends BaseEntity {
 	 * 获取促销购物车项
 	 * 
 	 * @param promotion
-	 *            促销
+	 *           促销
 	 * @return 促销购物车项
 	 */
 	@Transient
-	private Set<CartItem> getCartItems(Promotion promotion) {
+	private Set<CartItem> getCartItems(Promotion promotion)
+	{
 		Set<CartItem> cartItems = new HashSet<CartItem>();
-		if (promotion != null && getCartItems() != null) {
-			for (CartItem cartItem : getCartItems()) {
-				if (cartItem != null && cartItem.getProduct() != null && cartItem.getProduct().isValid(promotion)) {
+		if (promotion != null && getCartItems() != null)
+		{
+			for (CartItem cartItem : getCartItems())
+			{
+				if (cartItem != null && cartItem.getProduct() != null && cartItem.getProduct().isValid(promotion))
+				{
 					cartItems.add(cartItem);
 				}
 			}
@@ -378,14 +446,17 @@ public class Cart extends BaseEntity {
 	 * 获取促销商品数量
 	 * 
 	 * @param promotion
-	 *            促销
+	 *           促销
 	 * @return 促销商品数量
 	 */
 	@Transient
-	private int getQuantity(Promotion promotion) {
+	private int getQuantity(Promotion promotion)
+	{
 		int quantity = 0;
-		for (CartItem cartItem : getCartItems(promotion)) {
-			if (cartItem != null && cartItem.getQuantity() != null) {
+		for (CartItem cartItem : getCartItems(promotion))
+		{
+			if (cartItem != null && cartItem.getQuantity() != null)
+			{
 				quantity += cartItem.getQuantity();
 			}
 		}
@@ -396,14 +467,17 @@ public class Cart extends BaseEntity {
 	 * 获取促销商品赠送积分
 	 * 
 	 * @param promotion
-	 *            促销
+	 *           促销
 	 * @return 促销商品赠送积分
 	 */
 	@Transient
-	private long getPoint(Promotion promotion) {
+	private long getPoint(Promotion promotion)
+	{
 		long point = 0L;
-		for (CartItem cartItem : getCartItems(promotion)) {
-			if (cartItem != null) {
+		for (CartItem cartItem : getCartItems(promotion))
+		{
+			if (cartItem != null)
+			{
 				point += cartItem.getPoint();
 			}
 		}
@@ -414,14 +488,17 @@ public class Cart extends BaseEntity {
 	 * 获取促销商品临时赠送积分
 	 * 
 	 * @param promotion
-	 *            促销
+	 *           促销
 	 * @return 促销商品临时赠送积分
 	 */
 	@Transient
-	private long getTempPoint(Promotion promotion) {
+	private long getTempPoint(Promotion promotion)
+	{
 		long tempPoint = 0L;
-		for (CartItem cartItem : getCartItems(promotion)) {
-			if (cartItem != null && cartItem.getTempPoint() != null) {
+		for (CartItem cartItem : getCartItems(promotion))
+		{
+			if (cartItem != null && cartItem.getTempPoint() != null)
+			{
 				tempPoint += cartItem.getTempPoint();
 			}
 		}
@@ -432,14 +509,17 @@ public class Cart extends BaseEntity {
 	 * 获取促销商品价格
 	 * 
 	 * @param promotion
-	 *            促销
+	 *           促销
 	 * @return 促销商品价格
 	 */
 	@Transient
-	private BigDecimal getPrice(Promotion promotion) {
+	private BigDecimal getPrice(Promotion promotion)
+	{
 		BigDecimal price = new BigDecimal(0);
-		for (CartItem cartItem : getCartItems(promotion)) {
-			if (cartItem != null && cartItem.getSubtotal() != null) {
+		for (CartItem cartItem : getCartItems(promotion))
+		{
+			if (cartItem != null && cartItem.getSubtotal() != null)
+			{
 				price = price.add(cartItem.getSubtotal());
 			}
 		}
@@ -450,14 +530,17 @@ public class Cart extends BaseEntity {
 	 * 获取促销商品临时价格
 	 * 
 	 * @param promotion
-	 *            促销
+	 *           促销
 	 * @return 促销商品临时价格
 	 */
 	@Transient
-	private BigDecimal getTempPrice(Promotion promotion) {
+	private BigDecimal getTempPrice(Promotion promotion)
+	{
 		BigDecimal tempPrice = new BigDecimal(0);
-		for (CartItem cartItem : getCartItems(promotion)) {
-			if (cartItem != null && cartItem.getTempPrice() != null) {
+		for (CartItem cartItem : getCartItems(promotion))
+		{
+			if (cartItem != null && cartItem.getTempPrice() != null)
+			{
 				tempPrice = tempPrice.add(cartItem.getTempPrice());
 			}
 		}
@@ -468,23 +551,31 @@ public class Cart extends BaseEntity {
 	 * 判断促销是否有效
 	 * 
 	 * @param promotion
-	 *            促销
+	 *           促销
 	 * @return 促销是否有效
 	 */
 	@Transient
-	private boolean isValid(Promotion promotion) {
-		if (promotion == null || !promotion.hasBegun() || promotion.hasEnded()) {
+	private boolean isValid(Promotion promotion)
+	{
+		if (promotion == null || !promotion.hasBegun() || promotion.hasEnded())
+		{
 			return false;
 		}
-		if (promotion.getMemberRanks() == null || promotion.getMemberRanks().isEmpty() || getMember() == null || getMember().getMemberRank() == null || !promotion.getMemberRanks().contains(getMember().getMemberRank())) {
+		if (promotion.getMemberRanks() == null || promotion.getMemberRanks().isEmpty() || getMember() == null
+				|| getMember().getMemberRank() == null || !promotion.getMemberRanks().contains(getMember().getMemberRank()))
+		{
 			return false;
 		}
 		Integer quantity = getQuantity(promotion);
-		if ((promotion.getMinimumQuantity() != null && promotion.getMinimumQuantity() > quantity) || (promotion.getMaximumQuantity() != null && promotion.getMaximumQuantity() < quantity)) {
+		if ((promotion.getMinimumQuantity() != null && promotion.getMinimumQuantity() > quantity)
+				|| (promotion.getMaximumQuantity() != null && promotion.getMaximumQuantity() < quantity))
+		{
 			return false;
 		}
 		BigDecimal price = getPrice(promotion);
-		if ((promotion.getMinimumPrice() != null && promotion.getMinimumPrice().compareTo(price) > 0) || (promotion.getMaximumPrice() != null && promotion.getMaximumPrice().compareTo(price) < 0)) {
+		if ((promotion.getMinimumPrice() != null && promotion.getMinimumPrice().compareTo(price) > 0)
+				|| (promotion.getMaximumPrice() != null && promotion.getMaximumPrice().compareTo(price) < 0))
+		{
 			return false;
 		}
 		return true;
@@ -494,18 +585,24 @@ public class Cart extends BaseEntity {
 	 * 判断优惠券是否有效
 	 * 
 	 * @param coupon
-	 *            优惠券
+	 *           优惠券
 	 * @return 优惠券是否有效
 	 */
 	@Transient
-	public boolean isValid(Coupon coupon) {
-		if (coupon == null || !coupon.getIsEnabled() || !coupon.hasBegun() || coupon.hasExpired()) {
+	public boolean isValid(Coupon coupon)
+	{
+		if (coupon == null || !coupon.getIsEnabled() || !coupon.hasBegun() || coupon.hasExpired())
+		{
 			return false;
 		}
-		if ((coupon.getMinimumQuantity() != null && coupon.getMinimumQuantity() > getQuantity()) || (coupon.getMaximumQuantity() != null && coupon.getMaximumQuantity() < getQuantity())) {
+		if ((coupon.getMinimumQuantity() != null && coupon.getMinimumQuantity() > getQuantity())
+				|| (coupon.getMaximumQuantity() != null && coupon.getMaximumQuantity() < getQuantity()))
+		{
 			return false;
 		}
-		if ((coupon.getMinimumPrice() != null && coupon.getMinimumPrice().compareTo(getEffectivePrice()) > 0) || (coupon.getMaximumPrice() != null && coupon.getMaximumPrice().compareTo(getEffectivePrice()) < 0)) {
+		if ((coupon.getMinimumPrice() != null && coupon.getMinimumPrice().compareTo(getEffectivePrice()) > 0)
+				|| (coupon.getMaximumPrice() != null && coupon.getMaximumPrice().compareTo(getEffectivePrice()) < 0))
+		{
 			return false;
 		}
 		return true;
@@ -515,14 +612,18 @@ public class Cart extends BaseEntity {
 	 * 获取购物车项
 	 * 
 	 * @param product
-	 *            商品
+	 *           商品
 	 * @return 购物车项
 	 */
 	@Transient
-	public CartItem getCartItem(Product product) {
-		if (product != null && getCartItems() != null) {
-			for (CartItem cartItem : getCartItems()) {
-				if (cartItem != null && cartItem.getProduct() != null && cartItem.getProduct().equals(product)) {
+	public CartItem getCartItem(Product product)
+	{
+		if (product != null && getCartItems() != null)
+		{
+			for (CartItem cartItem : getCartItems())
+			{
+				if (cartItem != null && cartItem.getProduct() != null && cartItem.getProduct().equals(product))
+				{
 					return cartItem;
 				}
 			}
@@ -534,14 +635,18 @@ public class Cart extends BaseEntity {
 	 * 判断是否包含商品
 	 * 
 	 * @param product
-	 *            商品
+	 *           商品
 	 * @return 是否包含商品
 	 */
 	@Transient
-	public boolean contains(Product product) {
-		if (product != null && getCartItems() != null) {
-			for (CartItem cartItem : getCartItems()) {
-				if (cartItem != null && cartItem.getProduct() != null && cartItem.getProduct().equals(product)) {
+	public boolean contains(Product product)
+	{
+		if (product != null && getCartItems() != null)
+		{
+			for (CartItem cartItem : getCartItems())
+			{
+				if (cartItem != null && cartItem.getProduct() != null && cartItem.getProduct().equals(product))
+				{
 					return true;
 				}
 			}
@@ -555,10 +660,13 @@ public class Cart extends BaseEntity {
 	 * @return 令牌
 	 */
 	@Transient
-	public String getToken() {
+	public String getToken()
+	{
 		HashCodeBuilder hashCodeBuilder = new HashCodeBuilder(17, 37).append(getKey());
-		if (getCartItems() != null) {
-			for (CartItem cartItem : getCartItems()) {
+		if (getCartItems() != null)
+		{
+			for (CartItem cartItem : getCartItems())
+			{
 				hashCodeBuilder.append(cartItem.getProduct()).append(cartItem.getQuantity()).append(cartItem.getPrice());
 			}
 		}
@@ -571,10 +679,14 @@ public class Cart extends BaseEntity {
 	 * @return 是否库存不足
 	 */
 	@Transient
-	public boolean getIsLowStock() {
-		if (getCartItems() != null) {
-			for (CartItem cartItem : getCartItems()) {
-				if (cartItem != null && cartItem.getIsLowStock()) {
+	public boolean getIsLowStock()
+	{
+		if (getCartItems() != null)
+		{
+			for (CartItem cartItem : getCartItems())
+			{
+				if (cartItem != null && cartItem.getIsLowStock())
+				{
 					return true;
 				}
 			}
@@ -588,7 +700,8 @@ public class Cart extends BaseEntity {
 	 * @return 是否已过期
 	 */
 	@Transient
-	public boolean hasExpired() {
+	public boolean hasExpired()
+	{
 		return new Date().after(DateUtils.addSeconds(getModifyDate(), TIMEOUT));
 	}
 
@@ -598,9 +711,12 @@ public class Cart extends BaseEntity {
 	 * @return 是否允许使用优惠券
 	 */
 	@Transient
-	public boolean isCouponAllowed() {
-		for (Promotion promotion : getPromotions()) {
-			if (promotion != null && !promotion.getIsCouponAllowed()) {
+	public boolean isCouponAllowed()
+	{
+		for (Promotion promotion : getPromotions())
+		{
+			if (promotion != null && !promotion.getIsCouponAllowed())
+			{
 				return false;
 			}
 		}
@@ -613,7 +729,8 @@ public class Cart extends BaseEntity {
 	 * @return 是否为空
 	 */
 	@Transient
-	public boolean isEmpty() {
+	public boolean isEmpty()
+	{
 		return getCartItems() == null || getCartItems().isEmpty();
 	}
 

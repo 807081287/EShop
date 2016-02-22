@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 /**
  * Controller - 发货点
  * 
@@ -28,7 +29,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller("deliveryCenterController")
 @RequestMapping("/admin/delivery_center")
-public class DeliveryCenterController extends BaseController {
+public class DeliveryCenterController extends BaseController
+{
 
 	@Resource(name = "deliveryCenterServiceImpl")
 	private DeliveryCenterService deliveryCenterService;
@@ -39,7 +41,8 @@ public class DeliveryCenterController extends BaseController {
 	 * 添加
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public String add() {
+	public String add()
+	{
 		return "/admin/delivery_center/add";
 	}
 
@@ -47,9 +50,11 @@ public class DeliveryCenterController extends BaseController {
 	 * 保存
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String save(DeliveryCenter deliveryCenter, Long areaId, Model model, RedirectAttributes redirectAttributes) {
+	public String save(DeliveryCenter deliveryCenter, Long areaId, Model model, RedirectAttributes redirectAttributes)
+	{
 		deliveryCenter.setArea(areaService.find(areaId));
-		if (!isValid(deliveryCenter)) {
+		if (!isValid(deliveryCenter))
+		{
 			return ERROR_VIEW;
 		}
 		deliveryCenter.setAreaName(null);
@@ -62,7 +67,8 @@ public class DeliveryCenterController extends BaseController {
 	 * 编辑
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(Long id, Model model) {
+	public String edit(Long id, Model model)
+	{
 		model.addAttribute("deliveryCenter", deliveryCenterService.find(id));
 		return "/admin/delivery_center/edit";
 	}
@@ -71,9 +77,11 @@ public class DeliveryCenterController extends BaseController {
 	 * 更新
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(DeliveryCenter deliveryCenter, Long areaId, RedirectAttributes redirectAttributes) {
+	public String update(DeliveryCenter deliveryCenter, Long areaId, RedirectAttributes redirectAttributes)
+	{
 		deliveryCenter.setArea(areaService.find(areaId));
-		if (!isValid(deliveryCenter)) {
+		if (!isValid(deliveryCenter))
+		{
 			return ERROR_VIEW;
 		}
 		deliveryCenterService.update(deliveryCenter, "areaName");
@@ -85,7 +93,8 @@ public class DeliveryCenterController extends BaseController {
 	 * 列表
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Model model, Pageable pageable) {
+	public String list(Model model, Pageable pageable)
+	{
 		model.addAttribute("page", deliveryCenterService.findPage(pageable));
 		return "/admin/delivery_center/list";
 	}
@@ -94,8 +103,8 @@ public class DeliveryCenterController extends BaseController {
 	 * 删除
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public @ResponseBody
-	Message delete(Long[] ids) {
+	public @ResponseBody Message delete(Long[] ids)
+	{
 		deliveryCenterService.delete(ids);
 		return SUCCESS_MESSAGE;
 	}

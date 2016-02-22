@@ -38,6 +38,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import freemarker.template.TemplateException;
 
+
 /**
  * Entity - 优惠券
  * 
@@ -47,7 +48,8 @@ import freemarker.template.TemplateException;
 @Entity
 @Table(name = "t_coupon")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_coupon_sequence")
-public class Coupon extends BaseEntity {
+public class Coupon extends BaseEntity
+{
 
 	private static final long serialVersionUID = -7907808728349149722L;
 
@@ -107,7 +109,8 @@ public class Coupon extends BaseEntity {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false)
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
@@ -115,9 +118,10 @@ public class Coupon extends BaseEntity {
 	 * 设置名称
 	 * 
 	 * @param name
-	 *            名称
+	 *           名称
 	 */
-	public void setName(String name) {
+	public void setName(String name)
+	{
 		this.name = name;
 	}
 
@@ -129,7 +133,8 @@ public class Coupon extends BaseEntity {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false)
-	public String getPrefix() {
+	public String getPrefix()
+	{
 		return prefix;
 	}
 
@@ -137,9 +142,10 @@ public class Coupon extends BaseEntity {
 	 * 设置前缀
 	 * 
 	 * @param prefix
-	 *            前缀
+	 *           前缀
 	 */
-	public void setPrefix(String prefix) {
+	public void setPrefix(String prefix)
+	{
 		this.prefix = prefix;
 	}
 
@@ -148,7 +154,8 @@ public class Coupon extends BaseEntity {
 	 * 
 	 * @return 使用起始日期
 	 */
-	public Date getBeginDate() {
+	public Date getBeginDate()
+	{
 		return beginDate;
 	}
 
@@ -156,9 +163,10 @@ public class Coupon extends BaseEntity {
 	 * 设置使用起始日期
 	 * 
 	 * @param beginDate
-	 *            使用起始日期
+	 *           使用起始日期
 	 */
-	public void setBeginDate(Date beginDate) {
+	public void setBeginDate(Date beginDate)
+	{
 		this.beginDate = beginDate;
 	}
 
@@ -167,7 +175,8 @@ public class Coupon extends BaseEntity {
 	 * 
 	 * @return 使用结束日期
 	 */
-	public Date getEndDate() {
+	public Date getEndDate()
+	{
 		return endDate;
 	}
 
@@ -175,9 +184,10 @@ public class Coupon extends BaseEntity {
 	 * 设置使用结束日期
 	 * 
 	 * @param endDate
-	 *            使用结束日期
+	 *           使用结束日期
 	 */
-	public void setEndDate(Date endDate) {
+	public void setEndDate(Date endDate)
+	{
 		this.endDate = endDate;
 	}
 
@@ -187,7 +197,8 @@ public class Coupon extends BaseEntity {
 	 * @return 最小商品数量
 	 */
 	@Min(0)
-	public Integer getMinimumQuantity() {
+	public Integer getMinimumQuantity()
+	{
 		return minimumQuantity;
 	}
 
@@ -195,9 +206,10 @@ public class Coupon extends BaseEntity {
 	 * 设置最小商品数量
 	 * 
 	 * @param minimumQuantity
-	 *            最小商品数量
+	 *           最小商品数量
 	 */
-	public void setMinimumQuantity(Integer minimumQuantity) {
+	public void setMinimumQuantity(Integer minimumQuantity)
+	{
 		this.minimumQuantity = minimumQuantity;
 	}
 
@@ -207,7 +219,8 @@ public class Coupon extends BaseEntity {
 	 * @return 最大商品数量
 	 */
 	@Min(0)
-	public Integer getMaximumQuantity() {
+	public Integer getMaximumQuantity()
+	{
 		return maximumQuantity;
 	}
 
@@ -215,9 +228,10 @@ public class Coupon extends BaseEntity {
 	 * 设置最大商品数量
 	 * 
 	 * @param maximumQuantity
-	 *            最大商品数量
+	 *           最大商品数量
 	 */
-	public void setMaximumQuantity(Integer maximumQuantity) {
+	public void setMaximumQuantity(Integer maximumQuantity)
+	{
 		this.maximumQuantity = maximumQuantity;
 	}
 
@@ -229,7 +243,8 @@ public class Coupon extends BaseEntity {
 	@Min(0)
 	@Digits(integer = 12, fraction = 3)
 	@Column(precision = 21, scale = 6)
-	public BigDecimal getMinimumPrice() {
+	public BigDecimal getMinimumPrice()
+	{
 		return minimumPrice;
 	}
 
@@ -237,9 +252,10 @@ public class Coupon extends BaseEntity {
 	 * 设置最小商品价格
 	 * 
 	 * @param minimumPrice
-	 *            最小商品价格
+	 *           最小商品价格
 	 */
-	public void setMinimumPrice(BigDecimal minimumPrice) {
+	public void setMinimumPrice(BigDecimal minimumPrice)
+	{
 		this.minimumPrice = minimumPrice;
 	}
 
@@ -251,7 +267,8 @@ public class Coupon extends BaseEntity {
 	@Min(0)
 	@Digits(integer = 12, fraction = 3)
 	@Column(precision = 21, scale = 6)
-	public BigDecimal getMaximumPrice() {
+	public BigDecimal getMaximumPrice()
+	{
 		return maximumPrice;
 	}
 
@@ -259,9 +276,10 @@ public class Coupon extends BaseEntity {
 	 * 设置最大商品价格
 	 * 
 	 * @param maximumPrice
-	 *            最大商品价格
+	 *           最大商品价格
 	 */
-	public void setMaximumPrice(BigDecimal maximumPrice) {
+	public void setMaximumPrice(BigDecimal maximumPrice)
+	{
 		this.maximumPrice = maximumPrice;
 	}
 
@@ -270,7 +288,8 @@ public class Coupon extends BaseEntity {
 	 * 
 	 * @return 价格运算表达式
 	 */
-	public String getPriceExpression() {
+	public String getPriceExpression()
+	{
 		return priceExpression;
 	}
 
@@ -278,9 +297,10 @@ public class Coupon extends BaseEntity {
 	 * 设置价格运算表达式
 	 * 
 	 * @param priceExpression
-	 *            价格运算表达式
+	 *           价格运算表达式
 	 */
-	public void setPriceExpression(String priceExpression) {
+	public void setPriceExpression(String priceExpression)
+	{
 		this.priceExpression = priceExpression;
 	}
 
@@ -291,7 +311,8 @@ public class Coupon extends BaseEntity {
 	 */
 	@NotNull
 	@Column(nullable = false)
-	public Boolean getIsEnabled() {
+	public Boolean getIsEnabled()
+	{
 		return isEnabled;
 	}
 
@@ -299,9 +320,10 @@ public class Coupon extends BaseEntity {
 	 * 设置是否启用
 	 * 
 	 * @param isEnabled
-	 *            是否启用
+	 *           是否启用
 	 */
-	public void setIsEnabled(Boolean isEnabled) {
+	public void setIsEnabled(Boolean isEnabled)
+	{
 		this.isEnabled = isEnabled;
 	}
 
@@ -312,7 +334,8 @@ public class Coupon extends BaseEntity {
 	 */
 	@NotNull
 	@Column(nullable = false)
-	public Boolean getIsExchange() {
+	public Boolean getIsExchange()
+	{
 		return isExchange;
 	}
 
@@ -320,9 +343,10 @@ public class Coupon extends BaseEntity {
 	 * 设置是否允许积分兑换
 	 * 
 	 * @param isExchange
-	 *            是否允许积分兑换
+	 *           是否允许积分兑换
 	 */
-	public void setIsExchange(Boolean isExchange) {
+	public void setIsExchange(Boolean isExchange)
+	{
 		this.isExchange = isExchange;
 	}
 
@@ -332,7 +356,8 @@ public class Coupon extends BaseEntity {
 	 * @return 积分兑换数
 	 */
 	@Min(0)
-	public Long getPoint() {
+	public Long getPoint()
+	{
 		return point;
 	}
 
@@ -340,9 +365,10 @@ public class Coupon extends BaseEntity {
 	 * 设置积分兑换数
 	 * 
 	 * @param point
-	 *            积分兑换数
+	 *           积分兑换数
 	 */
-	public void setPoint(Long point) {
+	public void setPoint(Long point)
+	{
 		this.point = point;
 	}
 
@@ -352,7 +378,8 @@ public class Coupon extends BaseEntity {
 	 * @return 介绍
 	 */
 	@Lob
-	public String getIntroduction() {
+	public String getIntroduction()
+	{
 		return introduction;
 	}
 
@@ -360,9 +387,10 @@ public class Coupon extends BaseEntity {
 	 * 设置介绍
 	 * 
 	 * @param introduction
-	 *            介绍
+	 *           介绍
 	 */
-	public void setIntroduction(String introduction) {
+	public void setIntroduction(String introduction)
+	{
 		this.introduction = introduction;
 	}
 
@@ -372,7 +400,8 @@ public class Coupon extends BaseEntity {
 	 * @return 优惠码
 	 */
 	@OneToMany(mappedBy = "coupon", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-	public Set<CouponCode> getCouponCodes() {
+	public Set<CouponCode> getCouponCodes()
+	{
 		return couponCodes;
 	}
 
@@ -380,9 +409,10 @@ public class Coupon extends BaseEntity {
 	 * 设置优惠码
 	 * 
 	 * @param couponCodes
-	 *            优惠码
+	 *           优惠码
 	 */
-	public void setCouponCodes(Set<CouponCode> couponCodes) {
+	public void setCouponCodes(Set<CouponCode> couponCodes)
+	{
 		this.couponCodes = couponCodes;
 	}
 
@@ -392,7 +422,8 @@ public class Coupon extends BaseEntity {
 	 * @return 促销
 	 */
 	@ManyToMany(mappedBy = "coupons", fetch = FetchType.LAZY)
-	public Set<Promotion> getPromotions() {
+	public Set<Promotion> getPromotions()
+	{
 		return promotions;
 	}
 
@@ -400,9 +431,10 @@ public class Coupon extends BaseEntity {
 	 * 设置促销
 	 * 
 	 * @param promotions
-	 *            促销
+	 *           促销
 	 */
-	public void setPromotions(Set<Promotion> promotions) {
+	public void setPromotions(Set<Promotion> promotions)
+	{
 		this.promotions = promotions;
 	}
 
@@ -412,7 +444,8 @@ public class Coupon extends BaseEntity {
 	 * @return 订单
 	 */
 	@ManyToMany(mappedBy = "coupons", fetch = FetchType.LAZY)
-	public List<Order> getOrders() {
+	public List<Order> getOrders()
+	{
 		return orders;
 	}
 
@@ -420,9 +453,10 @@ public class Coupon extends BaseEntity {
 	 * 设置订单
 	 * 
 	 * @param orders
-	 *            订单
+	 *           订单
 	 */
-	public void setOrders(List<Order> orders) {
+	public void setOrders(List<Order> orders)
+	{
 		this.orders = orders;
 	}
 
@@ -432,7 +466,8 @@ public class Coupon extends BaseEntity {
 	 * @return 是否已开始
 	 */
 	@Transient
-	public boolean hasBegun() {
+	public boolean hasBegun()
+	{
 		return getBeginDate() == null || new Date().after(getBeginDate());
 	}
 
@@ -442,7 +477,8 @@ public class Coupon extends BaseEntity {
 	 * @return 是否已过期
 	 */
 	@Transient
-	public boolean hasExpired() {
+	public boolean hasExpired()
+	{
 		return getEndDate() != null && new Date().after(getEndDate());
 	}
 
@@ -450,28 +486,36 @@ public class Coupon extends BaseEntity {
 	 * 计算优惠价格
 	 * 
 	 * @param quantity
-	 *            商品数量
+	 *           商品数量
 	 * @param price
-	 *            商品价格
+	 *           商品价格
 	 * @return 优惠价格
 	 */
 	@Transient
-	public BigDecimal calculatePrice(Integer quantity, BigDecimal price) {
-		if (price == null || StringUtils.isEmpty(getPriceExpression())) {
+	public BigDecimal calculatePrice(Integer quantity, BigDecimal price)
+	{
+		if (price == null || StringUtils.isEmpty(getPriceExpression()))
+		{
 			return price;
 		}
 		BigDecimal result = new BigDecimal(0);
-		try {
+		try
+		{
 			Map<String, Object> model = new HashMap<String, Object>();
 			model.put("quantity", quantity);
 			model.put("price", price);
 			result = new BigDecimal(FreemarkerUtils.process("#{(" + getPriceExpression() + ");M50}", model));
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (TemplateException e) {
+		}
+		catch (IOException e)
+		{
 			e.printStackTrace();
 		}
-		if (result.compareTo(price) > 0) {
+		catch (TemplateException e)
+		{
+			e.printStackTrace();
+		}
+		if (result.compareTo(price) > 0)
+		{
 			return price;
 		}
 		return result.compareTo(new BigDecimal(0)) > 0 ? result : new BigDecimal(0);
@@ -481,16 +525,21 @@ public class Coupon extends BaseEntity {
 	 * 删除前处理
 	 */
 	@PreRemove
-	public void preRemove() {
+	public void preRemove()
+	{
 		Set<Promotion> promotions = getPromotions();
-		if (promotions != null) {
-			for (Promotion promotion : promotions) {
+		if (promotions != null)
+		{
+			for (Promotion promotion : promotions)
+			{
 				promotion.getCoupons().remove(this);
 			}
 		}
 		List<Order> orders = getOrders();
-		if (orders != null) {
-			for (Order order : orders) {
+		if (orders != null)
+		{
+			for (Order order : orders)
+			{
 				order.getCoupons().remove(this);
 			}
 		}

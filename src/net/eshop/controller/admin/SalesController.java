@@ -21,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+
 /**
  * Controller - 销售统计
  * 
@@ -29,7 +30,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller("adminSalesController")
 @RequestMapping("/admin/sales")
-public class SalesController extends BaseController {
+public class SalesController extends BaseController
+{
 
 	/** 最大统计数 */
 	private static final int MAX_SIZE = 12;
@@ -37,7 +39,8 @@ public class SalesController extends BaseController {
 	/**
 	 * 统计类型
 	 */
-	public enum Type {
+	public enum Type
+	{
 		/**
 		 * 年度统计
 		 */
@@ -55,14 +58,18 @@ public class SalesController extends BaseController {
 	 * 查看
 	 */
 	@RequestMapping(value = "/view", method = RequestMethod.GET)
-	public String view(Type type, Date beginDate, Date endDate, Model model) {
-		if (type == null) {
+	public String view(Type type, Date beginDate, Date endDate, Model model)
+	{
+		if (type == null)
+		{
 			type = Type.month;
 		}
-		if (beginDate == null) {
+		if (beginDate == null)
+		{
 			beginDate = DateUtils.addMonths(new Date(), -11);
 		}
-		if (endDate == null) {
+		if (endDate == null)
+		{
 			endDate = new Date();
 		}
 		Map<Date, BigDecimal> salesAmountMap = new LinkedHashMap<Date, BigDecimal>();
@@ -73,13 +80,16 @@ public class SalesController extends BaseController {
 		int endYear = endCalendar.get(Calendar.YEAR);
 		int beginMonth = beginCalendar.get(Calendar.MONTH);
 		int endMonth = endCalendar.get(Calendar.MONTH);
-		for (int year = beginYear; year <= endYear; year++) {
-			if (salesAmountMap.size() >= MAX_SIZE) {
+		for (int year = beginYear; year <= endYear; year++)
+		{
+			if (salesAmountMap.size() >= MAX_SIZE)
+			{
 				break;
 			}
 			Calendar calendar = Calendar.getInstance();
 			calendar.set(Calendar.YEAR, year);
-			if (type == Type.year) {
+			if (type == Type.year)
+			{
 				calendar.set(Calendar.MONTH, calendar.getActualMinimum(Calendar.MONTH));
 				calendar.set(Calendar.DATE, calendar.getActualMinimum(Calendar.DATE));
 				calendar.set(Calendar.HOUR_OF_DAY, calendar.getActualMinimum(Calendar.HOUR_OF_DAY));
@@ -96,9 +106,14 @@ public class SalesController extends BaseController {
 				Integer salesVolume = orderService.getSalesVolume(begin, end);
 				salesAmountMap.put(begin, salesAmount != null ? salesAmount : BigDecimal.ZERO);
 				salesVolumeMap.put(begin, salesVolume != null ? salesVolume : 0);
-			} else {
-				for (int month = year == beginYear ? beginMonth : calendar.getActualMinimum(Calendar.MONTH); month <= (year == endYear ? endMonth : calendar.getActualMaximum(Calendar.MONTH)); month++) {
-					if (salesAmountMap.size() >= MAX_SIZE) {
+			}
+			else
+			{
+				for (int month = year == beginYear ? beginMonth : calendar.getActualMinimum(Calendar.MONTH); month <= (year == endYear ? endMonth
+						: calendar.getActualMaximum(Calendar.MONTH)); month++)
+				{
+					if (salesAmountMap.size() >= MAX_SIZE)
+					{
 						break;
 					}
 					calendar.set(Calendar.MONTH, month);

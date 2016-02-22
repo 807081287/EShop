@@ -21,6 +21,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+
 /**
  * Entity - 广告
  * 
@@ -30,14 +31,16 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table(name = "t_ad")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_ad_sequence")
-public class Ad extends OrderEntity {
+public class Ad extends OrderEntity
+{
 
 	private static final long serialVersionUID = -1307743303786909390L;
 
 	/**
 	 * 类型
 	 */
-	public enum Type {
+	public enum Type
+	{
 
 		/** 文本 */
 		text,
@@ -81,7 +84,8 @@ public class Ad extends OrderEntity {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false)
-	public String getTitle() {
+	public String getTitle()
+	{
 		return title;
 	}
 
@@ -89,9 +93,10 @@ public class Ad extends OrderEntity {
 	 * 设置标题
 	 * 
 	 * @param title
-	 *            标题
+	 *           标题
 	 */
-	public void setTitle(String title) {
+	public void setTitle(String title)
+	{
 		this.title = title;
 	}
 
@@ -102,7 +107,8 @@ public class Ad extends OrderEntity {
 	 */
 	@NotNull
 	@Column(nullable = false)
-	public Type getType() {
+	public Type getType()
+	{
 		return type;
 	}
 
@@ -110,9 +116,10 @@ public class Ad extends OrderEntity {
 	 * 设置类型
 	 * 
 	 * @param type
-	 *            类型
+	 *           类型
 	 */
-	public void setType(Type type) {
+	public void setType(Type type)
+	{
 		this.type = type;
 	}
 
@@ -122,7 +129,8 @@ public class Ad extends OrderEntity {
 	 * @return 内容
 	 */
 	@Lob
-	public String getContent() {
+	public String getContent()
+	{
 		return content;
 	}
 
@@ -130,9 +138,10 @@ public class Ad extends OrderEntity {
 	 * 设置内容
 	 * 
 	 * @param content
-	 *            内容
+	 *           内容
 	 */
-	public void setContent(String content) {
+	public void setContent(String content)
+	{
 		this.content = content;
 	}
 
@@ -142,7 +151,8 @@ public class Ad extends OrderEntity {
 	 * @return 路径
 	 */
 	@Length(max = 200)
-	public String getPath() {
+	public String getPath()
+	{
 		return path;
 	}
 
@@ -150,9 +160,10 @@ public class Ad extends OrderEntity {
 	 * 设置路径
 	 * 
 	 * @param path
-	 *            路径
+	 *           路径
 	 */
-	public void setPath(String path) {
+	public void setPath(String path)
+	{
 		this.path = path;
 	}
 
@@ -161,7 +172,8 @@ public class Ad extends OrderEntity {
 	 * 
 	 * @return 起始日期
 	 */
-	public Date getBeginDate() {
+	public Date getBeginDate()
+	{
 		return beginDate;
 	}
 
@@ -169,9 +181,10 @@ public class Ad extends OrderEntity {
 	 * 设置起始日期
 	 * 
 	 * @param beginDate
-	 *            起始日期
+	 *           起始日期
 	 */
-	public void setBeginDate(Date beginDate) {
+	public void setBeginDate(Date beginDate)
+	{
 		this.beginDate = beginDate;
 	}
 
@@ -180,7 +193,8 @@ public class Ad extends OrderEntity {
 	 * 
 	 * @return 结束日期
 	 */
-	public Date getEndDate() {
+	public Date getEndDate()
+	{
 		return endDate;
 	}
 
@@ -188,9 +202,10 @@ public class Ad extends OrderEntity {
 	 * 设置结束日期
 	 * 
 	 * @param endDate
-	 *            结束日期
+	 *           结束日期
 	 */
-	public void setEndDate(Date endDate) {
+	public void setEndDate(Date endDate)
+	{
 		this.endDate = endDate;
 	}
 
@@ -200,7 +215,8 @@ public class Ad extends OrderEntity {
 	 * @return 链接地址
 	 */
 	@Length(max = 200)
-	public String getUrl() {
+	public String getUrl()
+	{
 		return url;
 	}
 
@@ -208,9 +224,10 @@ public class Ad extends OrderEntity {
 	 * 设置链接地址
 	 * 
 	 * @param url
-	 *            链接地址
+	 *           链接地址
 	 */
-	public void setUrl(String url) {
+	public void setUrl(String url)
+	{
 		this.url = url;
 	}
 
@@ -222,7 +239,8 @@ public class Ad extends OrderEntity {
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false)
-	public AdPosition getAdPosition() {
+	public AdPosition getAdPosition()
+	{
 		return adPosition;
 	}
 
@@ -230,9 +248,10 @@ public class Ad extends OrderEntity {
 	 * 设置广告位
 	 * 
 	 * @param adPosition
-	 *            广告位
+	 *           广告位
 	 */
-	public void setAdPosition(AdPosition adPosition) {
+	public void setAdPosition(AdPosition adPosition)
+	{
 		this.adPosition = adPosition;
 	}
 
@@ -242,7 +261,8 @@ public class Ad extends OrderEntity {
 	 * @return 是否已开始
 	 */
 	@Transient
-	public boolean hasBegun() {
+	public boolean hasBegun()
+	{
 		return getBeginDate() == null || new Date().after(getBeginDate());
 	}
 
@@ -252,7 +272,8 @@ public class Ad extends OrderEntity {
 	 * @return 是否已结束
 	 */
 	@Transient
-	public boolean hasEnded() {
+	public boolean hasEnded()
+	{
 		return getEndDate() != null && new Date().after(getEndDate());
 	}
 

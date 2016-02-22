@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+
 /**
  * Controller - 品牌
  * 
@@ -26,7 +27,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller("shopBrandController")
 @RequestMapping("/brand")
-public class BrandController extends BaseController {
+public class BrandController extends BaseController
+{
 
 	/** 每页记录数 */
 	private static final int PAGE_SIZE = 40;
@@ -38,7 +40,8 @@ public class BrandController extends BaseController {
 	 * 列表
 	 */
 	@RequestMapping(value = "/list/{pageNumber}", method = RequestMethod.GET)
-	public String list(@PathVariable Integer pageNumber, ModelMap model) {
+	public String list(@PathVariable Integer pageNumber, ModelMap model)
+	{
 		Pageable pageable = new Pageable(pageNumber, PAGE_SIZE);
 		model.addAttribute("page", brandService.findPage(pageable));
 		return "/shop/brand/list";
@@ -48,9 +51,11 @@ public class BrandController extends BaseController {
 	 * 内容
 	 */
 	@RequestMapping(value = "/content/{id}", method = RequestMethod.GET)
-	public String content(@PathVariable Long id, ModelMap model) {
+	public String content(@PathVariable Long id, ModelMap model)
+	{
 		Brand brand = brandService.find(id);
-		if (brand == null) {
+		if (brand == null)
+		{
 			throw new ResourceNotFoundException();
 		}
 		model.addAttribute("brand", brand);

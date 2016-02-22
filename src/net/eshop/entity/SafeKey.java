@@ -12,6 +12,7 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Transient;
 
+
 /**
  * Entity - 安全密钥
  * 
@@ -19,7 +20,8 @@ import javax.persistence.Transient;
  * 
  */
 @Embeddable
-public class SafeKey implements Serializable {
+public class SafeKey implements Serializable
+{
 
 	private static final long serialVersionUID = -8536541568286987548L;
 
@@ -35,7 +37,8 @@ public class SafeKey implements Serializable {
 	 * @return 密钥
 	 */
 	@Column(name = "safe_key_value")
-	public String getValue() {
+	public String getValue()
+	{
 		return value;
 	}
 
@@ -43,9 +46,10 @@ public class SafeKey implements Serializable {
 	 * 设置密钥
 	 * 
 	 * @param value
-	 *            密钥
+	 *           密钥
 	 */
-	public void setValue(String value) {
+	public void setValue(String value)
+	{
 		this.value = value;
 	}
 
@@ -55,7 +59,8 @@ public class SafeKey implements Serializable {
 	 * @return 到期时间
 	 */
 	@Column(name = "safe_key_expire")
-	public Date getExpire() {
+	public Date getExpire()
+	{
 		return expire;
 	}
 
@@ -63,9 +68,10 @@ public class SafeKey implements Serializable {
 	 * 设置到期时间
 	 * 
 	 * @param expire
-	 *            到期时间
+	 *           到期时间
 	 */
-	public void setExpire(Date expire) {
+	public void setExpire(Date expire)
+	{
 		this.expire = expire;
 	}
 
@@ -75,7 +81,8 @@ public class SafeKey implements Serializable {
 	 * @return 是否已过期
 	 */
 	@Transient
-	public boolean hasExpired() {
+	public boolean hasExpired()
+	{
 		return getExpire() != null && new Date().after(getExpire());
 	}
 

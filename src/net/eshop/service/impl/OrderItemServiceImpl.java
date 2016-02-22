@@ -13,6 +13,7 @@ import net.eshop.service.OrderItemService;
 
 import org.springframework.stereotype.Service;
 
+
 /**
  * Service - 订单项
  * 
@@ -20,10 +21,12 @@ import org.springframework.stereotype.Service;
  * 
  */
 @Service("orderItemServiceImpl")
-public class OrderItemServiceImpl extends BaseServiceImpl<OrderItem, Long> implements OrderItemService {
+public class OrderItemServiceImpl extends BaseServiceImpl<OrderItem, Long> implements OrderItemService
+{
 
 	@Resource(name = "orderItemDaoImpl")
-	public void setBaseDao(OrderItemDao orderItemDao) {
+	public void setBaseDao(OrderItemDao orderItemDao)
+	{
 		super.setBaseDao(orderItemDao);
 	}
 

@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 /**
  * Controller - 规格
  * 
@@ -31,7 +32,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller("adminSpecificationController")
 @RequestMapping("/admin/specification")
-public class SpecificationController extends BaseController {
+public class SpecificationController extends BaseController
+{
 
 	@Resource(name = "specificationServiceImpl")
 	private SpecificationService specificationService;
@@ -40,7 +42,8 @@ public class SpecificationController extends BaseController {
 	 * 添加
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public String add(ModelMap model) {
+	public String add(ModelMap model)
+	{
 		model.addAttribute("types", Type.values());
 		return "/admin/specification/add";
 	}
@@ -49,19 +52,26 @@ public class SpecificationController extends BaseController {
 	 * 保存
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String save(Specification specification, RedirectAttributes redirectAttributes) {
-		for (Iterator<SpecificationValue> iterator = specification.getSpecificationValues().iterator(); iterator.hasNext();) {
+	public String save(Specification specification, RedirectAttributes redirectAttributes)
+	{
+		for (Iterator<SpecificationValue> iterator = specification.getSpecificationValues().iterator(); iterator.hasNext();)
+		{
 			SpecificationValue specificationValue = iterator.next();
-			if (specificationValue == null || specificationValue.getName() == null) {
+			if (specificationValue == null || specificationValue.getName() == null)
+			{
 				iterator.remove();
-			} else {
-				if (specification.getType() == Type.text) {
+			}
+			else
+			{
+				if (specification.getType() == Type.text)
+				{
 					specificationValue.setImage(null);
 				}
 				specificationValue.setSpecification(specification);
 			}
 		}
-		if (!isValid(specification)) {
+		if (!isValid(specification))
+		{
 			return ERROR_VIEW;
 		}
 		specification.setProducts(null);
@@ -74,7 +84,8 @@ public class SpecificationController extends BaseController {
 	 * 编辑
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(Long id, ModelMap model) {
+	public String edit(Long id, ModelMap model)
+	{
 		model.addAttribute("types", Type.values());
 		model.addAttribute("specification", specificationService.find(id));
 		return "/admin/specification/edit";
@@ -84,19 +95,26 @@ public class SpecificationController extends BaseController {
 	 * 更新
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(Specification specification, RedirectAttributes redirectAttributes) {
-		for (Iterator<SpecificationValue> iterator = specification.getSpecificationValues().iterator(); iterator.hasNext();) {
+	public String update(Specification specification, RedirectAttributes redirectAttributes)
+	{
+		for (Iterator<SpecificationValue> iterator = specification.getSpecificationValues().iterator(); iterator.hasNext();)
+		{
 			SpecificationValue specificationValue = iterator.next();
-			if (specificationValue == null || specificationValue.getName() == null) {
+			if (specificationValue == null || specificationValue.getName() == null)
+			{
 				iterator.remove();
-			} else {
-				if (specification.getType() == Type.text) {
+			}
+			else
+			{
+				if (specification.getType() == Type.text)
+				{
 					specificationValue.setImage(null);
 				}
 				specificationValue.setSpecification(specification);
 			}
 		}
-		if (!isValid(specification)) {
+		if (!isValid(specification))
+		{
 			return ERROR_VIEW;
 		}
 		specificationService.update(specification, "products");
@@ -108,7 +126,8 @@ public class SpecificationController extends BaseController {
 	 * 列表
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Pageable pageable, ModelMap model) {
+	public String list(Pageable pageable, ModelMap model)
+	{
 		model.addAttribute("page", specificationService.findPage(pageable));
 		return "/admin/specification/list";
 	}
@@ -117,12 +136,15 @@ public class SpecificationController extends BaseController {
 	 * 删除
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public @ResponseBody
-	Message delete(Long[] ids) {
-		if (ids != null) {
-			for (Long id : ids) {
+	public @ResponseBody Message delete(Long[] ids)
+	{
+		if (ids != null)
+		{
+			for (Long id : ids)
+			{
 				Specification specification = specificationService.find(id);
-				if (specification != null && specification.getProducts() != null && !specification.getProducts().isEmpty()) {
+				if (specification != null && specification.getProducts() != null && !specification.getProducts().isEmpty())
+				{
 					return Message.error("admin.specification.deleteExistProductNotAllowed", specification.getName());
 				}
 			}

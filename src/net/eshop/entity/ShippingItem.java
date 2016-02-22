@@ -17,6 +17,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+
 /**
  * Entity - 发货项
  * 
@@ -26,7 +27,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table(name = "t_shipping_item")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_shipping_item_sequence")
-public class ShippingItem extends BaseEntity {
+public class ShippingItem extends BaseEntity
+{
 
 	private static final long serialVersionUID = 2756395514949325790L;
 
@@ -49,7 +51,8 @@ public class ShippingItem extends BaseEntity {
 	 */
 	@NotEmpty
 	@Column(nullable = false, updatable = false)
-	public String getSn() {
+	public String getSn()
+	{
 		return sn;
 	}
 
@@ -57,9 +60,10 @@ public class ShippingItem extends BaseEntity {
 	 * 设置商品编号
 	 * 
 	 * @param sn
-	 *            商品编号
+	 *           商品编号
 	 */
-	public void setSn(String sn) {
+	public void setSn(String sn)
+	{
 		this.sn = sn;
 	}
 
@@ -70,7 +74,8 @@ public class ShippingItem extends BaseEntity {
 	 */
 	@NotEmpty
 	@Column(nullable = false, updatable = false)
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
@@ -78,9 +83,10 @@ public class ShippingItem extends BaseEntity {
 	 * 设置商品名称
 	 * 
 	 * @param name
-	 *            商品名称
+	 *           商品名称
 	 */
-	public void setName(String name) {
+	public void setName(String name)
+	{
 		this.name = name;
 	}
 
@@ -92,7 +98,8 @@ public class ShippingItem extends BaseEntity {
 	@NotNull
 	@Min(1)
 	@Column(nullable = false, updatable = false)
-	public Integer getQuantity() {
+	public Integer getQuantity()
+	{
 		return quantity;
 	}
 
@@ -100,9 +107,10 @@ public class ShippingItem extends BaseEntity {
 	 * 设置数量
 	 * 
 	 * @param quantity
-	 *            数量
+	 *           数量
 	 */
-	public void setQuantity(Integer quantity) {
+	public void setQuantity(Integer quantity)
+	{
 		this.quantity = quantity;
 	}
 
@@ -113,7 +121,8 @@ public class ShippingItem extends BaseEntity {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false, updatable = false)
-	public Shipping getShipping() {
+	public Shipping getShipping()
+	{
 		return shipping;
 	}
 
@@ -121,9 +130,10 @@ public class ShippingItem extends BaseEntity {
 	 * 设置发货单
 	 * 
 	 * @param shipping
-	 *            发货单
+	 *           发货单
 	 */
-	public void setShipping(Shipping shipping) {
+	public void setShipping(Shipping shipping)
+	{
 		this.shipping = shipping;
 	}
 

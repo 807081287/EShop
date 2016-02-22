@@ -14,13 +14,15 @@ import net.eshop.Order.Direction;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
+
 /**
  * 分页信息
  * 
  * 
  * 
  */
-public class Pageable implements Serializable {
+public class Pageable implements Serializable
+{
 
 	private static final long serialVersionUID = -3930180379790344299L;
 
@@ -60,22 +62,26 @@ public class Pageable implements Serializable {
 	/**
 	 * 初始化一个新创建的Pageable对象
 	 */
-	public Pageable() {
+	public Pageable()
+	{
 	}
 
 	/**
 	 * 初始化一个新创建的Pageable对象
 	 * 
 	 * @param pageNumber
-	 *            页码
+	 *           页码
 	 * @param pageSize
-	 *            每页记录数
+	 *           每页记录数
 	 */
-	public Pageable(Integer pageNumber, Integer pageSize) {
-		if (pageNumber != null && pageNumber >= 1) {
+	public Pageable(Integer pageNumber, Integer pageSize)
+	{
+		if (pageNumber != null && pageNumber >= 1)
+		{
 			this.pageNumber = pageNumber;
 		}
-		if (pageSize != null && pageSize >= 1 && pageSize <= MAX_PAGE_SIZE) {
+		if (pageSize != null && pageSize >= 1 && pageSize <= MAX_PAGE_SIZE)
+		{
 			this.pageSize = pageSize;
 		}
 	}
@@ -85,7 +91,8 @@ public class Pageable implements Serializable {
 	 * 
 	 * @return 页码
 	 */
-	public int getPageNumber() {
+	public int getPageNumber()
+	{
 		return pageNumber;
 	}
 
@@ -93,10 +100,12 @@ public class Pageable implements Serializable {
 	 * 设置页码
 	 * 
 	 * @param pageNumber
-	 *            页码
+	 *           页码
 	 */
-	public void setPageNumber(int pageNumber) {
-		if (pageNumber < 1) {
+	public void setPageNumber(int pageNumber)
+	{
+		if (pageNumber < 1)
+		{
 			pageNumber = DEFAULT_PAGE_NUMBER;
 		}
 		this.pageNumber = pageNumber;
@@ -107,7 +116,8 @@ public class Pageable implements Serializable {
 	 * 
 	 * @return 每页记录数
 	 */
-	public int getPageSize() {
+	public int getPageSize()
+	{
 		return pageSize;
 	}
 
@@ -115,10 +125,12 @@ public class Pageable implements Serializable {
 	 * 设置每页记录数
 	 * 
 	 * @param pageSize
-	 *            每页记录数
+	 *           每页记录数
 	 */
-	public void setPageSize(int pageSize) {
-		if (pageSize < 1 || pageSize > MAX_PAGE_SIZE) {
+	public void setPageSize(int pageSize)
+	{
+		if (pageSize < 1 || pageSize > MAX_PAGE_SIZE)
+		{
 			pageSize = DEFAULT_PAGE_SIZE;
 		}
 		this.pageSize = pageSize;
@@ -129,7 +141,8 @@ public class Pageable implements Serializable {
 	 * 
 	 * @return 搜索属性
 	 */
-	public String getSearchProperty() {
+	public String getSearchProperty()
+	{
 		return searchProperty;
 	}
 
@@ -137,9 +150,10 @@ public class Pageable implements Serializable {
 	 * 设置搜索属性
 	 * 
 	 * @param searchProperty
-	 *            搜索属性
+	 *           搜索属性
 	 */
-	public void setSearchProperty(String searchProperty) {
+	public void setSearchProperty(String searchProperty)
+	{
 		this.searchProperty = searchProperty;
 	}
 
@@ -148,7 +162,8 @@ public class Pageable implements Serializable {
 	 * 
 	 * @return 搜索值
 	 */
-	public String getSearchValue() {
+	public String getSearchValue()
+	{
 		return searchValue;
 	}
 
@@ -156,9 +171,10 @@ public class Pageable implements Serializable {
 	 * 设置搜索值
 	 * 
 	 * @param searchValue
-	 *            搜索值
+	 *           搜索值
 	 */
-	public void setSearchValue(String searchValue) {
+	public void setSearchValue(String searchValue)
+	{
 		this.searchValue = searchValue;
 	}
 
@@ -167,7 +183,8 @@ public class Pageable implements Serializable {
 	 * 
 	 * @return 排序属性
 	 */
-	public String getOrderProperty() {
+	public String getOrderProperty()
+	{
 		return orderProperty;
 	}
 
@@ -175,9 +192,10 @@ public class Pageable implements Serializable {
 	 * 设置排序属性
 	 * 
 	 * @param orderProperty
-	 *            排序属性
+	 *           排序属性
 	 */
-	public void setOrderProperty(String orderProperty) {
+	public void setOrderProperty(String orderProperty)
+	{
 		this.orderProperty = orderProperty;
 	}
 
@@ -186,7 +204,8 @@ public class Pageable implements Serializable {
 	 * 
 	 * @return 排序方向
 	 */
-	public Direction getOrderDirection() {
+	public Direction getOrderDirection()
+	{
 		return orderDirection;
 	}
 
@@ -194,9 +213,10 @@ public class Pageable implements Serializable {
 	 * 设置排序方向
 	 * 
 	 * @param orderDirection
-	 *            排序方向
+	 *           排序方向
 	 */
-	public void setOrderDirection(Direction orderDirection) {
+	public void setOrderDirection(Direction orderDirection)
+	{
 		this.orderDirection = orderDirection;
 	}
 
@@ -205,7 +225,8 @@ public class Pageable implements Serializable {
 	 * 
 	 * @return 筛选
 	 */
-	public List<Filter> getFilters() {
+	public List<Filter> getFilters()
+	{
 		return filters;
 	}
 
@@ -213,9 +234,10 @@ public class Pageable implements Serializable {
 	 * 设置筛选
 	 * 
 	 * @param filters
-	 *            筛选
+	 *           筛选
 	 */
-	public void setFilters(List<Filter> filters) {
+	public void setFilters(List<Filter> filters)
+	{
 		this.filters = filters;
 	}
 
@@ -224,7 +246,8 @@ public class Pageable implements Serializable {
 	 * 
 	 * @return 排序
 	 */
-	public List<Order> getOrders() {
+	public List<Order> getOrders()
+	{
 		return orders;
 	}
 
@@ -232,31 +255,41 @@ public class Pageable implements Serializable {
 	 * 设置排序
 	 * 
 	 * @param orders
-	 *            排序
+	 *           排序
 	 */
-	public void setOrders(List<Order> orders) {
+	public void setOrders(List<Order> orders)
+	{
 		this.orders = orders;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (obj == null) {
+	public boolean equals(Object obj)
+	{
+		if (obj == null)
+		{
 			return false;
 		}
-		if (getClass() != obj.getClass()) {
+		if (getClass() != obj.getClass())
+		{
 			return false;
 		}
-		if (this == obj) {
+		if (this == obj)
+		{
 			return true;
 		}
 		Pageable other = (Pageable) obj;
-		return new EqualsBuilder().append(getPageNumber(), other.getPageNumber()).append(getPageSize(), other.getPageSize()).append(getSearchProperty(), other.getSearchProperty()).append(getSearchValue(), other.getSearchValue()).append(getOrderProperty(), other.getOrderProperty()).append(getOrderDirection(), other.getOrderDirection()).append(getFilters(), other.getFilters())
-				.append(getOrders(), other.getOrders()).isEquals();
+		return new EqualsBuilder().append(getPageNumber(), other.getPageNumber()).append(getPageSize(), other.getPageSize())
+				.append(getSearchProperty(), other.getSearchProperty()).append(getSearchValue(), other.getSearchValue())
+				.append(getOrderProperty(), other.getOrderProperty()).append(getOrderDirection(), other.getOrderDirection())
+				.append(getFilters(), other.getFilters()).append(getOrders(), other.getOrders()).isEquals();
 	}
 
 	@Override
-	public int hashCode() {
-		return new HashCodeBuilder(17, 37).append(getPageNumber()).append(getPageSize()).append(getSearchProperty()).append(getSearchValue()).append(getOrderProperty()).append(getOrderDirection()).append(getFilters()).append(getOrders()).toHashCode();
+	public int hashCode()
+	{
+		return new HashCodeBuilder(17, 37).append(getPageNumber()).append(getPageSize()).append(getSearchProperty())
+				.append(getSearchValue()).append(getOrderProperty()).append(getOrderDirection()).append(getFilters())
+				.append(getOrders()).toHashCode();
 	}
 
 }

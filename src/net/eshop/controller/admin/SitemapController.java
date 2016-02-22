@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 /**
  * Controller - Sitemap
  * 
@@ -25,7 +26,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller("adminSitemapController")
 @RequestMapping("/admin/sitemap")
-public class SitemapController extends BaseController {
+public class SitemapController extends BaseController
+{
 
 	@Resource(name = "templateServiceImpl")
 	private TemplateService templateService;
@@ -36,7 +38,8 @@ public class SitemapController extends BaseController {
 	 * 生成Sitemap
 	 */
 	@RequestMapping(value = "/build", method = RequestMethod.GET)
-	public String build(ModelMap model) {
+	public String build(ModelMap model)
+	{
 		Template sitemapIndexTemplate = templateService.get("sitemapIndex");
 		model.addAttribute("sitemapIndexPath", sitemapIndexTemplate.getStaticPath());
 		return "/admin/sitemap/build";
@@ -46,7 +49,8 @@ public class SitemapController extends BaseController {
 	 * 生成Sitemap
 	 */
 	@RequestMapping(value = "/build", method = RequestMethod.POST)
-	public String build(RedirectAttributes redirectAttributes) {
+	public String build(RedirectAttributes redirectAttributes)
+	{
 		staticService.buildSitemap();
 		addFlashMessage(redirectAttributes, SUCCESS_MESSAGE);
 		return "redirect:build.jhtml";

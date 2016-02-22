@@ -21,6 +21,7 @@ import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 
+
 /**
  * 模板指令 - 当前会员
  * 
@@ -28,7 +29,8 @@ import freemarker.template.TemplateModel;
  * 
  */
 @Component("currentMemberDirective")
-public class CurrentMemberDirective extends BaseDirective {
+public class CurrentMemberDirective extends BaseDirective
+{
 
 	/** 变量名称 */
 	private static final String VARIABLE_NAME = "currentMember";
@@ -37,12 +39,18 @@ public class CurrentMemberDirective extends BaseDirective {
 	private MemberService memberService;
 
 	@SuppressWarnings("rawtypes")
-	public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body) throws TemplateException, IOException {
+	public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body)
+			throws TemplateException, IOException
+	{
 		Member currentMember = memberService.getCurrent();
-		if (body != null) {
+		if (body != null)
+		{
 			setLocalVariable(VARIABLE_NAME, currentMember, env, body);
-		} else {
-			if (currentMember != null) {
+		}
+		else
+		{
+			if (currentMember != null)
+			{
 				Writer out = env.getOut();
 				out.write(currentMember.getUsername());
 			}

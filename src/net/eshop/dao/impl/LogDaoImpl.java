@@ -12,6 +12,7 @@ import net.eshop.entity.Log;
 
 import org.springframework.stereotype.Repository;
 
+
 /**
  * Dao - 日志
  * 
@@ -19,9 +20,11 @@ import org.springframework.stereotype.Repository;
  * 
  */
 @Repository("logDaoImpl")
-public class LogDaoImpl extends BaseDaoImpl<Log, Long> implements LogDao {
+public class LogDaoImpl extends BaseDaoImpl<Log, Long> implements LogDao
+{
 
-	public void removeAll() {
+	public void removeAll()
+	{
 		String jpql = "delete from Log log";
 		entityManager.createQuery(jpql).setFlushMode(FlushModeType.COMMIT).executeUpdate();
 	}

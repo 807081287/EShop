@@ -7,13 +7,15 @@ package net.eshop.dao;
 
 import net.eshop.entity.DeliveryCenter;
 
+
 /**
  * Dao - 发货点
  * 
  * 
  * 
  */
-public interface DeliveryCenterDao extends BaseDao<DeliveryCenter, Long> {
+public interface DeliveryCenterDao extends BaseDao<DeliveryCenter, Long>
+{
 
 	/**
 	 * 查找默认发货点

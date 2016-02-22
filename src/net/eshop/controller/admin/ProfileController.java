@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 /**
  * Controller - 个人资料
  * 
@@ -27,7 +28,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller("adminProfileController")
 @RequestMapping("/admin/profile")
-public class ProfileController extends BaseController {
+public class ProfileController extends BaseController
+{
 
 	@Resource(name = "adminServiceImpl")
 	private AdminService adminService;
@@ -36,15 +38,19 @@ public class ProfileController extends BaseController {
 	 * 验证当前密码
 	 */
 	@RequestMapping(value = "/check_current_password", method = RequestMethod.GET)
-	public @ResponseBody
-	boolean checkCurrentPassword(String currentPassword) {
-		if (StringUtils.isEmpty(currentPassword)) {
+	public @ResponseBody boolean checkCurrentPassword(String currentPassword)
+	{
+		if (StringUtils.isEmpty(currentPassword))
+		{
 			return false;
 		}
 		Admin admin = adminService.getCurrent();
-		if (StringUtils.equals(DigestUtils.md5Hex(currentPassword), admin.getPassword())) {
+		if (StringUtils.equals(DigestUtils.md5Hex(currentPassword), admin.getPassword()))
+		{
 			return true;
-		} else {
+		}
+		else
+		{
 			return false;
 		}
 	}
@@ -53,7 +59,8 @@ public class ProfileController extends BaseController {
 	 * 编辑
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(ModelMap model) {
+	public String edit(ModelMap model)
+	{
 		model.addAttribute("admin", adminService.getCurrent());
 		return "/admin/profile/edit";
 	}
@@ -62,16 +69,21 @@ public class ProfileController extends BaseController {
 	 * 更新
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(String currentPassword, String password, String email, RedirectAttributes redirectAttributes) {
-		if (!isValid(Admin.class, "email", email)) {
+	public String update(String currentPassword, String password, String email, RedirectAttributes redirectAttributes)
+	{
+		if (!isValid(Admin.class, "email", email))
+		{
 			return ERROR_VIEW;
 		}
 		Admin pAdmin = adminService.getCurrent();
-		if (StringUtils.isNotEmpty(currentPassword) && StringUtils.isNotEmpty(password)) {
-			if (!isValid(Admin.class, "password", password)) {
+		if (StringUtils.isNotEmpty(currentPassword) && StringUtils.isNotEmpty(password))
+		{
+			if (!isValid(Admin.class, "password", password))
+			{
 				return ERROR_VIEW;
 			}
-			if (!StringUtils.equals(DigestUtils.md5Hex(currentPassword), pAdmin.getPassword())) {
+			if (!StringUtils.equals(DigestUtils.md5Hex(currentPassword), pAdmin.getPassword()))
+			{
 				return ERROR_VIEW;
 			}
 			pAdmin.setPassword(DigestUtils.md5Hex(password));

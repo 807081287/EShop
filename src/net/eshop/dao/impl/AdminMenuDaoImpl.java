@@ -10,13 +10,17 @@ import net.eshop.entity.AdminMenu;
 
 import org.springframework.stereotype.Repository;
 
-@Repository("adminMenuDaoImpl")
-public class AdminMenuDaoImpl extends BaseDaoImpl<AdminMenu, Long> implements AdminMenuDao {
 
-	public List<AdminMenu> findRoots(Integer count) {
+@Repository("adminMenuDaoImpl")
+public class AdminMenuDaoImpl extends BaseDaoImpl<AdminMenu, Long> implements AdminMenuDao
+{
+
+	public List<AdminMenu> findRoots(Integer count)
+	{
 		String jpql = "select adminMenu from AdminMenu adminMenu where adminMenu.parent is null order by adminMenu.order asc";
 		TypedQuery<AdminMenu> query = entityManager.createQuery(jpql, AdminMenu.class).setFlushMode(FlushModeType.COMMIT);
-		if (count != null) {
+		if (count != null)
+		{
 			query.setMaxResults(count);
 		}
 		return query.getResultList();

@@ -33,13 +33,15 @@ import org.apache.poi.hssf.util.HSSFColor;
 import org.springframework.util.Assert;
 import org.springframework.web.servlet.view.document.AbstractExcelView;
 
+
 /**
  * Excel视图
  * 
  * 
  * 
  */
-public class ExcelView extends AbstractExcelView {
+public class ExcelView extends AbstractExcelView
+{
 
 	/** 默认日期格式配比 */
 	private static final String DEFAULT_DATE_PATTERN = "yyyy-MM-dd HH:mm:ss";
@@ -68,7 +70,8 @@ public class ExcelView extends AbstractExcelView {
 	/** 附加内容 */
 	private String[] contents;
 
-	static {
+	static
+	{
 		DateConverter dateConverter = new DateConverter();
 		dateConverter.setPattern(DEFAULT_DATE_PATTERN);
 		ConvertUtils.register(dateConverter, Date.class);
@@ -76,23 +79,25 @@ public class ExcelView extends AbstractExcelView {
 
 	/**
 	 * @param filename
-	 *            文件名称
+	 *           文件名称
 	 * @param sheetName
-	 *            表名称
+	 *           表名称
 	 * @param properties
-	 *            属性
+	 *           属性
 	 * @param titles
-	 *            标题
+	 *           标题
 	 * @param widths
-	 *            列宽
+	 *           列宽
 	 * @param converters
-	 *            类型转换
+	 *           类型转换
 	 * @param data
-	 *            数据
+	 *           数据
 	 * @param contents
-	 *            附加内容
+	 *           附加内容
 	 */
-	public ExcelView(String filename, String sheetName, String[] properties, String[] titles, Integer[] widths, Converter[] converters, Collection<?> data, String[] contents) {
+	public ExcelView(String filename, String sheetName, String[] properties, String[] titles, Integer[] widths,
+			Converter[] converters, Collection<?> data, String[] contents)
+	{
 		this.filename = filename;
 		this.sheetName = sheetName;
 		this.properties = properties;
@@ -105,15 +110,16 @@ public class ExcelView extends AbstractExcelView {
 
 	/**
 	 * @param properties
-	 *            属性
+	 *           属性
 	 * @param titles
-	 *            标题
+	 *           标题
 	 * @param data
-	 *            数据
+	 *           数据
 	 * @param contents
-	 *            附加内容
+	 *           附加内容
 	 */
-	public ExcelView(String[] properties, String[] titles, Collection<?> data, String[] contents) {
+	public ExcelView(String[] properties, String[] titles, Collection<?> data, String[] contents)
+	{
 		this.properties = properties;
 		this.titles = titles;
 		this.data = data;
@@ -122,13 +128,14 @@ public class ExcelView extends AbstractExcelView {
 
 	/**
 	 * @param properties
-	 *            属性
+	 *           属性
 	 * @param titles
-	 *            标题
+	 *           标题
 	 * @param data
-	 *            数据
+	 *           数据
 	 */
-	public ExcelView(String[] properties, String[] titles, Collection<?> data) {
+	public ExcelView(String[] properties, String[] titles, Collection<?> data)
+	{
 		this.properties = properties;
 		this.titles = titles;
 		this.data = data;
@@ -136,11 +143,12 @@ public class ExcelView extends AbstractExcelView {
 
 	/**
 	 * @param properties
-	 *            属性
+	 *           属性
 	 * @param data
-	 *            数据
+	 *           数据
 	 */
-	public ExcelView(String[] properties, Collection<?> data) {
+	public ExcelView(String[] properties, Collection<?> data)
+	{
 		this.properties = properties;
 		this.data = data;
 	}
@@ -149,27 +157,34 @@ public class ExcelView extends AbstractExcelView {
 	 * 生成Excel文档
 	 * 
 	 * @param model
-	 *            数据
+	 *           数据
 	 * @param workbook
-	 *            workbook
+	 *           workbook
 	 * @param request
-	 *            request
+	 *           request
 	 * @param response
-	 *            response
+	 *           response
 	 */
-	public void buildExcelDocument(Map<String, Object> model, HSSFWorkbook workbook, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void buildExcelDocument(Map<String, Object> model, HSSFWorkbook workbook, HttpServletRequest request,
+			HttpServletResponse response) throws Exception
+	{
 		Assert.notEmpty(properties);
 		HSSFSheet sheet;
-		if (StringUtils.isNotEmpty(sheetName)) {
+		if (StringUtils.isNotEmpty(sheetName))
+		{
 			sheet = workbook.createSheet(sheetName);
-		} else {
+		}
+		else
+		{
 			sheet = workbook.createSheet();
 		}
 		int rowNumber = 0;
-		if (titles != null && titles.length > 0) {
+		if (titles != null && titles.length > 0)
+		{
 			HSSFRow header = sheet.createRow(rowNumber);
 			header.setHeight((short) 400);
-			for (int i = 0; i < properties.length; i++) {
+			for (int i = 0; i < properties.length; i++)
+			{
 				HSSFCell cell = header.createCell(i);
 				HSSFCellStyle cellStyle = workbook.createCellStyle();
 				cellStyle.setFillForegroundColor(HSSFColor.LIGHT_CORNFLOWER_BLUE.index);
@@ -181,47 +196,66 @@ public class ExcelView extends AbstractExcelView {
 				font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
 				cellStyle.setFont(font);
 				cell.setCellStyle(cellStyle);
-				if (i == 0) {
+				if (i == 0)
+				{
 					HSSFPatriarch patriarch = sheet.createDrawingPatriarch();
 					HSSFComment comment = patriarch.createComment(new HSSFClientAnchor(0, 0, 0, 0, (short) 1, 1, (short) 4, 4));
-					comment.setString(new HSSFRichTextString("P" + "o" + "w" + "e" + "r" + "e" + "d" + " " + "B" + "y" + " " + "S" + "H" + "O" + "P" + "+" + "+"));
+					comment.setString(new HSSFRichTextString("P" + "o" + "w" + "e" + "r" + "e" + "d" + " " + "B" + "y" + " " + "S"
+							+ "H" + "O" + "P" + "+" + "+"));
 					cell.setCellComment(comment);
 				}
-				if (titles.length > i && titles[i] != null) {
+				if (titles.length > i && titles[i] != null)
+				{
 					cell.setCellValue(titles[i]);
-				} else {
+				}
+				else
+				{
 					cell.setCellValue(properties[i]);
 				}
-				if (widths != null && widths.length > i && widths[i] != null) {
+				if (widths != null && widths.length > i && widths[i] != null)
+				{
 					sheet.setColumnWidth(i, widths[i]);
-				} else {
+				}
+				else
+				{
 					sheet.autoSizeColumn(i);
 				}
 			}
 			rowNumber++;
 		}
-		if (data != null) {
-			for (Object item : data) {
+		if (data != null)
+		{
+			for (Object item : data)
+			{
 				HSSFRow row = sheet.createRow(rowNumber);
-				for (int i = 0; i < properties.length; i++) {
+				for (int i = 0; i < properties.length; i++)
+				{
 					HSSFCell cell = row.createCell(i);
-					if (converters != null && converters.length > i && converters[i] != null) {
+					if (converters != null && converters.length > i && converters[i] != null)
+					{
 						Class<?> clazz = PropertyUtils.getPropertyType(item, properties[i]);
 						ConvertUtils.register(converters[i], clazz);
 						cell.setCellValue(BeanUtils.getProperty(item, properties[i]));
 						ConvertUtils.deregister(clazz);
-						if (clazz.equals(Date.class)) {
+						if (clazz.equals(Date.class))
+						{
 							DateConverter dateConverter = new DateConverter();
 							dateConverter.setPattern(DEFAULT_DATE_PATTERN);
 							ConvertUtils.register(dateConverter, Date.class);
 						}
-					} else {
+					}
+					else
+					{
 						cell.setCellValue(BeanUtils.getProperty(item, properties[i]));
 					}
-					if (rowNumber == 0 || rowNumber == 1) {
-						if (widths != null && widths.length > i && widths[i] != null) {
+					if (rowNumber == 0 || rowNumber == 1)
+					{
+						if (widths != null && widths.length > i && widths[i] != null)
+						{
 							sheet.setColumnWidth(i, widths[i]);
-						} else {
+						}
+						else
+						{
 							sheet.autoSizeColumn(i);
 						}
 					}
@@ -229,9 +263,11 @@ public class ExcelView extends AbstractExcelView {
 				rowNumber++;
 			}
 		}
-		if (contents != null && contents.length > 0) {
+		if (contents != null && contents.length > 0)
+		{
 			rowNumber++;
-			for (String content : contents) {
+			for (String content : contents)
+			{
 				HSSFRow row = sheet.createRow(rowNumber);
 				HSSFCell cell = row.createCell(0);
 				HSSFCellStyle cellStyle = workbook.createCellStyle();
@@ -244,9 +280,12 @@ public class ExcelView extends AbstractExcelView {
 			}
 		}
 		response.setContentType("application/force-download");
-		if (StringUtils.isNotEmpty(filename)) {
+		if (StringUtils.isNotEmpty(filename))
+		{
 			response.setHeader("Content-disposition", "attachment; filename=" + URLEncoder.encode(filename, "UTF-8"));
-		} else {
+		}
+		else
+		{
 			response.setHeader("Content-disposition", "attachment");
 		}
 	}
@@ -256,7 +295,8 @@ public class ExcelView extends AbstractExcelView {
 	 * 
 	 * @return 文件名称
 	 */
-	public String getFileName() {
+	public String getFileName()
+	{
 		return filename;
 	}
 
@@ -264,9 +304,10 @@ public class ExcelView extends AbstractExcelView {
 	 * 设置文件名称
 	 * 
 	 * @param filename
-	 *            文件名称
+	 *           文件名称
 	 */
-	public void setFileName(String filename) {
+	public void setFileName(String filename)
+	{
 		this.filename = filename;
 	}
 
@@ -275,7 +316,8 @@ public class ExcelView extends AbstractExcelView {
 	 * 
 	 * @return 表名称
 	 */
-	public String getSheetName() {
+	public String getSheetName()
+	{
 		return sheetName;
 	}
 
@@ -283,9 +325,10 @@ public class ExcelView extends AbstractExcelView {
 	 * 设置表名称
 	 * 
 	 * @param sheetName
-	 *            表名称
+	 *           表名称
 	 */
-	public void setSheetName(String sheetName) {
+	public void setSheetName(String sheetName)
+	{
 		this.sheetName = sheetName;
 	}
 
@@ -294,7 +337,8 @@ public class ExcelView extends AbstractExcelView {
 	 * 
 	 * @return 属性
 	 */
-	public String[] getProperties() {
+	public String[] getProperties()
+	{
 		return properties;
 	}
 
@@ -302,9 +346,10 @@ public class ExcelView extends AbstractExcelView {
 	 * 设置属性
 	 * 
 	 * @param properties
-	 *            属性
+	 *           属性
 	 */
-	public void setProperties(String[] properties) {
+	public void setProperties(String[] properties)
+	{
 		this.properties = properties;
 	}
 
@@ -313,7 +358,8 @@ public class ExcelView extends AbstractExcelView {
 	 * 
 	 * @return 标题
 	 */
-	public String[] getTitles() {
+	public String[] getTitles()
+	{
 		return titles;
 	}
 
@@ -321,9 +367,10 @@ public class ExcelView extends AbstractExcelView {
 	 * 设置标题
 	 * 
 	 * @param titles
-	 *            标题
+	 *           标题
 	 */
-	public void setTitles(String[] titles) {
+	public void setTitles(String[] titles)
+	{
 		this.titles = titles;
 	}
 
@@ -332,7 +379,8 @@ public class ExcelView extends AbstractExcelView {
 	 * 
 	 * @return 列宽
 	 */
-	public Integer[] getWidths() {
+	public Integer[] getWidths()
+	{
 		return widths;
 	}
 
@@ -340,9 +388,10 @@ public class ExcelView extends AbstractExcelView {
 	 * 设置列宽
 	 * 
 	 * @param widths
-	 *            列宽
+	 *           列宽
 	 */
-	public void setWidths(Integer[] widths) {
+	public void setWidths(Integer[] widths)
+	{
 		this.widths = widths;
 	}
 
@@ -351,7 +400,8 @@ public class ExcelView extends AbstractExcelView {
 	 * 
 	 * @return 类型转换
 	 */
-	public Converter[] getConverters() {
+	public Converter[] getConverters()
+	{
 		return converters;
 	}
 
@@ -359,9 +409,10 @@ public class ExcelView extends AbstractExcelView {
 	 * 设置类型转换
 	 * 
 	 * @param converters
-	 *            类型转换
+	 *           类型转换
 	 */
-	public void setConverters(Converter[] converters) {
+	public void setConverters(Converter[] converters)
+	{
 		this.converters = converters;
 	}
 
@@ -370,7 +421,8 @@ public class ExcelView extends AbstractExcelView {
 	 * 
 	 * @return 数据
 	 */
-	public Collection<?> getData() {
+	public Collection<?> getData()
+	{
 		return data;
 	}
 
@@ -378,9 +430,10 @@ public class ExcelView extends AbstractExcelView {
 	 * 设置数据
 	 * 
 	 * @param data
-	 *            数据
+	 *           数据
 	 */
-	public void setData(Collection<?> data) {
+	public void setData(Collection<?> data)
+	{
 		this.data = data;
 	}
 
@@ -389,7 +442,8 @@ public class ExcelView extends AbstractExcelView {
 	 * 
 	 * @return 附加内容
 	 */
-	public String[] getContents() {
+	public String[] getContents()
+	{
 		return contents;
 	}
 
@@ -397,9 +451,10 @@ public class ExcelView extends AbstractExcelView {
 	 * 设置附加内容
 	 * 
 	 * @param contents
-	 *            附加内容
+	 *           附加内容
 	 */
-	public void setContents(String[] contents) {
+	public void setContents(String[] contents)
+	{
 		this.contents = contents;
 	}
 

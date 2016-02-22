@@ -14,6 +14,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+
 /**
  * Entity - 导航
  * 
@@ -23,14 +24,16 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table(name = "t_navigation")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_navigation_sequence")
-public class Navigation extends OrderEntity {
+public class Navigation extends OrderEntity
+{
 
 	private static final long serialVersionUID = -7635757647887646795L;
 
 	/**
 	 * 位置
 	 */
-	public enum Position {
+	public enum Position
+	{
 
 		/** 顶部 */
 		top,
@@ -62,7 +65,8 @@ public class Navigation extends OrderEntity {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false)
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
@@ -70,9 +74,10 @@ public class Navigation extends OrderEntity {
 	 * 设置名称
 	 * 
 	 * @param name
-	 *            名称
+	 *           名称
 	 */
-	public void setName(String name) {
+	public void setName(String name)
+	{
 		this.name = name;
 	}
 
@@ -83,7 +88,8 @@ public class Navigation extends OrderEntity {
 	 */
 	@NotNull
 	@Column(nullable = false)
-	public Position getPosition() {
+	public Position getPosition()
+	{
 		return position;
 	}
 
@@ -91,9 +97,10 @@ public class Navigation extends OrderEntity {
 	 * 设置位置
 	 * 
 	 * @param position
-	 *            位置
+	 *           位置
 	 */
-	public void setPosition(Position position) {
+	public void setPosition(Position position)
+	{
 		this.position = position;
 	}
 
@@ -105,7 +112,8 @@ public class Navigation extends OrderEntity {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false)
-	public String getUrl() {
+	public String getUrl()
+	{
 		return url;
 	}
 
@@ -113,9 +121,10 @@ public class Navigation extends OrderEntity {
 	 * 设置链接地址
 	 * 
 	 * @param url
-	 *            链接地址
+	 *           链接地址
 	 */
-	public void setUrl(String url) {
+	public void setUrl(String url)
+	{
 		this.url = url;
 	}
 
@@ -126,7 +135,8 @@ public class Navigation extends OrderEntity {
 	 */
 	@NotNull
 	@Column(nullable = false)
-	public Boolean getIsBlankTarget() {
+	public Boolean getIsBlankTarget()
+	{
 		return isBlankTarget;
 	}
 
@@ -134,9 +144,10 @@ public class Navigation extends OrderEntity {
 	 * 设置是否新窗口打开
 	 * 
 	 * @param isBlankTarget
-	 *            是否新窗口打开
+	 *           是否新窗口打开
 	 */
-	public void setIsBlankTarget(Boolean isBlankTarget) {
+	public void setIsBlankTarget(Boolean isBlankTarget)
+	{
 		this.isBlankTarget = isBlankTarget;
 	}
 

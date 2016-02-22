@@ -22,6 +22,7 @@ import net.eshop.util.WebUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 
+
 /**
  * Plugin - 易宝支付
  * 
@@ -29,60 +30,72 @@ import org.springframework.stereotype.Component;
  * 
  */
 @Component("yeepayPlugin")
-public class YeepayPlugin extends PaymentPlugin {
+public class YeepayPlugin extends PaymentPlugin
+{
 
 	@Override
-	public String getName() {
+	public String getName()
+	{
 		return "易宝支付";
 	}
 
 	@Override
-	public String getVersion() {
+	public String getVersion()
+	{
 		return "1.0";
 	}
 
 	@Override
-	public String getAuthor() {
+	public String getAuthor()
+	{
 		return SettingUtils.get().getSiteName();
 	}
 
 	@Override
-	public String getSiteUrl() {
+	public String getSiteUrl()
+	{
 		return SettingUtils.get().getSiteUrl();
 	}
 
 	@Override
-	public String getInstallUrl() {
+	public String getInstallUrl()
+	{
 		return "yeepay/install.jhtml";
 	}
 
 	@Override
-	public String getUninstallUrl() {
+	public String getUninstallUrl()
+	{
 		return "yeepay/uninstall.jhtml";
 	}
 
 	@Override
-	public String getSettingUrl() {
+	public String getSettingUrl()
+	{
 		return "yeepay/setting.jhtml";
 	}
 
 	@Override
-	public String getRequestUrl() {
+	public String getRequestUrl()
+	{
 		return "https://www.yeepay.com/app-merchant-proxy/node";
 	}
 
 	@Override
-	public RequestMethod getRequestMethod() {
+	public RequestMethod getRequestMethod()
+	{
 		return RequestMethod.get;
 	}
 
 	@Override
-	public String getRequestCharset() {
+	public String getRequestCharset()
+	{
 		return "GBK";
 	}
 
 	@Override
-	public Map<String, Object> getParameterMap(String sn, String description, HttpServletRequest request) {
+	public Map<String, Object> getParameterMap(String sn, String description, HttpServletRequest request)
+	{
 		PluginConfig pluginConfig = getPluginConfig();
 		Payment payment = getPayment(sn);
 		Map<String, Object> parameterMap = new LinkedHashMap<String, Object>();
@@ -102,7 +115,8 @@ public class YeepayPlugin extends PaymentPlugin {
 	}
 
 	@Override
-	public boolean verifyNotify(String sn, NotifyMethod notifyMethod, HttpServletRequest request) {
+	public boolean verifyNotify(String sn, NotifyMethod notifyMethod, HttpServletRequest request)
+	{
 		PluginConfig pluginConfig = getPluginConfig();
 		Payment payment = getPayment(sn);
 		Map<String, String[]> parameterValuesMap = WebUtils.getParameterMap(request.getQueryString(), "GBK");
@@ -118,22 +132,29 @@ public class YeepayPlugin extends PaymentPlugin {
 		parameterMap.put("r7_Uid", parameterValuesMap.get("r7_Uid"));
 		parameterMap.put("r8_MP", parameterValuesMap.get("r8_MP"));
 		parameterMap.put("r9_BType", parameterValuesMap.get("r9_BType"));
-		if (generateSign(parameterMap).equals(parameterValuesMap.get("hmac")[0]) && pluginConfig.getAttribute("partner").equals(parameterValuesMap.get("p1_MerId")[0]) && sn.equals(parameterValuesMap.get("r6_Order")[0]) && "1".equals(parameterValuesMap.get("r1_Code")[0]) && payment.getAmount().compareTo(new BigDecimal(parameterValuesMap.get("r3_Amt")[0])) == 0) {
+		if (generateSign(parameterMap).equals(parameterValuesMap.get("hmac")[0])
+				&& pluginConfig.getAttribute("partner").equals(parameterValuesMap.get("p1_MerId")[0])
+				&& sn.equals(parameterValuesMap.get("r6_Order")[0]) && "1".equals(parameterValuesMap.get("r1_Code")[0])
+				&& payment.getAmount().compareTo(new BigDecimal(parameterValuesMap.get("r3_Amt")[0])) == 0)
+		{
 			return true;
 		}
 		return false;
 	}
 
 	@Override
-	public String getNotifyMessage(String sn, NotifyMethod notifyMethod, HttpServletRequest request) {
-		if ("2".equals(WebUtils.getParameter(request.getQueryString(), "GBK", "r9_BType"))) {
+	public String getNotifyMessage(String sn, NotifyMethod notifyMethod, HttpServletRequest request)
+	{
+		if ("2".equals(WebUtils.getParameter(request.getQueryString(), "GBK", "r9_BType")))
+		{
 			return "success";
 		}
 		return null;
 	}
 
 	@Override
-	public Integer getTimeout() {
+	public Integer getTimeout()
+	{
 		return 21600;
 	}
 
@@ -141,10 +162,11 @@ public class YeepayPlugin extends PaymentPlugin {
 	 * 生成签名
 	 * 
 	 * @param parameterMap
-	 *            参数
+	 *           参数
 	 * @return 签名
 	 */
-	private String generateSign(Map<String, Object> parameterMap) {
+	private String generateSign(Map<String, Object> parameterMap)
+	{
 		PluginConfig pluginConfig = getPluginConfig();
 		return hmacDigest(joinValue(parameterMap, null, null, null, false, "hmac"), pluginConfig.getAttribute("key"));
 	}
@@ -153,27 +175,33 @@ public class YeepayPlugin extends PaymentPlugin {
 	 * Hmac加密
 	 * 
 	 * @param value
-	 *            值
+	 *           值
 	 * @param key
-	 *            密钥
+	 *           密钥
 	 * @return 密文
 	 */
-	private String hmacDigest(String value, String key) {
-		try {
+	private String hmacDigest(String value, String key)
+	{
+		try
+		{
 			Mac mac = Mac.getInstance("HmacMD5");
 			mac.init(new SecretKeySpec(key.getBytes("UTF-8"), "HmacMD5"));
 			byte[] bytes = mac.doFinal(value.getBytes("UTF-8"));
 
 			StringBuffer digest = new StringBuffer();
-			for (int i = 0; i < bytes.length; i++) {
+			for (int i = 0; i < bytes.length; i++)
+			{
 				String hex = Integer.toHexString(0xFF & bytes[i]);
-				if (hex.length() == 1) {
+				if (hex.length() == 1)
+				{
 					digest.append("0");
 				}
 				digest.append(hex);
 			}
 			return digest.toString();
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			return null;
 		}
 	}

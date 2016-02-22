@@ -24,6 +24,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
 /**
  * Entity - 属性
  * 
@@ -33,7 +34,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Entity
 @Table(name = "t_attribute")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_attribute_sequence")
-public class Attribute extends OrderEntity {
+public class Attribute extends OrderEntity
+{
 
 	private static final long serialVersionUID = 2447794131117928367L;
 
@@ -58,7 +60,8 @@ public class Attribute extends OrderEntity {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false)
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
@@ -66,9 +69,10 @@ public class Attribute extends OrderEntity {
 	 * 设置名称
 	 * 
 	 * @param name
-	 *            名称
+	 *           名称
 	 */
-	public void setName(String name) {
+	public void setName(String name)
+	{
 		this.name = name;
 	}
 
@@ -78,7 +82,8 @@ public class Attribute extends OrderEntity {
 	 * @return 属性序号
 	 */
 	@Column(nullable = false, updatable = false)
-	public Integer getPropertyIndex() {
+	public Integer getPropertyIndex()
+	{
 		return propertyIndex;
 	}
 
@@ -86,9 +91,10 @@ public class Attribute extends OrderEntity {
 	 * 设置属性序号
 	 * 
 	 * @param propertyIndex
-	 *            属性序号
+	 *           属性序号
 	 */
-	public void setPropertyIndex(Integer propertyIndex) {
+	public void setPropertyIndex(Integer propertyIndex)
+	{
 		this.propertyIndex = propertyIndex;
 	}
 
@@ -100,7 +106,8 @@ public class Attribute extends OrderEntity {
 	@NotNull(groups = Save.class)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false, updatable = false)
-	public ProductCategory getProductCategory() {
+	public ProductCategory getProductCategory()
+	{
 		return productCategory;
 	}
 
@@ -108,9 +115,10 @@ public class Attribute extends OrderEntity {
 	 * 设置绑定分类
 	 * 
 	 * @param productCategory
-	 *            绑定分类
+	 *           绑定分类
 	 */
-	public void setProductCategory(ProductCategory productCategory) {
+	public void setProductCategory(ProductCategory productCategory)
+	{
 		this.productCategory = productCategory;
 	}
 
@@ -123,7 +131,8 @@ public class Attribute extends OrderEntity {
 	@NotEmpty
 	@ElementCollection
 	@CollectionTable(name = "t_attribute_option")
-	public List<String> getOptions() {
+	public List<String> getOptions()
+	{
 		return options;
 	}
 
@@ -131,9 +140,10 @@ public class Attribute extends OrderEntity {
 	 * 设置可选项
 	 * 
 	 * @param options
-	 *            可选项
+	 *           可选项
 	 */
-	public void setOptions(List<String> options) {
+	public void setOptions(List<String> options)
+	{
 		this.options = options;
 	}
 

@@ -7,13 +7,15 @@ package net.eshop.service;
 
 import net.eshop.entity.DeliveryTemplate;
 
+
 /**
  * Service - 快递单模板
  * 
  * 
  * 
  */
-public interface DeliveryTemplateService extends BaseService<DeliveryTemplate, Long> {
+public interface DeliveryTemplateService extends BaseService<DeliveryTemplate, Long>
+{
 
 	/**
 	 * 查找默认快递单模板

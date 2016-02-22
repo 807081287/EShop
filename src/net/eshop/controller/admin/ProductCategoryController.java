@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 /**
  * Controller - 商品分类
  * 
@@ -33,7 +34,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller("adminProductCategoryController")
 @RequestMapping("/admin/product_category")
-public class ProductCategoryController extends BaseController {
+public class ProductCategoryController extends BaseController
+{
 
 	@Resource(name = "productCategoryServiceImpl")
 	private ProductCategoryService productCategoryService;
@@ -44,7 +46,8 @@ public class ProductCategoryController extends BaseController {
 	 * 添加
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public String add(ModelMap model) {
+	public String add(ModelMap model)
+	{
 		model.addAttribute("productCategoryTree", productCategoryService.findTree());
 		model.addAttribute("brands", brandService.findAll());
 		return "/admin/product_category/add";
@@ -54,10 +57,12 @@ public class ProductCategoryController extends BaseController {
 	 * 保存
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String save(ProductCategory productCategory, Long parentId, Long[] brandIds, RedirectAttributes redirectAttributes) {
+	public String save(ProductCategory productCategory, Long parentId, Long[] brandIds, RedirectAttributes redirectAttributes)
+	{
 		productCategory.setParent(productCategoryService.find(parentId));
 		productCategory.setBrands(new HashSet<Brand>(brandService.findList(brandIds)));
-		if (!isValid(productCategory)) {
+		if (!isValid(productCategory))
+		{
 			return ERROR_VIEW;
 		}
 		productCategory.setTreePath(null);
@@ -76,7 +81,8 @@ public class ProductCategoryController extends BaseController {
 	 * 编辑
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(Long id, ModelMap model) {
+	public String edit(Long id, ModelMap model)
+	{
 		ProductCategory productCategory = productCategoryService.find(id);
 		model.addAttribute("productCategoryTree", productCategoryService.findTree());
 		model.addAttribute("brands", brandService.findAll());
@@ -89,23 +95,29 @@ public class ProductCategoryController extends BaseController {
 	 * 更新
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(ProductCategory productCategory, Long parentId, Long[] brandIds, RedirectAttributes redirectAttributes) {
+	public String update(ProductCategory productCategory, Long parentId, Long[] brandIds, RedirectAttributes redirectAttributes)
+	{
 		productCategory.setParent(productCategoryService.find(parentId));
 		productCategory.setBrands(new HashSet<Brand>(brandService.findList(brandIds)));
-		if (!isValid(productCategory)) {
+		if (!isValid(productCategory))
+		{
 			return ERROR_VIEW;
 		}
-		if (productCategory.getParent() != null) {
+		if (productCategory.getParent() != null)
+		{
 			ProductCategory parent = productCategory.getParent();
-			if (parent.equals(productCategory)) {
+			if (parent.equals(productCategory))
+			{
 				return ERROR_VIEW;
 			}
 			List<ProductCategory> children = productCategoryService.findChildren(parent);
-			if (children != null && children.contains(parent)) {
+			if (children != null && children.contains(parent))
+			{
 				return ERROR_VIEW;
 			}
 		}
-		productCategoryService.update(productCategory, "treePath", "grade", "children", "products", "parameterGroups", "attributes", "promotions");
+		productCategoryService.update(productCategory, "treePath", "grade", "children", "products", "parameterGroups",
+				"attributes", "promotions");
 		addFlashMessage(redirectAttributes, SUCCESS_MESSAGE);
 		return "redirect:list.jhtml";
 	}
@@ -114,7 +126,8 @@ public class ProductCategoryController extends BaseController {
 	 * 列表
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(ModelMap model) {
+	public String list(ModelMap model)
+	{
 		model.addAttribute("productCategoryTree", productCategoryService.findTree());
 		return "/admin/product_category/list";
 	}
@@ -123,18 +136,21 @@ public class ProductCategoryController extends BaseController {
 	 * 删除
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public @ResponseBody
-	Message delete(Long id) {
+	public @ResponseBody Message delete(Long id)
+	{
 		ProductCategory productCategory = productCategoryService.find(id);
-		if (productCategory == null) {
+		if (productCategory == null)
+		{
 			return ERROR_MESSAGE;
 		}
 		Set<ProductCategory> children = productCategory.getChildren();
-		if (children != null && !children.isEmpty()) {
+		if (children != null && !children.isEmpty())
+		{
 			return Message.error("admin.productCategory.deleteExistChildrenNotAllowed");
 		}
 		Set<Product> products = productCategory.getProducts();
-		if (products != null && !products.isEmpty()) {
+		if (products != null && !products.isEmpty())
+		{
 			return Message.error("admin.productCategory.deleteExistProductNotAllowed");
 		}
 		productCategoryService.delete(id);

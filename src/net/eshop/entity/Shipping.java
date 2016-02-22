@@ -27,6 +27,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+
 /**
  * Entity - 发货单
  * 
@@ -36,7 +37,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table(name = "t_shipping")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_shipping_sequence")
-public class Shipping extends BaseEntity {
+public class Shipping extends BaseEntity
+{
 
 	private static final long serialVersionUID = -261737051893669935L;
 
@@ -94,7 +96,8 @@ public class Shipping extends BaseEntity {
 	 * @return 编号
 	 */
 	@Column(nullable = false, updatable = false, unique = true, length = 100)
-	public String getSn() {
+	public String getSn()
+	{
 		return sn;
 	}
 
@@ -102,9 +105,10 @@ public class Shipping extends BaseEntity {
 	 * 设置编号
 	 * 
 	 * @param sn
-	 *            编号
+	 *           编号
 	 */
-	public void setSn(String sn) {
+	public void setSn(String sn)
+	{
 		this.sn = sn;
 	}
 
@@ -115,7 +119,8 @@ public class Shipping extends BaseEntity {
 	 */
 	@NotEmpty
 	@Column(nullable = false, updatable = false)
-	public String getShippingMethod() {
+	public String getShippingMethod()
+	{
 		return shippingMethod;
 	}
 
@@ -123,9 +128,10 @@ public class Shipping extends BaseEntity {
 	 * 设置配送方式
 	 * 
 	 * @param shippingMethod
-	 *            配送方式
+	 *           配送方式
 	 */
-	public void setShippingMethod(String shippingMethod) {
+	public void setShippingMethod(String shippingMethod)
+	{
 		this.shippingMethod = shippingMethod;
 	}
 
@@ -136,7 +142,8 @@ public class Shipping extends BaseEntity {
 	 */
 	@NotEmpty
 	@Column(nullable = false, updatable = false)
-	public String getDeliveryCorp() {
+	public String getDeliveryCorp()
+	{
 		return deliveryCorp;
 	}
 
@@ -144,9 +151,10 @@ public class Shipping extends BaseEntity {
 	 * 设置物流公司
 	 * 
 	 * @param deliveryCorp
-	 *            物流公司
+	 *           物流公司
 	 */
-	public void setDeliveryCorp(String deliveryCorp) {
+	public void setDeliveryCorp(String deliveryCorp)
+	{
 		this.deliveryCorp = deliveryCorp;
 	}
 
@@ -155,7 +163,8 @@ public class Shipping extends BaseEntity {
 	 * 
 	 * @return 物流公司网址
 	 */
-	public String getDeliveryCorpUrl() {
+	public String getDeliveryCorpUrl()
+	{
 		return deliveryCorpUrl;
 	}
 
@@ -163,10 +172,11 @@ public class Shipping extends BaseEntity {
 	 * 设置物流公司网址
 	 * 
 	 * @param deliveryCorpUrl
-	 *            物流公司网址
+	 *           物流公司网址
 	 */
 	@Column(updatable = false)
-	public void setDeliveryCorpUrl(String deliveryCorpUrl) {
+	public void setDeliveryCorpUrl(String deliveryCorpUrl)
+	{
 		this.deliveryCorpUrl = deliveryCorpUrl;
 	}
 
@@ -175,7 +185,8 @@ public class Shipping extends BaseEntity {
 	 * 
 	 * @return 物流公司代码
 	 */
-	public String getDeliveryCorpCode() {
+	public String getDeliveryCorpCode()
+	{
 		return deliveryCorpCode;
 	}
 
@@ -183,10 +194,11 @@ public class Shipping extends BaseEntity {
 	 * 设置物流公司代码
 	 * 
 	 * @param deliveryCorpCode
-	 *            物流公司代码
+	 *           物流公司代码
 	 */
 	@Column(updatable = false)
-	public void setDeliveryCorpCode(String deliveryCorpCode) {
+	public void setDeliveryCorpCode(String deliveryCorpCode)
+	{
 		this.deliveryCorpCode = deliveryCorpCode;
 	}
 
@@ -197,7 +209,8 @@ public class Shipping extends BaseEntity {
 	 */
 	@Length(max = 200)
 	@Column(updatable = false)
-	public String getTrackingNo() {
+	public String getTrackingNo()
+	{
 		return trackingNo;
 	}
 
@@ -205,9 +218,10 @@ public class Shipping extends BaseEntity {
 	 * 设置运单号
 	 * 
 	 * @param trackingNo
-	 *            运单号
+	 *           运单号
 	 */
-	public void setTrackingNo(String trackingNo) {
+	public void setTrackingNo(String trackingNo)
+	{
 		this.trackingNo = trackingNo;
 	}
 
@@ -219,7 +233,8 @@ public class Shipping extends BaseEntity {
 	@Min(0)
 	@Digits(integer = 12, fraction = 3)
 	@Column(updatable = false, precision = 21, scale = 6)
-	public BigDecimal getFreight() {
+	public BigDecimal getFreight()
+	{
 		return freight;
 	}
 
@@ -227,9 +242,10 @@ public class Shipping extends BaseEntity {
 	 * 设置物流费用
 	 * 
 	 * @param freight
-	 *            物流费用
+	 *           物流费用
 	 */
-	public void setFreight(BigDecimal freight) {
+	public void setFreight(BigDecimal freight)
+	{
 		this.freight = freight;
 	}
 
@@ -241,7 +257,8 @@ public class Shipping extends BaseEntity {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false, updatable = false)
-	public String getConsignee() {
+	public String getConsignee()
+	{
 		return consignee;
 	}
 
@@ -249,9 +266,10 @@ public class Shipping extends BaseEntity {
 	 * 设置收货人
 	 * 
 	 * @param consignee
-	 *            收货人
+	 *           收货人
 	 */
-	public void setConsignee(String consignee) {
+	public void setConsignee(String consignee)
+	{
 		this.consignee = consignee;
 	}
 
@@ -262,7 +280,8 @@ public class Shipping extends BaseEntity {
 	 */
 	@NotEmpty
 	@Column(nullable = false, updatable = false)
-	public String getArea() {
+	public String getArea()
+	{
 		return area;
 	}
 
@@ -270,9 +289,10 @@ public class Shipping extends BaseEntity {
 	 * 设置地区
 	 * 
 	 * @param area
-	 *            地区
+	 *           地区
 	 */
-	public void setArea(String area) {
+	public void setArea(String area)
+	{
 		this.area = area;
 	}
 
@@ -284,7 +304,8 @@ public class Shipping extends BaseEntity {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false, updatable = false)
-	public String getAddress() {
+	public String getAddress()
+	{
 		return address;
 	}
 
@@ -292,9 +313,10 @@ public class Shipping extends BaseEntity {
 	 * 设置地址
 	 * 
 	 * @param address
-	 *            地址
+	 *           地址
 	 */
-	public void setAddress(String address) {
+	public void setAddress(String address)
+	{
 		this.address = address;
 	}
 
@@ -306,7 +328,8 @@ public class Shipping extends BaseEntity {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false, updatable = false)
-	public String getZipCode() {
+	public String getZipCode()
+	{
 		return zipCode;
 	}
 
@@ -314,9 +337,10 @@ public class Shipping extends BaseEntity {
 	 * 设置邮编
 	 * 
 	 * @param zipCode
-	 *            邮编
+	 *           邮编
 	 */
-	public void setZipCode(String zipCode) {
+	public void setZipCode(String zipCode)
+	{
 		this.zipCode = zipCode;
 	}
 
@@ -328,7 +352,8 @@ public class Shipping extends BaseEntity {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false, updatable = false)
-	public String getPhone() {
+	public String getPhone()
+	{
 		return phone;
 	}
 
@@ -336,9 +361,10 @@ public class Shipping extends BaseEntity {
 	 * 设置电话
 	 * 
 	 * @param phone
-	 *            电话
+	 *           电话
 	 */
-	public void setPhone(String phone) {
+	public void setPhone(String phone)
+	{
 		this.phone = phone;
 	}
 
@@ -348,7 +374,8 @@ public class Shipping extends BaseEntity {
 	 * @return 操作员
 	 */
 	@Column(nullable = false, updatable = false)
-	public String getOperator() {
+	public String getOperator()
+	{
 		return operator;
 	}
 
@@ -356,9 +383,10 @@ public class Shipping extends BaseEntity {
 	 * 设置操作员
 	 * 
 	 * @param operator
-	 *            操作员
+	 *           操作员
 	 */
-	public void setOperator(String operator) {
+	public void setOperator(String operator)
+	{
 		this.operator = operator;
 	}
 
@@ -369,7 +397,8 @@ public class Shipping extends BaseEntity {
 	 */
 	@Length(max = 200)
 	@Column(updatable = false)
-	public String getMemo() {
+	public String getMemo()
+	{
 		return memo;
 	}
 
@@ -377,9 +406,10 @@ public class Shipping extends BaseEntity {
 	 * 设置备注
 	 * 
 	 * @param memo
-	 *            备注
+	 *           备注
 	 */
-	public void setMemo(String memo) {
+	public void setMemo(String memo)
+	{
 		this.memo = memo;
 	}
 
@@ -391,7 +421,8 @@ public class Shipping extends BaseEntity {
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "orders", nullable = false, updatable = false)
-	public Order getOrder() {
+	public Order getOrder()
+	{
 		return order;
 	}
 
@@ -399,9 +430,10 @@ public class Shipping extends BaseEntity {
 	 * 设置订单
 	 * 
 	 * @param order
-	 *            订单
+	 *           订单
 	 */
-	public void setOrder(Order order) {
+	public void setOrder(Order order)
+	{
 		this.order = order;
 	}
 
@@ -413,7 +445,8 @@ public class Shipping extends BaseEntity {
 	@Valid
 	@NotEmpty
 	@OneToMany(mappedBy = "shipping", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	public List<ShippingItem> getShippingItems() {
+	public List<ShippingItem> getShippingItems()
+	{
 		return shippingItems;
 	}
 
@@ -421,9 +454,10 @@ public class Shipping extends BaseEntity {
 	 * 设置发货项
 	 * 
 	 * @param shippingItems
-	 *            发货项
+	 *           发货项
 	 */
-	public void setShippingItems(List<ShippingItem> shippingItems) {
+	public void setShippingItems(List<ShippingItem> shippingItems)
+	{
 		this.shippingItems = shippingItems;
 	}
 
@@ -433,11 +467,15 @@ public class Shipping extends BaseEntity {
 	 * @return 数量
 	 */
 	@Transient
-	public int getQuantity() {
+	public int getQuantity()
+	{
 		int quantity = 0;
-		if (getShippingItems() != null) {
-			for (ShippingItem shippingItem : getShippingItems()) {
-				if (shippingItem != null && shippingItem.getQuantity() != null) {
+		if (getShippingItems() != null)
+		{
+			for (ShippingItem shippingItem : getShippingItems())
+			{
+				if (shippingItem != null && shippingItem.getQuantity() != null)
+				{
 					quantity += shippingItem.getQuantity();
 				}
 			}

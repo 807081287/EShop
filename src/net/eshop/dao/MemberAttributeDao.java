@@ -9,13 +9,15 @@ import java.util.List;
 
 import net.eshop.entity.MemberAttribute;
 
+
 /**
  * Dao - 会员注册项
  * 
  * 
  * 
  */
-public interface MemberAttributeDao extends BaseDao<MemberAttribute, Long> {
+public interface MemberAttributeDao extends BaseDao<MemberAttribute, Long>
+{
 
 	/**
 	 * 查找未使用的对象属性序号

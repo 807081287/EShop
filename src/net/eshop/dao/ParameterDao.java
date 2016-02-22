@@ -11,21 +11,23 @@ import java.util.Set;
 import net.eshop.entity.Parameter;
 import net.eshop.entity.ParameterGroup;
 
+
 /**
  * Dao - 参数
  * 
  * 
  * 
  */
-public interface ParameterDao extends BaseDao<Parameter, Long> {
+public interface ParameterDao extends BaseDao<Parameter, Long>
+{
 
 	/**
 	 * 查找参数
 	 * 
 	 * @param parameterGroup
-	 *            参数组
+	 *           参数组
 	 * @param excludes
-	 *            排除参数
+	 *           排除参数
 	 * @return 参数
 	 */
 	List<Parameter> findList(ParameterGroup parameterGroup, Set<Parameter> excludes);

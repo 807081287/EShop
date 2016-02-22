@@ -13,6 +13,7 @@ import net.eshop.service.AttributeService;
 
 import org.springframework.stereotype.Service;
 
+
 /**
  * Service - 属性
  * 
@@ -20,10 +21,12 @@ import org.springframework.stereotype.Service;
  * 
  */
 @Service("attributeServiceImpl")
-public class AttributeServiceImpl extends BaseServiceImpl<Attribute, Long> implements AttributeService {
+public class AttributeServiceImpl extends BaseServiceImpl<Attribute, Long> implements AttributeService
+{
 
 	@Resource(name = "attributeDaoImpl")
-	public void setBaseDao(AttributeDao attributeDao) {
+	public void setBaseDao(AttributeDao attributeDao)
+	{
 		super.setBaseDao(attributeDao);
 	}
 

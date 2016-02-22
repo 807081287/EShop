@@ -13,6 +13,7 @@ import net.eshop.service.CartItemService;
 
 import org.springframework.stereotype.Service;
 
+
 /**
  * Service - 购物车项
  * 
@@ -20,10 +21,12 @@ import org.springframework.stereotype.Service;
  * 
  */
 @Service("cartItemServiceImpl")
-public class CartItemServiceImpl extends BaseServiceImpl<CartItem, Long> implements CartItemService {
+public class CartItemServiceImpl extends BaseServiceImpl<CartItem, Long> implements CartItemService
+{
 
 	@Resource(name = "cartItemDaoImpl")
-	public void setBaseDao(CartItemDao cartItemDao) {
+	public void setBaseDao(CartItemDao cartItemDao)
+	{
 		super.setBaseDao(cartItemDao);
 	}
 

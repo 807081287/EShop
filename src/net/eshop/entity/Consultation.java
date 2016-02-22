@@ -23,6 +23,7 @@ import javax.persistence.Transient;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+
 /**
  * Entity - 咨询
  * 
@@ -32,7 +33,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table(name = "t_consultation")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_consultation_sequence")
-public class Consultation extends BaseEntity {
+public class Consultation extends BaseEntity
+{
 
 	private static final long serialVersionUID = -3950317769006303385L;
 
@@ -71,7 +73,8 @@ public class Consultation extends BaseEntity {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false, updatable = false)
-	public String getContent() {
+	public String getContent()
+	{
 		return content;
 	}
 
@@ -79,9 +82,10 @@ public class Consultation extends BaseEntity {
 	 * 设置内容
 	 * 
 	 * @param content
-	 *            内容
+	 *           内容
 	 */
-	public void setContent(String content) {
+	public void setContent(String content)
+	{
 		this.content = content;
 	}
 
@@ -91,7 +95,8 @@ public class Consultation extends BaseEntity {
 	 * @return 是否显示
 	 */
 	@Column(nullable = false)
-	public Boolean getIsShow() {
+	public Boolean getIsShow()
+	{
 		return isShow;
 	}
 
@@ -99,9 +104,10 @@ public class Consultation extends BaseEntity {
 	 * 设置是否显示
 	 * 
 	 * @param isShow
-	 *            是否显示
+	 *           是否显示
 	 */
-	public void setIsShow(Boolean isShow) {
+	public void setIsShow(Boolean isShow)
+	{
 		this.isShow = isShow;
 	}
 
@@ -111,7 +117,8 @@ public class Consultation extends BaseEntity {
 	 * @return IP
 	 */
 	@Column(nullable = false, updatable = false)
-	public String getIp() {
+	public String getIp()
+	{
 		return ip;
 	}
 
@@ -119,9 +126,10 @@ public class Consultation extends BaseEntity {
 	 * 设置IP
 	 * 
 	 * @param ip
-	 *            IP
+	 *           IP
 	 */
-	public void setIp(String ip) {
+	public void setIp(String ip)
+	{
 		this.ip = ip;
 	}
 
@@ -132,7 +140,8 @@ public class Consultation extends BaseEntity {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(updatable = false)
-	public Member getMember() {
+	public Member getMember()
+	{
 		return member;
 	}
 
@@ -140,9 +149,10 @@ public class Consultation extends BaseEntity {
 	 * 设置会员
 	 * 
 	 * @param member
-	 *            会员
+	 *           会员
 	 */
-	public void setMember(Member member) {
+	public void setMember(Member member)
+	{
 		this.member = member;
 	}
 
@@ -153,7 +163,8 @@ public class Consultation extends BaseEntity {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false, updatable = false)
-	public Product getProduct() {
+	public Product getProduct()
+	{
 		return product;
 	}
 
@@ -161,9 +172,10 @@ public class Consultation extends BaseEntity {
 	 * 设置商品
 	 * 
 	 * @param product
-	 *            商品
+	 *           商品
 	 */
-	public void setProduct(Product product) {
+	public void setProduct(Product product)
+	{
 		this.product = product;
 	}
 
@@ -174,7 +186,8 @@ public class Consultation extends BaseEntity {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(updatable = false)
-	public Consultation getForConsultation() {
+	public Consultation getForConsultation()
+	{
 		return forConsultation;
 	}
 
@@ -182,9 +195,10 @@ public class Consultation extends BaseEntity {
 	 * 设置咨询
 	 * 
 	 * @param forConsultation
-	 *            咨询
+	 *           咨询
 	 */
-	public void setForConsultation(Consultation forConsultation) {
+	public void setForConsultation(Consultation forConsultation)
+	{
 		this.forConsultation = forConsultation;
 	}
 
@@ -195,7 +209,8 @@ public class Consultation extends BaseEntity {
 	 */
 	@OneToMany(mappedBy = "forConsultation", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	@OrderBy("createDate asc")
-	public Set<Consultation> getReplyConsultations() {
+	public Set<Consultation> getReplyConsultations()
+	{
 		return replyConsultations;
 	}
 
@@ -203,9 +218,10 @@ public class Consultation extends BaseEntity {
 	 * 设置回复
 	 * 
 	 * @param replyConsultations
-	 *            回复
+	 *           回复
 	 */
-	public void setReplyConsultations(Set<Consultation> replyConsultations) {
+	public void setReplyConsultations(Set<Consultation> replyConsultations)
+	{
 		this.replyConsultations = replyConsultations;
 	}
 
@@ -215,8 +231,10 @@ public class Consultation extends BaseEntity {
 	 * @return 访问路径
 	 */
 	@Transient
-	public String getPath() {
-		if (getProduct() != null && getProduct().getId() != null) {
+	public String getPath()
+	{
+		if (getProduct() != null && getProduct().getId() != null)
+		{
 			return PATH_PREFIX + "/" + getProduct().getId() + PATH_SUFFIX;
 		}
 		return null;

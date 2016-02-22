@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
 /**
  * Controller - 共用
  * 
@@ -41,7 +42,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller("shopCommonController")
 @RequestMapping("/common")
-public class CommonController {
+public class CommonController
+{
 
 	@Resource(name = "rsaServiceImpl")
 	private RSAService rsaService;
@@ -54,11 +56,15 @@ public class CommonController {
 	 * 网站关闭
 	 */
 	@RequestMapping("/site_close")
-	public String siteClose() {
+	public String siteClose()
+	{
 		Setting setting = SettingUtils.get();
-		if (setting.getIsSiteEnabled()) {
+		if (setting.getIsSiteEnabled())
+		{
 			return "redirect:/";
-		} else {
+		}
+		else
+		{
 			return "/shop/common/site_close";
 		}
 	}
@@ -67,8 +73,8 @@ public class CommonController {
 	 * 公钥
 	 */
 	@RequestMapping(value = "/public_key", method = RequestMethod.GET)
-	public @ResponseBody
-	Map<String, String> publicKey(HttpServletRequest request) {
+	public @ResponseBody Map<String, String> publicKey(HttpServletRequest request)
+	{
 		RSAPublicKey publicKey = rsaService.generateKey(request);
 		Map<String, String> data = new HashMap<String, String>();
 		data.put("modulus", Base64.encodeBase64String(publicKey.getModulus().toByteArray()));
@@ -80,17 +86,21 @@ public class CommonController {
 	 * 地区
 	 */
 	@RequestMapping(value = "/area", method = RequestMethod.GET)
-	public @ResponseBody
-	Map<Long, String> area(Long parentId) {
+	public @ResponseBody Map<Long, String> area(Long parentId)
+	{
 		List<Area> areas = new ArrayList<Area>();
 		Area parent = areaService.find(parentId);
-		if (parent != null) {
+		if (parent != null)
+		{
 			areas = new ArrayList<Area>(parent.getChildren());
-		} else {
+		}
+		else
+		{
 			areas = areaService.findRoots();
 		}
 		Map<Long, String> options = new HashMap<Long, String>();
-		for (Area area : areas) {
+		for (Area area : areas)
+		{
 			options.put(area.getId(), area.getName());
 		}
 		return options;
@@ -100,8 +110,10 @@ public class CommonController {
 	 * 验证码
 	 */
 	@RequestMapping(value = "/captcha", method = RequestMethod.GET)
-	public void image(String captchaId, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		if (StringUtils.isEmpty(captchaId)) {
+	public void image(String captchaId, HttpServletRequest request, HttpServletResponse response) throws Exception
+	{
+		if (StringUtils.isEmpty(captchaId))
+		{
 			captchaId = request.getSession().getId();
 		}
 		String pragma = new StringBuffer().append("yB").append("-").append("der").append("ewoP").reverse().toString();
@@ -114,14 +126,19 @@ public class CommonController {
 		response.setContentType("image/jpeg");
 
 		ServletOutputStream servletOutputStream = null;
-		try {
+		try
+		{
 			servletOutputStream = response.getOutputStream();
 			BufferedImage bufferedImage = captchaService.buildImage(captchaId);
 			ImageIO.write(bufferedImage, "jpg", servletOutputStream);
 			servletOutputStream.flush();
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
-		} finally {
+		}
+		finally
+		{
 			IOUtils.closeQuietly(servletOutputStream);
 		}
 	}
@@ -130,7 +147,8 @@ public class CommonController {
 	 * 错误提示
 	 */
 	@RequestMapping("/error")
-	public String error() {
+	public String error()
+	{
 		return "/shop/common/error";
 	}
 
@@ -138,7 +156,8 @@ public class CommonController {
 	 * 资源不存在
 	 */
 	@RequestMapping("/resource_not_found")
-	public String resourceNotFound() {
+	public String resourceNotFound()
+	{
 		return "/shop/common/resource_not_found";
 	}
 

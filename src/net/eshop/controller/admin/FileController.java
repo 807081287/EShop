@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+
 /**
  * Controller - 文件处理
  * 
@@ -34,7 +35,8 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Controller("adminFileController")
 @RequestMapping("/admin/file")
-public class FileController extends BaseController {
+public class FileController extends BaseController
+{
 
 	@Resource(name = "fileServiceImpl")
 	private FileService fileService;
@@ -43,23 +45,33 @@ public class FileController extends BaseController {
 	 * 上传
 	 */
 	@RequestMapping(value = "/upload", method = RequestMethod.POST, produces = "text/html; charset=UTF-8")
-	public void upload(FileType fileType, MultipartFile file, HttpServletResponse response) {
+	public void upload(FileType fileType, MultipartFile file, HttpServletResponse response)
+	{
 		Map<String, Object> data = new HashMap<String, Object>();
-		if (!fileService.isValid(fileType, file)) {
+		if (!fileService.isValid(fileType, file))
+		{
 			data.put("message", Message.warn("admin.upload.invalid"));
-		} else {
+		}
+		else
+		{
 			String url = fileService.upload(fileType, file, false);
-			if (url == null) {
+			if (url == null)
+			{
 				data.put("message", Message.warn("admin.upload.error"));
-			} else {
+			}
+			else
+			{
 				data.put("message", SUCCESS_MESSAGE);
 				data.put("url", url);
 			}
 		}
-		try {
+		try
+		{
 			response.setContentType("text/html; charset=UTF-8");
 			JsonUtils.writeValue(response.getWriter(), data);
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 			e.printStackTrace();
 		}
 	}
@@ -68,8 +80,8 @@ public class FileController extends BaseController {
 	 * 浏览
 	 */
 	@RequestMapping(value = "/browser", method = RequestMethod.GET)
-	public @ResponseBody
-	List<FileInfo> browser(String path, FileType fileType, OrderType orderType) {
+	public @ResponseBody List<FileInfo> browser(String path, FileType fileType, OrderType orderType)
+	{
 		return fileService.browser(path, fileType, orderType);
 	}
 

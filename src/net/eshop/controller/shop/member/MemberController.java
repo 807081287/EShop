@@ -23,6 +23,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+
 /**
  * Controller - 会员中心
  * 
@@ -31,7 +32,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller("shopMemberController")
 @RequestMapping("/member")
-public class MemberController extends BaseController {
+public class MemberController extends BaseController
+{
 
 	/** 最新订单数 */
 	private static final int NEW_ORDER_COUNT = 6;
@@ -57,7 +59,8 @@ public class MemberController extends BaseController {
 	 * 首页
 	 */
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String index(Integer pageNumber, ModelMap model) {
+	public String index(Integer pageNumber, ModelMap model)
+	{
 		Member member = memberService.getCurrent();
 		model.addAttribute("waitingPaymentOrderCount", orderService.waitingPaymentCount(member));
 		model.addAttribute("waitingShippingOrderCount", orderService.waitingShippingCount(member));

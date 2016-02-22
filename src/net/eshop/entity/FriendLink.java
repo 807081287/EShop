@@ -14,6 +14,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+
 /**
  * Entity - 友情链接
  * 
@@ -23,14 +24,16 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table(name = "t_friend_link")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_friend_link_sequence")
-public class FriendLink extends OrderEntity {
+public class FriendLink extends OrderEntity
+{
 
 	private static final long serialVersionUID = 3019642557500517628L;
 
 	/**
 	 * 类型
 	 */
-	public enum Type {
+	public enum Type
+	{
 
 		/** 文本 */
 		text,
@@ -59,7 +62,8 @@ public class FriendLink extends OrderEntity {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false)
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
@@ -67,9 +71,10 @@ public class FriendLink extends OrderEntity {
 	 * 设置名称
 	 * 
 	 * @param name
-	 *            名称
+	 *           名称
 	 */
-	public void setName(String name) {
+	public void setName(String name)
+	{
 		this.name = name;
 	}
 
@@ -80,7 +85,8 @@ public class FriendLink extends OrderEntity {
 	 */
 	@NotNull
 	@Column(nullable = false)
-	public Type getType() {
+	public Type getType()
+	{
 		return type;
 	}
 
@@ -88,9 +94,10 @@ public class FriendLink extends OrderEntity {
 	 * 设置类型
 	 * 
 	 * @param type
-	 *            类型
+	 *           类型
 	 */
-	public void setType(Type type) {
+	public void setType(Type type)
+	{
 		this.type = type;
 	}
 
@@ -100,7 +107,8 @@ public class FriendLink extends OrderEntity {
 	 * @return logo
 	 */
 	@Length(max = 200)
-	public String getLogo() {
+	public String getLogo()
+	{
 		return logo;
 	}
 
@@ -108,9 +116,10 @@ public class FriendLink extends OrderEntity {
 	 * 设置logo
 	 * 
 	 * @param logo
-	 *            logo
+	 *           logo
 	 */
-	public void setLogo(String logo) {
+	public void setLogo(String logo)
+	{
 		this.logo = logo;
 	}
 
@@ -122,7 +131,8 @@ public class FriendLink extends OrderEntity {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false)
-	public String getUrl() {
+	public String getUrl()
+	{
 		return url;
 	}
 
@@ -130,9 +140,10 @@ public class FriendLink extends OrderEntity {
 	 * 设置链接地址
 	 * 
 	 * @param url
-	 *            链接地址
+	 *           链接地址
 	 */
-	public void setUrl(String url) {
+	public void setUrl(String url)
+	{
 		this.url = url;
 	}
 

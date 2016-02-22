@@ -28,6 +28,7 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+
 /**
  * Entity - 商品分类
  * 
@@ -37,7 +38,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table(name = "t_product_category")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_product_category_sequence")
-public class ProductCategory extends OrderEntity {
+public class ProductCategory extends OrderEntity
+{
 
 	private static final long serialVersionUID = 5095521437302782717L;
 
@@ -97,7 +99,8 @@ public class ProductCategory extends OrderEntity {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false)
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
@@ -105,9 +108,10 @@ public class ProductCategory extends OrderEntity {
 	 * 设置名称
 	 * 
 	 * @param name
-	 *            名称
+	 *           名称
 	 */
-	public void setName(String name) {
+	public void setName(String name)
+	{
 		this.name = name;
 	}
 
@@ -117,7 +121,8 @@ public class ProductCategory extends OrderEntity {
 	 * @return 页面标题
 	 */
 	@Length(max = 200)
-	public String getSeoTitle() {
+	public String getSeoTitle()
+	{
 		return seoTitle;
 	}
 
@@ -125,9 +130,10 @@ public class ProductCategory extends OrderEntity {
 	 * 设置页面标题
 	 * 
 	 * @param seoTitle
-	 *            页面标题
+	 *           页面标题
 	 */
-	public void setSeoTitle(String seoTitle) {
+	public void setSeoTitle(String seoTitle)
+	{
 		this.seoTitle = seoTitle;
 	}
 
@@ -137,7 +143,8 @@ public class ProductCategory extends OrderEntity {
 	 * @return 页面关键词
 	 */
 	@Length(max = 200)
-	public String getSeoKeywords() {
+	public String getSeoKeywords()
+	{
 		return seoKeywords;
 	}
 
@@ -145,9 +152,10 @@ public class ProductCategory extends OrderEntity {
 	 * 设置页面关键词
 	 * 
 	 * @param seoKeywords
-	 *            页面关键词
+	 *           页面关键词
 	 */
-	public void setSeoKeywords(String seoKeywords) {
+	public void setSeoKeywords(String seoKeywords)
+	{
 		this.seoKeywords = seoKeywords;
 	}
 
@@ -157,7 +165,8 @@ public class ProductCategory extends OrderEntity {
 	 * @return 页面描述
 	 */
 	@Length(max = 200)
-	public String getSeoDescription() {
+	public String getSeoDescription()
+	{
 		return seoDescription;
 	}
 
@@ -165,9 +174,10 @@ public class ProductCategory extends OrderEntity {
 	 * 设置页面描述
 	 * 
 	 * @param seoDescription
-	 *            页面描述
+	 *           页面描述
 	 */
-	public void setSeoDescription(String seoDescription) {
+	public void setSeoDescription(String seoDescription)
+	{
 		this.seoDescription = seoDescription;
 	}
 
@@ -177,7 +187,8 @@ public class ProductCategory extends OrderEntity {
 	 * @return 树路径
 	 */
 	@Column(nullable = false)
-	public String getTreePath() {
+	public String getTreePath()
+	{
 		return treePath;
 	}
 
@@ -185,9 +196,10 @@ public class ProductCategory extends OrderEntity {
 	 * 设置树路径
 	 * 
 	 * @param treePath
-	 *            树路径
+	 *           树路径
 	 */
-	public void setTreePath(String treePath) {
+	public void setTreePath(String treePath)
+	{
 		this.treePath = treePath;
 	}
 
@@ -197,7 +209,8 @@ public class ProductCategory extends OrderEntity {
 	 * @return 层级
 	 */
 	@Column(nullable = false)
-	public Integer getGrade() {
+	public Integer getGrade()
+	{
 		return grade;
 	}
 
@@ -205,9 +218,10 @@ public class ProductCategory extends OrderEntity {
 	 * 设置层级
 	 * 
 	 * @param grade
-	 *            层级
+	 *           层级
 	 */
-	public void setGrade(Integer grade) {
+	public void setGrade(Integer grade)
+	{
 		this.grade = grade;
 	}
 
@@ -217,7 +231,8 @@ public class ProductCategory extends OrderEntity {
 	 * @return 上级分类
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	public ProductCategory getParent() {
+	public ProductCategory getParent()
+	{
 		return parent;
 	}
 
@@ -225,9 +240,10 @@ public class ProductCategory extends OrderEntity {
 	 * 设置上级分类
 	 * 
 	 * @param parent
-	 *            上级分类
+	 *           上级分类
 	 */
-	public void setParent(ProductCategory parent) {
+	public void setParent(ProductCategory parent)
+	{
 		this.parent = parent;
 	}
 
@@ -238,7 +254,8 @@ public class ProductCategory extends OrderEntity {
 	 */
 	@OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
 	@OrderBy("order asc")
-	public Set<ProductCategory> getChildren() {
+	public Set<ProductCategory> getChildren()
+	{
 		return children;
 	}
 
@@ -246,9 +263,10 @@ public class ProductCategory extends OrderEntity {
 	 * 设置下级分类
 	 * 
 	 * @param children
-	 *            下级分类
+	 *           下级分类
 	 */
-	public void setChildren(Set<ProductCategory> children) {
+	public void setChildren(Set<ProductCategory> children)
+	{
 		this.children = children;
 	}
 
@@ -258,7 +276,8 @@ public class ProductCategory extends OrderEntity {
 	 * @return 商品
 	 */
 	@OneToMany(mappedBy = "productCategory", fetch = FetchType.LAZY)
-	public Set<Product> getProducts() {
+	public Set<Product> getProducts()
+	{
 		return products;
 	}
 
@@ -266,9 +285,10 @@ public class ProductCategory extends OrderEntity {
 	 * 设置商品
 	 * 
 	 * @param products
-	 *            商品
+	 *           商品
 	 */
-	public void setProducts(Set<Product> products) {
+	public void setProducts(Set<Product> products)
+	{
 		this.products = products;
 	}
 
@@ -280,7 +300,8 @@ public class ProductCategory extends OrderEntity {
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "t_product_category_brand")
 	@OrderBy("order asc")
-	public Set<Brand> getBrands() {
+	public Set<Brand> getBrands()
+	{
 		return brands;
 	}
 
@@ -288,9 +309,10 @@ public class ProductCategory extends OrderEntity {
 	 * 设置筛选品牌
 	 * 
 	 * @param brands
-	 *            筛选品牌
+	 *           筛选品牌
 	 */
-	public void setBrands(Set<Brand> brands) {
+	public void setBrands(Set<Brand> brands)
+	{
 		this.brands = brands;
 	}
 
@@ -301,7 +323,8 @@ public class ProductCategory extends OrderEntity {
 	 */
 	@OneToMany(mappedBy = "productCategory", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	@OrderBy("order asc")
-	public Set<ParameterGroup> getParameterGroups() {
+	public Set<ParameterGroup> getParameterGroups()
+	{
 		return parameterGroups;
 	}
 
@@ -309,9 +332,10 @@ public class ProductCategory extends OrderEntity {
 	 * 设置参数组
 	 * 
 	 * @param parameterGroups
-	 *            参数组
+	 *           参数组
 	 */
-	public void setParameterGroups(Set<ParameterGroup> parameterGroups) {
+	public void setParameterGroups(Set<ParameterGroup> parameterGroups)
+	{
 		this.parameterGroups = parameterGroups;
 	}
 
@@ -322,7 +346,8 @@ public class ProductCategory extends OrderEntity {
 	 */
 	@OneToMany(mappedBy = "productCategory", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	@OrderBy("order asc")
-	public Set<Attribute> getAttributes() {
+	public Set<Attribute> getAttributes()
+	{
 		return attributes;
 	}
 
@@ -330,9 +355,10 @@ public class ProductCategory extends OrderEntity {
 	 * 设置筛选属性
 	 * 
 	 * @param attributes
-	 *            筛选属性
+	 *           筛选属性
 	 */
-	public void setAttributes(Set<Attribute> attributes) {
+	public void setAttributes(Set<Attribute> attributes)
+	{
 		this.attributes = attributes;
 	}
 
@@ -342,7 +368,8 @@ public class ProductCategory extends OrderEntity {
 	 * @return 促销
 	 */
 	@ManyToMany(mappedBy = "productCategories", fetch = FetchType.LAZY)
-	public Set<Promotion> getPromotions() {
+	public Set<Promotion> getPromotions()
+	{
 		return promotions;
 	}
 
@@ -350,9 +377,10 @@ public class ProductCategory extends OrderEntity {
 	 * 设置促销
 	 * 
 	 * @param promotions
-	 *            促销
+	 *           促销
 	 */
-	public void setPromotions(Set<Promotion> promotions) {
+	public void setPromotions(Set<Promotion> promotions)
+	{
 		this.promotions = promotions;
 	}
 
@@ -362,11 +390,14 @@ public class ProductCategory extends OrderEntity {
 	 * @return 树路径
 	 */
 	@Transient
-	public List<Long> getTreePaths() {
+	public List<Long> getTreePaths()
+	{
 		List<Long> treePaths = new ArrayList<Long>();
 		String[] ids = StringUtils.split(getTreePath(), TREE_PATH_SEPARATOR);
-		if (ids != null) {
-			for (String id : ids) {
+		if (ids != null)
+		{
+			for (String id : ids)
+			{
 				treePaths.add(Long.valueOf(id));
 			}
 		}
@@ -379,8 +410,10 @@ public class ProductCategory extends OrderEntity {
 	 * @return 访问路径
 	 */
 	@Transient
-	public String getPath() {
-		if (getId() != null) {
+	public String getPath()
+	{
+		if (getId() != null)
+		{
 			return PATH_PREFIX + "/" + getId() + PATH_SUFFIX;
 		}
 		return null;
@@ -390,10 +423,13 @@ public class ProductCategory extends OrderEntity {
 	 * 删除前处理
 	 */
 	@PreRemove
-	public void preRemove() {
+	public void preRemove()
+	{
 		Set<Promotion> promotions = getPromotions();
-		if (promotions != null) {
-			for (Promotion promotion : promotions) {
+		if (promotions != null)
+		{
+			for (Promotion promotion : promotions)
+			{
 				promotion.getProductCategories().remove(this);
 			}
 		}

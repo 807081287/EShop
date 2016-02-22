@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 /**
  * Controller - 文章
  * 
@@ -33,7 +34,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller("adminArticleController")
 @RequestMapping("/admin/article")
-public class ArticleController extends BaseController {
+public class ArticleController extends BaseController
+{
 
 	@Resource(name = "articleServiceImpl")
 	private ArticleService articleService;
@@ -46,7 +48,8 @@ public class ArticleController extends BaseController {
 	 * 添加
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public String add(ModelMap model) {
+	public String add(ModelMap model)
+	{
 		model.addAttribute("articleCategoryTree", articleCategoryService.findTree());
 		model.addAttribute("tags", tagService.findList(Type.article));
 		return "/admin/article/add";
@@ -56,10 +59,12 @@ public class ArticleController extends BaseController {
 	 * 保存
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String save(Article article, Long articleCategoryId, Long[] tagIds, RedirectAttributes redirectAttributes) {
+	public String save(Article article, Long articleCategoryId, Long[] tagIds, RedirectAttributes redirectAttributes)
+	{
 		article.setArticleCategory(articleCategoryService.find(articleCategoryId));
 		article.setTags(new HashSet<Tag>(tagService.findList(tagIds)));
-		if (!isValid(article)) {
+		if (!isValid(article))
+		{
 			return ERROR_VIEW;
 		}
 		article.setHits(0L);
@@ -73,7 +78,8 @@ public class ArticleController extends BaseController {
 	 * 编辑
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(Long id, ModelMap model) {
+	public String edit(Long id, ModelMap model)
+	{
 		model.addAttribute("articleCategoryTree", articleCategoryService.findTree());
 		model.addAttribute("tags", tagService.findList(Type.article));
 		model.addAttribute("article", articleService.find(id));
@@ -84,10 +90,12 @@ public class ArticleController extends BaseController {
 	 * 更新
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(Article article, Long articleCategoryId, Long[] tagIds, RedirectAttributes redirectAttributes) {
+	public String update(Article article, Long articleCategoryId, Long[] tagIds, RedirectAttributes redirectAttributes)
+	{
 		article.setArticleCategory(articleCategoryService.find(articleCategoryId));
 		article.setTags(new HashSet<Tag>(tagService.findList(tagIds)));
-		if (!isValid(article)) {
+		if (!isValid(article))
+		{
 			return ERROR_VIEW;
 		}
 		articleService.update(article, "hits", "pageNumber");
@@ -99,7 +107,8 @@ public class ArticleController extends BaseController {
 	 * 列表
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Pageable pageable, ModelMap model) {
+	public String list(Pageable pageable, ModelMap model)
+	{
 		model.addAttribute("page", articleService.findPage(pageable));
 		return "/admin/article/list";
 	}
@@ -108,8 +117,8 @@ public class ArticleController extends BaseController {
 	 * 删除
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public @ResponseBody
-	Message delete(Long[] ids) {
+	public @ResponseBody Message delete(Long[] ids)
+	{
 		articleService.delete(ids);
 		return SUCCESS_MESSAGE;
 	}

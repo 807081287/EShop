@@ -9,13 +9,15 @@ import java.util.List;
 
 import net.eshop.LogConfig;
 
+
 /**
  * Service - 日志配置
  * 
  * 
  * 
  */
-public interface LogConfigService {
+public interface LogConfigService
+{
 
 	/**
 	 * 获取所有日志配置

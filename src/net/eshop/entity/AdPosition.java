@@ -23,6 +23,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+
 /**
  * Entity - 广告位
  * 
@@ -32,7 +33,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table(name = "t_ad_position")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_ad_position_sequence")
-public class AdPosition extends BaseEntity {
+public class AdPosition extends BaseEntity
+{
 
 	private static final long serialVersionUID = -7849848867030199578L;
 
@@ -62,7 +64,8 @@ public class AdPosition extends BaseEntity {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false)
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
@@ -70,9 +73,10 @@ public class AdPosition extends BaseEntity {
 	 * 设置名称
 	 * 
 	 * @param name
-	 *            名称
+	 *           名称
 	 */
-	public void setName(String name) {
+	public void setName(String name)
+	{
 		this.name = name;
 	}
 
@@ -84,7 +88,8 @@ public class AdPosition extends BaseEntity {
 	@NotNull
 	@Min(1)
 	@Column(nullable = false)
-	public Integer getWidth() {
+	public Integer getWidth()
+	{
 		return width;
 	}
 
@@ -92,9 +97,10 @@ public class AdPosition extends BaseEntity {
 	 * 设置宽度
 	 * 
 	 * @param width
-	 *            宽度
+	 *           宽度
 	 */
-	public void setWidth(Integer width) {
+	public void setWidth(Integer width)
+	{
 		this.width = width;
 	}
 
@@ -106,7 +112,8 @@ public class AdPosition extends BaseEntity {
 	@NotNull
 	@Min(1)
 	@Column(nullable = false)
-	public Integer getHeight() {
+	public Integer getHeight()
+	{
 		return height;
 	}
 
@@ -114,9 +121,10 @@ public class AdPosition extends BaseEntity {
 	 * 设置高度
 	 * 
 	 * @param height
-	 *            高度
+	 *           高度
 	 */
-	public void setHeight(Integer height) {
+	public void setHeight(Integer height)
+	{
 		this.height = height;
 	}
 
@@ -126,7 +134,8 @@ public class AdPosition extends BaseEntity {
 	 * @return 描述
 	 */
 	@Length(max = 200)
-	public String getDescription() {
+	public String getDescription()
+	{
 		return description;
 	}
 
@@ -134,9 +143,10 @@ public class AdPosition extends BaseEntity {
 	 * 设置描述
 	 * 
 	 * @param description
-	 *            描述
+	 *           描述
 	 */
-	public void setDescription(String description) {
+	public void setDescription(String description)
+	{
 		this.description = description;
 	}
 
@@ -148,7 +158,8 @@ public class AdPosition extends BaseEntity {
 	@NotEmpty
 	@Lob
 	@Column(nullable = false)
-	public String getTemplate() {
+	public String getTemplate()
+	{
 		return template;
 	}
 
@@ -156,9 +167,10 @@ public class AdPosition extends BaseEntity {
 	 * 设置模板
 	 * 
 	 * @param template
-	 *            模板
+	 *           模板
 	 */
-	public void setTemplate(String template) {
+	public void setTemplate(String template)
+	{
 		this.template = template;
 	}
 
@@ -169,7 +181,8 @@ public class AdPosition extends BaseEntity {
 	 */
 	@OneToMany(mappedBy = "adPosition", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	@OrderBy("order asc")
-	public Set<Ad> getAds() {
+	public Set<Ad> getAds()
+	{
 		return ads;
 	}
 
@@ -177,9 +190,10 @@ public class AdPosition extends BaseEntity {
 	 * 设置广告
 	 * 
 	 * @param ads
-	 *            广告
+	 *           广告
 	 */
-	public void setAds(Set<Ad> ads) {
+	public void setAds(Set<Ad> ads)
+	{
 		this.ads = ads;
 	}
 

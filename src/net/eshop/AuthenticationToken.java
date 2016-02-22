@@ -7,13 +7,15 @@ package net.eshop;
 
 import org.apache.shiro.authc.UsernamePasswordToken;
 
+
 /**
  * 登录令牌
  * 
  * 
  * 
  */
-public class AuthenticationToken extends UsernamePasswordToken {
+public class AuthenticationToken extends UsernamePasswordToken
+{
 
 	private static final long serialVersionUID = 5898441540965086534L;
 
@@ -25,19 +27,20 @@ public class AuthenticationToken extends UsernamePasswordToken {
 
 	/**
 	 * @param username
-	 *            用户名
+	 *           用户名
 	 * @param password
-	 *            密码
+	 *           密码
 	 * @param captchaId
-	 *            验证码ID
+	 *           验证码ID
 	 * @param captcha
-	 *            验证码
+	 *           验证码
 	 * @param rememberMe
-	 *            记住我
+	 *           记住我
 	 * @param host
-	 *            IP
+	 *           IP
 	 */
-	public AuthenticationToken(String username, String password, String captchaId, String captcha, boolean rememberMe, String host) {
+	public AuthenticationToken(String username, String password, String captchaId, String captcha, boolean rememberMe, String host)
+	{
 		super(username, password, rememberMe);
 		this.captchaId = captchaId;
 		this.captcha = captcha;
@@ -48,7 +51,8 @@ public class AuthenticationToken extends UsernamePasswordToken {
 	 * 
 	 * @return 验证码ID
 	 */
-	public String getCaptchaId() {
+	public String getCaptchaId()
+	{
 		return captchaId;
 	}
 
@@ -56,9 +60,10 @@ public class AuthenticationToken extends UsernamePasswordToken {
 	 * 设置验证码ID
 	 * 
 	 * @param captchaId
-	 *            验证码ID
+	 *           验证码ID
 	 */
-	public void setCaptchaId(String captchaId) {
+	public void setCaptchaId(String captchaId)
+	{
 		this.captchaId = captchaId;
 	}
 
@@ -67,7 +72,8 @@ public class AuthenticationToken extends UsernamePasswordToken {
 	 * 
 	 * @return 验证码
 	 */
-	public String getCaptcha() {
+	public String getCaptcha()
+	{
 		return captcha;
 	}
 
@@ -75,9 +81,10 @@ public class AuthenticationToken extends UsernamePasswordToken {
 	 * 设置验证码
 	 * 
 	 * @param captcha
-	 *            验证码
+	 *           验证码
 	 */
-	public void setCaptcha(String captcha) {
+	public void setCaptcha(String captcha)
+	{
 		this.captcha = captcha;
 	}
 

@@ -70,6 +70,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+
 /**
  * Service - 订单
  * 
@@ -77,7 +78,8 @@ import org.springframework.util.Assert;
  * 
  */
 @Service("orderServiceImpl")
-public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements OrderService {
+public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements OrderService
+{
 
 	@Resource(name = "orderDaoImpl")
 	private OrderDao orderDao;
@@ -111,61 +113,75 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
 	private StaticService staticService;
 
 	@Resource(name = "orderDaoImpl")
-	public void setBaseDao(OrderDao orderDao) {
+	public void setBaseDao(OrderDao orderDao)
+	{
 		super.setBaseDao(orderDao);
 	}
 
 	@Transactional(readOnly = true)
-	public Order findBySn(String sn) {
+	public Order findBySn(String sn)
+	{
 		return orderDao.findBySn(sn);
 	}
 
 	@Transactional(readOnly = true)
-	public List<Order> findList(Member member, Integer count, List<Filter> filters, List<net.eshop.Order> orders) {
+	public List<Order> findList(Member member, Integer count, List<Filter> filters, List<net.eshop.Order> orders)
+	{
 		return orderDao.findList(member, count, filters, orders);
 	}
 
 	@Transactional(readOnly = true)
-	public Page<Order> findPage(Member member, Pageable pageable) {
+	public Page<Order> findPage(Member member, Pageable pageable)
+	{
 		return orderDao.findPage(member, pageable);
 	}
 
 	@Transactional(readOnly = true)
-	public Page<Order> findPage(OrderStatus orderStatus, PaymentStatus paymentStatus, ShippingStatus shippingStatus, Boolean hasExpired, Pageable pageable) {
+	public Page<Order> findPage(OrderStatus orderStatus, PaymentStatus paymentStatus, ShippingStatus shippingStatus,
+			Boolean hasExpired, Pageable pageable)
+	{
 		return orderDao.findPage(orderStatus, paymentStatus, shippingStatus, hasExpired, pageable);
 	}
 
 	@Transactional(readOnly = true)
-	public Long count(OrderStatus orderStatus, PaymentStatus paymentStatus, ShippingStatus shippingStatus, Boolean hasExpired) {
+	public Long count(OrderStatus orderStatus, PaymentStatus paymentStatus, ShippingStatus shippingStatus, Boolean hasExpired)
+	{
 		return orderDao.count(orderStatus, paymentStatus, shippingStatus, hasExpired);
 	}
 
 	@Transactional(readOnly = true)
-	public Long waitingPaymentCount(Member member) {
+	public Long waitingPaymentCount(Member member)
+	{
 		return orderDao.waitingPaymentCount(member);
 	}
 
 	@Transactional(readOnly = true)
-	public Long waitingShippingCount(Member member) {
+	public Long waitingShippingCount(Member member)
+	{
 		return orderDao.waitingShippingCount(member);
 	}
 
 	@Transactional(readOnly = true)
-	public BigDecimal getSalesAmount(Date beginDate, Date endDate) {
+	public BigDecimal getSalesAmount(Date beginDate, Date endDate)
+	{
 		return orderDao.getSalesAmount(beginDate, endDate);
 	}
 
 	@Transactional(readOnly = true)
-	public Integer getSalesVolume(Date beginDate, Date endDate) {
+	public Integer getSalesVolume(Date beginDate, Date endDate)
+	{
 		return orderDao.getSalesVolume(beginDate, endDate);
 	}
 
-	public void releaseStock() {
+	public void releaseStock()
+	{
 		orderDao.releaseStock();
 	}
 
 	@Transactional(readOnly = true)
-	public Order build(Cart cart, Receiver receiver, PaymentMethod paymentMethod, ShippingMethod shippingMethod, CouponCode couponCode, boolean isInvoice, String invoiceTitle, boolean useBalance, String memo) {
+	public Order build(Cart cart, Receiver receiver, PaymentMethod paymentMethod, ShippingMethod shippingMethod,
+			CouponCode couponCode, boolean isInvoice, String invoiceTitle, boolean useBalance, String memo)
+	{
 		Assert.notNull(cart);
 		Assert.notNull(cart.getMember());
 		Assert.notEmpty(cart.getCartItems());
@@ -180,7 +196,8 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
 		order.setMemo(memo);
 		order.setMember(cart.getMember());
 
-		if (receiver != null) {
+		if (receiver != null)
+		{
 			order.setConsignee(receiver.getConsignee());
 			order.setAreaName(receiver.getAreaName());
 			order.setAddress(receiver.getAddress());
@@ -189,14 +206,18 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
 			order.setArea(receiver.getArea());
 		}
 
-		if (!cart.getPromotions().isEmpty()) {
+		if (!cart.getPromotions().isEmpty())
+		{
 			StringBuffer promotionName = new StringBuffer();
-			for (Promotion promotion : cart.getPromotions()) {
-				if (promotion != null && promotion.getName() != null) {
+			for (Promotion promotion : cart.getPromotions())
+			{
+				if (promotion != null && promotion.getName() != null)
+				{
 					promotionName.append(" " + promotion.getName());
 				}
 			}
-			if (promotionName.length() > 0) {
+			if (promotionName.length() > 0)
+			{
 				promotionName.deleteCharAt(0);
 			}
 			order.setPromotion(promotionName.toString());
@@ -204,24 +225,32 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
 
 		order.setPaymentMethod(paymentMethod);
 
-		if (shippingMethod != null && paymentMethod != null && paymentMethod.getShippingMethods().contains(shippingMethod)) {
+		if (shippingMethod != null && paymentMethod != null && paymentMethod.getShippingMethods().contains(shippingMethod))
+		{
 			BigDecimal freight = shippingMethod.calculateFreight(cart.getWeight());
-			for (Promotion promotion : cart.getPromotions()) {
-				if (promotion.getIsFreeShipping()) {
+			for (Promotion promotion : cart.getPromotions())
+			{
+				if (promotion.getIsFreeShipping())
+				{
 					freight = new BigDecimal(0);
 					break;
 				}
 			}
 			order.setFreight(freight);
 			order.setShippingMethod(shippingMethod);
-		} else {
+		}
+		else
+		{
 			order.setFreight(new BigDecimal(0));
 		}
 
-		if (couponCode != null && cart.isCouponAllowed()) {
+		if (couponCode != null && cart.isCouponAllowed())
+		{
 			couponCodeDao.lock(couponCode, LockModeType.PESSIMISTIC_WRITE);
-			if (!couponCode.getIsUsed() && couponCode.getCoupon() != null && cart.isValid(couponCode.getCoupon())) {
-				BigDecimal couponDiscount = cart.getEffectivePrice().subtract(couponCode.getCoupon().calculatePrice(cart.getQuantity(), cart.getEffectivePrice()));
+			if (!couponCode.getIsUsed() && couponCode.getCoupon() != null && cart.isValid(couponCode.getCoupon()))
+			{
+				BigDecimal couponDiscount = cart.getEffectivePrice().subtract(
+						couponCode.getCoupon().calculatePrice(cart.getQuantity(), cart.getEffectivePrice()));
 				couponDiscount = couponDiscount.compareTo(new BigDecimal(0)) > 0 ? couponDiscount : new BigDecimal(0);
 				order.setCouponDiscount(couponDiscount);
 				order.setCouponCode(couponCode);
@@ -229,8 +258,10 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
 		}
 
 		List<OrderItem> orderItems = order.getOrderItems();
-		for (CartItem cartItem : cart.getCartItems()) {
-			if (cartItem != null && cartItem.getProduct() != null) {
+		for (CartItem cartItem : cart.getCartItems())
+		{
+			if (cartItem != null && cartItem.getProduct() != null)
+			{
 				Product product = cartItem.getProduct();
 				OrderItem orderItem = new OrderItem();
 				orderItem.setSn(product.getSn());
@@ -249,8 +280,10 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
 			}
 		}
 
-		for (GiftItem giftItem : cart.getGiftItems()) {
-			if (giftItem != null && giftItem.getGift() != null) {
+		for (GiftItem giftItem : cart.getGiftItems())
+		{
+			if (giftItem != null && giftItem.getGift() != null)
+			{
 				Product gift = giftItem.getGift();
 				OrderItem orderItem = new OrderItem();
 				orderItem.setSn(gift.getSn());
@@ -270,45 +303,63 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
 		}
 
 		Setting setting = SettingUtils.get();
-		if (setting.getIsInvoiceEnabled() && isInvoice && StringUtils.isNotEmpty(invoiceTitle)) {
+		if (setting.getIsInvoiceEnabled() && isInvoice && StringUtils.isNotEmpty(invoiceTitle))
+		{
 			order.setIsInvoice(true);
 			order.setInvoiceTitle(invoiceTitle);
 			order.setTax(order.calculateTax());
-		} else {
+		}
+		else
+		{
 			order.setIsInvoice(false);
 			order.setTax(new BigDecimal(0));
 		}
 
-		if (useBalance) {
+		if (useBalance)
+		{
 			Member member = cart.getMember();
-			if (member.getBalance().compareTo(order.getAmount()) >= 0) {
+			if (member.getBalance().compareTo(order.getAmount()) >= 0)
+			{
 				order.setAmountPaid(order.getAmount());
-			} else {
+			}
+			else
+			{
 				order.setAmountPaid(member.getBalance());
 			}
-		} else {
+		}
+		else
+		{
 			order.setAmountPaid(new BigDecimal(0));
 		}
 
-		if (order.getAmountPayable().compareTo(new BigDecimal(0)) == 0) {
+		if (order.getAmountPayable().compareTo(new BigDecimal(0)) == 0)
+		{
 			order.setOrderStatus(OrderStatus.confirmed);
 			order.setPaymentStatus(PaymentStatus.paid);
-		} else if (order.getAmountPayable().compareTo(new BigDecimal(0)) > 0 && order.getAmountPaid().compareTo(new BigDecimal(0)) > 0) {
+		}
+		else if (order.getAmountPayable().compareTo(new BigDecimal(0)) > 0
+				&& order.getAmountPaid().compareTo(new BigDecimal(0)) > 0)
+		{
 			order.setOrderStatus(OrderStatus.confirmed);
 			order.setPaymentStatus(PaymentStatus.partialPayment);
-		} else {
+		}
+		else
+		{
 			order.setOrderStatus(OrderStatus.unconfirmed);
 			order.setPaymentStatus(PaymentStatus.unpaid);
 		}
 
-		if (paymentMethod != null && paymentMethod.getTimeout() != null && order.getPaymentStatus() == PaymentStatus.unpaid) {
+		if (paymentMethod != null && paymentMethod.getTimeout() != null && order.getPaymentStatus() == PaymentStatus.unpaid)
+		{
 			order.setExpire(DateUtils.addMinutes(new Date(), paymentMethod.getTimeout()));
 		}
 
 		return order;
 	}
 
-	public Order create(Cart cart, Receiver receiver, PaymentMethod paymentMethod, ShippingMethod shippingMethod, CouponCode couponCode, boolean isInvoice, String invoiceTitle, boolean useBalance, String memo, Admin operator) {
+	public Order create(Cart cart, Receiver receiver, PaymentMethod paymentMethod, ShippingMethod shippingMethod,
+			CouponCode couponCode, boolean isInvoice, String invoiceTitle, boolean useBalance, String memo, Admin operator)
+	{
 		Assert.notNull(cart);
 		Assert.notNull(cart.getMember());
 		Assert.notEmpty(cart.getCartItems());
@@ -319,27 +370,36 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
 		Order order = build(cart, receiver, paymentMethod, shippingMethod, couponCode, isInvoice, invoiceTitle, useBalance, memo);
 
 		order.setSn(snDao.generate(Sn.Type.order));
-		if (paymentMethod.getMethod() == PaymentMethod.Method.online) {
+		if (paymentMethod.getMethod() == PaymentMethod.Method.online)
+		{
 			order.setLockExpire(DateUtils.addSeconds(new Date(), 20));
 			order.setOperator(operator);
 		}
 
-		if (order.getCouponCode() != null) {
+		if (order.getCouponCode() != null)
+		{
 			couponCode.setIsUsed(true);
 			couponCode.setUsedDate(new Date());
 			couponCodeDao.merge(couponCode);
 		}
 
-		for (Promotion promotion : cart.getPromotions()) {
-			for (Coupon coupon : promotion.getCoupons()) {
+		for (Promotion promotion : cart.getPromotions())
+		{
+			for (Coupon coupon : promotion.getCoupons())
+			{
 				order.getCoupons().add(coupon);
 			}
 		}
 
 		Setting setting = SettingUtils.get();
-		if (setting.getStockAllocationTime() == StockAllocationTime.order || (setting.getStockAllocationTime() == StockAllocationTime.payment && (order.getPaymentStatus() == PaymentStatus.partialPayment || order.getPaymentStatus() == PaymentStatus.paid))) {
+		if (setting.getStockAllocationTime() == StockAllocationTime.order
+				|| (setting.getStockAllocationTime() == StockAllocationTime.payment && (order.getPaymentStatus() == PaymentStatus.partialPayment || order
+						.getPaymentStatus() == PaymentStatus.paid)))
+		{
 			order.setIsAllocatedStock(true);
-		} else {
+		}
+		else
+		{
 			order.setIsAllocatedStock(false);
 		}
 
@@ -352,7 +412,8 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
 		orderLogDao.persist(orderLog);
 
 		Member member = cart.getMember();
-		if (order.getAmountPaid().compareTo(new BigDecimal(0)) > 0) {
+		if (order.getAmountPaid().compareTo(new BigDecimal(0)) > 0)
+		{
 			memberDao.lock(member, LockModeType.PESSIMISTIC_WRITE);
 			member.setBalance(member.getBalance().subtract(order.getAmountPaid()));
 			memberDao.merge(member);
@@ -368,13 +429,20 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
 			depositDao.persist(deposit);
 		}
 
-		if (setting.getStockAllocationTime() == StockAllocationTime.order || (setting.getStockAllocationTime() == StockAllocationTime.payment && (order.getPaymentStatus() == PaymentStatus.partialPayment || order.getPaymentStatus() == PaymentStatus.paid))) {
-			for (OrderItem orderItem : order.getOrderItems()) {
-				if (orderItem != null) {
+		if (setting.getStockAllocationTime() == StockAllocationTime.order
+				|| (setting.getStockAllocationTime() == StockAllocationTime.payment && (order.getPaymentStatus() == PaymentStatus.partialPayment || order
+						.getPaymentStatus() == PaymentStatus.paid)))
+		{
+			for (OrderItem orderItem : order.getOrderItems())
+			{
+				if (orderItem != null)
+				{
 					Product product = orderItem.getProduct();
 					productDao.lock(product, LockModeType.PESSIMISTIC_WRITE);
-					if (product != null && product.getStock() != null) {
-						product.setAllocatedStock(product.getAllocatedStock() + (orderItem.getQuantity() - orderItem.getShippedQuantity()));
+					if (product != null && product.getStock() != null)
+					{
+						product.setAllocatedStock(product.getAllocatedStock()
+								+ (orderItem.getQuantity() - orderItem.getShippedQuantity()));
 						productDao.merge(product);
 						orderDao.flush();
 						staticService.build(product);
@@ -387,30 +455,40 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
 		return order;
 	}
 
-	public void update(Order order, Admin operator) {
+	public void update(Order order, Admin operator)
+	{
 		Assert.notNull(order);
 
 		Order pOrder = orderDao.find(order.getId());
 
-		if (pOrder.getIsAllocatedStock()) {
-			for (OrderItem orderItem : pOrder.getOrderItems()) {
-				if (orderItem != null) {
+		if (pOrder.getIsAllocatedStock())
+		{
+			for (OrderItem orderItem : pOrder.getOrderItems())
+			{
+				if (orderItem != null)
+				{
 					Product product = orderItem.getProduct();
 					productDao.lock(product, LockModeType.PESSIMISTIC_WRITE);
-					if (product != null && product.getStock() != null) {
-						product.setAllocatedStock(product.getAllocatedStock() - (orderItem.getQuantity() - orderItem.getShippedQuantity()));
+					if (product != null && product.getStock() != null)
+					{
+						product.setAllocatedStock(product.getAllocatedStock()
+								- (orderItem.getQuantity() - orderItem.getShippedQuantity()));
 						productDao.merge(product);
 						orderDao.flush();
 						staticService.build(product);
 					}
 				}
 			}
-			for (OrderItem orderItem : order.getOrderItems()) {
-				if (orderItem != null) {
+			for (OrderItem orderItem : order.getOrderItems())
+			{
+				if (orderItem != null)
+				{
 					Product product = orderItem.getProduct();
 					productDao.lock(product, LockModeType.PESSIMISTIC_WRITE);
-					if (product != null && product.getStock() != null) {
-						product.setAllocatedStock(product.getAllocatedStock() + (orderItem.getQuantity() - orderItem.getShippedQuantity()));
+					if (product != null && product.getStock() != null)
+					{
+						product.setAllocatedStock(product.getAllocatedStock()
+								+ (orderItem.getQuantity() - orderItem.getShippedQuantity()));
 						productDao.merge(product);
 						productDao.flush();
 						staticService.build(product);
@@ -428,7 +506,8 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
 		orderLogDao.persist(orderLog);
 	}
 
-	public void confirm(Order order, Admin operator) {
+	public void confirm(Order order, Admin operator)
+	{
 		Assert.notNull(order);
 
 		order.setOrderStatus(OrderStatus.confirmed);
@@ -441,22 +520,27 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
 		orderLogDao.persist(orderLog);
 	}
 
-	public void complete(Order order, Admin operator) {
+	public void complete(Order order, Admin operator)
+	{
 		Assert.notNull(order);
 
 		Member member = order.getMember();
 		memberDao.lock(member, LockModeType.PESSIMISTIC_WRITE);
 
-		if (order.getShippingStatus() == ShippingStatus.partialShipment || order.getShippingStatus() == ShippingStatus.shipped) {
+		if (order.getShippingStatus() == ShippingStatus.partialShipment || order.getShippingStatus() == ShippingStatus.shipped)
+		{
 			member.setPoint(member.getPoint() + order.getPoint());
-			for (Coupon coupon : order.getCoupons()) {
+			for (Coupon coupon : order.getCoupons())
+			{
 				couponCodeDao.build(coupon, member);
 			}
 		}
 
-		if (order.getShippingStatus() == ShippingStatus.unshipped || order.getShippingStatus() == ShippingStatus.returned) {
+		if (order.getShippingStatus() == ShippingStatus.unshipped || order.getShippingStatus() == ShippingStatus.returned)
+		{
 			CouponCode couponCode = order.getCouponCode();
-			if (couponCode != null) {
+			if (couponCode != null)
+			{
 				couponCode.setIsUsed(false);
 				couponCode.setUsedDate(null);
 				couponCodeDao.merge(couponCode);
@@ -467,21 +551,28 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
 		}
 
 		member.setAmount(member.getAmount().add(order.getAmountPaid()));
-		if (!member.getMemberRank().getIsSpecial()) {
+		if (!member.getMemberRank().getIsSpecial())
+		{
 			MemberRank memberRank = memberRankDao.findByAmount(member.getAmount());
-			if (memberRank != null && memberRank.getAmount().compareTo(member.getMemberRank().getAmount()) > 0) {
+			if (memberRank != null && memberRank.getAmount().compareTo(member.getMemberRank().getAmount()) > 0)
+			{
 				member.setMemberRank(memberRank);
 			}
 		}
 		memberDao.merge(member);
 
-		if (order.getIsAllocatedStock()) {
-			for (OrderItem orderItem : order.getOrderItems()) {
-				if (orderItem != null) {
+		if (order.getIsAllocatedStock())
+		{
+			for (OrderItem orderItem : order.getOrderItems())
+			{
+				if (orderItem != null)
+				{
 					Product product = orderItem.getProduct();
 					productDao.lock(product, LockModeType.PESSIMISTIC_WRITE);
-					if (product != null && product.getStock() != null) {
-						product.setAllocatedStock(product.getAllocatedStock() - (orderItem.getQuantity() - orderItem.getShippedQuantity()));
+					if (product != null && product.getStock() != null)
+					{
+						product.setAllocatedStock(product.getAllocatedStock()
+								- (orderItem.getQuantity() - orderItem.getShippedQuantity()));
 						productDao.merge(product);
 						orderDao.flush();
 						staticService.build(product);
@@ -491,23 +582,34 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
 			order.setIsAllocatedStock(false);
 		}
 
-		for (OrderItem orderItem : order.getOrderItems()) {
-			if (orderItem != null) {
+		for (OrderItem orderItem : order.getOrderItems())
+		{
+			if (orderItem != null)
+			{
 				Product product = orderItem.getProduct();
 				productDao.lock(product, LockModeType.PESSIMISTIC_WRITE);
-				if (product != null) {
+				if (product != null)
+				{
 					Integer quantity = orderItem.getQuantity();
 					Calendar nowCalendar = Calendar.getInstance();
 					Calendar weekSalesCalendar = DateUtils.toCalendar(product.getWeekSalesDate());
 					Calendar monthSalesCalendar = DateUtils.toCalendar(product.getMonthSalesDate());
-					if (nowCalendar.get(Calendar.YEAR) != weekSalesCalendar.get(Calendar.YEAR) || nowCalendar.get(Calendar.WEEK_OF_YEAR) > weekSalesCalendar.get(Calendar.WEEK_OF_YEAR)) {
+					if (nowCalendar.get(Calendar.YEAR) != weekSalesCalendar.get(Calendar.YEAR)
+							|| nowCalendar.get(Calendar.WEEK_OF_YEAR) > weekSalesCalendar.get(Calendar.WEEK_OF_YEAR))
+					{
 						product.setWeekSales((long) quantity);
-					} else {
+					}
+					else
+					{
 						product.setWeekSales(product.getWeekSales() + quantity);
 					}
-					if (nowCalendar.get(Calendar.YEAR) != monthSalesCalendar.get(Calendar.YEAR) || nowCalendar.get(Calendar.MONTH) > monthSalesCalendar.get(Calendar.MONTH)) {
+					if (nowCalendar.get(Calendar.YEAR) != monthSalesCalendar.get(Calendar.YEAR)
+							|| nowCalendar.get(Calendar.MONTH) > monthSalesCalendar.get(Calendar.MONTH))
+					{
 						product.setMonthSales((long) quantity);
-					} else {
+					}
+					else
+					{
 						product.setMonthSales(product.getMonthSales() + quantity);
 					}
 					product.setSales(product.getSales() + quantity);
@@ -531,11 +633,13 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
 		orderLogDao.persist(orderLog);
 	}
 
-	public void cancel(Order order, Admin operator) {
+	public void cancel(Order order, Admin operator)
+	{
 		Assert.notNull(order);
 
 		CouponCode couponCode = order.getCouponCode();
-		if (couponCode != null) {
+		if (couponCode != null)
+		{
 			couponCode.setIsUsed(false);
 			couponCode.setUsedDate(null);
 			couponCodeDao.merge(couponCode);
@@ -544,13 +648,18 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
 			orderDao.merge(order);
 		}
 
-		if (order.getIsAllocatedStock()) {
-			for (OrderItem orderItem : order.getOrderItems()) {
-				if (orderItem != null) {
+		if (order.getIsAllocatedStock())
+		{
+			for (OrderItem orderItem : order.getOrderItems())
+			{
+				if (orderItem != null)
+				{
 					Product product = orderItem.getProduct();
 					productDao.lock(product, LockModeType.PESSIMISTIC_WRITE);
-					if (product != null && product.getStock() != null) {
-						product.setAllocatedStock(product.getAllocatedStock() - (orderItem.getQuantity() - orderItem.getShippedQuantity()));
+					if (product != null && product.getStock() != null)
+					{
+						product.setAllocatedStock(product.getAllocatedStock()
+								- (orderItem.getQuantity() - orderItem.getShippedQuantity()));
 						productDao.merge(product);
 						orderDao.flush();
 						staticService.build(product);
@@ -571,7 +680,8 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
 		orderLogDao.persist(orderLog);
 	}
 
-	public void payment(Order order, Payment payment, Admin operator) {
+	public void payment(Order order, Payment payment, Admin operator)
+	{
 		Assert.notNull(order);
 		Assert.notNull(payment);
 
@@ -579,7 +689,8 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
 
 		payment.setOrder(order);
 		paymentDao.merge(payment);
-		if (payment.getMethod() == Payment.Method.deposit) {
+		if (payment.getMethod() == Payment.Method.deposit)
+		{
 			Member member = order.getMember();
 			memberDao.lock(member, LockModeType.PESSIMISTIC_WRITE);
 			member.setBalance(member.getBalance().subtract(payment.getAmount()));
@@ -597,13 +708,18 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
 		}
 
 		Setting setting = SettingUtils.get();
-		if (!order.getIsAllocatedStock() && setting.getStockAllocationTime() == StockAllocationTime.payment) {
-			for (OrderItem orderItem : order.getOrderItems()) {
-				if (orderItem != null) {
+		if (!order.getIsAllocatedStock() && setting.getStockAllocationTime() == StockAllocationTime.payment)
+		{
+			for (OrderItem orderItem : order.getOrderItems())
+			{
+				if (orderItem != null)
+				{
 					Product product = orderItem.getProduct();
 					productDao.lock(product, LockModeType.PESSIMISTIC_WRITE);
-					if (product != null && product.getStock() != null) {
-						product.setAllocatedStock(product.getAllocatedStock() + (orderItem.getQuantity() - orderItem.getShippedQuantity()));
+					if (product != null && product.getStock() != null)
+					{
+						product.setAllocatedStock(product.getAllocatedStock()
+								+ (orderItem.getQuantity() - orderItem.getShippedQuantity()));
 						productDao.merge(product);
 						orderDao.flush();
 						staticService.build(product);
@@ -616,10 +732,13 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
 		order.setAmountPaid(order.getAmountPaid().add(payment.getAmount()));
 		order.setFee(payment.getFee());
 		order.setExpire(null);
-		if (order.getAmountPaid().compareTo(order.getAmount()) >= 0) {
+		if (order.getAmountPaid().compareTo(order.getAmount()) >= 0)
+		{
 			order.setOrderStatus(OrderStatus.confirmed);
 			order.setPaymentStatus(PaymentStatus.paid);
-		} else if (order.getAmountPaid().compareTo(new BigDecimal(0)) > 0) {
+		}
+		else if (order.getAmountPaid().compareTo(new BigDecimal(0)) > 0)
+		{
 			order.setOrderStatus(OrderStatus.confirmed);
 			order.setPaymentStatus(PaymentStatus.partialPayment);
 		}
@@ -632,7 +751,8 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
 		orderLogDao.persist(orderLog);
 	}
 
-	public void refunds(Order order, Refunds refunds, Admin operator) {
+	public void refunds(Order order, Refunds refunds, Admin operator)
+	{
 		Assert.notNull(order);
 		Assert.notNull(refunds);
 
@@ -640,7 +760,8 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
 
 		refunds.setOrder(order);
 		refundsDao.persist(refunds);
-		if (refunds.getMethod() == Refunds.Method.deposit) {
+		if (refunds.getMethod() == Refunds.Method.deposit)
+		{
 			Member member = order.getMember();
 			memberDao.lock(member, LockModeType.PESSIMISTIC_WRITE);
 			member.setBalance(member.getBalance().add(refunds.getAmount()));
@@ -659,9 +780,12 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
 
 		order.setAmountPaid(order.getAmountPaid().subtract(refunds.getAmount()));
 		order.setExpire(null);
-		if (order.getAmountPaid().compareTo(new BigDecimal(0)) == 0) {
+		if (order.getAmountPaid().compareTo(new BigDecimal(0)) == 0)
+		{
 			order.setPaymentStatus(PaymentStatus.refunded);
-		} else if (order.getAmountPaid().compareTo(new BigDecimal(0)) > 0) {
+		}
+		else if (order.getAmountPaid().compareTo(new BigDecimal(0)) > 0)
+		{
 			order.setPaymentStatus(PaymentStatus.partialRefunds);
 		}
 		orderDao.merge(order);
@@ -673,7 +797,8 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
 		orderLogDao.persist(orderLog);
 	}
 
-	public void shipping(Order order, Shipping shipping, Admin operator) {
+	public void shipping(Order order, Shipping shipping, Admin operator)
+	{
 		Assert.notNull(order);
 		Assert.notNull(shipping);
 		Assert.notEmpty(shipping.getShippingItems());
@@ -681,13 +806,18 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
 		orderDao.lock(order, LockModeType.PESSIMISTIC_WRITE);
 
 		Setting setting = SettingUtils.get();
-		if (!order.getIsAllocatedStock() && setting.getStockAllocationTime() == StockAllocationTime.ship) {
-			for (OrderItem orderItem : order.getOrderItems()) {
-				if (orderItem != null) {
+		if (!order.getIsAllocatedStock() && setting.getStockAllocationTime() == StockAllocationTime.ship)
+		{
+			for (OrderItem orderItem : order.getOrderItems())
+			{
+				if (orderItem != null)
+				{
 					Product product = orderItem.getProduct();
 					productDao.lock(product, LockModeType.PESSIMISTIC_WRITE);
-					if (product != null && product.getStock() != null) {
-						product.setAllocatedStock(product.getAllocatedStock() + (orderItem.getQuantity() - orderItem.getShippedQuantity()));
+					if (product != null && product.getStock() != null)
+					{
+						product.setAllocatedStock(product.getAllocatedStock()
+								+ (orderItem.getQuantity() - orderItem.getShippedQuantity()));
 						productDao.merge(product);
 						orderDao.flush();
 						staticService.build(product);
@@ -699,15 +829,20 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
 
 		shipping.setOrder(order);
 		shippingDao.persist(shipping);
-		for (ShippingItem shippingItem : shipping.getShippingItems()) {
+		for (ShippingItem shippingItem : shipping.getShippingItems())
+		{
 			OrderItem orderItem = order.getOrderItem(shippingItem.getSn());
-			if (orderItem != null) {
+			if (orderItem != null)
+			{
 				Product product = orderItem.getProduct();
 				productDao.lock(product, LockModeType.PESSIMISTIC_WRITE);
-				if (product != null) {
-					if (product.getStock() != null) {
+				if (product != null)
+				{
+					if (product.getStock() != null)
+					{
 						product.setStock(product.getStock() - shippingItem.getQuantity());
-						if (order.getIsAllocatedStock()) {
+						if (order.getIsAllocatedStock())
+						{
 							product.setAllocatedStock(product.getAllocatedStock() - shippingItem.getQuantity());
 						}
 					}
@@ -719,10 +854,13 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
 				orderItem.setShippedQuantity(orderItem.getShippedQuantity() + shippingItem.getQuantity());
 			}
 		}
-		if (order.getShippedQuantity() >= order.getQuantity()) {
+		if (order.getShippedQuantity() >= order.getQuantity())
+		{
 			order.setShippingStatus(ShippingStatus.shipped);
 			order.setIsAllocatedStock(false);
-		} else if (order.getShippedQuantity() > 0) {
+		}
+		else if (order.getShippedQuantity() > 0)
+		{
 			order.setShippingStatus(ShippingStatus.partialShipment);
 		}
 		order.setExpire(null);
@@ -735,7 +873,8 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
 		orderLogDao.persist(orderLog);
 	}
 
-	public void returns(Order order, Returns returns, Admin operator) {
+	public void returns(Order order, Returns returns, Admin operator)
+	{
 		Assert.notNull(order);
 		Assert.notNull(returns);
 		Assert.notEmpty(returns.getReturnsItems());
@@ -744,16 +883,21 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
 
 		returns.setOrder(order);
 		returnsDao.persist(returns);
-		for (ReturnsItem returnsItem : returns.getReturnsItems()) {
+		for (ReturnsItem returnsItem : returns.getReturnsItems())
+		{
 			OrderItem orderItem = order.getOrderItem(returnsItem.getSn());
-			if (orderItem != null) {
+			if (orderItem != null)
+			{
 				orderItemDao.lock(orderItem, LockModeType.PESSIMISTIC_WRITE);
 				orderItem.setReturnQuantity(orderItem.getReturnQuantity() + returnsItem.getQuantity());
 			}
 		}
-		if (order.getReturnQuantity() >= order.getShippedQuantity()) {
+		if (order.getReturnQuantity() >= order.getShippedQuantity())
+		{
 			order.setShippingStatus(ShippingStatus.returned);
-		} else if (order.getReturnQuantity() > 0) {
+		}
+		else if (order.getReturnQuantity() > 0)
+		{
 			order.setShippingStatus(ShippingStatus.partialReturns);
 		}
 		order.setExpire(null);
@@ -767,14 +911,20 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
 	}
 
 	@Override
-	public void delete(Order order) {
-		if (order.getIsAllocatedStock()) {
-			for (OrderItem orderItem : order.getOrderItems()) {
-				if (orderItem != null) {
+	public void delete(Order order)
+	{
+		if (order.getIsAllocatedStock())
+		{
+			for (OrderItem orderItem : order.getOrderItems())
+			{
+				if (orderItem != null)
+				{
 					Product product = orderItem.getProduct();
 					productDao.lock(product, LockModeType.PESSIMISTIC_WRITE);
-					if (product != null && product.getStock() != null) {
-						product.setAllocatedStock(product.getAllocatedStock() - (orderItem.getQuantity() - orderItem.getShippedQuantity()));
+					if (product != null && product.getStock() != null)
+					{
+						product.setAllocatedStock(product.getAllocatedStock()
+								- (orderItem.getQuantity() - orderItem.getShippedQuantity()));
 						productDao.merge(product);
 						orderDao.flush();
 						staticService.build(product);

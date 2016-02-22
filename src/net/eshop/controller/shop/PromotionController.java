@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+
 /**
  * Controller - 促销
  * 
@@ -25,7 +26,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller("shopPromotionController")
 @RequestMapping("/promotion")
-public class PromotionController extends BaseController {
+public class PromotionController extends BaseController
+{
 
 	@Resource(name = "promotionServiceImpl")
 	private PromotionService promotionService;
@@ -34,9 +36,11 @@ public class PromotionController extends BaseController {
 	 * 内容
 	 */
 	@RequestMapping(value = "/content/{id}", method = RequestMethod.GET)
-	public String content(@PathVariable Long id, ModelMap model) {
+	public String content(@PathVariable Long id, ModelMap model)
+	{
 		Promotion promotion = promotionService.find(id);
-		if (promotion == null) {
+		if (promotion == null)
+		{
 			throw new ResourceNotFoundException();
 		}
 		model.addAttribute("promotion", promotion);

@@ -27,6 +27,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.ServletContextAware;
 
+
 /**
  * Service - 模板
  * 
@@ -34,7 +35,8 @@ import org.springframework.web.context.ServletContextAware;
  * 
  */
 @Service("templateServiceImpl")
-public class TemplateServiceImpl implements TemplateService, ServletContextAware {
+public class TemplateServiceImpl implements TemplateService, ServletContextAware
+{
 
 	/** servletContext */
 	private ServletContext servletContext;
@@ -42,24 +44,30 @@ public class TemplateServiceImpl implements TemplateService, ServletContextAware
 	@Value("${template.loader_path}")
 	private String[] templateLoaderPaths;
 
-	public void setServletContext(ServletContext servletContext) {
+	public void setServletContext(ServletContext servletContext)
+	{
 		this.servletContext = servletContext;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Cacheable("template")
-	public List<Template> getAll() {
-		try {
+	public List<Template> getAll()
+	{
+		try
+		{
 			File eshopXmlFile = new ClassPathResource(CommonAttributes.eshop_XML_PATH).getFile();
 			Document document = new SAXReader().read(eshopXmlFile);
 			List<Template> templates = new ArrayList<Template>();
 			List<Element> elements = document.selectNodes("/eshop/template");
-			for (Element element : elements) {
+			for (Element element : elements)
+			{
 				Template template = getTemplate(element);
 				templates.add(template);
 			}
 			return templates;
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
 			return null;
 		}
@@ -67,69 +75,91 @@ public class TemplateServiceImpl implements TemplateService, ServletContextAware
 
 	@SuppressWarnings("unchecked")
 	@Cacheable("template")
-	public List<Template> getList(Type type) {
-		if (type != null) {
-			try {
+	public List<Template> getList(Type type)
+	{
+		if (type != null)
+		{
+			try
+			{
 				File eshopXmlFile = new ClassPathResource(CommonAttributes.eshop_XML_PATH).getFile();
 				Document document = new SAXReader().read(eshopXmlFile);
 				List<Template> templates = new ArrayList<Template>();
 				List<Element> elements = document.selectNodes("/eshop/template[@type='" + type + "']");
-				for (Element element : elements) {
+				for (Element element : elements)
+				{
 					Template template = getTemplate(element);
 					templates.add(template);
 				}
 				return templates;
-			} catch (Exception e) {
+			}
+			catch (Exception e)
+			{
 				e.printStackTrace();
 				return null;
 			}
-		} else {
+		}
+		else
+		{
 			return getAll();
 		}
 	}
 
 	@Cacheable("template")
-	public Template get(String id) {
-		try {
+	public Template get(String id)
+	{
+		try
+		{
 			File eshopXmlFile = new ClassPathResource(CommonAttributes.eshop_XML_PATH).getFile();
 			Document document = new SAXReader().read(eshopXmlFile);
 			Element element = (Element) document.selectSingleNode("/eshop/template[@id='" + id + "']");
 			Template template = getTemplate(element);
 			return template;
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
 			return null;
 		}
 	}
 
-	public String read(String id) {
+	public String read(String id)
+	{
 		Template template = get(id);
 		return read(template);
 	}
 
-	public String read(Template template) {
+	public String read(Template template)
+	{
 		String templatePath = servletContext.getRealPath(templateLoaderPaths[0] + template.getTemplatePath());
 		File templateFile = new File(templatePath);
 		String templateContent = null;
-		try {
+		try
+		{
 			templateContent = FileUtils.readFileToString(templateFile, "UTF-8");
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 			e.printStackTrace();
 		}
 		return templateContent;
 	}
 
-	public void write(String id, String content) {
+	public void write(String id, String content)
+	{
 		Template template = get(id);
 		write(template, content);
 	}
 
-	public void write(Template template, String content) {
+	public void write(Template template, String content)
+	{
 		String templatePath = servletContext.getRealPath(templateLoaderPaths[0] + template.getTemplatePath());
 		File templateFile = new File(templatePath);
-		try {
+		try
+		{
 			FileUtils.writeStringToFile(templateFile, content, "UTF-8");
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 			e.printStackTrace();
 		}
 	}
@@ -138,9 +168,10 @@ public class TemplateServiceImpl implements TemplateService, ServletContextAware
 	 * 获取模板
 	 * 
 	 * @param element
-	 *            元素
+	 *           元素
 	 */
-	private Template getTemplate(Element element) {
+	private Template getTemplate(Element element)
+	{
 		String id = element.attributeValue("id");
 		String type = element.attributeValue("type");
 		String name = element.attributeValue("name");

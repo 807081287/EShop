@@ -15,6 +15,7 @@ import net.eshop.entity.Cart;
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.stereotype.Repository;
 
+
 /**
  * Dao - 购物车
  * 
@@ -22,11 +23,14 @@ import org.springframework.stereotype.Repository;
  * 
  */
 @Repository("cartDaoImpl")
-public class CartDaoImpl extends BaseDaoImpl<Cart, Long> implements CartDao {
+public class CartDaoImpl extends BaseDaoImpl<Cart, Long> implements CartDao
+{
 
-	public void evictExpired() {
+	public void evictExpired()
+	{
 		String jpql = "delete from Cart cart where cart.modifyDate <= :expire";
-		entityManager.createQuery(jpql).setFlushMode(FlushModeType.COMMIT).setParameter("expire", DateUtils.addSeconds(new Date(), -Cart.TIMEOUT)).executeUpdate();
+		entityManager.createQuery(jpql).setFlushMode(FlushModeType.COMMIT)
+				.setParameter("expire", DateUtils.addSeconds(new Date(), -Cart.TIMEOUT)).executeUpdate();
 	}
 
 }

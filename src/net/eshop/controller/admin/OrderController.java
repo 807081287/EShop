@@ -56,6 +56,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 /**
  * Controller - 订单
  * 
@@ -64,7 +65,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller("adminOrderController")
 @RequestMapping("/admin/order")
-public class OrderController extends BaseController {
+public class OrderController extends BaseController
+{
 
 	@Resource(name = "adminServiceImpl")
 	private AdminService adminService;
@@ -89,20 +91,27 @@ public class OrderController extends BaseController {
 	 * 检查锁定
 	 */
 	@RequestMapping(value = "/check_lock", method = RequestMethod.POST)
-	public @ResponseBody
-	Message checkLock(Long id) {
+	public @ResponseBody Message checkLock(Long id)
+	{
 		Order order = orderService.find(id);
-		if (order == null) {
+		if (order == null)
+		{
 			return Message.warn("admin.common.invalid");
 		}
 		Admin admin = adminService.getCurrent();
-		if (order.isLocked(admin)) {
-			if (order.getOperator() != null) {
+		if (order.isLocked(admin))
+		{
+			if (order.getOperator() != null)
+			{
 				return Message.warn("admin.order.adminLocked", order.getOperator().getUsername());
-			} else {
+			}
+			else
+			{
 				return Message.warn("admin.order.memberLocked");
 			}
-		} else {
+		}
+		else
+		{
 			order.setLockExpire(DateUtils.addSeconds(new Date(), 20));
 			order.setOperator(admin);
 			orderService.update(order);
@@ -114,7 +123,8 @@ public class OrderController extends BaseController {
 	 * 查看
 	 */
 	@RequestMapping(value = "/view", method = RequestMethod.GET)
-	public String view(Long id, ModelMap model) {
+	public String view(Long id, ModelMap model)
+	{
 		model.addAttribute("methods", Payment.Method.values());
 		model.addAttribute("refundsMethods", Refunds.Method.values());
 		model.addAttribute("paymentMethods", paymentMethodService.findAll());
@@ -128,13 +138,17 @@ public class OrderController extends BaseController {
 	 * 确认
 	 */
 	@RequestMapping(value = "/confirm", method = RequestMethod.POST)
-	public String confirm(Long id, RedirectAttributes redirectAttributes) {
+	public String confirm(Long id, RedirectAttributes redirectAttributes)
+	{
 		Order order = orderService.find(id);
 		Admin admin = adminService.getCurrent();
-		if (order != null && !order.isExpired() && order.getOrderStatus() == OrderStatus.unconfirmed && !order.isLocked(admin)) {
+		if (order != null && !order.isExpired() && order.getOrderStatus() == OrderStatus.unconfirmed && !order.isLocked(admin))
+		{
 			orderService.confirm(order, admin);
 			addFlashMessage(redirectAttributes, SUCCESS_MESSAGE);
-		} else {
+		}
+		else
+		{
 			addFlashMessage(redirectAttributes, Message.warn("admin.common.invalid"));
 		}
 		return "redirect:view.jhtml?id=" + id;
@@ -144,13 +158,17 @@ public class OrderController extends BaseController {
 	 * 完成
 	 */
 	@RequestMapping(value = "/complete", method = RequestMethod.POST)
-	public String complete(Long id, RedirectAttributes redirectAttributes) {
+	public String complete(Long id, RedirectAttributes redirectAttributes)
+	{
 		Order order = orderService.find(id);
 		Admin admin = adminService.getCurrent();
-		if (order != null && !order.isExpired() && order.getOrderStatus() == OrderStatus.confirmed && !order.isLocked(admin)) {
+		if (order != null && !order.isExpired() && order.getOrderStatus() == OrderStatus.confirmed && !order.isLocked(admin))
+		{
 			orderService.complete(order, admin);
 			addFlashMessage(redirectAttributes, SUCCESS_MESSAGE);
-		} else {
+		}
+		else
+		{
 			addFlashMessage(redirectAttributes, Message.warn("admin.common.invalid"));
 		}
 		return "redirect:view.jhtml?id=" + id;
@@ -160,13 +178,17 @@ public class OrderController extends BaseController {
 	 * 取消
 	 */
 	@RequestMapping(value = "/cancel", method = RequestMethod.POST)
-	public String cancel(Long id, RedirectAttributes redirectAttributes) {
+	public String cancel(Long id, RedirectAttributes redirectAttributes)
+	{
 		Order order = orderService.find(id);
 		Admin admin = adminService.getCurrent();
-		if (order != null && !order.isExpired() && order.getOrderStatus() == OrderStatus.unconfirmed && !order.isLocked(admin)) {
+		if (order != null && !order.isExpired() && order.getOrderStatus() == OrderStatus.unconfirmed && !order.isLocked(admin))
+		{
 			orderService.cancel(order, admin);
 			addFlashMessage(redirectAttributes, SUCCESS_MESSAGE);
-		} else {
+		}
+		else
+		{
 			addFlashMessage(redirectAttributes, Message.warn("admin.common.invalid"));
 		}
 		return "redirect:view.jhtml?id=" + id;
@@ -176,29 +198,36 @@ public class OrderController extends BaseController {
 	 * 支付
 	 */
 	@RequestMapping(value = "/payment", method = RequestMethod.POST)
-	public String payment(Long orderId, Long paymentMethodId, Payment payment, RedirectAttributes redirectAttributes) {
+	public String payment(Long orderId, Long paymentMethodId, Payment payment, RedirectAttributes redirectAttributes)
+	{
 		Order order = orderService.find(orderId);
 		payment.setOrder(order);
 		PaymentMethod paymentMethod = paymentMethodService.find(paymentMethodId);
 		payment.setPaymentMethod(paymentMethod != null ? paymentMethod.getName() : null);
-		if (!isValid(payment)) {
+		if (!isValid(payment))
+		{
 			return ERROR_VIEW;
 		}
-		if (order.isExpired() || order.getOrderStatus() != OrderStatus.confirmed) {
+		if (order.isExpired() || order.getOrderStatus() != OrderStatus.confirmed)
+		{
 			return ERROR_VIEW;
 		}
-		if (order.getPaymentStatus() != PaymentStatus.unpaid && order.getPaymentStatus() != PaymentStatus.partialPayment) {
+		if (order.getPaymentStatus() != PaymentStatus.unpaid && order.getPaymentStatus() != PaymentStatus.partialPayment)
+		{
 			return ERROR_VIEW;
 		}
-		if (payment.getAmount().compareTo(new BigDecimal(0)) <= 0 || payment.getAmount().compareTo(order.getAmountPayable()) > 0) {
+		if (payment.getAmount().compareTo(new BigDecimal(0)) <= 0 || payment.getAmount().compareTo(order.getAmountPayable()) > 0)
+		{
 			return ERROR_VIEW;
 		}
 		Member member = order.getMember();
-		if (payment.getMethod() == Payment.Method.deposit && payment.getAmount().compareTo(member.getBalance()) > 0) {
+		if (payment.getMethod() == Payment.Method.deposit && payment.getAmount().compareTo(member.getBalance()) > 0)
+		{
 			return ERROR_VIEW;
 		}
 		Admin admin = adminService.getCurrent();
-		if (order.isLocked(admin)) {
+		if (order.isLocked(admin))
+		{
 			return ERROR_VIEW;
 		}
 		payment.setSn(snService.generate(Sn.Type.payment));
@@ -220,25 +249,32 @@ public class OrderController extends BaseController {
 	 * 退款
 	 */
 	@RequestMapping(value = "/refunds", method = RequestMethod.POST)
-	public String refunds(Long orderId, Long paymentMethodId, Refunds refunds, RedirectAttributes redirectAttributes) {
+	public String refunds(Long orderId, Long paymentMethodId, Refunds refunds, RedirectAttributes redirectAttributes)
+	{
 		Order order = orderService.find(orderId);
 		refunds.setOrder(order);
 		PaymentMethod paymentMethod = paymentMethodService.find(paymentMethodId);
 		refunds.setPaymentMethod(paymentMethod != null ? paymentMethod.getName() : null);
-		if (!isValid(refunds)) {
+		if (!isValid(refunds))
+		{
 			return ERROR_VIEW;
 		}
-		if (order.isExpired() || order.getOrderStatus() != OrderStatus.confirmed) {
+		if (order.isExpired() || order.getOrderStatus() != OrderStatus.confirmed)
+		{
 			return ERROR_VIEW;
 		}
-		if (order.getPaymentStatus() != PaymentStatus.paid && order.getPaymentStatus() != PaymentStatus.partialPayment && order.getPaymentStatus() != PaymentStatus.partialRefunds) {
+		if (order.getPaymentStatus() != PaymentStatus.paid && order.getPaymentStatus() != PaymentStatus.partialPayment
+				&& order.getPaymentStatus() != PaymentStatus.partialRefunds)
+		{
 			return ERROR_VIEW;
 		}
-		if (refunds.getAmount().compareTo(new BigDecimal(0)) <= 0 || refunds.getAmount().compareTo(order.getAmountPaid()) > 0) {
+		if (refunds.getAmount().compareTo(new BigDecimal(0)) <= 0 || refunds.getAmount().compareTo(order.getAmountPaid()) > 0)
+		{
 			return ERROR_VIEW;
 		}
 		Admin admin = adminService.getCurrent();
-		if (order.isLocked(admin)) {
+		if (order.isLocked(admin))
+		{
 			return ERROR_VIEW;
 		}
 		refunds.setSn(snService.generate(Sn.Type.refunds));
@@ -252,22 +288,31 @@ public class OrderController extends BaseController {
 	 * 发货
 	 */
 	@RequestMapping(value = "/shipping", method = RequestMethod.POST)
-	public String shipping(Long orderId, Long shippingMethodId, Long deliveryCorpId, Long areaId, Shipping shipping, RedirectAttributes redirectAttributes) {
+	public String shipping(Long orderId, Long shippingMethodId, Long deliveryCorpId, Long areaId, Shipping shipping,
+			RedirectAttributes redirectAttributes)
+	{
 		Order order = orderService.find(orderId);
-		if (order == null) {
+		if (order == null)
+		{
 			return ERROR_VIEW;
 		}
-		for (Iterator<ShippingItem> iterator = shipping.getShippingItems().iterator(); iterator.hasNext();) {
+		for (Iterator<ShippingItem> iterator = shipping.getShippingItems().iterator(); iterator.hasNext();)
+		{
 			ShippingItem shippingItem = iterator.next();
-			if (shippingItem == null || StringUtils.isEmpty(shippingItem.getSn()) || shippingItem.getQuantity() == null || shippingItem.getQuantity() <= 0) {
+			if (shippingItem == null || StringUtils.isEmpty(shippingItem.getSn()) || shippingItem.getQuantity() == null
+					|| shippingItem.getQuantity() <= 0)
+			{
 				iterator.remove();
 				continue;
 			}
 			OrderItem orderItem = order.getOrderItem(shippingItem.getSn());
-			if (orderItem == null || shippingItem.getQuantity() > orderItem.getQuantity() - orderItem.getShippedQuantity()) {
+			if (orderItem == null || shippingItem.getQuantity() > orderItem.getQuantity() - orderItem.getShippedQuantity())
+			{
 				return ERROR_VIEW;
 			}
-			if (orderItem.getProduct() != null && orderItem.getProduct().getStock() != null && shippingItem.getQuantity() > orderItem.getProduct().getStock()) {
+			if (orderItem.getProduct() != null && orderItem.getProduct().getStock() != null
+					&& shippingItem.getQuantity() > orderItem.getProduct().getStock())
+			{
 				return ERROR_VIEW;
 			}
 			shippingItem.setName(orderItem.getFullName());
@@ -282,17 +327,21 @@ public class OrderController extends BaseController {
 		shipping.setDeliveryCorpCode(deliveryCorp != null ? deliveryCorp.getCode() : null);
 		Area area = areaService.find(areaId);
 		shipping.setArea(area != null ? area.getFullName() : null);
-		if (!isValid(shipping)) {
+		if (!isValid(shipping))
+		{
 			return ERROR_VIEW;
 		}
-		if (order.isExpired() || order.getOrderStatus() != OrderStatus.confirmed) {
+		if (order.isExpired() || order.getOrderStatus() != OrderStatus.confirmed)
+		{
 			return ERROR_VIEW;
 		}
-		if (order.getShippingStatus() != ShippingStatus.unshipped && order.getShippingStatus() != ShippingStatus.partialShipment) {
+		if (order.getShippingStatus() != ShippingStatus.unshipped && order.getShippingStatus() != ShippingStatus.partialShipment)
+		{
 			return ERROR_VIEW;
 		}
 		Admin admin = adminService.getCurrent();
-		if (order.isLocked(admin)) {
+		if (order.isLocked(admin))
+		{
 			return ERROR_VIEW;
 		}
 		shipping.setSn(snService.generate(Sn.Type.shipping));
@@ -306,19 +355,26 @@ public class OrderController extends BaseController {
 	 * 退货
 	 */
 	@RequestMapping(value = "/returns", method = RequestMethod.POST)
-	public String returns(Long orderId, Long shippingMethodId, Long deliveryCorpId, Long areaId, Returns returns, RedirectAttributes redirectAttributes) {
+	public String returns(Long orderId, Long shippingMethodId, Long deliveryCorpId, Long areaId, Returns returns,
+			RedirectAttributes redirectAttributes)
+	{
 		Order order = orderService.find(orderId);
-		if (order == null) {
+		if (order == null)
+		{
 			return ERROR_VIEW;
 		}
-		for (Iterator<ReturnsItem> iterator = returns.getReturnsItems().iterator(); iterator.hasNext();) {
+		for (Iterator<ReturnsItem> iterator = returns.getReturnsItems().iterator(); iterator.hasNext();)
+		{
 			ReturnsItem returnsItem = iterator.next();
-			if (returnsItem == null || StringUtils.isEmpty(returnsItem.getSn()) || returnsItem.getQuantity() == null || returnsItem.getQuantity() <= 0) {
+			if (returnsItem == null || StringUtils.isEmpty(returnsItem.getSn()) || returnsItem.getQuantity() == null
+					|| returnsItem.getQuantity() <= 0)
+			{
 				iterator.remove();
 				continue;
 			}
 			OrderItem orderItem = order.getOrderItem(returnsItem.getSn());
-			if (orderItem == null || returnsItem.getQuantity() > orderItem.getShippedQuantity() - orderItem.getReturnQuantity()) {
+			if (orderItem == null || returnsItem.getQuantity() > orderItem.getShippedQuantity() - orderItem.getReturnQuantity())
+			{
 				return ERROR_VIEW;
 			}
 			returnsItem.setName(orderItem.getFullName());
@@ -331,17 +387,22 @@ public class OrderController extends BaseController {
 		returns.setDeliveryCorp(deliveryCorp != null ? deliveryCorp.getName() : null);
 		Area area = areaService.find(areaId);
 		returns.setArea(area != null ? area.getFullName() : null);
-		if (!isValid(returns)) {
+		if (!isValid(returns))
+		{
 			return ERROR_VIEW;
 		}
-		if (order.isExpired() || order.getOrderStatus() != OrderStatus.confirmed) {
+		if (order.isExpired() || order.getOrderStatus() != OrderStatus.confirmed)
+		{
 			return ERROR_VIEW;
 		}
-		if (order.getShippingStatus() != ShippingStatus.shipped && order.getShippingStatus() != ShippingStatus.partialShipment && order.getShippingStatus() != ShippingStatus.partialReturns) {
+		if (order.getShippingStatus() != ShippingStatus.shipped && order.getShippingStatus() != ShippingStatus.partialShipment
+				&& order.getShippingStatus() != ShippingStatus.partialReturns)
+		{
 			return ERROR_VIEW;
 		}
 		Admin admin = adminService.getCurrent();
-		if (order.isLocked(admin)) {
+		if (order.isLocked(admin))
+		{
 			return ERROR_VIEW;
 		}
 		returns.setSn(snService.generate(Sn.Type.returns));
@@ -355,7 +416,8 @@ public class OrderController extends BaseController {
 	 * 编辑
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(Long id, ModelMap model) {
+	public String edit(Long id, ModelMap model)
+	{
 		model.addAttribute("paymentMethods", paymentMethodService.findAll());
 		model.addAttribute("shippingMethods", shippingMethodService.findAll());
 		model.addAttribute("order", orderService.find(id));
@@ -366,19 +428,22 @@ public class OrderController extends BaseController {
 	 * 订单项添加
 	 */
 	@RequestMapping(value = "/order_item_add", method = RequestMethod.POST)
-	public @ResponseBody
-	Map<String, Object> orderItemAdd(String productSn) {
+	public @ResponseBody Map<String, Object> orderItemAdd(String productSn)
+	{
 		Map<String, Object> data = new HashMap<String, Object>();
 		Product product = productService.findBySn(productSn);
-		if (product == null) {
+		if (product == null)
+		{
 			data.put("message", Message.warn("admin.order.productNotExist"));
 			return data;
 		}
-		if (!product.getIsMarketable()) {
+		if (!product.getIsMarketable())
+		{
 			data.put("message", Message.warn("admin.order.productNotMarketable"));
 			return data;
 		}
-		if (product.getIsOutOfStock()) {
+		if (product.getIsOutOfStock())
+		{
 			data.put("message", Message.warn("admin.order.productOutOfStock"));
 			return data;
 		}
@@ -395,62 +460,80 @@ public class OrderController extends BaseController {
 	 * 计算
 	 */
 	@RequestMapping(value = "/calculate", method = RequestMethod.POST)
-	public @ResponseBody
-	Map<String, Object> calculate(Order order, Long areaId, Long paymentMethodId, Long shippingMethodId) {
+	public @ResponseBody Map<String, Object> calculate(Order order, Long areaId, Long paymentMethodId, Long shippingMethodId)
+	{
 		Map<String, Object> data = new HashMap<String, Object>();
-		for (Iterator<OrderItem> iterator = order.getOrderItems().iterator(); iterator.hasNext();) {
+		for (Iterator<OrderItem> iterator = order.getOrderItems().iterator(); iterator.hasNext();)
+		{
 			OrderItem orderItem = iterator.next();
-			if (orderItem == null || StringUtils.isEmpty(orderItem.getSn())) {
+			if (orderItem == null || StringUtils.isEmpty(orderItem.getSn()))
+			{
 				iterator.remove();
 			}
 		}
 		order.setArea(areaService.find(areaId));
 		order.setPaymentMethod(paymentMethodService.find(paymentMethodId));
 		order.setShippingMethod(shippingMethodService.find(shippingMethodId));
-		if (!isValid(order)) {
+		if (!isValid(order))
+		{
 			data.put("message", Message.warn("admin.common.invalid"));
 			return data;
 		}
 		Order pOrder = orderService.find(order.getId());
-		if (pOrder == null) {
+		if (pOrder == null)
+		{
 			data.put("message", Message.error("admin.common.invalid"));
 			return data;
 		}
-		for (OrderItem orderItem : order.getOrderItems()) {
-			if (orderItem.getId() != null) {
+		for (OrderItem orderItem : order.getOrderItems())
+		{
+			if (orderItem.getId() != null)
+			{
 				OrderItem pOrderItem = orderItemService.find(orderItem.getId());
-				if (pOrderItem == null || !pOrder.equals(pOrderItem.getOrder())) {
+				if (pOrderItem == null || !pOrder.equals(pOrderItem.getOrder()))
+				{
 					data.put("message", Message.error("admin.common.invalid"));
 					return data;
 				}
 				Product product = pOrderItem.getProduct();
-				if (product != null && product.getStock() != null) {
-					if (pOrder.getIsAllocatedStock()) {
-						if (orderItem.getQuantity() > product.getAvailableStock() + pOrderItem.getQuantity()) {
+				if (product != null && product.getStock() != null)
+				{
+					if (pOrder.getIsAllocatedStock())
+					{
+						if (orderItem.getQuantity() > product.getAvailableStock() + pOrderItem.getQuantity())
+						{
 							data.put("message", Message.warn("admin.order.lowStock"));
 							return data;
 						}
-					} else {
-						if (orderItem.getQuantity() > product.getAvailableStock()) {
+					}
+					else
+					{
+						if (orderItem.getQuantity() > product.getAvailableStock())
+						{
 							data.put("message", Message.warn("admin.order.lowStock"));
 							return data;
 						}
 					}
 				}
-			} else {
+			}
+			else
+			{
 				Product product = productService.findBySn(orderItem.getSn());
-				if (product == null) {
+				if (product == null)
+				{
 					data.put("message", Message.error("admin.common.invalid"));
 					return data;
 				}
-				if (product.getStock() != null && orderItem.getQuantity() > product.getAvailableStock()) {
+				if (product.getStock() != null && orderItem.getQuantity() > product.getAvailableStock())
+				{
 					data.put("message", Message.warn("admin.order.lowStock"));
 					return data;
 				}
 			}
 		}
 		Map<String, Object> orderItems = new HashMap<String, Object>();
-		for (OrderItem orderItem : order.getOrderItems()) {
+		for (OrderItem orderItem : order.getOrderItems())
+		{
 			orderItems.put(orderItem.getSn(), orderItem);
 		}
 		order.setFee(pOrder.getFee());
@@ -470,67 +553,92 @@ public class OrderController extends BaseController {
 	 * 更新
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(Order order, Long areaId, Long paymentMethodId, Long shippingMethodId, RedirectAttributes redirectAttributes) {
-		for (Iterator<OrderItem> iterator = order.getOrderItems().iterator(); iterator.hasNext();) {
+	public String update(Order order, Long areaId, Long paymentMethodId, Long shippingMethodId,
+			RedirectAttributes redirectAttributes)
+	{
+		for (Iterator<OrderItem> iterator = order.getOrderItems().iterator(); iterator.hasNext();)
+		{
 			OrderItem orderItem = iterator.next();
-			if (orderItem == null || StringUtils.isEmpty(orderItem.getSn())) {
+			if (orderItem == null || StringUtils.isEmpty(orderItem.getSn()))
+			{
 				iterator.remove();
 			}
 		}
 		order.setArea(areaService.find(areaId));
 		order.setPaymentMethod(paymentMethodService.find(paymentMethodId));
 		order.setShippingMethod(shippingMethodService.find(shippingMethodId));
-		if (!isValid(order)) {
+		if (!isValid(order))
+		{
 			return ERROR_VIEW;
 		}
 		Order pOrder = orderService.find(order.getId());
-		if (pOrder == null) {
+		if (pOrder == null)
+		{
 			return ERROR_VIEW;
 		}
-		if (pOrder.isExpired() || pOrder.getOrderStatus() != OrderStatus.unconfirmed) {
+		if (pOrder.isExpired() || pOrder.getOrderStatus() != OrderStatus.unconfirmed)
+		{
 			return ERROR_VIEW;
 		}
 		Admin admin = adminService.getCurrent();
-		if (pOrder.isLocked(admin)) {
+		if (pOrder.isLocked(admin))
+		{
 			return ERROR_VIEW;
 		}
-		if (!order.getIsInvoice()) {
+		if (!order.getIsInvoice())
+		{
 			order.setInvoiceTitle(null);
 			order.setTax(new BigDecimal(0));
 		}
-		for (OrderItem orderItem : order.getOrderItems()) {
-			if (orderItem.getId() != null) {
+		for (OrderItem orderItem : order.getOrderItems())
+		{
+			if (orderItem.getId() != null)
+			{
 				OrderItem pOrderItem = orderItemService.find(orderItem.getId());
-				if (pOrderItem == null || !pOrder.equals(pOrderItem.getOrder())) {
+				if (pOrderItem == null || !pOrder.equals(pOrderItem.getOrder()))
+				{
 					return ERROR_VIEW;
 				}
 				Product product = pOrderItem.getProduct();
-				if (product != null && product.getStock() != null) {
-					if (pOrder.getIsAllocatedStock()) {
-						if (orderItem.getQuantity() > product.getAvailableStock() + pOrderItem.getQuantity()) {
+				if (product != null && product.getStock() != null)
+				{
+					if (pOrder.getIsAllocatedStock())
+					{
+						if (orderItem.getQuantity() > product.getAvailableStock() + pOrderItem.getQuantity())
+						{
 							return ERROR_VIEW;
 						}
-					} else {
-						if (orderItem.getQuantity() > product.getAvailableStock()) {
+					}
+					else
+					{
+						if (orderItem.getQuantity() > product.getAvailableStock())
+						{
 							return ERROR_VIEW;
 						}
 					}
 				}
-				BeanUtils.copyProperties(pOrderItem, orderItem, new String[] { "price", "quantity" });
-				if (pOrderItem.getIsGift()) {
+				BeanUtils.copyProperties(pOrderItem, orderItem, new String[]
+				{ "price", "quantity" });
+				if (pOrderItem.getIsGift())
+				{
 					orderItem.setPrice(new BigDecimal(0));
 				}
-			} else {
+			}
+			else
+			{
 				Product product = productService.findBySn(orderItem.getSn());
-				if (product == null) {
+				if (product == null)
+				{
 					return ERROR_VIEW;
 				}
-				if (product.getStock() != null && orderItem.getQuantity() > product.getAvailableStock()) {
+				if (product.getStock() != null && orderItem.getQuantity() > product.getAvailableStock())
+				{
 					return ERROR_VIEW;
 				}
 				orderItem.setName(product.getName());
 				orderItem.setFullName(product.getFullName());
-				if (product.getIsGift()) {
+				if (product.getIsGift())
+				{
 					orderItem.setPrice(new BigDecimal(0));
 				}
 				orderItem.setWeight(product.getWeight());
@@ -574,7 +682,9 @@ public class OrderController extends BaseController {
 	 * 列表
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(OrderStatus orderStatus, PaymentStatus paymentStatus, ShippingStatus shippingStatus, Boolean hasExpired, Pageable pageable, ModelMap model) {
+	public String list(OrderStatus orderStatus, PaymentStatus paymentStatus, ShippingStatus shippingStatus, Boolean hasExpired,
+			Pageable pageable, ModelMap model)
+	{
 		model.addAttribute("orderStatus", orderStatus);
 		model.addAttribute("paymentStatus", paymentStatus);
 		model.addAttribute("shippingStatus", shippingStatus);
@@ -587,13 +697,16 @@ public class OrderController extends BaseController {
 	 * 删除
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public @ResponseBody
-	Message delete(Long[] ids) {
-		if (ids != null) {
+	public @ResponseBody Message delete(Long[] ids)
+	{
+		if (ids != null)
+		{
 			Admin admin = adminService.getCurrent();
-			for (Long id : ids) {
+			for (Long id : ids)
+			{
 				Order order = orderService.find(id);
-				if (order != null && order.isLocked(admin)) {
+				if (order != null && order.isLocked(admin))
+				{
 					return Message.error("admin.order.deleteLockedNotAllowed", order.getSn());
 				}
 			}

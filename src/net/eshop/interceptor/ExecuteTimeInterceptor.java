@@ -14,13 +14,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+
 /**
  * Interceptor - 执行时间
  * 
  * 
  * 
  */
-public class ExecuteTimeInterceptor extends HandlerInterceptorAdapter {
+public class ExecuteTimeInterceptor extends HandlerInterceptorAdapter
+{
 
 	/** logger */
 	private static final Logger logger = LoggerFactory.getLogger(ExecuteTimeInterceptor.class);
@@ -33,9 +35,11 @@ public class ExecuteTimeInterceptor extends HandlerInterceptorAdapter {
 	private static final String REDIRECT_VIEW_NAME_PREFIX = "redirect:";
 
 	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception
+	{
 		Long startTime = (Long) request.getAttribute(START_TIME_ATTRIBUTE_NAME);
-		if (startTime == null) {
+		if (startTime == null)
+		{
 			startTime = System.currentTimeMillis();
 			request.setAttribute(START_TIME_ATTRIBUTE_NAME, startTime);
 		}
@@ -43,22 +47,28 @@ public class ExecuteTimeInterceptor extends HandlerInterceptorAdapter {
 	}
 
 	@Override
-	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)
+			throws Exception
+	{
 		Long executeTime = (Long) request.getAttribute(EXECUTE_TIME_ATTRIBUTE_NAME);
-		if (executeTime == null) {
+		if (executeTime == null)
+		{
 			Long startTime = (Long) request.getAttribute(START_TIME_ATTRIBUTE_NAME);
 			Long endTime = System.currentTimeMillis();
 			executeTime = endTime - startTime;
 			request.setAttribute(START_TIME_ATTRIBUTE_NAME, startTime);
 		}
 
-		if (modelAndView != null) {
+		if (modelAndView != null)
+		{
 			String viewName = modelAndView.getViewName();
-			if (!StringUtils.startsWith(viewName, REDIRECT_VIEW_NAME_PREFIX)) {
+			if (!StringUtils.startsWith(viewName, REDIRECT_VIEW_NAME_PREFIX))
+			{
 				modelAndView.addObject(EXECUTE_TIME_ATTRIBUTE_NAME, executeTime);
 			}
 		}
-		if (logger.isDebugEnabled()) {
+		if (logger.isDebugEnabled())
+		{
 			logger.debug("[" + handler + "] executeTime: " + executeTime + "ms");
 		}
 	}

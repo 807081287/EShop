@@ -24,6 +24,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
+
 /**
  * Entity - 收款单
  * 
@@ -33,7 +34,8 @@ import org.hibernate.validator.constraints.Length;
 @Entity
 @Table(name = "t_payment")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_payment_sequence")
-public class Payment extends BaseEntity {
+public class Payment extends BaseEntity
+{
 
 	private static final long serialVersionUID = -5052430116564638634L;
 
@@ -43,7 +45,8 @@ public class Payment extends BaseEntity {
 	/**
 	 * 类型
 	 */
-	public enum Type {
+	public enum Type
+	{
 
 		/** 订单支付 */
 		payment,
@@ -55,7 +58,8 @@ public class Payment extends BaseEntity {
 	/**
 	 * 方式
 	 */
-	public enum Method {
+	public enum Method
+	{
 
 		/** 在线支付 */
 		online,
@@ -70,7 +74,8 @@ public class Payment extends BaseEntity {
 	/**
 	 * 状态
 	 */
-	public enum Status {
+	public enum Status
+	{
 
 		/** 等待支付 */
 		wait,
@@ -142,7 +147,8 @@ public class Payment extends BaseEntity {
 	 * @return 编号
 	 */
 	@Column(nullable = false, updatable = false, unique = true, length = 100)
-	public String getSn() {
+	public String getSn()
+	{
 		return sn;
 	}
 
@@ -150,9 +156,10 @@ public class Payment extends BaseEntity {
 	 * 设置编号
 	 * 
 	 * @param sn
-	 *            编号
+	 *           编号
 	 */
-	public void setSn(String sn) {
+	public void setSn(String sn)
+	{
 		this.sn = sn;
 	}
 
@@ -162,7 +169,8 @@ public class Payment extends BaseEntity {
 	 * @return 类型
 	 */
 	@Column(nullable = false, updatable = false)
-	public Type getType() {
+	public Type getType()
+	{
 		return type;
 	}
 
@@ -170,9 +178,10 @@ public class Payment extends BaseEntity {
 	 * 设置类型
 	 * 
 	 * @param type
-	 *            类型
+	 *           类型
 	 */
-	public void setType(Type type) {
+	public void setType(Type type)
+	{
 		this.type = type;
 	}
 
@@ -183,7 +192,8 @@ public class Payment extends BaseEntity {
 	 */
 	@NotNull
 	@Column(nullable = false, updatable = false)
-	public Method getMethod() {
+	public Method getMethod()
+	{
 		return method;
 	}
 
@@ -191,9 +201,10 @@ public class Payment extends BaseEntity {
 	 * 设置方式
 	 * 
 	 * @param method
-	 *            方式
+	 *           方式
 	 */
-	public void setMethod(Method method) {
+	public void setMethod(Method method)
+	{
 		this.method = method;
 	}
 
@@ -203,7 +214,8 @@ public class Payment extends BaseEntity {
 	 * @return 状态
 	 */
 	@Column(nullable = false)
-	public Status getStatus() {
+	public Status getStatus()
+	{
 		return status;
 	}
 
@@ -211,9 +223,10 @@ public class Payment extends BaseEntity {
 	 * 设置状态
 	 * 
 	 * @param status
-	 *            状态
+	 *           状态
 	 */
-	public void setStatus(Status status) {
+	public void setStatus(Status status)
+	{
 		this.status = status;
 	}
 
@@ -223,7 +236,8 @@ public class Payment extends BaseEntity {
 	 * @return 支付方式
 	 */
 	@Column(updatable = false)
-	public String getPaymentMethod() {
+	public String getPaymentMethod()
+	{
 		return paymentMethod;
 	}
 
@@ -231,9 +245,10 @@ public class Payment extends BaseEntity {
 	 * 设置支付方式
 	 * 
 	 * @param paymentMethod
-	 *            支付方式
+	 *           支付方式
 	 */
-	public void setPaymentMethod(String paymentMethod) {
+	public void setPaymentMethod(String paymentMethod)
+	{
 		this.paymentMethod = paymentMethod;
 	}
 
@@ -243,7 +258,8 @@ public class Payment extends BaseEntity {
 	 * @return 收款银行
 	 */
 	@Length(max = 200)
-	public String getBank() {
+	public String getBank()
+	{
 		return bank;
 	}
 
@@ -251,9 +267,10 @@ public class Payment extends BaseEntity {
 	 * 设置收款银行
 	 * 
 	 * @param bank
-	 *            收款银行
+	 *           收款银行
 	 */
-	public void setBank(String bank) {
+	public void setBank(String bank)
+	{
 		this.bank = bank;
 	}
 
@@ -263,7 +280,8 @@ public class Payment extends BaseEntity {
 	 * @return 收款账号
 	 */
 	@Length(max = 200)
-	public String getAccount() {
+	public String getAccount()
+	{
 		return account;
 	}
 
@@ -271,9 +289,10 @@ public class Payment extends BaseEntity {
 	 * 设置收款账号
 	 * 
 	 * @param account
-	 *            收款账号
+	 *           收款账号
 	 */
-	public void setAccount(String account) {
+	public void setAccount(String account)
+	{
 		this.account = account;
 	}
 
@@ -283,7 +302,8 @@ public class Payment extends BaseEntity {
 	 * @return 支付手续费
 	 */
 	@Column(nullable = false, precision = 21, scale = 6)
-	public BigDecimal getFee() {
+	public BigDecimal getFee()
+	{
 		return fee;
 	}
 
@@ -291,9 +311,10 @@ public class Payment extends BaseEntity {
 	 * 设置支付手续费
 	 * 
 	 * @param fee
-	 *            支付手续费
+	 *           支付手续费
 	 */
-	public void setFee(BigDecimal fee) {
+	public void setFee(BigDecimal fee)
+	{
 		this.fee = fee;
 	}
 
@@ -306,7 +327,8 @@ public class Payment extends BaseEntity {
 	@Min(0)
 	@Digits(integer = 12, fraction = 3)
 	@Column(nullable = false, updatable = false, precision = 21, scale = 6)
-	public BigDecimal getAmount() {
+	public BigDecimal getAmount()
+	{
 		return amount;
 	}
 
@@ -314,9 +336,10 @@ public class Payment extends BaseEntity {
 	 * 设置付款金额
 	 * 
 	 * @param amount
-	 *            付款金额
+	 *           付款金额
 	 */
-	public void setAmount(BigDecimal amount) {
+	public void setAmount(BigDecimal amount)
+	{
 		this.amount = amount;
 	}
 
@@ -326,7 +349,8 @@ public class Payment extends BaseEntity {
 	 * @return 付款人
 	 */
 	@Length(max = 200)
-	public String getPayer() {
+	public String getPayer()
+	{
 		return payer;
 	}
 
@@ -334,9 +358,10 @@ public class Payment extends BaseEntity {
 	 * 设置付款人
 	 * 
 	 * @param payer
-	 *            付款人
+	 *           付款人
 	 */
-	public void setPayer(String payer) {
+	public void setPayer(String payer)
+	{
 		this.payer = payer;
 	}
 
@@ -346,7 +371,8 @@ public class Payment extends BaseEntity {
 	 * @return 操作员
 	 */
 	@Column(updatable = false)
-	public String getOperator() {
+	public String getOperator()
+	{
 		return operator;
 	}
 
@@ -354,9 +380,10 @@ public class Payment extends BaseEntity {
 	 * 设置操作员
 	 * 
 	 * @param operator
-	 *            操作员
+	 *           操作员
 	 */
-	public void setOperator(String operator) {
+	public void setOperator(String operator)
+	{
 		this.operator = operator;
 	}
 
@@ -365,7 +392,8 @@ public class Payment extends BaseEntity {
 	 * 
 	 * @return 付款日期
 	 */
-	public Date getPaymentDate() {
+	public Date getPaymentDate()
+	{
 		return paymentDate;
 	}
 
@@ -373,9 +401,10 @@ public class Payment extends BaseEntity {
 	 * 设置付款日期
 	 * 
 	 * @param paymentDate
-	 *            付款日期
+	 *           付款日期
 	 */
-	public void setPaymentDate(Date paymentDate) {
+	public void setPaymentDate(Date paymentDate)
+	{
 		this.paymentDate = paymentDate;
 	}
 
@@ -385,7 +414,8 @@ public class Payment extends BaseEntity {
 	 * @return 备注
 	 */
 	@Length(max = 200)
-	public String getMemo() {
+	public String getMemo()
+	{
 		return memo;
 	}
 
@@ -393,9 +423,10 @@ public class Payment extends BaseEntity {
 	 * 设置备注
 	 * 
 	 * @param memo
-	 *            备注
+	 *           备注
 	 */
-	public void setMemo(String memo) {
+	public void setMemo(String memo)
+	{
 		this.memo = memo;
 	}
 
@@ -405,7 +436,8 @@ public class Payment extends BaseEntity {
 	 * @return 支付插件ID
 	 */
 	@JoinColumn(updatable = false)
-	public String getPaymentPluginId() {
+	public String getPaymentPluginId()
+	{
 		return paymentPluginId;
 	}
 
@@ -413,9 +445,10 @@ public class Payment extends BaseEntity {
 	 * 设置支付插件ID
 	 * 
 	 * @param paymentPluginId
-	 *            支付插件ID
+	 *           支付插件ID
 	 */
-	public void setPaymentPluginId(String paymentPluginId) {
+	public void setPaymentPluginId(String paymentPluginId)
+	{
 		this.paymentPluginId = paymentPluginId;
 	}
 
@@ -425,7 +458,8 @@ public class Payment extends BaseEntity {
 	 * @return 到期时间
 	 */
 	@JoinColumn(updatable = false)
-	public Date getExpire() {
+	public Date getExpire()
+	{
 		return expire;
 	}
 
@@ -433,9 +467,10 @@ public class Payment extends BaseEntity {
 	 * 设置到期时间
 	 * 
 	 * @param expire
-	 *            到期时间
+	 *           到期时间
 	 */
-	public void setExpire(Date expire) {
+	public void setExpire(Date expire)
+	{
 		this.expire = expire;
 	}
 
@@ -445,7 +480,8 @@ public class Payment extends BaseEntity {
 	 * @return 预存款
 	 */
 	@OneToOne(mappedBy = "payment", fetch = FetchType.LAZY)
-	public Deposit getDeposit() {
+	public Deposit getDeposit()
+	{
 		return deposit;
 	}
 
@@ -453,9 +489,10 @@ public class Payment extends BaseEntity {
 	 * 设置预存款
 	 * 
 	 * @param deposit
-	 *            预存款
+	 *           预存款
 	 */
-	public void setDeposit(Deposit deposit) {
+	public void setDeposit(Deposit deposit)
+	{
 		this.deposit = deposit;
 	}
 
@@ -466,7 +503,8 @@ public class Payment extends BaseEntity {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(updatable = false)
-	public Member getMember() {
+	public Member getMember()
+	{
 		return member;
 	}
 
@@ -474,9 +512,10 @@ public class Payment extends BaseEntity {
 	 * 设置会员
 	 * 
 	 * @param member
-	 *            会员
+	 *           会员
 	 */
-	public void setMember(Member member) {
+	public void setMember(Member member)
+	{
 		this.member = member;
 	}
 
@@ -488,7 +527,8 @@ public class Payment extends BaseEntity {
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "orders", updatable = false)
-	public Order getOrder() {
+	public Order getOrder()
+	{
 		return order;
 	}
 
@@ -496,9 +536,10 @@ public class Payment extends BaseEntity {
 	 * 设置订单
 	 * 
 	 * @param order
-	 *            订单
+	 *           订单
 	 */
-	public void setOrder(Order order) {
+	public void setOrder(Order order)
+	{
 		this.order = order;
 	}
 
@@ -508,7 +549,8 @@ public class Payment extends BaseEntity {
 	 * @return 有效金额
 	 */
 	@Transient
-	public BigDecimal getEffectiveAmount() {
+	public BigDecimal getEffectiveAmount()
+	{
 		BigDecimal effectiveAmount = getAmount().subtract(getFee());
 		return effectiveAmount.compareTo(new BigDecimal(0)) > 0 ? effectiveAmount : new BigDecimal(0);
 	}
@@ -519,7 +561,8 @@ public class Payment extends BaseEntity {
 	 * @return 是否已过期
 	 */
 	@Transient
-	public boolean hasExpired() {
+	public boolean hasExpired()
+	{
 		return getExpire() != null && new Date().after(getExpire());
 	}
 
@@ -527,8 +570,10 @@ public class Payment extends BaseEntity {
 	 * 删除前处理
 	 */
 	@PreRemove
-	public void preRemove() {
-		if (getDeposit() != null) {
+	public void preRemove()
+	{
+		if (getDeposit() != null)
+		{
 			getDeposit().setPayment(null);
 		}
 	}

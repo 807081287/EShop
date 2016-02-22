@@ -24,6 +24,7 @@ import org.springframework.util.Assert;
 
 import freemarker.template.TemplateException;
 
+
 /**
  * Dao - 序列号
  * 
@@ -31,7 +32,8 @@ import freemarker.template.TemplateException;
  * 
  */
 @Repository("snDaoImpl")
-public class SnDaoImpl implements SnDao, InitializingBean {
+public class SnDaoImpl implements SnDao, InitializingBean
+{
 
 	private HiloOptimizer productHiloOptimizer;
 	private HiloOptimizer orderHiloOptimizer;
@@ -67,7 +69,8 @@ public class SnDaoImpl implements SnDao, InitializingBean {
 	@Value("${sn.returns.maxLo}")
 	private int returnsMaxLo;
 
-	public void afterPropertiesSet() throws Exception {
+	public void afterPropertiesSet() throws Exception
+	{
 		productHiloOptimizer = new HiloOptimizer(Type.product, productPrefix, productMaxLo);
 		orderHiloOptimizer = new HiloOptimizer(Type.order, orderPrefix, orderMaxLo);
 		paymentHiloOptimizer = new HiloOptimizer(Type.payment, paymentPrefix, paymentMaxLo);
@@ -76,27 +79,41 @@ public class SnDaoImpl implements SnDao, InitializingBean {
 		returnsHiloOptimizer = new HiloOptimizer(Type.returns, returnsPrefix, returnsMaxLo);
 	}
 
-	public String generate(Type type) {
+	public String generate(Type type)
+	{
 		Assert.notNull(type);
-		if (type == Type.product) {
+		if (type == Type.product)
+		{
 			return productHiloOptimizer.generate();
-		} else if (type == Type.order) {
+		}
+		else if (type == Type.order)
+		{
 			return orderHiloOptimizer.generate();
-		} else if (type == Type.payment) {
+		}
+		else if (type == Type.payment)
+		{
 			return paymentHiloOptimizer.generate();
-		} else if (type == Type.refunds) {
+		}
+		else if (type == Type.refunds)
+		{
 			return refundsHiloOptimizer.generate();
-		} else if (type == Type.shipping) {
+		}
+		else if (type == Type.shipping)
+		{
 			return shippingHiloOptimizer.generate();
-		} else if (type == Type.returns) {
+		}
+		else if (type == Type.returns)
+		{
 			return returnsHiloOptimizer.generate();
 		}
 		return null;
 	}
 
-	private long getLastValue(Type type) {
+	private long getLastValue(Type type)
+	{
 		String jpql = "select sn from Sn sn where sn.type = :type";
-		Sn sn = entityManager.createQuery(jpql, Sn.class).setFlushMode(FlushModeType.COMMIT).setLockMode(LockModeType.PESSIMISTIC_WRITE).setParameter("type", type).getSingleResult();
+		Sn sn = entityManager.createQuery(jpql, Sn.class).setFlushMode(FlushModeType.COMMIT)
+				.setLockMode(LockModeType.PESSIMISTIC_WRITE).setParameter("type", type).getSingleResult();
 		long lastValue = sn.getLastValue();
 		sn.setLastValue(lastValue + 1);
 		entityManager.merge(sn);
@@ -106,7 +123,8 @@ public class SnDaoImpl implements SnDao, InitializingBean {
 	/**
 	 * 高低位算法
 	 */
-	private class HiloOptimizer {
+	private class HiloOptimizer
+	{
 
 		private Type type;
 		private String prefix;
@@ -115,24 +133,32 @@ public class SnDaoImpl implements SnDao, InitializingBean {
 		private long hi;
 		private long lastValue;
 
-		public HiloOptimizer(Type type, String prefix, int maxLo) {
+		public HiloOptimizer(Type type, String prefix, int maxLo)
+		{
 			this.type = type;
 			this.prefix = prefix != null ? prefix.replace("{", "${") : "";
 			this.maxLo = maxLo;
 			this.lo = maxLo + 1;
 		}
 
-		public synchronized String generate() {
-			if (lo > maxLo) {
+		public synchronized String generate()
+		{
+			if (lo > maxLo)
+			{
 				lastValue = getLastValue(type);
 				lo = lastValue == 0 ? 1 : 0;
 				hi = lastValue * (maxLo + 1);
 			}
-			try {
+			try
+			{
 				return FreemarkerUtils.process(prefix, null) + (hi + lo++);
-			} catch (IOException e) {
+			}
+			catch (IOException e)
+			{
 				e.printStackTrace();
-			} catch (TemplateException e) {
+			}
+			catch (TemplateException e)
+			{
 				e.printStackTrace();
 			}
 			return String.valueOf(hi + lo++);

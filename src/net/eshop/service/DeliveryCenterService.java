@@ -7,13 +7,15 @@ package net.eshop.service;
 
 import net.eshop.entity.DeliveryCenter;
 
+
 /**
  * Service - 发货点
  * 
  * 
  * 
  */
-public interface DeliveryCenterService extends BaseService<DeliveryCenter, Long> {
+public interface DeliveryCenterService extends BaseService<DeliveryCenter, Long>
+{
 
 	/**
 	 * 查找默认发货点

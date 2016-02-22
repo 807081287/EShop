@@ -10,23 +10,25 @@ import java.util.Map;
 import net.eshop.entity.Article;
 import net.eshop.entity.Product;
 
+
 /**
  * Service - 静态化
  * 
  * 
  * 
  */
-public interface StaticService {
+public interface StaticService
+{
 
 	/**
 	 * 生成静态
 	 * 
 	 * @param templatePath
-	 *            模板文件路径
+	 *           模板文件路径
 	 * @param staticPath
-	 *            静态文件路径
+	 *           静态文件路径
 	 * @param model
-	 *            数据
+	 *           数据
 	 * @return 生成数量
 	 */
 	int build(String templatePath, String staticPath, Map<String, Object> model);
@@ -35,9 +37,9 @@ public interface StaticService {
 	 * 生成静态
 	 * 
 	 * @param templatePath
-	 *            模板文件路径
+	 *           模板文件路径
 	 * @param staticPath
-	 *            静态文件路径
+	 *           静态文件路径
 	 * @return 生成数量
 	 */
 	int build(String templatePath, String staticPath);
@@ -46,7 +48,7 @@ public interface StaticService {
 	 * 生成静态
 	 * 
 	 * @param article
-	 *            文章
+	 *           文章
 	 * @return 生成数量
 	 */
 	int build(Article article);
@@ -55,7 +57,7 @@ public interface StaticService {
 	 * 生成静态
 	 * 
 	 * @param product
-	 *            商品
+	 *           商品
 	 * @return 生成数量
 	 */
 	int build(Product product);
@@ -92,7 +94,7 @@ public interface StaticService {
 	 * 删除静态
 	 * 
 	 * @param staticPath
-	 *            静态文件路径
+	 *           静态文件路径
 	 * @return 删除数量
 	 */
 	int delete(String staticPath);
@@ -101,7 +103,7 @@ public interface StaticService {
 	 * 删除静态
 	 * 
 	 * @param article
-	 *            文章
+	 *           文章
 	 * @return 删除数量
 	 */
 	int delete(Article article);
@@ -110,7 +112,7 @@ public interface StaticService {
 	 * 删除静态
 	 * 
 	 * @param product
-	 *            商品
+	 *           商品
 	 * @return 删除数量
 	 */
 	int delete(Product product);

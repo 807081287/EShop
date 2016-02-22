@@ -25,7 +25,7 @@ public class SystemConfigServiceImpl extends BaseServiceImpl<SystemConfig, Long>
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see net.eshop.service.impl.BaseServiceImpl#setBaseDao(net.eshop.dao.BaseDao)
 	 */
 	@Override

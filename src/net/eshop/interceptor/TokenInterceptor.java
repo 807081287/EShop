@@ -14,13 +14,15 @@ import net.eshop.util.WebUtils;
 
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+
 /**
  * Interceptor - 令牌
  * 
  * 
  * 
  */
-public class TokenInterceptor extends HandlerInterceptorAdapter {
+public class TokenInterceptor extends HandlerInterceptorAdapter
+{
 
 	/** "令牌"属性名称 */
 	private static final String TOKEN_ATTRIBUTE_NAME = "token";
@@ -35,29 +37,42 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
 	private static final String ERROR_MESSAGE = "Bad or missing token!";
 
 	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception
+	{
 		String token = WebUtils.getCookie(request, TOKEN_COOKIE_NAME);
-		if (request.getMethod().equalsIgnoreCase("POST")) {
+		if (request.getMethod().equalsIgnoreCase("POST"))
+		{
 			String requestType = request.getHeader("X-Requested-With");
-			if (requestType != null && requestType.equalsIgnoreCase("XMLHttpRequest")) {
-				if (token != null && token.equals(request.getHeader(TOKEN_PARAMETER_NAME))) {
+			if (requestType != null && requestType.equalsIgnoreCase("XMLHttpRequest"))
+			{
+				if (token != null && token.equals(request.getHeader(TOKEN_PARAMETER_NAME)))
+				{
 					return true;
-				} else {
+				}
+				else
+				{
 					response.addHeader("tokenStatus", "accessDenied");
 				}
-			} else {
-				if (token != null && token.equals(request.getParameter(TOKEN_PARAMETER_NAME))) {
+			}
+			else
+			{
+				if (token != null && token.equals(request.getParameter(TOKEN_PARAMETER_NAME)))
+				{
 					return true;
 				}
 			}
-			if (token == null) {
+			if (token == null)
+			{
 				token = UUID.randomUUID().toString();
 				WebUtils.addCookie(request, response, TOKEN_COOKIE_NAME, token);
 			}
 			response.sendError(HttpServletResponse.SC_FORBIDDEN, ERROR_MESSAGE);
 			return false;
-		} else {
-			if (token == null) {
+		}
+		else
+		{
+			if (token == null)
+			{
 				token = UUID.randomUUID().toString();
 				WebUtils.addCookie(request, response, TOKEN_COOKIE_NAME, token);
 			}

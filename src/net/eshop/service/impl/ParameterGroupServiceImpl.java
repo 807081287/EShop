@@ -13,6 +13,7 @@ import net.eshop.service.ParameterGroupService;
 
 import org.springframework.stereotype.Service;
 
+
 /**
  * Service - 参数组
  * 
@@ -20,10 +21,12 @@ import org.springframework.stereotype.Service;
  * 
  */
 @Service("parameterGroupServiceImpl")
-public class ParameterGroupServiceImpl extends BaseServiceImpl<ParameterGroup, Long> implements ParameterGroupService {
+public class ParameterGroupServiceImpl extends BaseServiceImpl<ParameterGroup, Long> implements ParameterGroupService
+{
 
 	@Resource(name = "parameterGroupDaoImpl")
-	public void setBaseDao(ParameterGroupDao parameterGroupDao) {
+	public void setBaseDao(ParameterGroupDao parameterGroupDao)
+	{
 		super.setBaseDao(parameterGroupDao);
 	}
 

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
 /**
  * Controller - 会员中心 - 商品收藏
  * 
@@ -29,7 +30,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller("shopMemberFavoriteController")
 @RequestMapping("/member/favorite")
-public class FavoriteController extends BaseController {
+public class FavoriteController extends BaseController
+{
 
 	/** 每页记录数 */
 	private static final int PAGE_SIZE = 10;
@@ -43,17 +45,20 @@ public class FavoriteController extends BaseController {
 	 * 添加
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public @ResponseBody
-	Message add(Long id) {
+	public @ResponseBody Message add(Long id)
+	{
 		Product product = productService.find(id);
-		if (product == null) {
+		if (product == null)
+		{
 			return ERROR_MESSAGE;
 		}
 		Member member = memberService.getCurrent();
-		if (member.getFavoriteProducts().contains(product)) {
+		if (member.getFavoriteProducts().contains(product))
+		{
 			return Message.warn("shop.member.favorite.exist");
 		}
-		if (Member.MAX_FAVORITE_COUNT != null && member.getFavoriteProducts().size() >= Member.MAX_FAVORITE_COUNT) {
+		if (Member.MAX_FAVORITE_COUNT != null && member.getFavoriteProducts().size() >= Member.MAX_FAVORITE_COUNT)
+		{
 			return Message.warn("shop.member.favorite.addCountNotAllowed", Member.MAX_FAVORITE_COUNT);
 		}
 		member.getFavoriteProducts().add(product);
@@ -65,7 +70,8 @@ public class FavoriteController extends BaseController {
 	 * 列表
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Integer pageNumber, ModelMap model) {
+	public String list(Integer pageNumber, ModelMap model)
+	{
 		Member member = memberService.getCurrent();
 		Pageable pageable = new Pageable(pageNumber, PAGE_SIZE);
 		model.addAttribute("page", productService.findPage(member, pageable));
@@ -76,14 +82,16 @@ public class FavoriteController extends BaseController {
 	 * 删除
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public @ResponseBody
-	Message delete(Long id) {
+	public @ResponseBody Message delete(Long id)
+	{
 		Product product = productService.find(id);
-		if (product == null) {
+		if (product == null)
+		{
 			return ERROR_MESSAGE;
 		}
 		Member member = memberService.getCurrent();
-		if (!member.getFavoriteProducts().contains(product)) {
+		if (!member.getFavoriteProducts().contains(product))
+		{
 			return ERROR_MESSAGE;
 		}
 		member.getFavoriteProducts().remove(product);

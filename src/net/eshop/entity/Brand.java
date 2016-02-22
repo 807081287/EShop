@@ -24,6 +24,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+
 /**
  * Entity - 品牌
  * 
@@ -33,7 +34,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table(name = "t_brand")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_brand_sequence")
-public class Brand extends OrderEntity {
+public class Brand extends OrderEntity
+{
 
 	private static final long serialVersionUID = -6109590619136943215L;
 
@@ -46,7 +48,8 @@ public class Brand extends OrderEntity {
 	/**
 	 * 类型
 	 */
-	public enum Type {
+	public enum Type
+	{
 
 		/** 文本 */
 		text,
@@ -87,7 +90,8 @@ public class Brand extends OrderEntity {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false)
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
@@ -95,9 +99,10 @@ public class Brand extends OrderEntity {
 	 * 设置名称
 	 * 
 	 * @param name
-	 *            名称
+	 *           名称
 	 */
-	public void setName(String name) {
+	public void setName(String name)
+	{
 		this.name = name;
 	}
 
@@ -108,7 +113,8 @@ public class Brand extends OrderEntity {
 	 */
 	@NotNull
 	@Column(nullable = false)
-	public Type getType() {
+	public Type getType()
+	{
 		return type;
 	}
 
@@ -116,9 +122,10 @@ public class Brand extends OrderEntity {
 	 * 设置类型
 	 * 
 	 * @param type
-	 *            类型
+	 *           类型
 	 */
-	public void setType(Type type) {
+	public void setType(Type type)
+	{
 		this.type = type;
 	}
 
@@ -128,7 +135,8 @@ public class Brand extends OrderEntity {
 	 * @return logo
 	 */
 	@Length(max = 200)
-	public String getLogo() {
+	public String getLogo()
+	{
 		return logo;
 	}
 
@@ -136,9 +144,10 @@ public class Brand extends OrderEntity {
 	 * 设置logo
 	 * 
 	 * @param logo
-	 *            logo
+	 *           logo
 	 */
-	public void setLogo(String logo) {
+	public void setLogo(String logo)
+	{
 		this.logo = logo;
 	}
 
@@ -148,7 +157,8 @@ public class Brand extends OrderEntity {
 	 * @return 网址
 	 */
 	@Length(max = 200)
-	public String getUrl() {
+	public String getUrl()
+	{
 		return url;
 	}
 
@@ -156,9 +166,10 @@ public class Brand extends OrderEntity {
 	 * 设置网址
 	 * 
 	 * @param url
-	 *            网址
+	 *           网址
 	 */
-	public void setUrl(String url) {
+	public void setUrl(String url)
+	{
 		this.url = url;
 	}
 
@@ -168,7 +179,8 @@ public class Brand extends OrderEntity {
 	 * @return 介绍
 	 */
 	@Lob
-	public String getIntroduction() {
+	public String getIntroduction()
+	{
 		return introduction;
 	}
 
@@ -176,9 +188,10 @@ public class Brand extends OrderEntity {
 	 * 设置介绍
 	 * 
 	 * @param introduction
-	 *            介绍
+	 *           介绍
 	 */
-	public void setIntroduction(String introduction) {
+	public void setIntroduction(String introduction)
+	{
 		this.introduction = introduction;
 	}
 
@@ -188,7 +201,8 @@ public class Brand extends OrderEntity {
 	 * @return 商品
 	 */
 	@OneToMany(mappedBy = "brand", fetch = FetchType.LAZY)
-	public Set<Product> getProducts() {
+	public Set<Product> getProducts()
+	{
 		return products;
 	}
 
@@ -196,9 +210,10 @@ public class Brand extends OrderEntity {
 	 * 设置商品
 	 * 
 	 * @param products
-	 *            商品
+	 *           商品
 	 */
-	public void setProducts(Set<Product> products) {
+	public void setProducts(Set<Product> products)
+	{
 		this.products = products;
 	}
 
@@ -209,7 +224,8 @@ public class Brand extends OrderEntity {
 	 */
 	@ManyToMany(mappedBy = "brands", fetch = FetchType.LAZY)
 	@OrderBy("order asc")
-	public Set<ProductCategory> getProductCategories() {
+	public Set<ProductCategory> getProductCategories()
+	{
 		return productCategories;
 	}
 
@@ -217,9 +233,10 @@ public class Brand extends OrderEntity {
 	 * 设置商品分类
 	 * 
 	 * @param productCategories
-	 *            商品分类
+	 *           商品分类
 	 */
-	public void setProductCategories(Set<ProductCategory> productCategories) {
+	public void setProductCategories(Set<ProductCategory> productCategories)
+	{
 		this.productCategories = productCategories;
 	}
 
@@ -229,7 +246,8 @@ public class Brand extends OrderEntity {
 	 * @return 促销
 	 */
 	@ManyToMany(mappedBy = "brands", fetch = FetchType.LAZY)
-	public Set<Promotion> getPromotions() {
+	public Set<Promotion> getPromotions()
+	{
 		return promotions;
 	}
 
@@ -237,9 +255,10 @@ public class Brand extends OrderEntity {
 	 * 设置促销
 	 * 
 	 * @param promotions
-	 *            促销
+	 *           促销
 	 */
-	public void setPromotions(Set<Promotion> promotions) {
+	public void setPromotions(Set<Promotion> promotions)
+	{
 		this.promotions = promotions;
 	}
 
@@ -249,8 +268,10 @@ public class Brand extends OrderEntity {
 	 * @return 访问路径
 	 */
 	@Transient
-	public String getPath() {
-		if (getId() != null) {
+	public String getPath()
+	{
+		if (getId() != null)
+		{
 			return PATH_PREFIX + "/" + getId() + PATH_SUFFIX;
 		}
 		return null;
@@ -260,22 +281,29 @@ public class Brand extends OrderEntity {
 	 * 删除前处理
 	 */
 	@PreRemove
-	public void preRemove() {
+	public void preRemove()
+	{
 		Set<Product> products = getProducts();
-		if (products != null) {
-			for (Product product : products) {
+		if (products != null)
+		{
+			for (Product product : products)
+			{
 				product.setBrand(null);
 			}
 		}
 		Set<ProductCategory> productCategories = getProductCategories();
-		if (productCategories != null) {
-			for (ProductCategory productCategory : productCategories) {
+		if (productCategories != null)
+		{
+			for (ProductCategory productCategory : productCategories)
+			{
 				productCategory.getBrands().remove(this);
 			}
 		}
 		Set<Promotion> promotions = getPromotions();
-		if (promotions != null) {
-			for (Promotion promotion : promotions) {
+		if (promotions != null)
+		{
+			for (Promotion promotion : promotions)
+			{
 				promotion.getBrands().remove(this);
 			}
 		}

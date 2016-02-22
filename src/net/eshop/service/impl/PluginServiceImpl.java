@@ -21,6 +21,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.springframework.stereotype.Service;
 
+
 /**
  * Service - 插件
  * 
@@ -28,7 +29,8 @@ import org.springframework.stereotype.Service;
  * 
  */
 @Service("pluginServiceImpl")
-public class PluginServiceImpl implements PluginService {
+public class PluginServiceImpl implements PluginService
+{
 
 	@Resource
 	private List<PaymentPlugin> paymentPlugins = new ArrayList<PaymentPlugin>();
@@ -39,20 +41,25 @@ public class PluginServiceImpl implements PluginService {
 	@Resource
 	private Map<String, StoragePlugin> storagePluginMap = new HashMap<String, StoragePlugin>();
 
-	public List<PaymentPlugin> getPaymentPlugins() {
+	public List<PaymentPlugin> getPaymentPlugins()
+	{
 		Collections.sort(paymentPlugins);
 		return paymentPlugins;
 	}
 
-	public List<StoragePlugin> getStoragePlugins() {
+	public List<StoragePlugin> getStoragePlugins()
+	{
 		Collections.sort(storagePlugins);
 		return storagePlugins;
 	}
 
-	public List<PaymentPlugin> getPaymentPlugins(final boolean isEnabled) {
+	public List<PaymentPlugin> getPaymentPlugins(final boolean isEnabled)
+	{
 		List<PaymentPlugin> result = new ArrayList<PaymentPlugin>();
-		CollectionUtils.select(paymentPlugins, new Predicate() {
-			public boolean evaluate(Object object) {
+		CollectionUtils.select(paymentPlugins, new Predicate()
+		{
+			public boolean evaluate(Object object)
+			{
 				PaymentPlugin paymentPlugin = (PaymentPlugin) object;
 				return paymentPlugin.getIsEnabled() == isEnabled;
 			}
@@ -61,10 +68,13 @@ public class PluginServiceImpl implements PluginService {
 		return result;
 	}
 
-	public List<StoragePlugin> getStoragePlugins(final boolean isEnabled) {
+	public List<StoragePlugin> getStoragePlugins(final boolean isEnabled)
+	{
 		List<StoragePlugin> result = new ArrayList<StoragePlugin>();
-		CollectionUtils.select(storagePlugins, new Predicate() {
-			public boolean evaluate(Object object) {
+		CollectionUtils.select(storagePlugins, new Predicate()
+		{
+			public boolean evaluate(Object object)
+			{
 				StoragePlugin storagePlugin = (StoragePlugin) object;
 				return storagePlugin.getIsEnabled() == isEnabled;
 			}
@@ -73,11 +83,13 @@ public class PluginServiceImpl implements PluginService {
 		return result;
 	}
 
-	public PaymentPlugin getPaymentPlugin(String id) {
+	public PaymentPlugin getPaymentPlugin(String id)
+	{
 		return paymentPluginMap.get(id);
 	}
 
-	public StoragePlugin getStoragePlugin(String id) {
+	public StoragePlugin getStoragePlugin(String id)
+	{
 		return storagePluginMap.get(id);
 	}
 

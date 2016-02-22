@@ -7,13 +7,15 @@ package net.eshop;
 
 import java.io.Serializable;
 
+
 /**
  * 日志配置
  * 
  * 
  * 
  */
-public class LogConfig implements Serializable {
+public class LogConfig implements Serializable
+{
 
 	private static final long serialVersionUID = -1108848647938408402L;
 
@@ -28,7 +30,8 @@ public class LogConfig implements Serializable {
 	 * 
 	 * @return 操作名称
 	 */
-	public String getOperation() {
+	public String getOperation()
+	{
 		return operation;
 	}
 
@@ -36,9 +39,10 @@ public class LogConfig implements Serializable {
 	 * 设置操作名称
 	 * 
 	 * @param operation
-	 *            操作名称
+	 *           操作名称
 	 */
-	public void setOperation(String operation) {
+	public void setOperation(String operation)
+	{
 		this.operation = operation;
 	}
 
@@ -47,7 +51,8 @@ public class LogConfig implements Serializable {
 	 * 
 	 * @return 请求URL
 	 */
-	public String getUrlPattern() {
+	public String getUrlPattern()
+	{
 		return urlPattern;
 	}
 
@@ -55,9 +60,10 @@ public class LogConfig implements Serializable {
 	 * 设置请求URL
 	 * 
 	 * @param urlPattern
-	 *            请求URL
+	 *           请求URL
 	 */
-	public void setUrlPattern(String urlPattern) {
+	public void setUrlPattern(String urlPattern)
+	{
 		this.urlPattern = urlPattern;
 	}
 

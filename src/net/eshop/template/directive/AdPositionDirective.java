@@ -25,6 +25,7 @@ import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 
+
 /**
  * 模板指令 - 广告位
  * 
@@ -32,7 +33,8 @@ import freemarker.template.TemplateModel;
  * 
  */
 @Component("adPositionDirective")
-public class AdPositionDirective extends BaseDirective {
+public class AdPositionDirective extends BaseDirective
+{
 
 	/** 变量名称 */
 	private static final String VARIABLE_NAME = "adPosition";
@@ -42,27 +44,41 @@ public class AdPositionDirective extends BaseDirective {
 	@Resource(name = "adPositionServiceImpl")
 	private AdPositionService adPositionService;
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body) throws TemplateException, IOException {
+	@SuppressWarnings(
+	{ "unchecked", "rawtypes" })
+	public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body)
+			throws TemplateException, IOException
+	{
 		AdPosition adPosition;
 		Long id = getId(params);
 		boolean useCache = useCache(env, params);
 		String cacheRegion = getCacheRegion(env, params);
-		if (useCache) {
+		if (useCache)
+		{
 			adPosition = adPositionService.find(id, cacheRegion);
-		} else {
+		}
+		else
+		{
 			adPosition = adPositionService.find(id);
 		}
-		if (body != null) {
+		if (body != null)
+		{
 			setLocalVariable(VARIABLE_NAME, adPosition, env, body);
-		} else {
-			if (adPosition != null && adPosition.getTemplate() != null) {
-				try {
+		}
+		else
+		{
+			if (adPosition != null && adPosition.getTemplate() != null)
+			{
+				try
+				{
 					Map<String, Object> model = new HashMap<String, Object>();
 					model.put(VARIABLE_NAME, adPosition);
 					Writer out = env.getOut();
-					new Template("adTemplate", new StringReader(adPosition.getTemplate()), freeMarkerConfigurer.getConfiguration()).process(model, out);
-				} catch (Exception e) {
+					new Template("adTemplate", new StringReader(adPosition.getTemplate()), freeMarkerConfigurer.getConfiguration())
+							.process(model, out);
+				}
+				catch (Exception e)
+				{
 					e.printStackTrace();
 				}
 			}

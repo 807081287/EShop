@@ -13,23 +13,27 @@ import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
+
+
 /**
  * 后台管理一二级菜单
  */
 @Entity
-@Table(name="t_admin_menu")
+@Table(name = "t_admin_menu")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_admin_menu_sequence")
-public class AdminMenu extends OrderEntity {
+public class AdminMenu extends OrderEntity
+{
 
-	
+
 	private static final long serialVersionUID = 3726536879330249678L;
-	
+
 	/** 名称 */
 	private String name;
-	
-	
+
+
 	/**
-	 * 权限代码 角色的权限列表来源以此. 
+	 * 权限代码 角色的权限列表来源以此.
+	 * 
 	 * @see net.eshop.entity.RoleRole
 	 */
 	private String authorityCode;
@@ -39,8 +43,8 @@ public class AdminMenu extends OrderEntity {
 
 	/** 上级菜单 */
 	private AdminMenu parent;
-	
-	
+
+
 	/** 下级菜单 */
 	private Set<AdminMenu> children = new HashSet<AdminMenu>();
 
@@ -50,43 +54,52 @@ public class AdminMenu extends OrderEntity {
 	@NotEmpty
 	@Length(max = 100)
 	@Column(nullable = false)
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
 	/**
-	 * @param name the name to set
+	 * @param name
+	 *           the name to set
 	 */
-	public void setName(String name) {
+	public void setName(String name)
+	{
 		this.name = name;
 	}
 
-	
+
 	/**
 	 * @return the authorityCode
 	 */
-	public String getAuthorityCode() {
+	public String getAuthorityCode()
+	{
 		return authorityCode;
 	}
 
 	/**
-	 * @param authorityCode the authorityCode to set
+	 * @param authorityCode
+	 *           the authorityCode to set
 	 */
-	public void setAuthorityCode(String authorityCode) {
+	public void setAuthorityCode(String authorityCode)
+	{
 		this.authorityCode = authorityCode;
 	}
 
 	/**
 	 * @return the url
 	 */
-	public String getUrl() {
+	public String getUrl()
+	{
 		return url;
 	}
 
 	/**
-	 * @param url the url to set
+	 * @param url
+	 *           the url to set
 	 */
-	public void setUrl(String url) {
+	public void setUrl(String url)
+	{
 		this.url = url;
 	}
 
@@ -94,29 +107,35 @@ public class AdminMenu extends OrderEntity {
 	 * @return the parent
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	public AdminMenu getParent() {
+	public AdminMenu getParent()
+	{
 		return parent;
 	}
 
 	/**
-	 * @param parent the parent to set
+	 * @param parent
+	 *           the parent to set
 	 */
-	public void setParent(AdminMenu parent) {
+	public void setParent(AdminMenu parent)
+	{
 		this.parent = parent;
 	}
-	
+
 	/**
 	 * @return the children
 	 */
-	@OneToMany(mappedBy = "parent",fetch=FetchType.EAGER)
-	public Set<AdminMenu> getChildren() {
+	@OneToMany(mappedBy = "parent", fetch = FetchType.EAGER)
+	public Set<AdminMenu> getChildren()
+	{
 		return children;
 	}
 
 	/**
-	 * @param children the children to set
+	 * @param children
+	 *           the children to set
 	 */
-	public void setChildren(Set<AdminMenu> children) {
+	public void setChildren(Set<AdminMenu> children)
+	{
 		this.children = children;
 	}
 }

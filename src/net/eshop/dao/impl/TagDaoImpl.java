@@ -18,6 +18,7 @@ import net.eshop.entity.Tag.Type;
 
 import org.springframework.stereotype.Repository;
 
+
 /**
  * Dao - 标签
  * 
@@ -25,14 +26,17 @@ import org.springframework.stereotype.Repository;
  * 
  */
 @Repository("tagDaoImpl")
-public class TagDaoImpl extends BaseDaoImpl<Tag, Long> implements TagDao {
+public class TagDaoImpl extends BaseDaoImpl<Tag, Long> implements TagDao
+{
 
-	public List<Tag> findList(Type type) {
+	public List<Tag> findList(Type type)
+	{
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Tag> criteriaQuery = criteriaBuilder.createQuery(Tag.class);
 		Root<Tag> root = criteriaQuery.from(Tag.class);
 		criteriaQuery.select(root);
-		if (type != null) {
+		if (type != null)
+		{
 			criteriaQuery.where(criteriaBuilder.equal(root.get("type"), type));
 		}
 		criteriaQuery.orderBy(criteriaBuilder.asc(root.get("order")));

@@ -40,6 +40,7 @@ import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 
+
 /**
  * 模板指令 - 商品列表
  * 
@@ -47,7 +48,8 @@ import freemarker.template.TemplateModel;
  * 
  */
 @Component("productListDirective")
-public class ProductListDirective extends BaseDirective {
+public class ProductListDirective extends BaseDirective
+{
 
 	/** "商品分类ID"参数名称 */
 	private static final String PRODUCT_CATEGORY_ID_PARAMETER_NAME = "productCategoryId";
@@ -89,8 +91,11 @@ public class ProductListDirective extends BaseDirective {
 	@Resource(name = "tagServiceImpl")
 	private TagService tagService;
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body) throws TemplateException, IOException {
+	@SuppressWarnings(
+	{ "unchecked", "rawtypes" })
+	public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body)
+			throws TemplateException, IOException
+	{
 		Long productCategoryId = FreemarkerUtils.getParameter(PRODUCT_CATEGORY_ID_PARAMETER_NAME, Long.class, params);
 		Long brandId = FreemarkerUtils.getParameter(BRAND_ID_PARAMETER_NAME, Long.class, params);
 		Long promotionId = FreemarkerUtils.getParameter(PROMOTION_ID_PARAMETER_NAME, Long.class, params);
@@ -105,28 +110,41 @@ public class ProductListDirective extends BaseDirective {
 		Promotion promotion = promotionService.find(promotionId);
 		List<Tag> tags = tagService.findList(tagIds);
 		Map<Attribute, String> attributeValueMap = new HashMap<Attribute, String>();
-		if (attributeValue != null) {
-			for (Entry<Long, String> entry : attributeValue.entrySet()) {
+		if (attributeValue != null)
+		{
+			for (Entry<Long, String> entry : attributeValue.entrySet())
+			{
 				Attribute attribute = attributeService.find(entry.getKey());
-				if (attribute != null) {
+				if (attribute != null)
+				{
 					attributeValueMap.put(attribute, entry.getValue());
 				}
 			}
 		}
 
 		List<Product> products;
-		if ((productCategoryId != null && productCategory == null) || (brandId != null && brand == null) || (promotionId != null && promotion == null) || (tagIds != null && tags.isEmpty()) || (attributeValue != null && attributeValueMap.isEmpty())) {
+		if ((productCategoryId != null && productCategory == null) || (brandId != null && brand == null)
+				|| (promotionId != null && promotion == null) || (tagIds != null && tags.isEmpty())
+				|| (attributeValue != null && attributeValueMap.isEmpty()))
+		{
 			products = new ArrayList<Product>();
-		} else {
+		}
+		else
+		{
 			boolean useCache = useCache(env, params);
 			String cacheRegion = getCacheRegion(env, params);
 			Integer count = getCount(params);
 			List<Filter> filters = getFilters(params, Article.class);
 			List<Order> orders = getOrders(params);
-			if (useCache) {
-				products = productService.findList(productCategory, brand, promotion, tags, attributeValueMap, startPrice, endPrice, true, true, null, false, null, null, orderType, count, filters, orders, cacheRegion);
-			} else {
-				products = productService.findList(productCategory, brand, promotion, tags, attributeValueMap, startPrice, endPrice, true, true, null, false, null, null, orderType, count, filters, orders);
+			if (useCache)
+			{
+				products = productService.findList(productCategory, brand, promotion, tags, attributeValueMap, startPrice, endPrice,
+						true, true, null, false, null, null, orderType, count, filters, orders, cacheRegion);
+			}
+			else
+			{
+				products = productService.findList(productCategory, brand, promotion, tags, attributeValueMap, startPrice, endPrice,
+						true, true, null, false, null, null, orderType, count, filters, orders);
 			}
 		}
 		setLocalVariable(VARIABLE_NAME, products, env, body);

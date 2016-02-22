@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 /**
  * Controller - 消息
  * 
@@ -31,7 +32,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller("adminMessageController")
 @RequestMapping("/admin/message")
-public class MessageController extends BaseController {
+public class MessageController extends BaseController
+{
 
 	@Resource(name = "messageServiceImpl")
 	MessageService messageService;
@@ -42,9 +44,10 @@ public class MessageController extends BaseController {
 	 * 检查用户名是否合法
 	 */
 	@RequestMapping(value = "/check_username", method = RequestMethod.GET)
-	public @ResponseBody
-	boolean checkUsername(String username) {
-		if (memberService.usernameExists(username)) {
+	public @ResponseBody boolean checkUsername(String username)
+	{
+		if (memberService.usernameExists(username))
+		{
 			return true;
 		}
 		return false;
@@ -54,9 +57,11 @@ public class MessageController extends BaseController {
 	 * 发送
 	 */
 	@RequestMapping(value = "/send", method = RequestMethod.GET)
-	public String send(Long draftMessageId, Model model) {
+	public String send(Long draftMessageId, Model model)
+	{
 		Message draftMessage = messageService.find(draftMessageId);
-		if (draftMessage != null && draftMessage.getIsDraft() && draftMessage.getSender() == null) {
+		if (draftMessage != null && draftMessage.getIsDraft() && draftMessage.getSender() == null)
+		{
 			model.addAttribute("draftMessage", draftMessage);
 		}
 		return "admin/message/send";
@@ -66,18 +71,24 @@ public class MessageController extends BaseController {
 	 * 发送
 	 */
 	@RequestMapping(value = "/send", method = RequestMethod.POST)
-	public String send(Long draftMessageId, String username, String title, String content, @RequestParam(defaultValue = "false") Boolean isDraft, HttpServletRequest request, RedirectAttributes redirectAttributes) {
-		if (!isValid(Message.class, "content", content)) {
+	public String send(Long draftMessageId, String username, String title, String content,
+			@RequestParam(defaultValue = "false") Boolean isDraft, HttpServletRequest request, RedirectAttributes redirectAttributes)
+	{
+		if (!isValid(Message.class, "content", content))
+		{
 			return ERROR_VIEW;
 		}
 		Message draftMessage = messageService.find(draftMessageId);
-		if (draftMessage != null && draftMessage.getIsDraft() && draftMessage.getSender() == null) {
+		if (draftMessage != null && draftMessage.getIsDraft() && draftMessage.getSender() == null)
+		{
 			messageService.delete(draftMessage);
 		}
 		Member receiver = null;
-		if (StringUtils.isNotEmpty(username)) {
+		if (StringUtils.isNotEmpty(username))
+		{
 			receiver = memberService.findByUsername(username);
-			if (receiver == null) {
+			if (receiver == null)
+			{
 				return ERROR_VIEW;
 			}
 		}
@@ -95,10 +106,13 @@ public class MessageController extends BaseController {
 		message.setForMessage(null);
 		message.setReplyMessages(null);
 		messageService.save(message);
-		if (isDraft) {
+		if (isDraft)
+		{
 			addFlashMessage(redirectAttributes, net.eshop.Message.success("admin.message.saveDraftSuccess"));
 			return "redirect:draft.jhtml";
-		} else {
+		}
+		else
+		{
 			addFlashMessage(redirectAttributes, net.eshop.Message.success("admin.message.sendSuccess"));
 			return "redirect:list.jhtml";
 		}
@@ -108,17 +122,25 @@ public class MessageController extends BaseController {
 	 * 查看
 	 */
 	@RequestMapping(value = "/view", method = RequestMethod.GET)
-	public String view(Long id, Model model) {
+	public String view(Long id, Model model)
+	{
 		Message message = messageService.find(id);
-		if (message == null || message.getIsDraft() || message.getForMessage() != null) {
+		if (message == null || message.getIsDraft() || message.getForMessage() != null)
+		{
 			return ERROR_VIEW;
 		}
-		if ((message.getSender() != null && message.getReceiver() != null) || (message.getReceiver() == null && message.getReceiverDelete()) || (message.getSender() == null && message.getSenderDelete())) {
+		if ((message.getSender() != null && message.getReceiver() != null)
+				|| (message.getReceiver() == null && message.getReceiverDelete())
+				|| (message.getSender() == null && message.getSenderDelete()))
+		{
 			return ERROR_VIEW;
 		}
-		if (message.getReceiver() == null) {
+		if (message.getReceiver() == null)
+		{
 			message.setReceiverRead(true);
-		} else {
+		}
+		else
+		{
 			message.setSenderRead(true);
 		}
 		messageService.update(message);
@@ -130,15 +152,21 @@ public class MessageController extends BaseController {
 	 * 回复
 	 */
 	@RequestMapping(value = "/reply", method = RequestMethod.POST)
-	public String reply(Long id, String content, HttpServletRequest request, RedirectAttributes redirectAttributes) {
-		if (!isValid(Message.class, "content", content)) {
+	public String reply(Long id, String content, HttpServletRequest request, RedirectAttributes redirectAttributes)
+	{
+		if (!isValid(Message.class, "content", content))
+		{
 			return ERROR_VIEW;
 		}
 		Message forMessage = messageService.find(id);
-		if (forMessage == null || forMessage.getIsDraft() || forMessage.getForMessage() != null) {
+		if (forMessage == null || forMessage.getIsDraft() || forMessage.getForMessage() != null)
+		{
 			return ERROR_VIEW;
 		}
-		if ((forMessage.getSender() != null && forMessage.getReceiver() != null) || (forMessage.getReceiver() == null && forMessage.getReceiverDelete()) || (forMessage.getSender() == null && forMessage.getSenderDelete())) {
+		if ((forMessage.getSender() != null && forMessage.getReceiver() != null)
+				|| (forMessage.getReceiver() == null && forMessage.getReceiverDelete())
+				|| (forMessage.getSender() == null && forMessage.getSenderDelete()))
+		{
 			return ERROR_VIEW;
 		}
 		Message message = new Message();
@@ -152,25 +180,34 @@ public class MessageController extends BaseController {
 		message.setReceiverDelete(false);
 		message.setSender(null);
 		message.setReceiver(forMessage.getReceiver() == null ? forMessage.getSender() : forMessage.getReceiver());
-		if ((forMessage.getReceiver() == null && !forMessage.getSenderDelete()) || (forMessage.getSender() == null && !forMessage.getReceiverDelete())) {
+		if ((forMessage.getReceiver() == null && !forMessage.getSenderDelete())
+				|| (forMessage.getSender() == null && !forMessage.getReceiverDelete()))
+		{
 			message.setForMessage(forMessage);
 		}
 		message.setReplyMessages(null);
 		messageService.save(message);
 
-		if (forMessage.getSender() == null) {
+		if (forMessage.getSender() == null)
+		{
 			forMessage.setSenderRead(true);
 			forMessage.setReceiverRead(false);
-		} else {
+		}
+		else
+		{
 			forMessage.setSenderRead(false);
 			forMessage.setReceiverRead(true);
 		}
 		messageService.update(forMessage);
 
-		if ((forMessage.getReceiver() == null && !forMessage.getSenderDelete()) || (forMessage.getSender() == null && !forMessage.getReceiverDelete())) {
+		if ((forMessage.getReceiver() == null && !forMessage.getSenderDelete())
+				|| (forMessage.getSender() == null && !forMessage.getReceiverDelete()))
+		{
 			addFlashMessage(redirectAttributes, SUCCESS_MESSAGE);
 			return "redirect:view.jhtml?id=" + forMessage.getId();
-		} else {
+		}
+		else
+		{
 			addFlashMessage(redirectAttributes, net.eshop.Message.success("admin.message.replySuccess"));
 			return "redirect:list.jhtml";
 		}
@@ -180,7 +217,8 @@ public class MessageController extends BaseController {
 	 * 列表
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Pageable pageable, Model model) {
+	public String list(Pageable pageable, Model model)
+	{
 		model.addAttribute("page", messageService.findPage(null, pageable));
 		return "/admin/message/list";
 	}
@@ -189,7 +227,8 @@ public class MessageController extends BaseController {
 	 * 草稿箱
 	 */
 	@RequestMapping(value = "/draft", method = RequestMethod.GET)
-	public String draft(Pageable pageable, Model model) {
+	public String draft(Pageable pageable, Model model)
+	{
 		model.addAttribute("page", messageService.findDraftPage(null, pageable));
 		return "/admin/message/draft";
 	}
@@ -198,10 +237,12 @@ public class MessageController extends BaseController {
 	 * 删除
 	 */
 	@RequestMapping(value = "delete", method = RequestMethod.POST)
-	public @ResponseBody
-	net.eshop.Message delete(Long[] ids) {
-		if (ids != null) {
-			for (Long id : ids) {
+	public @ResponseBody net.eshop.Message delete(Long[] ids)
+	{
+		if (ids != null)
+		{
+			for (Long id : ids)
+			{
 				messageService.delete(id, null);
 			}
 		}

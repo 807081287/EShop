@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 /**
  * Controller - 属性
  * 
@@ -33,7 +34,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller("adminAttributeController")
 @RequestMapping("/admin/attribute")
-public class AttributeController extends BaseController {
+public class AttributeController extends BaseController
+{
 
 	@Resource(name = "attributeServiceImpl")
 	private AttributeService attributeService;
@@ -44,7 +46,8 @@ public class AttributeController extends BaseController {
 	 * 添加
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public String add(ModelMap model) {
+	public String add(ModelMap model)
+	{
 		model.addAttribute("productCategoryTree", productCategoryService.findTree());
 		model.addAttribute("attributeValuePropertyCount", Product.ATTRIBUTE_VALUE_PROPERTY_COUNT);
 		return "/admin/attribute/add";
@@ -54,20 +57,28 @@ public class AttributeController extends BaseController {
 	 * 保存
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String save(Attribute attribute, Long productCategoryId, RedirectAttributes redirectAttributes) {
-		for (Iterator<String> iterator = attribute.getOptions().iterator(); iterator.hasNext();) {
+	public String save(Attribute attribute, Long productCategoryId, RedirectAttributes redirectAttributes)
+	{
+		for (Iterator<String> iterator = attribute.getOptions().iterator(); iterator.hasNext();)
+		{
 			String option = iterator.next();
-			if (StringUtils.isEmpty(option)) {
+			if (StringUtils.isEmpty(option))
+			{
 				iterator.remove();
 			}
 		}
 		attribute.setProductCategory(productCategoryService.find(productCategoryId));
-		if (!isValid(attribute, Save.class)) {
+		if (!isValid(attribute, Save.class))
+		{
 			return ERROR_VIEW;
 		}
-		if (attribute.getProductCategory().getAttributes().size() >= Product.ATTRIBUTE_VALUE_PROPERTY_COUNT) {
-			addFlashMessage(redirectAttributes, Message.error("admin.attribute.addCountNotAllowed", Product.ATTRIBUTE_VALUE_PROPERTY_COUNT));
-		} else {
+		if (attribute.getProductCategory().getAttributes().size() >= Product.ATTRIBUTE_VALUE_PROPERTY_COUNT)
+		{
+			addFlashMessage(redirectAttributes,
+					Message.error("admin.attribute.addCountNotAllowed", Product.ATTRIBUTE_VALUE_PROPERTY_COUNT));
+		}
+		else
+		{
 			attribute.setPropertyIndex(null);
 			attributeService.save(attribute);
 			addFlashMessage(redirectAttributes, SUCCESS_MESSAGE);
@@ -79,7 +90,8 @@ public class AttributeController extends BaseController {
 	 * 编辑
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(Long id, ModelMap model) {
+	public String edit(Long id, ModelMap model)
+	{
 		model.addAttribute("productCategoryTree", productCategoryService.findTree());
 		model.addAttribute("attributeValuePropertyCount", Product.ATTRIBUTE_VALUE_PROPERTY_COUNT);
 		model.addAttribute("attribute", attributeService.find(id));
@@ -90,14 +102,18 @@ public class AttributeController extends BaseController {
 	 * 更新
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(Attribute attribute, RedirectAttributes redirectAttributes) {
-		for (Iterator<String> iterator = attribute.getOptions().iterator(); iterator.hasNext();) {
+	public String update(Attribute attribute, RedirectAttributes redirectAttributes)
+	{
+		for (Iterator<String> iterator = attribute.getOptions().iterator(); iterator.hasNext();)
+		{
 			String option = iterator.next();
-			if (StringUtils.isEmpty(option)) {
+			if (StringUtils.isEmpty(option))
+			{
 				iterator.remove();
 			}
 		}
-		if (!isValid(attribute)) {
+		if (!isValid(attribute))
+		{
 			return ERROR_VIEW;
 		}
 		attributeService.update(attribute, "propertyIndex", "productCategory");
@@ -109,7 +125,8 @@ public class AttributeController extends BaseController {
 	 * 列表
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Pageable pageable, ModelMap model) {
+	public String list(Pageable pageable, ModelMap model)
+	{
 		model.addAttribute("page", attributeService.findPage(pageable));
 		return "/admin/attribute/list";
 	}
@@ -118,8 +135,8 @@ public class AttributeController extends BaseController {
 	 * 删除
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public @ResponseBody
-	Message delete(Long[] ids) {
+	public @ResponseBody Message delete(Long[] ids)
+	{
 		attributeService.delete(ids);
 		return SUCCESS_MESSAGE;
 	}

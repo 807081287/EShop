@@ -20,6 +20,7 @@ import net.eshop.entity.ParameterGroup;
 
 import org.springframework.stereotype.Repository;
 
+
 /**
  * Dao - 参数
  * 
@@ -27,18 +28,22 @@ import org.springframework.stereotype.Repository;
  * 
  */
 @Repository("parameterDaoImpl")
-public class ParameterDaoImpl extends BaseDaoImpl<Parameter, Long> implements ParameterDao {
+public class ParameterDaoImpl extends BaseDaoImpl<Parameter, Long> implements ParameterDao
+{
 
-	public List<Parameter> findList(ParameterGroup parameterGroup, Set<Parameter> excludes) {
+	public List<Parameter> findList(ParameterGroup parameterGroup, Set<Parameter> excludes)
+	{
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Parameter> criteriaQuery = criteriaBuilder.createQuery(Parameter.class);
 		Root<Parameter> root = criteriaQuery.from(Parameter.class);
 		criteriaQuery.select(root);
 		Predicate restrictions = criteriaBuilder.conjunction();
-		if (parameterGroup != null) {
+		if (parameterGroup != null)
+		{
 			restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.equal(root.get("parameterGroup"), parameterGroup));
 		}
-		if (excludes != null && !excludes.isEmpty()) {
+		if (excludes != null && !excludes.isEmpty())
+		{
 			restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.not(root.in(excludes)));
 		}
 		criteriaQuery.where(restrictions);

@@ -21,6 +21,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
 /**
  * Entity - 收货地址
  * 
@@ -30,7 +31,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Entity
 @Table(name = "t_receiver")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_receiver_sequence")
-public class Receiver extends BaseEntity {
+public class Receiver extends BaseEntity
+{
 
 	private static final long serialVersionUID = 2673602067029665976L;
 
@@ -70,7 +72,8 @@ public class Receiver extends BaseEntity {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false)
-	public String getConsignee() {
+	public String getConsignee()
+	{
 		return consignee;
 	}
 
@@ -78,9 +81,10 @@ public class Receiver extends BaseEntity {
 	 * 设置收货人
 	 * 
 	 * @param consignee
-	 *            收货人
+	 *           收货人
 	 */
-	public void setConsignee(String consignee) {
+	public void setConsignee(String consignee)
+	{
 		this.consignee = consignee;
 	}
 
@@ -91,7 +95,8 @@ public class Receiver extends BaseEntity {
 	 */
 	@JsonProperty
 	@Column(nullable = false)
-	public String getAreaName() {
+	public String getAreaName()
+	{
 		return areaName;
 	}
 
@@ -99,9 +104,10 @@ public class Receiver extends BaseEntity {
 	 * 设置地区名称
 	 * 
 	 * @param areaName
-	 *            地区名称
+	 *           地区名称
 	 */
-	public void setAreaName(String areaName) {
+	public void setAreaName(String areaName)
+	{
 		this.areaName = areaName;
 	}
 
@@ -114,7 +120,8 @@ public class Receiver extends BaseEntity {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false)
-	public String getAddress() {
+	public String getAddress()
+	{
 		return address;
 	}
 
@@ -122,9 +129,10 @@ public class Receiver extends BaseEntity {
 	 * 设置地址
 	 * 
 	 * @param address
-	 *            地址
+	 *           地址
 	 */
-	public void setAddress(String address) {
+	public void setAddress(String address)
+	{
 		this.address = address;
 	}
 
@@ -137,7 +145,8 @@ public class Receiver extends BaseEntity {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false)
-	public String getZipCode() {
+	public String getZipCode()
+	{
 		return zipCode;
 	}
 
@@ -145,9 +154,10 @@ public class Receiver extends BaseEntity {
 	 * 设置邮编
 	 * 
 	 * @param zipCode
-	 *            邮编
+	 *           邮编
 	 */
-	public void setZipCode(String zipCode) {
+	public void setZipCode(String zipCode)
+	{
 		this.zipCode = zipCode;
 	}
 
@@ -160,7 +170,8 @@ public class Receiver extends BaseEntity {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false)
-	public String getPhone() {
+	public String getPhone()
+	{
 		return phone;
 	}
 
@@ -168,9 +179,10 @@ public class Receiver extends BaseEntity {
 	 * 设置电话
 	 * 
 	 * @param phone
-	 *            电话
+	 *           电话
 	 */
-	public void setPhone(String phone) {
+	public void setPhone(String phone)
+	{
 		this.phone = phone;
 	}
 
@@ -182,7 +194,8 @@ public class Receiver extends BaseEntity {
 	@JsonProperty
 	@NotNull
 	@Column(nullable = false)
-	public Boolean getIsDefault() {
+	public Boolean getIsDefault()
+	{
 		return isDefault;
 	}
 
@@ -190,9 +203,10 @@ public class Receiver extends BaseEntity {
 	 * 设置是否默认
 	 * 
 	 * @param isDefault
-	 *            是否默认
+	 *           是否默认
 	 */
-	public void setIsDefault(Boolean isDefault) {
+	public void setIsDefault(Boolean isDefault)
+	{
 		this.isDefault = isDefault;
 	}
 
@@ -203,7 +217,8 @@ public class Receiver extends BaseEntity {
 	 */
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
-	public Area getArea() {
+	public Area getArea()
+	{
 		return area;
 	}
 
@@ -211,9 +226,10 @@ public class Receiver extends BaseEntity {
 	 * 设置地区
 	 * 
 	 * @param area
-	 *            地区
+	 *           地区
 	 */
-	public void setArea(Area area) {
+	public void setArea(Area area)
+	{
 		this.area = area;
 	}
 
@@ -224,7 +240,8 @@ public class Receiver extends BaseEntity {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false, updatable = false)
-	public Member getMember() {
+	public Member getMember()
+	{
 		return member;
 	}
 
@@ -232,9 +249,10 @@ public class Receiver extends BaseEntity {
 	 * 设置会员
 	 * 
 	 * @param member
-	 *            会员
+	 *           会员
 	 */
-	public void setMember(Member member) {
+	public void setMember(Member member)
+	{
 		this.member = member;
 	}
 
@@ -242,8 +260,10 @@ public class Receiver extends BaseEntity {
 	 * 持久化前处理
 	 */
 	@PrePersist
-	public void prePersist() {
-		if (getArea() != null) {
+	public void prePersist()
+	{
+		if (getArea() != null)
+		{
 			setAreaName(getArea().getFullName());
 		}
 	}
@@ -252,8 +272,10 @@ public class Receiver extends BaseEntity {
 	 * 更新前处理
 	 */
 	@PreUpdate
-	public void preUpdate() {
-		if (getArea() != null) {
+	public void preUpdate()
+	{
+		if (getArea() != null)
+		{
 			setAreaName(getArea().getFullName());
 		}
 	}

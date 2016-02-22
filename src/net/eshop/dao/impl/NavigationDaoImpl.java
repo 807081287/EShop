@@ -18,6 +18,7 @@ import net.eshop.entity.Navigation.Position;
 
 import org.springframework.stereotype.Repository;
 
+
 /**
  * Dao - 导航
  * 
@@ -25,14 +26,17 @@ import org.springframework.stereotype.Repository;
  * 
  */
 @Repository("navigationDaoImpl")
-public class NavigationDaoImpl extends BaseDaoImpl<Navigation, Long> implements NavigationDao {
+public class NavigationDaoImpl extends BaseDaoImpl<Navigation, Long> implements NavigationDao
+{
 
-	public List<Navigation> findList(Position position) {
+	public List<Navigation> findList(Position position)
+	{
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Navigation> criteriaQuery = criteriaBuilder.createQuery(Navigation.class);
 		Root<Navigation> root = criteriaQuery.from(Navigation.class);
 		criteriaQuery.select(root);
-		if (position != null) {
+		if (position != null)
+		{
 			criteriaQuery.where(criteriaBuilder.equal(root.get("position"), position));
 		}
 		criteriaQuery.orderBy(criteriaBuilder.asc(root.get("order")));

@@ -17,6 +17,7 @@ import javax.persistence.PreRemove;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+
 /**
  * Entity - 优惠码
  * 
@@ -26,7 +27,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "t_coupon_code")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_coupon_code_sequence")
-public class CouponCode extends BaseEntity {
+public class CouponCode extends BaseEntity
+{
 
 	private static final long serialVersionUID = -1812874037224306719L;
 
@@ -54,7 +56,8 @@ public class CouponCode extends BaseEntity {
 	 * @return 号码
 	 */
 	@Column(nullable = false, updatable = false, unique = true, length = 100)
-	public String getCode() {
+	public String getCode()
+	{
 		return code;
 	}
 
@@ -62,9 +65,10 @@ public class CouponCode extends BaseEntity {
 	 * 设置号码
 	 * 
 	 * @param code
-	 *            号码
+	 *           号码
 	 */
-	public void setCode(String code) {
+	public void setCode(String code)
+	{
 		this.code = code;
 	}
 
@@ -74,7 +78,8 @@ public class CouponCode extends BaseEntity {
 	 * @return 是否已使用
 	 */
 	@Column(nullable = false)
-	public Boolean getIsUsed() {
+	public Boolean getIsUsed()
+	{
 		return isUsed;
 	}
 
@@ -82,9 +87,10 @@ public class CouponCode extends BaseEntity {
 	 * 设置是否已使用
 	 * 
 	 * @param isUsed
-	 *            是否已使用
+	 *           是否已使用
 	 */
-	public void setIsUsed(Boolean isUsed) {
+	public void setIsUsed(Boolean isUsed)
+	{
 		this.isUsed = isUsed;
 	}
 
@@ -93,7 +99,8 @@ public class CouponCode extends BaseEntity {
 	 * 
 	 * @return 使用日期
 	 */
-	public Date getUsedDate() {
+	public Date getUsedDate()
+	{
 		return usedDate;
 	}
 
@@ -101,9 +108,10 @@ public class CouponCode extends BaseEntity {
 	 * 设置使用日期
 	 * 
 	 * @param usedDate
-	 *            使用日期
+	 *           使用日期
 	 */
-	public void setUsedDate(Date usedDate) {
+	public void setUsedDate(Date usedDate)
+	{
 		this.usedDate = usedDate;
 	}
 
@@ -114,7 +122,8 @@ public class CouponCode extends BaseEntity {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false, updatable = false)
-	public Coupon getCoupon() {
+	public Coupon getCoupon()
+	{
 		return coupon;
 	}
 
@@ -122,9 +131,10 @@ public class CouponCode extends BaseEntity {
 	 * 设置优惠券
 	 * 
 	 * @param coupon
-	 *            优惠券
+	 *           优惠券
 	 */
-	public void setCoupon(Coupon coupon) {
+	public void setCoupon(Coupon coupon)
+	{
 		this.coupon = coupon;
 	}
 
@@ -134,7 +144,8 @@ public class CouponCode extends BaseEntity {
 	 * @return 会员
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	public Member getMember() {
+	public Member getMember()
+	{
 		return member;
 	}
 
@@ -142,9 +153,10 @@ public class CouponCode extends BaseEntity {
 	 * 设置会员
 	 * 
 	 * @param member
-	 *            会员
+	 *           会员
 	 */
-	public void setMember(Member member) {
+	public void setMember(Member member)
+	{
 		this.member = member;
 	}
 
@@ -155,7 +167,8 @@ public class CouponCode extends BaseEntity {
 	 */
 	@OneToOne(mappedBy = "couponCode", fetch = FetchType.LAZY)
 	@JoinColumn(name = "orders")
-	public Order getOrder() {
+	public Order getOrder()
+	{
 		return order;
 	}
 
@@ -163,9 +176,10 @@ public class CouponCode extends BaseEntity {
 	 * 设置订单
 	 * 
 	 * @param order
-	 *            订单
+	 *           订单
 	 */
-	public void setOrder(Order order) {
+	public void setOrder(Order order)
+	{
 		this.order = order;
 	}
 
@@ -173,8 +187,10 @@ public class CouponCode extends BaseEntity {
 	 * 删除前处理
 	 */
 	@PreRemove
-	public void preRemove() {
-		if (getOrder() != null) {
+	public void preRemove()
+	{
+		if (getOrder() != null)
+		{
 			getOrder().setCouponCode(null);
 		}
 	}

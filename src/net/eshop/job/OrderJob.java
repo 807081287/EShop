@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import com.ibm.icu.util.Calendar;
 
+
 /**
  * Job - 订单
  * 
@@ -25,21 +26,23 @@ import com.ibm.icu.util.Calendar;
  */
 @Component("orderJob")
 @Lazy(false)
-public class OrderJob {
+public class OrderJob
+{
 
 	@Resource(name = "orderServiceImpl")
 	private OrderService orderService;
-	
+
 	private static final Logger logger = Logger.getLogger(OrderJob.class.getName());
 
 	/**
 	 * 释放过期订单库存
 	 */
 	@Scheduled(cron = "${job.order_release_stock.cron}")
-	public void releaseStock() {
-		logger.info("Job started at "+Calendar.getInstance().getTime().toString());
+	public void releaseStock()
+	{
+		logger.info("Job started at " + Calendar.getInstance().getTime().toString());
 		orderService.releaseStock();
-		logger.info("Job stopped at "+Calendar.getInstance().getTime().toString());
+		logger.info("Job stopped at " + Calendar.getInstance().getTime().toString());
 	}
 
 }

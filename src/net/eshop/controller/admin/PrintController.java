@@ -18,6 +18,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+
 /**
  * Controller - 打印
  * 
@@ -26,7 +27,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller("adminPrintController")
 @RequestMapping("/admin/print")
-public class PrintController extends BaseController {
+public class PrintController extends BaseController
+{
 
 	@Resource(name = "orderServiceImpl")
 	private OrderService orderService;
@@ -39,7 +41,8 @@ public class PrintController extends BaseController {
 	 * 订单打印
 	 */
 	@RequestMapping(value = "/order", method = RequestMethod.GET)
-	public String order(Long id, ModelMap model) {
+	public String order(Long id, ModelMap model)
+	{
 		model.addAttribute("order", orderService.find(id));
 		return "/admin/print/order";
 	}
@@ -48,7 +51,8 @@ public class PrintController extends BaseController {
 	 * 购物单打印
 	 */
 	@RequestMapping(value = "/product", method = RequestMethod.GET)
-	public String product(Long id, ModelMap model) {
+	public String product(Long id, ModelMap model)
+	{
 		model.addAttribute("order", orderService.find(id));
 		return "/admin/print/product";
 	}
@@ -57,7 +61,8 @@ public class PrintController extends BaseController {
 	 * 配送单打印
 	 */
 	@RequestMapping(value = "/shipping", method = RequestMethod.GET)
-	public String shipping(Long id, ModelMap model) {
+	public String shipping(Long id, ModelMap model)
+	{
 		model.addAttribute("order", orderService.find(id));
 		return "/admin/print/shipping";
 	}
@@ -66,13 +71,16 @@ public class PrintController extends BaseController {
 	 * 快递单打印
 	 */
 	@RequestMapping(value = "/delivery", method = RequestMethod.GET)
-	public String delivery(Long orderId, Long deliveryTemplateId, Long deliveryCenterId, ModelMap model) {
+	public String delivery(Long orderId, Long deliveryTemplateId, Long deliveryCenterId, ModelMap model)
+	{
 		DeliveryTemplate deliveryTemplate = deliveryTemplateService.find(deliveryTemplateId);
 		DeliveryCenter deliveryCenter = deliveryCenterService.find(deliveryCenterId);
-		if (deliveryTemplate == null) {
+		if (deliveryTemplate == null)
+		{
 			deliveryTemplate = deliveryTemplateService.findDefault();
 		}
-		if (deliveryCenter == null) {
+		if (deliveryCenter == null)
+		{
 			deliveryCenter = deliveryCenterService.findDefault();
 		}
 		model.addAttribute("deliveryTemplates", deliveryTemplateService.findAll());

@@ -24,6 +24,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+
 /**
  * Entity - 会员等级
  * 
@@ -33,7 +34,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table(name = "t_member_rank")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_member_rank_sequence")
-public class MemberRank extends BaseEntity {
+public class MemberRank extends BaseEntity
+{
 
 	private static final long serialVersionUID = 3599029355500655209L;
 
@@ -66,7 +68,8 @@ public class MemberRank extends BaseEntity {
 	@NotEmpty
 	@Length(max = 100)
 	@Column(nullable = false, unique = true, length = 100)
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
@@ -74,9 +77,10 @@ public class MemberRank extends BaseEntity {
 	 * 设置名称
 	 * 
 	 * @param name
-	 *            名称
+	 *           名称
 	 */
-	public void setName(String name) {
+	public void setName(String name)
+	{
 		this.name = name;
 	}
 
@@ -89,7 +93,8 @@ public class MemberRank extends BaseEntity {
 	@Min(0)
 	@Digits(integer = 3, fraction = 3)
 	@Column(nullable = false, precision = 12, scale = 6)
-	public Double getScale() {
+	public Double getScale()
+	{
 		return scale;
 	}
 
@@ -97,9 +102,10 @@ public class MemberRank extends BaseEntity {
 	 * 设置优惠比例
 	 * 
 	 * @param scale
-	 *            优惠比例
+	 *           优惠比例
 	 */
-	public void setScale(Double scale) {
+	public void setScale(Double scale)
+	{
 		this.scale = scale;
 	}
 
@@ -111,7 +117,8 @@ public class MemberRank extends BaseEntity {
 	@Min(0)
 	@Digits(integer = 12, fraction = 3)
 	@Column(unique = true, precision = 21, scale = 6)
-	public BigDecimal getAmount() {
+	public BigDecimal getAmount()
+	{
 		return amount;
 	}
 
@@ -119,9 +126,10 @@ public class MemberRank extends BaseEntity {
 	 * 设置消费金额
 	 * 
 	 * @param amount
-	 *            消费金额
+	 *           消费金额
 	 */
-	public void setAmount(BigDecimal amount) {
+	public void setAmount(BigDecimal amount)
+	{
 		this.amount = amount;
 	}
 
@@ -132,7 +140,8 @@ public class MemberRank extends BaseEntity {
 	 */
 	@NotNull
 	@Column(nullable = false)
-	public Boolean getIsDefault() {
+	public Boolean getIsDefault()
+	{
 		return isDefault;
 	}
 
@@ -140,9 +149,10 @@ public class MemberRank extends BaseEntity {
 	 * 设置是否默认
 	 * 
 	 * @param isDefault
-	 *            是否默认
+	 *           是否默认
 	 */
-	public void setIsDefault(Boolean isDefault) {
+	public void setIsDefault(Boolean isDefault)
+	{
 		this.isDefault = isDefault;
 	}
 
@@ -153,7 +163,8 @@ public class MemberRank extends BaseEntity {
 	 */
 	@NotNull
 	@Column(nullable = false)
-	public Boolean getIsSpecial() {
+	public Boolean getIsSpecial()
+	{
 		return isSpecial;
 	}
 
@@ -161,9 +172,10 @@ public class MemberRank extends BaseEntity {
 	 * 设置是否特殊
 	 * 
 	 * @param isSpecial
-	 *            是否特殊
+	 *           是否特殊
 	 */
-	public void setIsSpecial(Boolean isSpecial) {
+	public void setIsSpecial(Boolean isSpecial)
+	{
 		this.isSpecial = isSpecial;
 	}
 
@@ -173,7 +185,8 @@ public class MemberRank extends BaseEntity {
 	 * @return 会员
 	 */
 	@OneToMany(mappedBy = "memberRank", fetch = FetchType.LAZY)
-	public Set<Member> getMembers() {
+	public Set<Member> getMembers()
+	{
 		return members;
 	}
 
@@ -181,9 +194,10 @@ public class MemberRank extends BaseEntity {
 	 * 设置会员
 	 * 
 	 * @param members
-	 *            会员
+	 *           会员
 	 */
-	public void setMembers(Set<Member> members) {
+	public void setMembers(Set<Member> members)
+	{
 		this.members = members;
 	}
 
@@ -193,7 +207,8 @@ public class MemberRank extends BaseEntity {
 	 * @return 促销
 	 */
 	@ManyToMany(mappedBy = "memberRanks", fetch = FetchType.LAZY)
-	public Set<Promotion> getPromotions() {
+	public Set<Promotion> getPromotions()
+	{
 		return promotions;
 	}
 
@@ -201,9 +216,10 @@ public class MemberRank extends BaseEntity {
 	 * 设置促销
 	 * 
 	 * @param promotions
-	 *            促销
+	 *           促销
 	 */
-	public void setPromotions(Set<Promotion> promotions) {
+	public void setPromotions(Set<Promotion> promotions)
+	{
 		this.promotions = promotions;
 	}
 
@@ -211,10 +227,13 @@ public class MemberRank extends BaseEntity {
 	 * 删除前处理
 	 */
 	@PreRemove
-	public void preRemove() {
+	public void preRemove()
+	{
 		Set<Promotion> promotions = getPromotions();
-		if (promotions != null) {
-			for (Promotion promotion : promotions) {
+		if (promotions != null)
+		{
+			for (Promotion promotion : promotions)
+			{
 				promotion.getMemberRanks().remove(this);
 			}
 		}

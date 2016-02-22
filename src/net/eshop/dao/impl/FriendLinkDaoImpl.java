@@ -18,6 +18,7 @@ import net.eshop.entity.FriendLink.Type;
 
 import org.springframework.stereotype.Repository;
 
+
 /**
  * Dao - 友情链接
  * 
@@ -25,14 +26,17 @@ import org.springframework.stereotype.Repository;
  * 
  */
 @Repository("friendLinkDaoImpl")
-public class FriendLinkDaoImpl extends BaseDaoImpl<FriendLink, Long> implements FriendLinkDao {
+public class FriendLinkDaoImpl extends BaseDaoImpl<FriendLink, Long> implements FriendLinkDao
+{
 
-	public List<FriendLink> findList(Type type) {
+	public List<FriendLink> findList(Type type)
+	{
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<FriendLink> criteriaQuery = criteriaBuilder.createQuery(FriendLink.class);
 		Root<FriendLink> root = criteriaQuery.from(FriendLink.class);
 		criteriaQuery.select(root);
-		if (type != null) {
+		if (type != null)
+		{
 			criteriaQuery.where(criteriaBuilder.equal(root.get("type"), type));
 		}
 		criteriaQuery.orderBy(criteriaBuilder.asc(root.get("order")));

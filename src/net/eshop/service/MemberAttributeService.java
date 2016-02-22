@@ -9,13 +9,15 @@ import java.util.List;
 
 import net.eshop.entity.MemberAttribute;
 
+
 /**
  * Service - 会员注册项
  * 
  * 
  * 
  */
-public interface MemberAttributeService extends BaseService<MemberAttribute, Long> {
+public interface MemberAttributeService extends BaseService<MemberAttribute, Long>
+{
 
 	/**
 	 * 查找未使用的对象属性序号
@@ -35,7 +37,7 @@ public interface MemberAttributeService extends BaseService<MemberAttribute, Lon
 	 * 查找会员注册项(缓存)
 	 * 
 	 * @param cacheRegion
-	 *            缓存区域
+	 *           缓存区域
 	 * @return 会员注册项(缓存)，仅包含已启用会员注册项
 	 */
 	List<MemberAttribute> findList(String cacheRegion);

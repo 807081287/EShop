@@ -17,6 +17,7 @@ import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Length;
 
+
 /**
  * Entity - 预存款
  * 
@@ -26,14 +27,16 @@ import org.hibernate.validator.constraints.Length;
 @Entity
 @Table(name = "t_deposit")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_deposit_sequence")
-public class Deposit extends BaseEntity {
+public class Deposit extends BaseEntity
+{
 
 	private static final long serialVersionUID = -8323452873046981882L;
 
 	/**
 	 * 类型
 	 */
-	public enum Type {
+	public enum Type
+	{
 
 		/** 会员充值 */
 		memberRecharge,
@@ -87,7 +90,8 @@ public class Deposit extends BaseEntity {
 	 * @return 类型
 	 */
 	@Column(nullable = false, updatable = false)
-	public Type getType() {
+	public Type getType()
+	{
 		return type;
 	}
 
@@ -95,9 +99,10 @@ public class Deposit extends BaseEntity {
 	 * 设置类型
 	 * 
 	 * @param type
-	 *            类型
+	 *           类型
 	 */
-	public void setType(Type type) {
+	public void setType(Type type)
+	{
 		this.type = type;
 	}
 
@@ -107,7 +112,8 @@ public class Deposit extends BaseEntity {
 	 * @return 收入金额
 	 */
 	@Column(nullable = false, updatable = false, precision = 21, scale = 6)
-	public BigDecimal getCredit() {
+	public BigDecimal getCredit()
+	{
 		return credit;
 	}
 
@@ -115,9 +121,10 @@ public class Deposit extends BaseEntity {
 	 * 设置收入金额
 	 * 
 	 * @param credit
-	 *            收入金额
+	 *           收入金额
 	 */
-	public void setCredit(BigDecimal credit) {
+	public void setCredit(BigDecimal credit)
+	{
 		this.credit = credit;
 	}
 
@@ -127,7 +134,8 @@ public class Deposit extends BaseEntity {
 	 * @return 支出金额
 	 */
 	@Column(nullable = false, updatable = false, precision = 21, scale = 6)
-	public BigDecimal getDebit() {
+	public BigDecimal getDebit()
+	{
 		return debit;
 	}
 
@@ -135,9 +143,10 @@ public class Deposit extends BaseEntity {
 	 * 设置支出金额
 	 * 
 	 * @param debit
-	 *            支出金额
+	 *           支出金额
 	 */
-	public void setDebit(BigDecimal debit) {
+	public void setDebit(BigDecimal debit)
+	{
 		this.debit = debit;
 	}
 
@@ -147,7 +156,8 @@ public class Deposit extends BaseEntity {
 	 * @return 当前余额
 	 */
 	@Column(nullable = false, updatable = false, precision = 21, scale = 6)
-	public BigDecimal getBalance() {
+	public BigDecimal getBalance()
+	{
 		return balance;
 	}
 
@@ -155,9 +165,10 @@ public class Deposit extends BaseEntity {
 	 * 设置当前余额
 	 * 
 	 * @param balance
-	 *            当前余额
+	 *           当前余额
 	 */
-	public void setBalance(BigDecimal balance) {
+	public void setBalance(BigDecimal balance)
+	{
 		this.balance = balance;
 	}
 
@@ -167,7 +178,8 @@ public class Deposit extends BaseEntity {
 	 * @return 操作员
 	 */
 	@Column(updatable = false)
-	public String getOperator() {
+	public String getOperator()
+	{
 		return operator;
 	}
 
@@ -175,9 +187,10 @@ public class Deposit extends BaseEntity {
 	 * 设置操作员
 	 * 
 	 * @param operator
-	 *            操作员
+	 *           操作员
 	 */
-	public void setOperator(String operator) {
+	public void setOperator(String operator)
+	{
 		this.operator = operator;
 	}
 
@@ -188,7 +201,8 @@ public class Deposit extends BaseEntity {
 	 */
 	@Length(max = 200)
 	@Column(updatable = false)
-	public String getMemo() {
+	public String getMemo()
+	{
 		return memo;
 	}
 
@@ -196,9 +210,10 @@ public class Deposit extends BaseEntity {
 	 * 设置备注
 	 * 
 	 * @param memo
-	 *            备注
+	 *           备注
 	 */
-	public void setMemo(String memo) {
+	public void setMemo(String memo)
+	{
 		this.memo = memo;
 	}
 
@@ -209,7 +224,8 @@ public class Deposit extends BaseEntity {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false, updatable = false)
-	public Member getMember() {
+	public Member getMember()
+	{
 		return member;
 	}
 
@@ -217,9 +233,10 @@ public class Deposit extends BaseEntity {
 	 * 设置会员
 	 * 
 	 * @param member
-	 *            会员
+	 *           会员
 	 */
-	public void setMember(Member member) {
+	public void setMember(Member member)
+	{
 		this.member = member;
 	}
 
@@ -230,7 +247,8 @@ public class Deposit extends BaseEntity {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "orders")
-	public Order getOrder() {
+	public Order getOrder()
+	{
 		return order;
 	}
 
@@ -238,9 +256,10 @@ public class Deposit extends BaseEntity {
 	 * 设置订单
 	 * 
 	 * @param order
-	 *            订单
+	 *           订单
 	 */
-	public void setOrder(Order order) {
+	public void setOrder(Order order)
+	{
 		this.order = order;
 	}
 
@@ -250,7 +269,8 @@ public class Deposit extends BaseEntity {
 	 * @return 收款单
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	public Payment getPayment() {
+	public Payment getPayment()
+	{
 		return payment;
 	}
 
@@ -258,9 +278,10 @@ public class Deposit extends BaseEntity {
 	 * 设置收款单
 	 * 
 	 * @param payment
-	 *            收款单
+	 *           收款单
 	 */
-	public void setPayment(Payment payment) {
+	public void setPayment(Payment payment)
+	{
 		this.payment = payment;
 	}
 

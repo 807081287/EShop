@@ -7,18 +7,21 @@ package net.eshop;
 
 import java.util.Date;
 
+
 /**
  * 文件信息
  * 
  * 
  * 
  */
-public class FileInfo {
+public class FileInfo
+{
 
 	/**
 	 * 文件类型
 	 */
-	public enum FileType {
+	public enum FileType
+	{
 
 		/** 图片 */
 		image,
@@ -36,7 +39,8 @@ public class FileInfo {
 	/**
 	 * 排序类型
 	 */
-	public enum OrderType {
+	public enum OrderType
+	{
 
 		/** 名称 */
 		name,
@@ -68,7 +72,8 @@ public class FileInfo {
 	 * 
 	 * @return 名称
 	 */
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
@@ -76,9 +81,10 @@ public class FileInfo {
 	 * 设置名称
 	 * 
 	 * @param name
-	 *            名称
+	 *           名称
 	 */
-	public void setName(String name) {
+	public void setName(String name)
+	{
 		this.name = name;
 	}
 
@@ -87,7 +93,8 @@ public class FileInfo {
 	 * 
 	 * @return URL
 	 */
-	public String getUrl() {
+	public String getUrl()
+	{
 		return url;
 	}
 
@@ -95,9 +102,10 @@ public class FileInfo {
 	 * 设置URL
 	 * 
 	 * @param url
-	 *            URL
+	 *           URL
 	 */
-	public void setUrl(String url) {
+	public void setUrl(String url)
+	{
 		this.url = url;
 	}
 
@@ -106,7 +114,8 @@ public class FileInfo {
 	 * 
 	 * @return 是否为目录
 	 */
-	public Boolean getIsDirectory() {
+	public Boolean getIsDirectory()
+	{
 		return isDirectory;
 	}
 
@@ -114,9 +123,10 @@ public class FileInfo {
 	 * 设置是否为目录
 	 * 
 	 * @param isDirectory
-	 *            是否为目录
+	 *           是否为目录
 	 */
-	public void setIsDirectory(Boolean isDirectory) {
+	public void setIsDirectory(Boolean isDirectory)
+	{
 		this.isDirectory = isDirectory;
 	}
 
@@ -125,7 +135,8 @@ public class FileInfo {
 	 * 
 	 * @return 大小
 	 */
-	public Long getSize() {
+	public Long getSize()
+	{
 		return size;
 	}
 
@@ -133,9 +144,10 @@ public class FileInfo {
 	 * 设置大小
 	 * 
 	 * @param size
-	 *            大小
+	 *           大小
 	 */
-	public void setSize(Long size) {
+	public void setSize(Long size)
+	{
 		this.size = size;
 	}
 
@@ -144,7 +156,8 @@ public class FileInfo {
 	 * 
 	 * @return 最后修改日期
 	 */
-	public Date getLastModified() {
+	public Date getLastModified()
+	{
 		return lastModified;
 	}
 
@@ -152,9 +165,10 @@ public class FileInfo {
 	 * 设置最后修改日期
 	 * 
 	 * @param lastModified
-	 *            最后修改日期
+	 *           最后修改日期
 	 */
-	public void setLastModified(Date lastModified) {
+	public void setLastModified(Date lastModified)
+	{
 		this.lastModified = lastModified;
 	}
 

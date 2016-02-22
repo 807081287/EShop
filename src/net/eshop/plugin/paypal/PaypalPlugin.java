@@ -21,6 +21,7 @@ import net.eshop.util.SettingUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 
+
 /**
  * Plugin - Paypal
  * 
@@ -28,12 +29,14 @@ import org.springframework.stereotype.Component;
  * 
  */
 @Component("paypalPlugin")
-public class PaypalPlugin extends PaymentPlugin {
+public class PaypalPlugin extends PaymentPlugin
+{
 
 	/**
 	 * 货币
 	 */
-	public enum Currency {
+	public enum Currency
+	{
 
 		/** 美元 */
 		USD,
@@ -85,57 +88,68 @@ public class PaypalPlugin extends PaymentPlugin {
 	}
 
 	@Override
-	public String getName() {
+	public String getName()
+	{
 		return "Paypal";
 	}
 
 	@Override
-	public String getVersion() {
+	public String getVersion()
+	{
 		return "1.0";
 	}
 
 	@Override
-	public String getAuthor() {
+	public String getAuthor()
+	{
 		return SettingUtils.get().getSiteName();
 	}
 
 	@Override
-	public String getSiteUrl() {
+	public String getSiteUrl()
+	{
 		return SettingUtils.get().getSiteUrl();
 	}
 
 	@Override
-	public String getInstallUrl() {
+	public String getInstallUrl()
+	{
 		return "paypal/install.jhtml";
 	}
 
 	@Override
-	public String getUninstallUrl() {
+	public String getUninstallUrl()
+	{
 		return "paypal/uninstall.jhtml";
 	}
 
 	@Override
-	public String getSettingUrl() {
+	public String getSettingUrl()
+	{
 		return "paypal/setting.jhtml";
 	}
 
 	@Override
-	public String getRequestUrl() {
+	public String getRequestUrl()
+	{
 		return "https://www.paypal.com/cgi-bin/webscr";
 	}
 
 	@Override
-	public RequestMethod getRequestMethod() {
+	public RequestMethod getRequestMethod()
+	{
 		return RequestMethod.post;
 	}
 
 	@Override
-	public String getRequestCharset() {
+	public String getRequestCharset()
+	{
 		return "UTF-8";
 	}
 
 	@Override
-	public Map<String, Object> getParameterMap(String sn, String description, HttpServletRequest request) {
+	public Map<String, Object> getParameterMap(String sn, String description, HttpServletRequest request)
+	{
 		PluginConfig pluginConfig = getPluginConfig();
 		Payment payment = getPayment(sn);
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
@@ -157,14 +171,21 @@ public class PaypalPlugin extends PaymentPlugin {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean verifyNotify(String sn, NotifyMethod notifyMethod, HttpServletRequest request) {
+	public boolean verifyNotify(String sn, NotifyMethod notifyMethod, HttpServletRequest request)
+	{
 		PluginConfig pluginConfig = getPluginConfig();
 		Payment payment = getPayment(sn);
-		if (pluginConfig.getAttribute("partner").equals(request.getParameter("receiver_email")) && sn.equals(request.getParameter("invoice")) && pluginConfig.getAttribute("currency").equals(request.getParameter("mc_currency")) && "Completed".equals(request.getParameter("payment_status")) && payment.getAmount().compareTo(new BigDecimal(request.getParameter("mc_gross"))) == 0) {
+		if (pluginConfig.getAttribute("partner").equals(request.getParameter("receiver_email"))
+				&& sn.equals(request.getParameter("invoice"))
+				&& pluginConfig.getAttribute("currency").equals(request.getParameter("mc_currency"))
+				&& "Completed".equals(request.getParameter("payment_status"))
+				&& payment.getAmount().compareTo(new BigDecimal(request.getParameter("mc_gross"))) == 0)
+		{
 			Map<String, Object> parameterMap = new LinkedHashMap<String, Object>();
 			parameterMap.put("cmd", "_notify-validate");
 			parameterMap.putAll(request.getParameterMap());
-			if ("VERIFIED".equals(post("https://www.paypal.com/cgi-bin/webscr", parameterMap))) {
+			if ("VERIFIED".equals(post("https://www.paypal.com/cgi-bin/webscr", parameterMap)))
+			{
 				return true;
 			}
 		}
@@ -172,12 +193,14 @@ public class PaypalPlugin extends PaymentPlugin {
 	}
 
 	@Override
-	public String getNotifyMessage(String sn, NotifyMethod notifyMethod, HttpServletRequest request) {
+	public String getNotifyMessage(String sn, NotifyMethod notifyMethod, HttpServletRequest request)
+	{
 		return null;
 	}
 
 	@Override
-	public Integer getTimeout() {
+	public Integer getTimeout()
+	{
 		return 21600;
 	}
 

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 /**
  * Controller - SEO设置
  * 
@@ -25,7 +26,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller("adminSeoController")
 @RequestMapping("/admin/seo")
-public class SeoController extends BaseController {
+public class SeoController extends BaseController
+{
 
 	@Resource(name = "seoServiceImpl")
 	private SeoService seoService;
@@ -34,7 +36,8 @@ public class SeoController extends BaseController {
 	 * 编辑
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(Long id, ModelMap model) {
+	public String edit(Long id, ModelMap model)
+	{
 		model.addAttribute("seo", seoService.find(id));
 		return "/admin/seo/edit";
 	}
@@ -43,8 +46,10 @@ public class SeoController extends BaseController {
 	 * 更新
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(Seo seo, RedirectAttributes redirectAttributes) {
-		if (!isValid(seo)) {
+	public String update(Seo seo, RedirectAttributes redirectAttributes)
+	{
+		if (!isValid(seo))
+		{
 			return ERROR_VIEW;
 		}
 		seoService.update(seo, "type");
@@ -56,7 +61,8 @@ public class SeoController extends BaseController {
 	 * 列表
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Pageable pageable, ModelMap model) {
+	public String list(Pageable pageable, ModelMap model)
+	{
 		model.addAttribute("page", seoService.findPage(pageable));
 		return "/admin/seo/list";
 	}

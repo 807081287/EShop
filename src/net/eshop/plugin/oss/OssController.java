@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 /**
  * Controller - 阿里云存储
  * 
@@ -31,7 +32,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller("adminPluginOssController")
 @RequestMapping("/admin/storage_plugin/oss")
-public class OssController extends BaseController {
+public class OssController extends BaseController
+{
 
 	@Resource(name = "ossPlugin")
 	private OssPlugin ossPlugin;
@@ -42,16 +44,19 @@ public class OssController extends BaseController {
 	 * 安装
 	 */
 	@RequestMapping(value = "/install", method = RequestMethod.POST)
-	public @ResponseBody
-	Message install() {
+	public @ResponseBody Message install()
+	{
 		String specificationVersion = System.getProperty("java.specification.version");
-		if (StringUtils.isNotEmpty(specificationVersion)) {
+		if (StringUtils.isNotEmpty(specificationVersion))
+		{
 			BigDecimal version = new BigDecimal(specificationVersion);
-			if (version.compareTo(new BigDecimal("1.6")) < 0) {
+			if (version.compareTo(new BigDecimal("1.6")) < 0)
+			{
 				return Message.error("admin.plugin.oss.unsupportedJavaVersion");
 			}
 		}
-		if (!ossPlugin.getIsInstalled()) {
+		if (!ossPlugin.getIsInstalled())
+		{
 			PluginConfig pluginConfig = new PluginConfig();
 			pluginConfig.setPluginId(ossPlugin.getId());
 			pluginConfig.setIsEnabled(false);
@@ -64,9 +69,10 @@ public class OssController extends BaseController {
 	 * 卸载
 	 */
 	@RequestMapping(value = "/uninstall", method = RequestMethod.POST)
-	public @ResponseBody
-	Message uninstall() {
-		if (ossPlugin.getIsInstalled()) {
+	public @ResponseBody Message uninstall()
+	{
+		if (ossPlugin.getIsInstalled())
+		{
 			PluginConfig pluginConfig = ossPlugin.getPluginConfig();
 			pluginConfigService.delete(pluginConfig);
 		}
@@ -77,7 +83,8 @@ public class OssController extends BaseController {
 	 * 设置
 	 */
 	@RequestMapping(value = "/setting", method = RequestMethod.GET)
-	public String setting(ModelMap model) {
+	public String setting(ModelMap model)
+	{
 		PluginConfig pluginConfig = ossPlugin.getPluginConfig();
 		model.addAttribute("pluginConfig", pluginConfig);
 		return "/net/eshop/plugin/oss/setting";
@@ -87,7 +94,9 @@ public class OssController extends BaseController {
 	 * 更新
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(String accessId, String accessKey, String bucketName, String urlPrefix, @RequestParam(defaultValue = "false") Boolean isEnabled, Integer order, RedirectAttributes redirectAttributes) {
+	public String update(String accessId, String accessKey, String bucketName, String urlPrefix,
+			@RequestParam(defaultValue = "false") Boolean isEnabled, Integer order, RedirectAttributes redirectAttributes)
+	{
 		PluginConfig pluginConfig = ossPlugin.getPluginConfig();
 		pluginConfig.setAttribute("accessId", accessId);
 		pluginConfig.setAttribute("accessKey", accessKey);

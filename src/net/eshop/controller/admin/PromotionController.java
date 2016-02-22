@@ -40,6 +40,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 /**
  * Controller - 促销
  * 
@@ -48,7 +49,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller("adminPromotionController")
 @RequestMapping("/admin/promotion")
-public class PromotionController extends BaseController {
+public class PromotionController extends BaseController
+{
 
 	@Resource(name = "promotionServiceImpl")
 	private PromotionService promotionService;
@@ -67,18 +69,22 @@ public class PromotionController extends BaseController {
 	 * 检查价格运算表达式是否正确
 	 */
 	@RequestMapping(value = "/check_price_expression", method = RequestMethod.GET)
-	public @ResponseBody
-	boolean checkPriceExpression(String priceExpression) {
-		if (StringUtils.isEmpty(priceExpression)) {
+	public @ResponseBody boolean checkPriceExpression(String priceExpression)
+	{
+		if (StringUtils.isEmpty(priceExpression))
+		{
 			return false;
 		}
-		try {
+		try
+		{
 			Map<String, Object> model = new HashMap<String, Object>();
 			model.put("quantity", 111);
 			model.put("price", new BigDecimal(9.99));
 			new BigDecimal(FreemarkerUtils.process("#{(" + priceExpression + ");M50}", model));
 			return true;
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			return false;
 		}
 	}
@@ -87,18 +93,22 @@ public class PromotionController extends BaseController {
 	 * 检查积分运算表达式是否正确
 	 */
 	@RequestMapping(value = "/check_point_expression", method = RequestMethod.GET)
-	public @ResponseBody
-	boolean checkPointExpression(String pointExpression) {
-		if (StringUtils.isEmpty(pointExpression)) {
+	public @ResponseBody boolean checkPointExpression(String pointExpression)
+	{
+		if (StringUtils.isEmpty(pointExpression))
+		{
 			return false;
 		}
-		try {
+		try
+		{
 			Map<String, Object> model = new HashMap<String, Object>();
 			model.put("quantity", 111);
 			model.put("point", 999L);
 			Double.valueOf(FreemarkerUtils.process("#{(" + pointExpression + ");M50}", model)).longValue();
 			return true;
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
 			return false;
 		}
@@ -108,12 +118,14 @@ public class PromotionController extends BaseController {
 	 * 商品选择
 	 */
 	@RequestMapping(value = "/product_select", method = RequestMethod.GET)
-	public @ResponseBody
-	List<Map<String, Object>> productSelect(String q) {
+	public @ResponseBody List<Map<String, Object>> productSelect(String q)
+	{
 		List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
-		if (StringUtils.isNotEmpty(q)) {
+		if (StringUtils.isNotEmpty(q))
+		{
 			List<Product> products = productService.search(q, false, 20);
-			for (Product product : products) {
+			for (Product product : products)
+			{
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("id", product.getId());
 				map.put("sn", product.getSn());
@@ -129,12 +141,14 @@ public class PromotionController extends BaseController {
 	 * 赠品选择
 	 */
 	@RequestMapping(value = "/gift_select", method = RequestMethod.GET)
-	public @ResponseBody
-	List<Map<String, Object>> giftSelect(String q) {
+	public @ResponseBody List<Map<String, Object>> giftSelect(String q)
+	{
 		List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
-		if (StringUtils.isNotEmpty(q)) {
+		if (StringUtils.isNotEmpty(q))
+		{
 			List<Product> products = productService.search(q, true, 20);
-			for (Product product : products) {
+			for (Product product : products)
+			{
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("id", product.getId());
 				map.put("sn", product.getSn());
@@ -150,7 +164,8 @@ public class PromotionController extends BaseController {
 	 * 添加
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public String add(ModelMap model) {
+	public String add(ModelMap model)
+	{
 		model.addAttribute("memberRanks", memberRankService.findAll());
 		model.addAttribute("productCategories", productCategoryService.findAll());
 		model.addAttribute("brands", brandService.findAll());
@@ -162,54 +177,77 @@ public class PromotionController extends BaseController {
 	 * 保存
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String save(Promotion promotion, Long[] memberRankIds, Long[] productCategoryIds, Long[] brandIds, Long[] couponIds, Long[] productIds, RedirectAttributes redirectAttributes) {
+	public String save(Promotion promotion, Long[] memberRankIds, Long[] productCategoryIds, Long[] brandIds, Long[] couponIds,
+			Long[] productIds, RedirectAttributes redirectAttributes)
+	{
 		promotion.setMemberRanks(new HashSet<MemberRank>(memberRankService.findList(memberRankIds)));
 		promotion.setProductCategories(new HashSet<ProductCategory>(productCategoryService.findList(productCategoryIds)));
 		promotion.setBrands(new HashSet<Brand>(brandService.findList(brandIds)));
 		promotion.setCoupons(new HashSet<Coupon>(couponService.findList(couponIds)));
-		for (Product product : productService.findList(productIds)) {
-			if (!product.getIsGift()) {
+		for (Product product : productService.findList(productIds))
+		{
+			if (!product.getIsGift())
+			{
 				promotion.getProducts().add(product);
 			}
 		}
-		for (Iterator<GiftItem> iterator = promotion.getGiftItems().iterator(); iterator.hasNext();) {
+		for (Iterator<GiftItem> iterator = promotion.getGiftItems().iterator(); iterator.hasNext();)
+		{
 			GiftItem giftItem = iterator.next();
-			if (giftItem == null || giftItem.getGift() == null || giftItem.getGift().getId() == null) {
+			if (giftItem == null || giftItem.getGift() == null || giftItem.getGift().getId() == null)
+			{
 				iterator.remove();
-			} else {
+			}
+			else
+			{
 				giftItem.setGift(productService.find(giftItem.getGift().getId()));
 				giftItem.setPromotion(promotion);
 			}
 		}
-		if (!isValid(promotion)) {
+		if (!isValid(promotion))
+		{
 			return ERROR_VIEW;
 		}
-		if (promotion.getBeginDate() != null && promotion.getEndDate() != null && promotion.getBeginDate().after(promotion.getEndDate())) {
+		if (promotion.getBeginDate() != null && promotion.getEndDate() != null
+				&& promotion.getBeginDate().after(promotion.getEndDate()))
+		{
 			return ERROR_VIEW;
 		}
-		if (promotion.getMinimumQuantity() != null && promotion.getMaximumQuantity() != null && promotion.getMinimumQuantity() > promotion.getMaximumQuantity()) {
+		if (promotion.getMinimumQuantity() != null && promotion.getMaximumQuantity() != null
+				&& promotion.getMinimumQuantity() > promotion.getMaximumQuantity())
+		{
 			return ERROR_VIEW;
 		}
-		if (promotion.getMinimumPrice() != null && promotion.getMaximumPrice() != null && promotion.getMinimumPrice().compareTo(promotion.getMaximumPrice()) > 0) {
+		if (promotion.getMinimumPrice() != null && promotion.getMaximumPrice() != null
+				&& promotion.getMinimumPrice().compareTo(promotion.getMaximumPrice()) > 0)
+		{
 			return ERROR_VIEW;
 		}
-		if (StringUtils.isNotEmpty(promotion.getPriceExpression())) {
-			try {
+		if (StringUtils.isNotEmpty(promotion.getPriceExpression()))
+		{
+			try
+			{
 				Map<String, Object> model = new HashMap<String, Object>();
 				model.put("quantity", 111);
 				model.put("price", new BigDecimal(9.99));
 				new BigDecimal(FreemarkerUtils.process("#{(" + promotion.getPriceExpression() + ");M50}", model));
-			} catch (Exception e) {
+			}
+			catch (Exception e)
+			{
 				return ERROR_VIEW;
 			}
 		}
-		if (StringUtils.isNotEmpty(promotion.getPointExpression())) {
-			try {
+		if (StringUtils.isNotEmpty(promotion.getPointExpression()))
+		{
+			try
+			{
 				Map<String, Object> model = new HashMap<String, Object>();
 				model.put("quantity", 111);
 				model.put("point", 999L);
 				Double.valueOf(FreemarkerUtils.process("#{(" + promotion.getPointExpression() + ");M50}", model)).longValue();
-			} catch (Exception e) {
+			}
+			catch (Exception e)
+			{
 				return ERROR_VIEW;
 			}
 		}
@@ -222,7 +260,8 @@ public class PromotionController extends BaseController {
 	 * 编辑
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(Long id, ModelMap model) {
+	public String edit(Long id, ModelMap model)
+	{
 		model.addAttribute("promotion", promotionService.find(id));
 		model.addAttribute("memberRanks", memberRankService.findAll());
 		model.addAttribute("productCategories", productCategoryService.findAll());
@@ -235,51 +274,73 @@ public class PromotionController extends BaseController {
 	 * 更新
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(Promotion promotion, Long[] memberRankIds, Long[] productCategoryIds, Long[] brandIds, Long[] couponIds, Long[] productIds, RedirectAttributes redirectAttributes) {
+	public String update(Promotion promotion, Long[] memberRankIds, Long[] productCategoryIds, Long[] brandIds, Long[] couponIds,
+			Long[] productIds, RedirectAttributes redirectAttributes)
+	{
 		promotion.setMemberRanks(new HashSet<MemberRank>(memberRankService.findList(memberRankIds)));
 		promotion.setProductCategories(new HashSet<ProductCategory>(productCategoryService.findList(productCategoryIds)));
 		promotion.setBrands(new HashSet<Brand>(brandService.findList(brandIds)));
 		promotion.setCoupons(new HashSet<Coupon>(couponService.findList(couponIds)));
-		for (Product product : productService.findList(productIds)) {
-			if (!product.getIsGift()) {
+		for (Product product : productService.findList(productIds))
+		{
+			if (!product.getIsGift())
+			{
 				promotion.getProducts().add(product);
 			}
 		}
-		for (Iterator<GiftItem> iterator = promotion.getGiftItems().iterator(); iterator.hasNext();) {
+		for (Iterator<GiftItem> iterator = promotion.getGiftItems().iterator(); iterator.hasNext();)
+		{
 			GiftItem giftItem = iterator.next();
-			if (giftItem == null || giftItem.getGift() == null || giftItem.getGift().getId() == null) {
+			if (giftItem == null || giftItem.getGift() == null || giftItem.getGift().getId() == null)
+			{
 				iterator.remove();
-			} else {
+			}
+			else
+			{
 				giftItem.setGift(productService.find(giftItem.getGift().getId()));
 				giftItem.setPromotion(promotion);
 			}
 		}
-		if (promotion.getBeginDate() != null && promotion.getEndDate() != null && promotion.getBeginDate().after(promotion.getEndDate())) {
+		if (promotion.getBeginDate() != null && promotion.getEndDate() != null
+				&& promotion.getBeginDate().after(promotion.getEndDate()))
+		{
 			return ERROR_VIEW;
 		}
-		if (promotion.getMinimumQuantity() != null && promotion.getMaximumQuantity() != null && promotion.getMinimumQuantity() > promotion.getMaximumQuantity()) {
+		if (promotion.getMinimumQuantity() != null && promotion.getMaximumQuantity() != null
+				&& promotion.getMinimumQuantity() > promotion.getMaximumQuantity())
+		{
 			return ERROR_VIEW;
 		}
-		if (promotion.getMinimumPrice() != null && promotion.getMaximumPrice() != null && promotion.getMinimumPrice().compareTo(promotion.getMaximumPrice()) > 0) {
+		if (promotion.getMinimumPrice() != null && promotion.getMaximumPrice() != null
+				&& promotion.getMinimumPrice().compareTo(promotion.getMaximumPrice()) > 0)
+		{
 			return ERROR_VIEW;
 		}
-		if (StringUtils.isNotEmpty(promotion.getPriceExpression())) {
-			try {
+		if (StringUtils.isNotEmpty(promotion.getPriceExpression()))
+		{
+			try
+			{
 				Map<String, Object> model = new HashMap<String, Object>();
 				model.put("quantity", 111);
 				model.put("price", new BigDecimal(9.99));
 				new BigDecimal(FreemarkerUtils.process("#{(" + promotion.getPriceExpression() + ");M50}", model));
-			} catch (Exception e) {
+			}
+			catch (Exception e)
+			{
 				return ERROR_VIEW;
 			}
 		}
-		if (StringUtils.isNotEmpty(promotion.getPointExpression())) {
-			try {
+		if (StringUtils.isNotEmpty(promotion.getPointExpression()))
+		{
+			try
+			{
 				Map<String, Object> model = new HashMap<String, Object>();
 				model.put("quantity", 111);
 				model.put("point", 999L);
 				Double.valueOf(FreemarkerUtils.process("#{(" + promotion.getPointExpression() + ");M50}", model)).longValue();
-			} catch (Exception e) {
+			}
+			catch (Exception e)
+			{
 				return ERROR_VIEW;
 			}
 		}
@@ -292,7 +353,8 @@ public class PromotionController extends BaseController {
 	 * 列表
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Pageable pageable, ModelMap model) {
+	public String list(Pageable pageable, ModelMap model)
+	{
 		model.addAttribute("page", promotionService.findPage(pageable));
 		return "/admin/promotion/list";
 	}
@@ -301,8 +363,8 @@ public class PromotionController extends BaseController {
 	 * 删除
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public @ResponseBody
-	Message delete(Long[] ids) {
+	public @ResponseBody Message delete(Long[] ids)
+	{
 		promotionService.delete(ids);
 		return SUCCESS_MESSAGE;
 	}

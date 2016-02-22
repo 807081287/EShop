@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 /**
  * Controller - 角色
  * 
@@ -27,7 +28,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller("adminRoleController")
 @RequestMapping("/admin/role")
-public class RoleController extends BaseController {
+public class RoleController extends BaseController
+{
 
 	@Resource(name = "roleServiceImpl")
 	private RoleService roleService;
@@ -36,7 +38,8 @@ public class RoleController extends BaseController {
 	 * 添加
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public String add() {
+	public String add()
+	{
 		return "/admin/role/add";
 	}
 
@@ -44,8 +47,10 @@ public class RoleController extends BaseController {
 	 * 保存
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String save(Role role, RedirectAttributes redirectAttributes) {
-		if (!isValid(role)) {
+	public String save(Role role, RedirectAttributes redirectAttributes)
+	{
+		if (!isValid(role))
+		{
 			return ERROR_VIEW;
 		}
 		role.setIsSystem(false);
@@ -59,7 +64,8 @@ public class RoleController extends BaseController {
 	 * 编辑
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(Long id, ModelMap model) {
+	public String edit(Long id, ModelMap model)
+	{
 		model.addAttribute("role", roleService.find(id));
 		return "/admin/role/edit";
 	}
@@ -68,12 +74,15 @@ public class RoleController extends BaseController {
 	 * 更新
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(Role role, RedirectAttributes redirectAttributes) {
-		if (!isValid(role)) {
+	public String update(Role role, RedirectAttributes redirectAttributes)
+	{
+		if (!isValid(role))
+		{
 			return ERROR_VIEW;
 		}
 		Role pRole = roleService.find(role.getId());
-		if (pRole == null || pRole.getIsSystem()) {
+		if (pRole == null || pRole.getIsSystem())
+		{
 			return ERROR_VIEW;
 		}
 		roleService.update(role, "isSystem", "admins");
@@ -85,7 +94,8 @@ public class RoleController extends BaseController {
 	 * 列表
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Pageable pageable, ModelMap model) {
+	public String list(Pageable pageable, ModelMap model)
+	{
 		model.addAttribute("page", roleService.findPage(pageable));
 		return "/admin/role/list";
 	}
@@ -94,12 +104,15 @@ public class RoleController extends BaseController {
 	 * 删除
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public @ResponseBody
-	Message delete(Long[] ids) {
-		if (ids != null) {
-			for (Long id : ids) {
+	public @ResponseBody Message delete(Long[] ids)
+	{
+		if (ids != null)
+		{
+			for (Long id : ids)
+			{
 				Role role = roleService.find(id);
-				if (role != null && (role.getIsSystem() || (role.getAdmins() != null && !role.getAdmins().isEmpty()))) {
+				if (role != null && (role.getIsSystem() || (role.getAdmins() != null && !role.getAdmins().isEmpty())))
+				{
 					return Message.error("admin.role.deleteExistNotAllowed", role.getName());
 				}
 			}

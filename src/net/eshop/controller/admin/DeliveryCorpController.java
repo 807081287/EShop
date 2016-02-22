@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 /**
  * Controller - 物流公司
  * 
@@ -27,7 +28,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller("adminDeliveryCorpController")
 @RequestMapping("/admin/delivery_corp")
-public class DeliveryCorpController extends BaseController {
+public class DeliveryCorpController extends BaseController
+{
 
 	@Resource(name = "deliveryCorpServiceImpl")
 	private DeliveryCorpService deliveryCorpService;
@@ -36,7 +38,8 @@ public class DeliveryCorpController extends BaseController {
 	 * 添加
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public String add() {
+	public String add()
+	{
 		return "/admin/delivery_corp/add";
 	}
 
@@ -44,8 +47,10 @@ public class DeliveryCorpController extends BaseController {
 	 * 保存
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String save(DeliveryCorp deliveryCorp, RedirectAttributes redirectAttributes) {
-		if (!isValid(deliveryCorp)) {
+	public String save(DeliveryCorp deliveryCorp, RedirectAttributes redirectAttributes)
+	{
+		if (!isValid(deliveryCorp))
+		{
 			return ERROR_VIEW;
 		}
 		deliveryCorp.setShippingMethods(null);
@@ -58,7 +63,8 @@ public class DeliveryCorpController extends BaseController {
 	 * 编辑
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(Long id, ModelMap model) {
+	public String edit(Long id, ModelMap model)
+	{
 		model.addAttribute("deliveryCorp", deliveryCorpService.find(id));
 		return "/admin/delivery_corp/edit";
 	}
@@ -67,8 +73,10 @@ public class DeliveryCorpController extends BaseController {
 	 * 更新
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(DeliveryCorp deliveryCorp, RedirectAttributes redirectAttributes) {
-		if (!isValid(deliveryCorp)) {
+	public String update(DeliveryCorp deliveryCorp, RedirectAttributes redirectAttributes)
+	{
+		if (!isValid(deliveryCorp))
+		{
 			return ERROR_VIEW;
 		}
 		deliveryCorpService.update(deliveryCorp, "shippingMethods");
@@ -80,7 +88,8 @@ public class DeliveryCorpController extends BaseController {
 	 * 列表
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Pageable pageable, ModelMap model) {
+	public String list(Pageable pageable, ModelMap model)
+	{
 		model.addAttribute("page", deliveryCorpService.findPage(pageable));
 		return "/admin/delivery_corp/list";
 	}
@@ -89,8 +98,8 @@ public class DeliveryCorpController extends BaseController {
 	 * 删除
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public @ResponseBody
-	Message delete(Long[] ids) {
+	public @ResponseBody Message delete(Long[] ids)
+	{
 		deliveryCorpService.delete(ids);
 		return SUCCESS_MESSAGE;
 	}

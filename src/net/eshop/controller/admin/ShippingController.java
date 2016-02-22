@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
 /**
  * Controller - 发货单
  * 
@@ -25,7 +26,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller("adminShippingController")
 @RequestMapping("/admin/shipping")
-public class ShippingController extends BaseController {
+public class ShippingController extends BaseController
+{
 
 	@Resource(name = "shippingServiceImpl")
 	private ShippingService shippingService;
@@ -34,7 +36,8 @@ public class ShippingController extends BaseController {
 	 * 查看
 	 */
 	@RequestMapping(value = "/view", method = RequestMethod.GET)
-	public String view(Long id, ModelMap model) {
+	public String view(Long id, ModelMap model)
+	{
 		model.addAttribute("shipping", shippingService.find(id));
 		return "/admin/shipping/view";
 	}
@@ -43,7 +46,8 @@ public class ShippingController extends BaseController {
 	 * 列表
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Pageable pageable, ModelMap model) {
+	public String list(Pageable pageable, ModelMap model)
+	{
 		model.addAttribute("page", shippingService.findPage(pageable));
 		return "/admin/shipping/list";
 	}
@@ -52,8 +56,8 @@ public class ShippingController extends BaseController {
 	 * 删除
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public @ResponseBody
-	Message delete(Long[] ids) {
+	public @ResponseBody Message delete(Long[] ids)
+	{
 		shippingService.delete(ids);
 		return SUCCESS_MESSAGE;
 	}

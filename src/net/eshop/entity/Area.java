@@ -24,6 +24,7 @@ import javax.persistence.Table;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+
 /**
  * Entity - 地区
  * 
@@ -33,7 +34,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table(name = "t_area")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_area_sequence")
-public class Area extends OrderEntity {
+public class Area extends OrderEntity
+{
 
 	private static final long serialVersionUID = -2158109459123036967L;
 
@@ -75,7 +77,8 @@ public class Area extends OrderEntity {
 	@NotEmpty
 	@Length(max = 100)
 	@Column(nullable = false, length = 100)
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
@@ -83,9 +86,10 @@ public class Area extends OrderEntity {
 	 * 设置名称
 	 * 
 	 * @param name
-	 *            名称
+	 *           名称
 	 */
-	public void setName(String name) {
+	public void setName(String name)
+	{
 		this.name = name;
 	}
 
@@ -95,7 +99,8 @@ public class Area extends OrderEntity {
 	 * @return 全称
 	 */
 	@Column(nullable = false, length = 500)
-	public String getFullName() {
+	public String getFullName()
+	{
 		return fullName;
 	}
 
@@ -103,9 +108,10 @@ public class Area extends OrderEntity {
 	 * 设置全称
 	 * 
 	 * @param fullName
-	 *            全称
+	 *           全称
 	 */
-	public void setFullName(String fullName) {
+	public void setFullName(String fullName)
+	{
 		this.fullName = fullName;
 	}
 
@@ -115,7 +121,8 @@ public class Area extends OrderEntity {
 	 * @return 树路径
 	 */
 	@Column(nullable = false, updatable = false)
-	public String getTreePath() {
+	public String getTreePath()
+	{
 		return treePath;
 	}
 
@@ -123,9 +130,10 @@ public class Area extends OrderEntity {
 	 * 设置树路径
 	 * 
 	 * @param treePath
-	 *            树路径
+	 *           树路径
 	 */
-	public void setTreePath(String treePath) {
+	public void setTreePath(String treePath)
+	{
 		this.treePath = treePath;
 	}
 
@@ -135,7 +143,8 @@ public class Area extends OrderEntity {
 	 * @return 上级地区
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	public Area getParent() {
+	public Area getParent()
+	{
 		return parent;
 	}
 
@@ -143,9 +152,10 @@ public class Area extends OrderEntity {
 	 * 设置上级地区
 	 * 
 	 * @param parent
-	 *            上级地区
+	 *           上级地区
 	 */
-	public void setParent(Area parent) {
+	public void setParent(Area parent)
+	{
 		this.parent = parent;
 	}
 
@@ -156,7 +166,8 @@ public class Area extends OrderEntity {
 	 */
 	@OneToMany(mappedBy = "parent", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	@OrderBy("order asc")
-	public Set<Area> getChildren() {
+	public Set<Area> getChildren()
+	{
 		return children;
 	}
 
@@ -164,9 +175,10 @@ public class Area extends OrderEntity {
 	 * 设置下级地区
 	 * 
 	 * @param children
-	 *            下级地区
+	 *           下级地区
 	 */
-	public void setChildren(Set<Area> children) {
+	public void setChildren(Set<Area> children)
+	{
 		this.children = children;
 	}
 
@@ -176,7 +188,8 @@ public class Area extends OrderEntity {
 	 * @return 会员
 	 */
 	@OneToMany(mappedBy = "area", fetch = FetchType.LAZY)
-	public Set<Member> getMembers() {
+	public Set<Member> getMembers()
+	{
 		return members;
 	}
 
@@ -184,9 +197,10 @@ public class Area extends OrderEntity {
 	 * 设置会员
 	 * 
 	 * @param members
-	 *            会员
+	 *           会员
 	 */
-	public void setMembers(Set<Member> members) {
+	public void setMembers(Set<Member> members)
+	{
 		this.members = members;
 	}
 
@@ -196,7 +210,8 @@ public class Area extends OrderEntity {
 	 * @return 收货地址
 	 */
 	@OneToMany(mappedBy = "area", fetch = FetchType.LAZY)
-	public Set<Receiver> getReceivers() {
+	public Set<Receiver> getReceivers()
+	{
 		return receivers;
 	}
 
@@ -204,9 +219,10 @@ public class Area extends OrderEntity {
 	 * 设置收货地址
 	 * 
 	 * @param receivers
-	 *            收货地址
+	 *           收货地址
 	 */
-	public void setReceivers(Set<Receiver> receivers) {
+	public void setReceivers(Set<Receiver> receivers)
+	{
 		this.receivers = receivers;
 	}
 
@@ -216,7 +232,8 @@ public class Area extends OrderEntity {
 	 * @return 订单
 	 */
 	@OneToMany(mappedBy = "area", fetch = FetchType.LAZY)
-	public Set<Order> getOrders() {
+	public Set<Order> getOrders()
+	{
 		return orders;
 	}
 
@@ -224,9 +241,10 @@ public class Area extends OrderEntity {
 	 * 设置订单
 	 * 
 	 * @param orders
-	 *            订单
+	 *           订单
 	 */
-	public void setOrders(Set<Order> orders) {
+	public void setOrders(Set<Order> orders)
+	{
 		this.orders = orders;
 	}
 
@@ -236,7 +254,8 @@ public class Area extends OrderEntity {
 	 * @return 发货点
 	 */
 	@OneToMany(mappedBy = "area", fetch = FetchType.LAZY)
-	public Set<DeliveryCenter> getDeliveryCenters() {
+	public Set<DeliveryCenter> getDeliveryCenters()
+	{
 		return deliveryCenters;
 	}
 
@@ -244,9 +263,10 @@ public class Area extends OrderEntity {
 	 * 设置发货点
 	 * 
 	 * @param deliveryCenters
-	 *            发货点
+	 *           发货点
 	 */
-	public void setDeliveryCenters(Set<DeliveryCenter> deliveryCenters) {
+	public void setDeliveryCenters(Set<DeliveryCenter> deliveryCenters)
+	{
 		this.deliveryCenters = deliveryCenters;
 	}
 
@@ -254,12 +274,16 @@ public class Area extends OrderEntity {
 	 * 持久化前处理
 	 */
 	@PrePersist
-	public void prePersist() {
+	public void prePersist()
+	{
 		Area parent = getParent();
-		if (parent != null) {
+		if (parent != null)
+		{
 			setFullName(parent.getFullName() + getName());
 			setTreePath(parent.getTreePath() + parent.getId() + TREE_PATH_SEPARATOR);
-		} else {
+		}
+		else
+		{
 			setFullName(getName());
 			setTreePath(TREE_PATH_SEPARATOR);
 		}
@@ -269,11 +293,15 @@ public class Area extends OrderEntity {
 	 * 更新前处理
 	 */
 	@PreUpdate
-	public void preUpdate() {
+	public void preUpdate()
+	{
 		Area parent = getParent();
-		if (parent != null) {
+		if (parent != null)
+		{
 			setFullName(parent.getFullName() + getName());
-		} else {
+		}
+		else
+		{
 			setFullName(getName());
 		}
 	}
@@ -282,28 +310,37 @@ public class Area extends OrderEntity {
 	 * 删除前处理
 	 */
 	@PreRemove
-	public void preRemove() {
+	public void preRemove()
+	{
 		Set<Member> members = getMembers();
-		if (members != null) {
-			for (Member member : members) {
+		if (members != null)
+		{
+			for (Member member : members)
+			{
 				member.setArea(null);
 			}
 		}
 		Set<Receiver> receivers = getReceivers();
-		if (receivers != null) {
-			for (Receiver receiver : receivers) {
+		if (receivers != null)
+		{
+			for (Receiver receiver : receivers)
+			{
 				receiver.setArea(null);
 			}
 		}
 		Set<Order> orders = getOrders();
-		if (orders != null) {
-			for (Order order : orders) {
+		if (orders != null)
+		{
+			for (Order order : orders)
+			{
 				order.setArea(null);
 			}
 		}
 		Set<DeliveryCenter> deliveryCenters = getDeliveryCenters();
-		if (deliveryCenters != null) {
-			for (DeliveryCenter deliveryCenter : deliveryCenters) {
+		if (deliveryCenters != null)
+		{
+			for (DeliveryCenter deliveryCenter : deliveryCenters)
+			{
 				deliveryCenter.setArea(null);
 			}
 		}
@@ -315,7 +352,8 @@ public class Area extends OrderEntity {
 	 * @return 全称
 	 */
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return getFullName();
 	}
 

@@ -19,6 +19,7 @@ import javax.persistence.Table;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+
 /**
  * Entity - 物流公司
  * 
@@ -28,7 +29,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table(name = "t_delivery_corp")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_delivery_corp_sequence")
-public class DeliveryCorp extends OrderEntity {
+public class DeliveryCorp extends OrderEntity
+{
 
 	private static final long serialVersionUID = 10595703086045998L;
 
@@ -52,7 +54,8 @@ public class DeliveryCorp extends OrderEntity {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false)
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
@@ -60,9 +63,10 @@ public class DeliveryCorp extends OrderEntity {
 	 * 设置名称
 	 * 
 	 * @param name
-	 *            名称
+	 *           名称
 	 */
-	public void setName(String name) {
+	public void setName(String name)
+	{
 		this.name = name;
 	}
 
@@ -72,7 +76,8 @@ public class DeliveryCorp extends OrderEntity {
 	 * @return 网址
 	 */
 	@Length(max = 200)
-	public String getUrl() {
+	public String getUrl()
+	{
 		return url;
 	}
 
@@ -80,9 +85,10 @@ public class DeliveryCorp extends OrderEntity {
 	 * 设置网址
 	 * 
 	 * @param url
-	 *            网址
+	 *           网址
 	 */
-	public void setUrl(String url) {
+	public void setUrl(String url)
+	{
 		this.url = url;
 	}
 
@@ -92,7 +98,8 @@ public class DeliveryCorp extends OrderEntity {
 	 * @return 代码
 	 */
 	@Length(max = 200)
-	public String getCode() {
+	public String getCode()
+	{
 		return code;
 	}
 
@@ -100,9 +107,10 @@ public class DeliveryCorp extends OrderEntity {
 	 * 设置代码
 	 * 
 	 * @param code
-	 *            代码
+	 *           代码
 	 */
-	public void setCode(String code) {
+	public void setCode(String code)
+	{
 		this.code = code;
 	}
 
@@ -112,7 +120,8 @@ public class DeliveryCorp extends OrderEntity {
 	 * @return 配送方式
 	 */
 	@OneToMany(mappedBy = "defaultDeliveryCorp", fetch = FetchType.LAZY)
-	public Set<ShippingMethod> getShippingMethods() {
+	public Set<ShippingMethod> getShippingMethods()
+	{
 		return shippingMethods;
 	}
 
@@ -120,9 +129,10 @@ public class DeliveryCorp extends OrderEntity {
 	 * 设置配送方式
 	 * 
 	 * @param shippingMethods
-	 *            配送方式
+	 *           配送方式
 	 */
-	public void setShippingMethods(Set<ShippingMethod> shippingMethods) {
+	public void setShippingMethods(Set<ShippingMethod> shippingMethods)
+	{
 		this.shippingMethods = shippingMethods;
 	}
 
@@ -130,10 +140,13 @@ public class DeliveryCorp extends OrderEntity {
 	 * 删除前处理
 	 */
 	@PreRemove
-	public void preRemove() {
+	public void preRemove()
+	{
 		Set<ShippingMethod> shippingMethods = getShippingMethods();
-		if (shippingMethods != null) {
-			for (ShippingMethod shippingMethod : shippingMethods) {
+		if (shippingMethods != null)
+		{
+			for (ShippingMethod shippingMethod : shippingMethods)
+			{
 				shippingMethod.setDefaultDeliveryCorp(null);
 			}
 		}

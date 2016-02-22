@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
 /**
  * Controller - 咨询
  * 
@@ -40,7 +41,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller("shopConsultationController")
 @RequestMapping("/consultation")
-public class ConsultationController extends BaseController {
+public class ConsultationController extends BaseController
+{
 
 	/** 每页记录数 */
 	private static final int PAGE_SIZE = 10;
@@ -58,13 +60,16 @@ public class ConsultationController extends BaseController {
 	 * 发表
 	 */
 	@RequestMapping(value = "/add/{id}", method = RequestMethod.GET)
-	public String add(@PathVariable Long id, ModelMap model) {
+	public String add(@PathVariable Long id, ModelMap model)
+	{
 		Setting setting = SettingUtils.get();
-		if (!setting.getIsConsultationEnabled()) {
+		if (!setting.getIsConsultationEnabled())
+		{
 			throw new ResourceNotFoundException();
 		}
 		Product product = productService.find(id);
-		if (product == null) {
+		if (product == null)
+		{
 			throw new ResourceNotFoundException();
 		}
 		model.addAttribute("product", product);
@@ -76,13 +81,16 @@ public class ConsultationController extends BaseController {
 	 * 内容
 	 */
 	@RequestMapping(value = "/content/{id}", method = RequestMethod.GET)
-	public String content(@PathVariable Long id, Integer pageNumber, ModelMap model) {
+	public String content(@PathVariable Long id, Integer pageNumber, ModelMap model)
+	{
 		Setting setting = SettingUtils.get();
-		if (!setting.getIsConsultationEnabled()) {
+		if (!setting.getIsConsultationEnabled())
+		{
 			throw new ResourceNotFoundException();
 		}
 		Product product = productService.find(id);
-		if (product == null) {
+		if (product == null)
+		{
 			throw new ResourceNotFoundException();
 		}
 		Pageable pageable = new Pageable(pageNumber, PAGE_SIZE);
@@ -95,24 +103,29 @@ public class ConsultationController extends BaseController {
 	 * 保存
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public @ResponseBody
-	Message save(String captchaId, String captcha, Long id, String content, HttpServletRequest request) {
-		if (!captchaService.isValid(CaptchaType.consultation, captchaId, captcha)) {
+	public @ResponseBody Message save(String captchaId, String captcha, Long id, String content, HttpServletRequest request)
+	{
+		if (!captchaService.isValid(CaptchaType.consultation, captchaId, captcha))
+		{
 			return Message.error("shop.captcha.invalid");
 		}
 		Setting setting = SettingUtils.get();
-		if (!setting.getIsConsultationEnabled()) {
+		if (!setting.getIsConsultationEnabled())
+		{
 			return Message.error("shop.consultation.disabled");
 		}
-		if (!isValid(Consultation.class, "content", content)) {
+		if (!isValid(Consultation.class, "content", content))
+		{
 			return ERROR_MESSAGE;
 		}
 		Member member = memberService.getCurrent();
-		if (setting.getConsultationAuthority() != ConsultationAuthority.anyone && member == null) {
+		if (setting.getConsultationAuthority() != ConsultationAuthority.anyone && member == null)
+		{
 			return Message.error("shop.consultation.accessDenied");
 		}
 		Product product = productService.find(id);
-		if (product == null) {
+		if (product == null)
+		{
 			return ERROR_MESSAGE;
 		}
 		Consultation consultation = new Consultation();
@@ -120,11 +133,14 @@ public class ConsultationController extends BaseController {
 		consultation.setIp(request.getRemoteAddr());
 		consultation.setMember(member);
 		consultation.setProduct(product);
-		if (setting.getIsConsultationCheck()) {
+		if (setting.getIsConsultationCheck())
+		{
 			consultation.setIsShow(false);
 			consultationService.save(consultation);
 			return Message.success("shop.consultation.check");
-		} else {
+		}
+		else
+		{
 			consultation.setIsShow(true);
 			consultationService.save(consultation);
 			return Message.success("shop.consultation.success");

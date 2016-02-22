@@ -20,6 +20,7 @@ import net.eshop.entity.Promotion;
 
 import org.springframework.stereotype.Repository;
 
+
 /**
  * Dao - 促销
  * 
@@ -27,26 +28,44 @@ import org.springframework.stereotype.Repository;
  * 
  */
 @Repository("promotionDaoImpl")
-public class PromotionDaoImpl extends BaseDaoImpl<Promotion, Long> implements PromotionDao {
+public class PromotionDaoImpl extends BaseDaoImpl<Promotion, Long> implements PromotionDao
+{
 
-	public List<Promotion> findList(Boolean hasBegun, Boolean hasEnded, Integer count, List<Filter> filters, List<Order> orders) {
+	public List<Promotion> findList(Boolean hasBegun, Boolean hasEnded, Integer count, List<Filter> filters, List<Order> orders)
+	{
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Promotion> criteriaQuery = criteriaBuilder.createQuery(Promotion.class);
 		Root<Promotion> root = criteriaQuery.from(Promotion.class);
 		criteriaQuery.select(root);
 		Predicate restrictions = criteriaBuilder.conjunction();
-		if (hasBegun != null) {
-			if (hasBegun) {
-				restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.or(root.get("beginDate").isNull(), criteriaBuilder.lessThanOrEqualTo(root.<Date> get("beginDate"), new Date())));
-			} else {
-				restrictions = criteriaBuilder.and(restrictions, root.get("beginDate").isNotNull(), criteriaBuilder.greaterThan(root.<Date> get("beginDate"), new Date()));
+		if (hasBegun != null)
+		{
+			if (hasBegun)
+			{
+				restrictions = criteriaBuilder.and(
+						restrictions,
+						criteriaBuilder.or(root.get("beginDate").isNull(),
+								criteriaBuilder.lessThanOrEqualTo(root.<Date> get("beginDate"), new Date())));
+			}
+			else
+			{
+				restrictions = criteriaBuilder.and(restrictions, root.get("beginDate").isNotNull(),
+						criteriaBuilder.greaterThan(root.<Date> get("beginDate"), new Date()));
 			}
 		}
-		if (hasEnded != null) {
-			if (hasEnded) {
-				restrictions = criteriaBuilder.and(restrictions, root.get("endDate").isNotNull(), criteriaBuilder.lessThan(root.<Date> get("endDate"), new Date()));
-			} else {
-				restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.or(root.get("endDate").isNull(), criteriaBuilder.greaterThanOrEqualTo(root.<Date> get("endDate"), new Date())));
+		if (hasEnded != null)
+		{
+			if (hasEnded)
+			{
+				restrictions = criteriaBuilder.and(restrictions, root.get("endDate").isNotNull(),
+						criteriaBuilder.lessThan(root.<Date> get("endDate"), new Date()));
+			}
+			else
+			{
+				restrictions = criteriaBuilder.and(
+						restrictions,
+						criteriaBuilder.or(root.get("endDate").isNull(),
+								criteriaBuilder.greaterThanOrEqualTo(root.<Date> get("endDate"), new Date())));
 			}
 		}
 		criteriaQuery.where(restrictions);

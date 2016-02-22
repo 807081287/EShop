@@ -19,6 +19,7 @@ import net.eshop.entity.Member;
 
 import org.springframework.stereotype.Repository;
 
+
 /**
  * Dao - 预存款
  * 
@@ -26,10 +27,13 @@ import org.springframework.stereotype.Repository;
  * 
  */
 @Repository("depositDaoImpl")
-public class DepositDaoImpl extends BaseDaoImpl<Deposit, Long> implements DepositDao {
+public class DepositDaoImpl extends BaseDaoImpl<Deposit, Long> implements DepositDao
+{
 
-	public Page<Deposit> findPage(Member member, Pageable pageable) {
-		if (member == null) {
+	public Page<Deposit> findPage(Member member, Pageable pageable)
+	{
+		if (member == null)
+		{
 			return new Page<Deposit>(Collections.<Deposit> emptyList(), 0, pageable);
 		}
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
 /**
  * Controller - 到货通知
  * 
@@ -25,7 +26,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller("ProductNotifyntroller")
 @RequestMapping("/admin/product_notify")
-public class ProductNotifyController extends BaseController {
+public class ProductNotifyController extends BaseController
+{
 
 	@Resource(name = "productNotifyServiceImpl")
 	private ProductNotifyService productNotifyService;
@@ -34,8 +36,8 @@ public class ProductNotifyController extends BaseController {
 	 * 发送到货通知
 	 */
 	@RequestMapping(value = "/send", method = RequestMethod.POST)
-	public @ResponseBody
-	Message send(Long[] ids) {
+	public @ResponseBody Message send(Long[] ids)
+	{
 		int count = productNotifyService.send(ids);
 		return Message.success("admin.productNotify.sentSuccess", count);
 	}
@@ -44,7 +46,8 @@ public class ProductNotifyController extends BaseController {
 	 * 列表
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Boolean isMarketable, Boolean isOutOfStock, Boolean hasSent, Pageable pageable, ModelMap model) {
+	public String list(Boolean isMarketable, Boolean isOutOfStock, Boolean hasSent, Pageable pageable, ModelMap model)
+	{
 		model.addAttribute("isMarketable", isMarketable);
 		model.addAttribute("isOutOfStock", isOutOfStock);
 		model.addAttribute("hasSent", hasSent);
@@ -56,8 +59,8 @@ public class ProductNotifyController extends BaseController {
 	 * 删除
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public @ResponseBody
-	Message delete(Long[] ids) {
+	public @ResponseBody Message delete(Long[] ids)
+	{
 		productNotifyService.delete(ids);
 		return SUCCESS_MESSAGE;
 	}

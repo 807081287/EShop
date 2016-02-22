@@ -14,6 +14,7 @@ import net.eshop.entity.Seo.Type;
 
 import org.springframework.stereotype.Repository;
 
+
 /**
  * Dao - SEO设置
  * 
@@ -21,16 +22,23 @@ import org.springframework.stereotype.Repository;
  * 
  */
 @Repository("seoDaoImpl")
-public class SeoDaoImpl extends BaseDaoImpl<Seo, Long> implements SeoDao {
+public class SeoDaoImpl extends BaseDaoImpl<Seo, Long> implements SeoDao
+{
 
-	public Seo find(Type type) {
-		if (type == null) {
+	public Seo find(Type type)
+	{
+		if (type == null)
+		{
 			return null;
 		}
-		try {
+		try
+		{
 			String jpql = "select seo from Seo seo where seo.type = :type";
-			return entityManager.createQuery(jpql, Seo.class).setFlushMode(FlushModeType.COMMIT).setParameter("type", type).getSingleResult();
-		} catch (NoResultException e) {
+			return entityManager.createQuery(jpql, Seo.class).setFlushMode(FlushModeType.COMMIT).setParameter("type", type)
+					.getSingleResult();
+		}
+		catch (NoResultException e)
+		{
 			return null;
 		}
 	}

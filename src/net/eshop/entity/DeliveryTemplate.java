@@ -16,6 +16,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+
 /**
  * Entity - 快递单模板
  * 
@@ -25,7 +26,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table(name = "t_delivery_template")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_delivery_template_sequence")
-public class DeliveryTemplate extends BaseEntity {
+public class DeliveryTemplate extends BaseEntity
+{
 
 	private static final long serialVersionUID = -3711024981692804054L;
 
@@ -64,7 +66,8 @@ public class DeliveryTemplate extends BaseEntity {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false)
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
@@ -72,9 +75,10 @@ public class DeliveryTemplate extends BaseEntity {
 	 * 设置名称
 	 * 
 	 * @param name
-	 *            名称
+	 *           名称
 	 */
-	public void setName(String name) {
+	public void setName(String name)
+	{
 		this.name = name;
 	}
 
@@ -86,7 +90,8 @@ public class DeliveryTemplate extends BaseEntity {
 	@NotEmpty
 	@Lob
 	@Column(nullable = false)
-	public String getContent() {
+	public String getContent()
+	{
 		return content;
 	}
 
@@ -94,9 +99,10 @@ public class DeliveryTemplate extends BaseEntity {
 	 * 设置内容
 	 * 
 	 * @param content
-	 *            内容
+	 *           内容
 	 */
-	public void setContent(String content) {
+	public void setContent(String content)
+	{
 		this.content = content;
 	}
 
@@ -108,7 +114,8 @@ public class DeliveryTemplate extends BaseEntity {
 	@NotNull
 	@Min(1)
 	@Column(nullable = false)
-	public Integer getWidth() {
+	public Integer getWidth()
+	{
 		return width;
 	}
 
@@ -116,9 +123,10 @@ public class DeliveryTemplate extends BaseEntity {
 	 * 设置宽度
 	 * 
 	 * @param width
-	 *            宽度
+	 *           宽度
 	 */
-	public void setWidth(Integer width) {
+	public void setWidth(Integer width)
+	{
 		this.width = width;
 	}
 
@@ -130,7 +138,8 @@ public class DeliveryTemplate extends BaseEntity {
 	@NotNull
 	@Min(1)
 	@Column(nullable = false)
-	public Integer getHeight() {
+	public Integer getHeight()
+	{
 		return height;
 	}
 
@@ -138,9 +147,10 @@ public class DeliveryTemplate extends BaseEntity {
 	 * 设置高度
 	 * 
 	 * @param height
-	 *            高度
+	 *           高度
 	 */
-	public void setHeight(Integer height) {
+	public void setHeight(Integer height)
+	{
 		this.height = height;
 	}
 
@@ -151,7 +161,8 @@ public class DeliveryTemplate extends BaseEntity {
 	 */
 	@NotNull
 	@Column(nullable = false)
-	public Integer getOffsetX() {
+	public Integer getOffsetX()
+	{
 		return offsetX;
 	}
 
@@ -159,9 +170,10 @@ public class DeliveryTemplate extends BaseEntity {
 	 * 设置偏移量X
 	 * 
 	 * @param offsetX
-	 *            偏移量X
+	 *           偏移量X
 	 */
-	public void setOffsetX(Integer offsetX) {
+	public void setOffsetX(Integer offsetX)
+	{
 		this.offsetX = offsetX;
 	}
 
@@ -172,7 +184,8 @@ public class DeliveryTemplate extends BaseEntity {
 	 */
 	@NotNull
 	@Column(nullable = false)
-	public Integer getOffsetY() {
+	public Integer getOffsetY()
+	{
 		return offsetY;
 	}
 
@@ -180,9 +193,10 @@ public class DeliveryTemplate extends BaseEntity {
 	 * 设置偏移量Y
 	 * 
 	 * @param offsetY
-	 *            偏移量Y
+	 *           偏移量Y
 	 */
-	public void setOffsetY(Integer offsetY) {
+	public void setOffsetY(Integer offsetY)
+	{
 		this.offsetY = offsetY;
 	}
 
@@ -192,7 +206,8 @@ public class DeliveryTemplate extends BaseEntity {
 	 * @return 背景图
 	 */
 	@Length(max = 200)
-	public String getBackground() {
+	public String getBackground()
+	{
 		return background;
 	}
 
@@ -200,9 +215,10 @@ public class DeliveryTemplate extends BaseEntity {
 	 * 设置背景图
 	 * 
 	 * @param background
-	 *            背景图
+	 *           背景图
 	 */
-	public void setBackground(String background) {
+	public void setBackground(String background)
+	{
 		this.background = background;
 	}
 
@@ -213,7 +229,8 @@ public class DeliveryTemplate extends BaseEntity {
 	 */
 	@NotNull
 	@Column(nullable = false)
-	public Boolean getIsDefault() {
+	public Boolean getIsDefault()
+	{
 		return isDefault;
 	}
 
@@ -221,9 +238,10 @@ public class DeliveryTemplate extends BaseEntity {
 	 * 设置是否默认
 	 * 
 	 * @param isDefault
-	 *            是否默认
+	 *           是否默认
 	 */
-	public void setIsDefault(Boolean isDefault) {
+	public void setIsDefault(Boolean isDefault)
+	{
 		this.isDefault = isDefault;
 	}
 
@@ -233,7 +251,8 @@ public class DeliveryTemplate extends BaseEntity {
 	 * @return 备注
 	 */
 	@Length(max = 200)
-	public String getMemo() {
+	public String getMemo()
+	{
 		return memo;
 	}
 
@@ -241,9 +260,10 @@ public class DeliveryTemplate extends BaseEntity {
 	 * 设置备注
 	 * 
 	 * @param memo
-	 *            备注
+	 *           备注
 	 */
-	public void setMemo(String memo) {
+	public void setMemo(String memo)
+	{
 		this.memo = memo;
 	}
 

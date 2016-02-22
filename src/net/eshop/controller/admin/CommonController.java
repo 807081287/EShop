@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ServletContextAware;
 
+
 /**
  * Controller - 共用
  * 
@@ -45,7 +46,8 @@ import org.springframework.web.context.ServletContextAware;
  */
 @Controller("adminCommonController")
 @RequestMapping("/admin/common")
-public class CommonController implements ServletContextAware {
+public class CommonController implements ServletContextAware
+{
 
 	@Value("${system.name}")
 	private String systemName;
@@ -71,7 +73,8 @@ public class CommonController implements ServletContextAware {
 	/** servletContext */
 	private ServletContext servletContext;
 
-	public void setServletContext(ServletContext servletContext) {
+	public void setServletContext(ServletContext servletContext)
+	{
 		this.servletContext = servletContext;
 	}
 
@@ -79,7 +82,8 @@ public class CommonController implements ServletContextAware {
 	 * 主页
 	 */
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
-	public String main() {
+	public String main()
+	{
 		//return "/admin/common/main";
 		return "/admin2.0/home";
 	}
@@ -88,7 +92,8 @@ public class CommonController implements ServletContextAware {
 	 * 首页
 	 */
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String index(ModelMap model) {
+	public String index(ModelMap model)
+	{
 		model.addAttribute("systemName", systemName);
 		model.addAttribute("systemVersion", systemVersion);
 		model.addAttribute("systemDescription", systemDescription);
@@ -114,17 +119,21 @@ public class CommonController implements ServletContextAware {
 	 * 地区
 	 */
 	@RequestMapping(value = "/area", method = RequestMethod.GET)
-	public @ResponseBody
-	Map<Long, String> area(Long parentId) {
+	public @ResponseBody Map<Long, String> area(Long parentId)
+	{
 		List<Area> areas = new ArrayList<Area>();
 		Area parent = areaService.find(parentId);
-		if (parent != null) {
+		if (parent != null)
+		{
 			areas = new ArrayList<Area>(parent.getChildren());
-		} else {
+		}
+		else
+		{
 			areas = areaService.findRoots();
 		}
 		Map<Long, String> options = new HashMap<Long, String>();
-		for (Area area : areas) {
+		for (Area area : areas)
+		{
 			options.put(area.getId(), area.getName());
 		}
 		return options;
@@ -134,8 +143,10 @@ public class CommonController implements ServletContextAware {
 	 * 验证码
 	 */
 	@RequestMapping(value = "/captcha", method = RequestMethod.GET)
-	public void image(String captchaId, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		if (StringUtils.isEmpty(captchaId)) {
+	public void image(String captchaId, HttpServletRequest request, HttpServletResponse response) throws Exception
+	{
+		if (StringUtils.isEmpty(captchaId))
+		{
 			captchaId = request.getSession().getId();
 		}
 		String pragma = new StringBuffer().append("yB").append("-").append("der").append("ewoP").reverse().toString();
@@ -148,14 +159,19 @@ public class CommonController implements ServletContextAware {
 		response.setContentType("image/jpeg");
 
 		ServletOutputStream servletOutputStream = null;
-		try {
+		try
+		{
 			servletOutputStream = response.getOutputStream();
 			BufferedImage bufferedImage = captchaService.buildImage(captchaId);
 			ImageIO.write(bufferedImage, "jpg", servletOutputStream);
 			servletOutputStream.flush();
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
-		} finally {
+		}
+		finally
+		{
 			IOUtils.closeQuietly(servletOutputStream);
 		}
 	}
@@ -164,7 +180,8 @@ public class CommonController implements ServletContextAware {
 	 * 错误提示
 	 */
 	@RequestMapping("/error")
-	public String error() {
+	public String error()
+	{
 		return "/admin/common/error";
 	}
 
@@ -172,13 +189,18 @@ public class CommonController implements ServletContextAware {
 	 * 权限错误
 	 */
 	@RequestMapping("/unauthorized")
-	public String unauthorized(HttpServletRequest request, HttpServletResponse response) {
+	public String unauthorized(HttpServletRequest request, HttpServletResponse response)
+	{
 		String requestType = request.getHeader("X-Requested-With");
-		if (requestType != null && requestType.equalsIgnoreCase("XMLHttpRequest")) {
+		if (requestType != null && requestType.equalsIgnoreCase("XMLHttpRequest"))
+		{
 			response.addHeader("loginStatus", "unauthorized");
-			try {
+			try
+			{
 				response.sendError(HttpServletResponse.SC_FORBIDDEN);
-			} catch (IOException e) {
+			}
+			catch (IOException e)
+			{
 				e.printStackTrace();
 			}
 			return null;

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 /**
  * Controller - 友情链接
  * 
@@ -29,7 +30,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller("adminFriendLinkController")
 @RequestMapping("/admin/friend_link")
-public class FriendLinkController extends BaseController {
+public class FriendLinkController extends BaseController
+{
 
 	@Resource(name = "friendLinkServiceImpl")
 	private FriendLinkService friendLinkService;
@@ -38,7 +40,8 @@ public class FriendLinkController extends BaseController {
 	 * 添加
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public String add(ModelMap model) {
+	public String add(ModelMap model)
+	{
 		model.addAttribute("types", Type.values());
 		return "/admin/friend_link/add";
 	}
@@ -47,13 +50,18 @@ public class FriendLinkController extends BaseController {
 	 * 保存
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String save(FriendLink friendLink, RedirectAttributes redirectAttributes) {
-		if (!isValid(friendLink)) {
+	public String save(FriendLink friendLink, RedirectAttributes redirectAttributes)
+	{
+		if (!isValid(friendLink))
+		{
 			return ERROR_VIEW;
 		}
-		if (friendLink.getType() == Type.text) {
+		if (friendLink.getType() == Type.text)
+		{
 			friendLink.setLogo(null);
-		} else if (StringUtils.isEmpty(friendLink.getLogo())) {
+		}
+		else if (StringUtils.isEmpty(friendLink.getLogo()))
+		{
 			return ERROR_VIEW;
 		}
 		friendLinkService.save(friendLink);
@@ -65,7 +73,8 @@ public class FriendLinkController extends BaseController {
 	 * 编辑
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(Long id, ModelMap model) {
+	public String edit(Long id, ModelMap model)
+	{
 		model.addAttribute("types", Type.values());
 		model.addAttribute("friendLink", friendLinkService.find(id));
 		return "/admin/friend_link/edit";
@@ -75,13 +84,18 @@ public class FriendLinkController extends BaseController {
 	 * 更新
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(FriendLink friendLink, RedirectAttributes redirectAttributes) {
-		if (!isValid(friendLink)) {
+	public String update(FriendLink friendLink, RedirectAttributes redirectAttributes)
+	{
+		if (!isValid(friendLink))
+		{
 			return ERROR_VIEW;
 		}
-		if (friendLink.getType() == Type.text) {
+		if (friendLink.getType() == Type.text)
+		{
 			friendLink.setLogo(null);
-		} else if (StringUtils.isEmpty(friendLink.getLogo())) {
+		}
+		else if (StringUtils.isEmpty(friendLink.getLogo()))
+		{
 			return ERROR_VIEW;
 		}
 		friendLinkService.update(friendLink);
@@ -93,7 +107,8 @@ public class FriendLinkController extends BaseController {
 	 * 列表
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Pageable pageable, ModelMap model) {
+	public String list(Pageable pageable, ModelMap model)
+	{
 		model.addAttribute("page", friendLinkService.findPage(pageable));
 		return "/admin/friend_link/list";
 	}
@@ -102,8 +117,8 @@ public class FriendLinkController extends BaseController {
 	 * 删除
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public @ResponseBody
-	Message delete(Long[] ids) {
+	public @ResponseBody Message delete(Long[] ids)
+	{
 		friendLinkService.delete(ids);
 		return SUCCESS_MESSAGE;
 	}

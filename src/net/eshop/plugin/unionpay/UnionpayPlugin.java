@@ -25,6 +25,7 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 
+
 /**
  * Plugin - 银联在线支付
  * 
@@ -32,63 +33,75 @@ import org.springframework.stereotype.Component;
  * 
  */
 @Component("unionpayPlugin")
-public class UnionpayPlugin extends PaymentPlugin {
+public class UnionpayPlugin extends PaymentPlugin
+{
 
 	/** 货币 */
 	private static final String CURRENCY = "156";
 
 	@Override
-	public String getName() {
+	public String getName()
+	{
 		return "银联在线支付";
 	}
 
 	@Override
-	public String getVersion() {
+	public String getVersion()
+	{
 		return "1.0";
 	}
 
 	@Override
-	public String getAuthor() {
+	public String getAuthor()
+	{
 		return SettingUtils.get().getSiteName();
 	}
 
 	@Override
-	public String getSiteUrl() {
+	public String getSiteUrl()
+	{
 		return SettingUtils.get().getSiteUrl();
 	}
 
 	@Override
-	public String getInstallUrl() {
+	public String getInstallUrl()
+	{
 		return "unionpay/install.jhtml";
 	}
 
 	@Override
-	public String getUninstallUrl() {
+	public String getUninstallUrl()
+	{
 		return "unionpay/uninstall.jhtml";
 	}
 
 	@Override
-	public String getSettingUrl() {
+	public String getSettingUrl()
+	{
 		return "unionpay/setting.jhtml";
 	}
 
 	@Override
-	public String getRequestUrl() {
+	public String getRequestUrl()
+	{
 		return "https://unionpaysecure.com/api/Pay.action";
 	}
 
 	@Override
-	public RequestMethod getRequestMethod() {
+	public RequestMethod getRequestMethod()
+	{
 		return RequestMethod.post;
 	}
 
 	@Override
-	public String getRequestCharset() {
+	public String getRequestCharset()
+	{
 		return "UTF-8";
 	}
 
 	@Override
-	public Map<String, Object> getParameterMap(String sn, String description, HttpServletRequest request) {
+	public Map<String, Object> getParameterMap(String sn, String description, HttpServletRequest request)
+	{
 		Setting setting = SettingUtils.get();
 		PluginConfig pluginConfig = getPluginConfig();
 		Payment payment = getPayment(sn);
@@ -98,7 +111,8 @@ public class UnionpayPlugin extends PaymentPlugin {
 		parameterMap.put("transType", "01");
 		parameterMap.put("origQid", "");
 		parameterMap.put("merId", pluginConfig.getAttribute("partner"));
-		parameterMap.put("merAbbr", StringUtils.abbreviate(setting.getSiteName().replaceAll("[^0-9a-zA-Z\\u4e00-\\u9fa5 ]", ""), 40));
+		parameterMap.put("merAbbr",
+				StringUtils.abbreviate(setting.getSiteName().replaceAll("[^0-9a-zA-Z\\u4e00-\\u9fa5 ]", ""), 40));
 		parameterMap.put("acqCode", "");
 		parameterMap.put("merCode", "");
 		parameterMap.put("commodityUrl", setting.getSiteUrl());
@@ -126,11 +140,17 @@ public class UnionpayPlugin extends PaymentPlugin {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean verifyNotify(String sn, NotifyMethod notifyMethod, HttpServletRequest request) {
+	public boolean verifyNotify(String sn, NotifyMethod notifyMethod, HttpServletRequest request)
+	{
 		PluginConfig pluginConfig = getPluginConfig();
 		Payment payment = getPayment(sn);
-		if (generateSign(request.getParameterMap()).equals(request.getParameter("signature")) && pluginConfig.getAttribute("partner").equals(request.getParameter("merId")) && sn.equals(request.getParameter("orderNumber")) && CURRENCY.equals(request.getParameter("orderCurrency")) && "00".equals(request.getParameter("respCode"))
-				&& payment.getAmount().multiply(new BigDecimal(100)).compareTo(new BigDecimal(request.getParameter("orderAmount"))) == 0) {
+		if (generateSign(request.getParameterMap()).equals(request.getParameter("signature"))
+				&& pluginConfig.getAttribute("partner").equals(request.getParameter("merId"))
+				&& sn.equals(request.getParameter("orderNumber"))
+				&& CURRENCY.equals(request.getParameter("orderCurrency"))
+				&& "00".equals(request.getParameter("respCode"))
+				&& payment.getAmount().multiply(new BigDecimal(100)).compareTo(new BigDecimal(request.getParameter("orderAmount"))) == 0)
+		{
 			Map<String, Object> parameterMap = new HashMap<String, Object>();
 			parameterMap.put("version", "1.0.0");
 			parameterMap.put("charset", "UTF-8");
@@ -142,7 +162,8 @@ public class UnionpayPlugin extends PaymentPlugin {
 			parameterMap.put("signMethod", "MD5");
 			parameterMap.put("signature", generateSign(parameterMap));
 			String result = post("https://unionpaysecure.com/api/Query.action", parameterMap);
-			if (ArrayUtils.contains(result.split("&"), "respCode=00")) {
+			if (ArrayUtils.contains(result.split("&"), "respCode=00"))
+			{
 				return true;
 			}
 		}
@@ -150,12 +171,14 @@ public class UnionpayPlugin extends PaymentPlugin {
 	}
 
 	@Override
-	public String getNotifyMessage(String sn, NotifyMethod notifyMethod, HttpServletRequest request) {
+	public String getNotifyMessage(String sn, NotifyMethod notifyMethod, HttpServletRequest request)
+	{
 		return null;
 	}
 
 	@Override
-	public Integer getTimeout() {
+	public Integer getTimeout()
+	{
 		return 21600;
 	}
 
@@ -163,12 +186,14 @@ public class UnionpayPlugin extends PaymentPlugin {
 	 * 生成签名
 	 * 
 	 * @param parameterMap
-	 *            参数
+	 *           参数
 	 * @return 签名
 	 */
-	private String generateSign(Map<String, ?> parameterMap) {
+	private String generateSign(Map<String, ?> parameterMap)
+	{
 		PluginConfig pluginConfig = getPluginConfig();
-		return DigestUtils.md5Hex(joinKeyValue(new TreeMap<String, Object>(parameterMap), null, "&key=" + DigestUtils.md5Hex(pluginConfig.getAttribute("key")), "&", true, "signMethod", "signature"));
+		return DigestUtils.md5Hex(joinKeyValue(new TreeMap<String, Object>(parameterMap), null,
+				"&key=" + DigestUtils.md5Hex(pluginConfig.getAttribute("key")), "&", true, "signMethod", "signature"));
 	}
 
 }

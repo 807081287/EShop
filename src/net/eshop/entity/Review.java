@@ -20,6 +20,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+
 /**
  * Entity - 评论
  * 
@@ -29,7 +30,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table(name = "t_review")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_review_sequence")
-public class Review extends BaseEntity {
+public class Review extends BaseEntity
+{
 
 	private static final long serialVersionUID = 8795901519290584100L;
 
@@ -42,7 +44,8 @@ public class Review extends BaseEntity {
 	/**
 	 * 类型
 	 */
-	public enum Type {
+	public enum Type
+	{
 
 		/** 好评 */
 		positive,
@@ -81,7 +84,8 @@ public class Review extends BaseEntity {
 	@Min(1)
 	@Max(5)
 	@Column(nullable = false, updatable = false)
-	public Integer getScore() {
+	public Integer getScore()
+	{
 		return score;
 	}
 
@@ -89,9 +93,10 @@ public class Review extends BaseEntity {
 	 * 设置评分
 	 * 
 	 * @param score
-	 *            评分
+	 *           评分
 	 */
-	public void setScore(Integer score) {
+	public void setScore(Integer score)
+	{
 		this.score = score;
 	}
 
@@ -103,7 +108,8 @@ public class Review extends BaseEntity {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false, updatable = false)
-	public String getContent() {
+	public String getContent()
+	{
 		return content;
 	}
 
@@ -111,9 +117,10 @@ public class Review extends BaseEntity {
 	 * 设置内容
 	 * 
 	 * @param content
-	 *            内容
+	 *           内容
 	 */
-	public void setContent(String content) {
+	public void setContent(String content)
+	{
 		this.content = content;
 	}
 
@@ -123,7 +130,8 @@ public class Review extends BaseEntity {
 	 * @return 是否显示
 	 */
 	@Column(nullable = false)
-	public Boolean getIsShow() {
+	public Boolean getIsShow()
+	{
 		return isShow;
 	}
 
@@ -131,9 +139,10 @@ public class Review extends BaseEntity {
 	 * 设置是否显示
 	 * 
 	 * @param isShow
-	 *            是否显示
+	 *           是否显示
 	 */
-	public void setIsShow(Boolean isShow) {
+	public void setIsShow(Boolean isShow)
+	{
 		this.isShow = isShow;
 	}
 
@@ -143,7 +152,8 @@ public class Review extends BaseEntity {
 	 * @return IP
 	 */
 	@Column(nullable = false, updatable = false)
-	public String getIp() {
+	public String getIp()
+	{
 		return ip;
 	}
 
@@ -151,9 +161,10 @@ public class Review extends BaseEntity {
 	 * 设置IP
 	 * 
 	 * @param ip
-	 *            IP
+	 *           IP
 	 */
-	public void setIp(String ip) {
+	public void setIp(String ip)
+	{
 		this.ip = ip;
 	}
 
@@ -164,7 +175,8 @@ public class Review extends BaseEntity {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(updatable = false)
-	public Member getMember() {
+	public Member getMember()
+	{
 		return member;
 	}
 
@@ -172,9 +184,10 @@ public class Review extends BaseEntity {
 	 * 设置会员
 	 * 
 	 * @param member
-	 *            会员
+	 *           会员
 	 */
-	public void setMember(Member member) {
+	public void setMember(Member member)
+	{
 		this.member = member;
 	}
 
@@ -185,7 +198,8 @@ public class Review extends BaseEntity {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false, updatable = false)
-	public Product getProduct() {
+	public Product getProduct()
+	{
 		return product;
 	}
 
@@ -193,9 +207,10 @@ public class Review extends BaseEntity {
 	 * 设置商品
 	 * 
 	 * @param product
-	 *            商品
+	 *           商品
 	 */
-	public void setProduct(Product product) {
+	public void setProduct(Product product)
+	{
 		this.product = product;
 	}
 
@@ -205,8 +220,10 @@ public class Review extends BaseEntity {
 	 * @return 访问路径
 	 */
 	@Transient
-	public String getPath() {
-		if (getProduct() != null && getProduct().getId() != null) {
+	public String getPath()
+	{
+		if (getProduct() != null && getProduct().getId() != null)
+		{
 			return PATH_PREFIX + "/" + getProduct().getId() + PATH_SUFFIX;
 		}
 		return null;

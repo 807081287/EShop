@@ -13,6 +13,7 @@ import net.eshop.service.ShippingMethodService;
 
 import org.springframework.stereotype.Service;
 
+
 /**
  * Service - 配送方式
  * 
@@ -20,10 +21,12 @@ import org.springframework.stereotype.Service;
  * 
  */
 @Service("shippingMethodServiceImpl")
-public class ShippingMethodServiceImpl extends BaseServiceImpl<ShippingMethod, Long> implements ShippingMethodService {
+public class ShippingMethodServiceImpl extends BaseServiceImpl<ShippingMethod, Long> implements ShippingMethodService
+{
 
 	@Resource(name = "shippingMethodDaoImpl")
-	public void setBaseDao(ShippingMethodDao shippingMethodDao) {
+	public void setBaseDao(ShippingMethodDao shippingMethodDao)
+	{
 		super.setBaseDao(shippingMethodDao);
 	}
 

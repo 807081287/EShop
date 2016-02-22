@@ -22,6 +22,7 @@ import javax.persistence.Table;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+
 /**
  * Entity - 角色
  * 
@@ -31,7 +32,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table(name = "t_role")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_role_sequence")
-public class Role extends BaseEntity {
+public class Role extends BaseEntity
+{
 
 	private static final long serialVersionUID = -6614052029623997372L;
 
@@ -58,7 +60,8 @@ public class Role extends BaseEntity {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false)
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
@@ -66,9 +69,10 @@ public class Role extends BaseEntity {
 	 * 设置名称
 	 * 
 	 * @param name
-	 *            名称
+	 *           名称
 	 */
-	public void setName(String name) {
+	public void setName(String name)
+	{
 		this.name = name;
 	}
 
@@ -78,7 +82,8 @@ public class Role extends BaseEntity {
 	 * @return 是否内置
 	 */
 	@Column(nullable = false, updatable = false)
-	public Boolean getIsSystem() {
+	public Boolean getIsSystem()
+	{
 		return isSystem;
 	}
 
@@ -86,9 +91,10 @@ public class Role extends BaseEntity {
 	 * 设置是否内置
 	 * 
 	 * @param isSystem
-	 *            是否内置
+	 *           是否内置
 	 */
-	public void setIsSystem(Boolean isSystem) {
+	public void setIsSystem(Boolean isSystem)
+	{
 		this.isSystem = isSystem;
 	}
 
@@ -98,7 +104,8 @@ public class Role extends BaseEntity {
 	 * @return 描述
 	 */
 	@Length(max = 200)
-	public String getDescription() {
+	public String getDescription()
+	{
 		return description;
 	}
 
@@ -106,9 +113,10 @@ public class Role extends BaseEntity {
 	 * 设置描述
 	 * 
 	 * @param description
-	 *            描述
+	 *           描述
 	 */
-	public void setDescription(String description) {
+	public void setDescription(String description)
+	{
 		this.description = description;
 	}
 
@@ -119,7 +127,8 @@ public class Role extends BaseEntity {
 	 */
 	@ElementCollection
 	@CollectionTable(name = "t_role_authority")
-	public List<String> getAuthorities() {
+	public List<String> getAuthorities()
+	{
 		return authorities;
 	}
 
@@ -127,9 +136,10 @@ public class Role extends BaseEntity {
 	 * 设置权限
 	 * 
 	 * @param authorities
-	 *            权限
+	 *           权限
 	 */
-	public void setAuthorities(List<String> authorities) {
+	public void setAuthorities(List<String> authorities)
+	{
 		this.authorities = authorities;
 	}
 
@@ -139,7 +149,8 @@ public class Role extends BaseEntity {
 	 * @return 管理员
 	 */
 	@ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
-	public Set<Admin> getAdmins() {
+	public Set<Admin> getAdmins()
+	{
 		return admins;
 	}
 
@@ -147,9 +158,10 @@ public class Role extends BaseEntity {
 	 * 设置管理员
 	 * 
 	 * @param admins
-	 *            管理员
+	 *           管理员
 	 */
-	public void setAdmins(Set<Admin> admins) {
+	public void setAdmins(Set<Admin> admins)
+	{
 		this.admins = admins;
 	}
 

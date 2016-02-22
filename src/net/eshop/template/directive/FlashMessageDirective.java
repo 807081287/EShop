@@ -20,6 +20,7 @@ import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 
+
 /**
  * 模板指令 - 瞬时消息
  * 
@@ -27,7 +28,8 @@ import freemarker.template.TemplateModel;
  * 
  */
 @Component("flashMessageDirective")
-public class FlashMessageDirective extends BaseDirective {
+public class FlashMessageDirective extends BaseDirective
+{
 
 	/** "瞬时消息"属性名称 */
 	public static final String FLASH_MESSAGE_ATTRIBUTE_NAME = FlashMessageDirective.class.getName() + ".FLASH_MESSAGE";
@@ -36,14 +38,22 @@ public class FlashMessageDirective extends BaseDirective {
 	private static final String VARIABLE_NAME = "flashMessage";
 
 	@SuppressWarnings("rawtypes")
-	public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body) throws TemplateException, IOException {
+	public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body)
+			throws TemplateException, IOException
+	{
 		RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
-		if (requestAttributes != null) {
-			Message message = (Message) requestAttributes.getAttribute(FLASH_MESSAGE_ATTRIBUTE_NAME, RequestAttributes.SCOPE_REQUEST);
-			if (body != null) {
+		if (requestAttributes != null)
+		{
+			Message message = (Message) requestAttributes
+					.getAttribute(FLASH_MESSAGE_ATTRIBUTE_NAME, RequestAttributes.SCOPE_REQUEST);
+			if (body != null)
+			{
 				setLocalVariable(VARIABLE_NAME, message, env, body);
-			} else {
-				if (message != null) {
+			}
+			else
+			{
+				if (message != null)
+				{
 					Writer out = env.getOut();
 					out.write("$.message(\"" + message.getType() + "\", \"" + message.getContent() + "\");");
 				}

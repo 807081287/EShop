@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 /**
  * Controller - 本地文件存储
  * 
@@ -25,7 +26,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller("adminPluginFileController")
 @RequestMapping("/admin/storage_plugin/file")
-public class FileController extends BaseController {
+public class FileController extends BaseController
+{
 
 	@Resource(name = "filePlugin")
 	private FilePlugin filePlugin;
@@ -36,7 +38,8 @@ public class FileController extends BaseController {
 	 * 设置
 	 */
 	@RequestMapping(value = "/setting", method = RequestMethod.GET)
-	public String setting(ModelMap model) {
+	public String setting(ModelMap model)
+	{
 		PluginConfig pluginConfig = filePlugin.getPluginConfig();
 		model.addAttribute("pluginConfig", pluginConfig);
 		return "/net/eshop/plugin/file/setting";
@@ -46,7 +49,8 @@ public class FileController extends BaseController {
 	 * 更新
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(Integer order, RedirectAttributes redirectAttributes) {
+	public String update(Integer order, RedirectAttributes redirectAttributes)
+	{
 		PluginConfig pluginConfig = filePlugin.getPluginConfig();
 		pluginConfig.setIsEnabled(true);
 		pluginConfig.setOrder(order);

@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
 /**
  * Controller - 索引
  * 
@@ -31,7 +32,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller("adminIndexController")
 @RequestMapping("/admin/index")
-public class IndexController extends BaseController {
+public class IndexController extends BaseController
+{
 
 	@Resource(name = "articleServiceImpl")
 	private ArticleService articleService;
@@ -43,7 +45,8 @@ public class IndexController extends BaseController {
 	/**
 	 * 生成类型
 	 */
-	public enum BuildType {
+	public enum BuildType
+	{
 		/**
 		 * 文章
 		 */
@@ -58,7 +61,8 @@ public class IndexController extends BaseController {
 	 * 生成索引
 	 */
 	@RequestMapping(value = "/build", method = RequestMethod.GET)
-	public String build(ModelMap model) {
+	public String build(ModelMap model)
+	{
 		model.addAttribute("buildTypes", BuildType.values());
 		return "/admin/index/build";
 	}
@@ -67,41 +71,52 @@ public class IndexController extends BaseController {
 	 * 生成索引
 	 */
 	@RequestMapping(value = "/build", method = RequestMethod.POST)
-	public @ResponseBody
-	Map<String, Object> build(BuildType buildType, Boolean isPurge, Integer first, Integer count) {
+	public @ResponseBody Map<String, Object> build(BuildType buildType, Boolean isPurge, Integer first, Integer count)
+	{
 		long startTime = System.currentTimeMillis();
-		if (first == null || first < 0) {
+		if (first == null || first < 0)
+		{
 			first = 0;
 		}
-		if (count == null || count <= 0) {
+		if (count == null || count <= 0)
+		{
 			count = 50;
 		}
 		int buildCount = 0;
 		boolean isCompleted = true;
-		if (buildType == BuildType.article) {
-			if (first == 0 && isPurge != null && isPurge) {
+		if (buildType == BuildType.article)
+		{
+			if (first == 0 && isPurge != null && isPurge)
+			{
 				searchService.purge(Article.class);
 			}
 			List<Article> articles = articleService.findList(null, null, null, first, count);
-			for (Article article : articles) {
+			for (Article article : articles)
+			{
 				searchService.index(article);
 				buildCount++;
 			}
 			first += articles.size();
-			if (articles.size() == count) {
+			if (articles.size() == count)
+			{
 				isCompleted = false;
 			}
-		} else if (buildType == BuildType.product) {
-			if (first == 0 && isPurge != null && isPurge) {
+		}
+		else if (buildType == BuildType.product)
+		{
+			if (first == 0 && isPurge != null && isPurge)
+			{
 				searchService.purge(Product.class);
 			}
 			List<Product> products = productService.findList(null, null, null, first, count);
-			for (Product product : products) {
+			for (Product product : products)
+			{
 				searchService.index(product);
 				buildCount++;
 			}
 			first += products.size();
-			if (products.size() == count) {
+			if (products.size() == count)
+			{
 				isCompleted = false;
 			}
 		}
