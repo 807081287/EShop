@@ -35,6 +35,7 @@ import net.eshop.entity.Specification;
 import net.eshop.entity.SpecificationValue;
 import net.eshop.entity.Tag;
 import net.eshop.entity.Tag.Type;
+import net.eshop.form.ProductForm;
 import net.eshop.service.BrandService;
 import net.eshop.service.FileService;
 import net.eshop.service.GoodsService;
@@ -147,10 +148,20 @@ public class ProductController extends AbstractProductController
 
 	/**
 	 * 保存
+	 *
+	 * @param product
+	 * @param productCategoryId
+	 * @param brandId
+	 * @param tagIds
+	 * @param specificationIds
+	 *           实际提交的是code
+	 * @param request
+	 * @param redirectAttributes
+	 * @return
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public String save(final Product product, final Long productCategoryId, final Long brandId, final Long[] tagIds,
-			final Long[] specificationIds, final HttpServletRequest request, final RedirectAttributes redirectAttributes)
+			final String[] specificationIds, final HttpServletRequest request, final RedirectAttributes redirectAttributes)
 	{
 		for (final Iterator<ProductImage> iterator = product.getProductImages().iterator(); iterator.hasNext();)
 		{
@@ -268,80 +279,8 @@ public class ProductController extends AbstractProductController
 
 		final Goods goods = new Goods();
 
-		final List<Product> products = new ArrayList<Product>();
-		if (specificationIds != null && specificationIds.length > 0)
-		{
-			for (int i = 0; i < specificationIds.length; i++)
-			{
-				final Specification specification = specificationService.find(specificationIds[i]);
-				final String[] specificationValueIds = request.getParameterValues("specification_" + specification.getId());
-				if (specificationValueIds != null && specificationValueIds.length > 0)
-				{
-					for (int j = 0; j < specificationValueIds.length; j++)
-					{
-						if (i == 0)
-						{
-							if (j == 0)
-							{
-								product.setGoods(goods);
-								product.setSpecifications(new HashSet<Specification>());
-								product.setSpecificationValues(new HashSet<SpecificationValue>());
-								products.add(product);
-							}
-							else
-							{
-								final Product specificationProduct = new Product();
-								BeanUtils.copyProperties(product, specificationProduct);
-								specificationProduct.setId(null);
-								specificationProduct.setCreateDate(null);
-								specificationProduct.setModifyDate(null);
-								specificationProduct.setSn(null);
-								specificationProduct.setFullName(null);
-								specificationProduct.setAllocatedStock(0);
-								specificationProduct.setIsList(false);
-								specificationProduct.setScore(0F);
-								specificationProduct.setTotalScore(0L);
-								specificationProduct.setScoreCount(0L);
-								specificationProduct.setHits(0L);
-								specificationProduct.setWeekHits(0L);
-								specificationProduct.setMonthHits(0L);
-								specificationProduct.setSales(0L);
-								specificationProduct.setWeekSales(0L);
-								specificationProduct.setMonthSales(0L);
-								specificationProduct.setWeekHitsDate(new Date());
-								specificationProduct.setMonthHitsDate(new Date());
-								specificationProduct.setWeekSalesDate(new Date());
-								specificationProduct.setMonthSalesDate(new Date());
-								specificationProduct.setGoods(goods);
-								specificationProduct.setReviews(null);
-								specificationProduct.setConsultations(null);
-								specificationProduct.setFavoriteMembers(null);
-								specificationProduct.setSpecifications(new HashSet<Specification>());
-								specificationProduct.setSpecificationValues(new HashSet<SpecificationValue>());
-								specificationProduct.setPromotions(null);
-								specificationProduct.setCartItems(null);
-								specificationProduct.setOrderItems(null);
-								specificationProduct.setGiftItems(null);
-								specificationProduct.setProductNotifies(null);
-								products.add(specificationProduct);
-							}
-						}
-						final Product specificationProduct = products.get(j);
-						final SpecificationValue specificationValue = specificationValueService.find(Long
-								.valueOf(specificationValueIds[j]));
-						specificationProduct.getSpecifications().add(specification);
-						specificationProduct.getSpecificationValues().add(specificationValue);
-					}
-				}
-			}
-		}
-		else
-		{
-			product.setGoods(goods);
-			product.setSpecifications(null);
-			product.setSpecificationValues(null);
-			products.add(product);
-		}
+		final ProductForm productForm = createProductForm(specificationIds, request, product);
+		final List<Product> products = createVariants(productForm, goods);
 		goods.getProducts().clear();
 		goods.getProducts().addAll(products);
 		goodsService.save(goods);

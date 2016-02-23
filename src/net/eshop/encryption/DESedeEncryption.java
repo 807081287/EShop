@@ -187,7 +187,7 @@ public class DESedeEncryption
 	public static void main(final String[] args) throws Exception
 	{
 		final String expireDate = "20500505";
-		final String authorizationID = "34342D33372D45362D33382D33412D4538";//授权ID
+		final String authorizationID = "35342D33322D43342D37462D39372D3134";//授权ID
 		System.out.println("加密码:" + encryptToHecString(authorizationID, expireDate));
 		//		final String rawString = expireDate + MACTool.getMAC();
 		//		System.out.println("明文 MAC地址:" + MACTool.getMAC());

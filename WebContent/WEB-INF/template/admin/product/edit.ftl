@@ -213,8 +213,8 @@ $().ready(function() {
 		}
 		if ($specificationProductTable.find("tr:gt(1)").size() == 0) {
 			$tr = $specificationProductTable.find("tr:eq(1)").clone().show().appendTo($specificationProductTable);
-			$tr.find("td:first").text("${message("admin.product.currentSpecification")}");
-			$tr.find("td:last").text("-");
+			//$tr.find("td:first").text("${message("admin.product.currentSpecification")}");
+			//$tr.find("td:last").text("-");
 		} else {
 			$specificationProductTable.find("tr:eq(1)").clone().show().appendTo($specificationProductTable);
 		}
@@ -324,7 +324,8 @@ $().ready(function() {
 </head>
 <body>
 	<div class="path">
-		<a href="${base}/admin/common/index.jhtml">${message("admin.path.index")}</a> &raquo; ${message("admin.product.edit")}
+		<a href="${base}/admin/common/index.jhtml">${message("admin.path.index")}</a> &raquo; 
+		${message("admin.product.edit")}[#if !product.isBaseProduct]${message("admin.product.variantTip")}[/#if]
 	</div>
 	<form id="inputForm" action="update.jhtml" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="id" value="${product.id}" />
@@ -344,9 +345,11 @@ $().ready(function() {
 			<li>
 				<input type="button" value="${message("admin.product.attribute")}" />
 			</li>
+			[#if product.isBaseProduct]
 			<li>
 				<input type="button" value="${message("admin.product.specification")}" />
 			</li>
+			[/#if]
 		</ul>
 		<table class="input tabContent">
 			[#if product.specifications?has_content]
@@ -545,6 +548,7 @@ $().ready(function() {
 					${message("admin.common.setting")}:
 				</th>
 				<td>
+					<input type="hidden" name="isBaseProduct" value="${product.isBaseProduct}" />
 					<label>
 						<input type="checkbox" name="isMarketable" value="true"[#if product.isMarketable] checked="checked"[/#if] />${message("Product.isMarketable")}
 						<input type="hidden" name="_isMarketable" value="false" />
@@ -688,6 +692,7 @@ $().ready(function() {
 				</tr>
 			[/#list]
 		</table>
+		[#if product.isBaseProduct]
 		<table class="input tabContent">
 			<tr class="title">
 				<th>
@@ -701,7 +706,7 @@ $().ready(function() {
 							[#list specifications as specification]
 								<li>
 									<label>
-										<input type="checkbox" name="specificationIds" value="${specification.id}"[#if product.specifications?seq_contains(specification)] checked="checked"[/#if] />${specification.name}
+										<input type="checkbox" name="specificationIds" value="${specification.code}"[#if product.specifications?seq_contains(specification)] checked="checked"[/#if] />${specification.name}
 										[#if specification.memo??]
 											<span class="gray">[${specification.memo}]</span>
 										[/#if]
@@ -725,7 +730,7 @@ $().ready(function() {
 								&nbsp;
 							</td>
 							[#list specifications as specification]
-								<td class="specification_${specification.id}[#if !product.specifications?seq_contains(specification)] hidden[/#if]">
+								<td class="specification_${specification.code}[#if !product.specifications?seq_contains(specification)] hidden[/#if]">
 									${specification.name}
 									[#if specification.memo??]
 										<span class="gray">[${specification.memo}]</span>
@@ -741,10 +746,10 @@ $().ready(function() {
 								&nbsp;
 							</td>
 							[#list specifications as specification]
-								<td class="specification_${specification.id}[#if !product.specifications?seq_contains(specification)] hidden[/#if]">
-									<select name="specification_${specification.id}"[#if !product.specifications?seq_contains(specification)] disabled="disabled"[/#if]>
+								<td class="specification_${specification.code}[#if !product.specifications?seq_contains(specification)] hidden[/#if]">
+									<select name="specification_${specification.code}"[#if !product.specifications?seq_contains(specification)] disabled="disabled"[/#if]>
 										[#list specification.specificationValues as specificationValue]
-											<option value="${specificationValue.id}">${specificationValue.name}</option>
+											<option value="${specificationValue.code}">${specificationValue.name}</option>
 										[/#list]
 									</select>
 								</td>
@@ -753,37 +758,18 @@ $().ready(function() {
 								<a href="javascript:;" class="deleteSpecificationProduct">[${message("admin.common.delete")}]</a>
 							</td>
 						</tr>
-						[#if product.specifications?has_content]
-							<tr>
-								<td>
-									${message("admin.product.currentSpecification")}
-									<input type="hidden" name="specificationProductIds" value="${product.id}" />
-								</td>
-								[#list specifications as specification]
-									<td class="specification_${specification.id}[#if !product.specifications?seq_contains(specification)] hidden[/#if]">
-										<select name="specification_${specification.id}"[#if !product.specifications?seq_contains(specification)] disabled="disabled"[/#if]>
-											[#list specification.specificationValues as specificationValue]
-												<option value="${specificationValue.id}"[#if product.specificationValues?seq_contains(specificationValue)] selected="selected"[/#if]>${specificationValue.name}</option>
-											[/#list]
-										</select>
-									</td>
-								[/#list]
-								<td>
-									-
-								</td>
-							</tr>
-						[/#if]
-						[#list product.siblings as specificationProduct]
+						
+						[#list product.variants as specificationProduct]
 							<tr>
 								<td>
 									&nbsp;
 									<input type="hidden" name="specificationProductIds" value="${specificationProduct.id}" />
 								</td>
 								[#list specifications as specification]
-									<td class="specification_${specification.id}[#if !specificationProduct.specifications?seq_contains(specification)] hidden[/#if]">
-										<select name="specification_${specification.id}"[#if !specificationProduct.specifications?seq_contains(specification)] disabled="disabled"[/#if]>
+									<td class="specification_${specification.code}[#if !specificationProduct.specifications?seq_contains(specification)] hidden[/#if]">
+										<select name="specification_${specification.code}"[#if !specificationProduct.specifications?seq_contains(specification)] disabled="disabled"[/#if]>
 											[#list specification.specificationValues as specificationValue]
-												<option value="${specificationValue.id}"[#if specificationProduct.specificationValues?seq_contains(specificationValue)] selected="selected"[/#if]>${specificationValue.name}</option>
+												<option value="${specificationValue.code}"[#if specificationProduct.specificationValues?seq_contains(specificationValue)] selected="selected"[/#if]>${specificationValue.name}</option>
 											[/#list]
 										</select>
 									</td>
@@ -798,6 +784,7 @@ $().ready(function() {
 				</td>
 			</tr>
 		</table>
+		[/#if]
 		<table class="input">
 			<tr>
 				<th>

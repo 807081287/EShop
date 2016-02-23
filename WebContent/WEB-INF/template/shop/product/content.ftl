@@ -118,7 +118,7 @@ $().ready(function() {
 		var locked = true;
 		$.each(productMap, function(i, product) {
 			if (product.specificationValues.length == selectedIds.length && contains(product.specificationValues, selectedIds)) {
-				if (product.path != null) {
+				if (product.path != null && !product.isBaseProduct) {
 					location.href = "${base}" + product.path;
 					locked = false;
 				}

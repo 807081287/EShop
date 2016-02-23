@@ -743,6 +743,7 @@ public class Product extends BaseEntity
 	}
 
 
+	@JsonProperty
 	@Field(store = Store.NO, index = Index.UN_TOKENIZED)
 	@NotNull
 	@Column(nullable = false)

@@ -527,6 +527,7 @@ $().ready(function() {
 					${message("admin.common.setting")}:
 				</th>
 				<td>
+						<input type="hidden" name="isBaseProduct" value="true" />
 					<label>
 						<input type="checkbox" name="isMarketable" value="true" checked="checked" />${message("Product.isMarketable")}
 						<input type="hidden" name="_isMarketable" value="false" />
@@ -629,7 +630,7 @@ $().ready(function() {
 							[#list specifications as specification]
 								<li>
 									<label>
-										<input type="checkbox" name="specificationIds" value="${specification.id}" />${specification.name}
+										<input type="checkbox" name="specificationIds" value="${specification.code}" />${specification.name}
 										[#if specification.memo??]
 											<span class="gray">[${specification.memo}]</span>
 										[/#if]
@@ -653,7 +654,7 @@ $().ready(function() {
 								&nbsp;
 							</td>
 							[#list specifications as specification]
-								<td class="specification_${specification.id} hidden">
+								<td class="specification_${specification.code} hidden">
 									${specification.name}
 									[#if specification.memo??]
 										<span class="gray">[${specification.memo}]</span>
@@ -669,10 +670,10 @@ $().ready(function() {
 								&nbsp;
 							</td>
 							[#list specifications as specification]
-								<td class="specification_${specification.id} hidden">
-									<select name="specification_${specification.id}" disabled="disabled">
+								<td class="specification_${specification.code} hidden">
+									<select name="specification_${specification.code}" disabled="disabled">
 										[#list specification.specificationValues as specificationValue]
-											<option value="${specificationValue.id}">${specificationValue.name}</option>
+											<option value="${specificationValue.code}">${specificationValue.name}</option>
 										[/#list]
 									</select>
 								</td>

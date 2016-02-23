@@ -12,7 +12,7 @@ public class ProductForm
 
 	private String[] specificationCodes;
 
-	private SpecificationValueCode[] specificationValues;
+	private Variant[] variants;//变体 - 规格商品
 
 	/**
 	 * @return the baseProduct
@@ -49,20 +49,22 @@ public class ProductForm
 	}
 
 	/**
-	 * @return the specificationValues
+	 * @return the variants
 	 */
-	public SpecificationValueCode[] getSpecificationValues()
+	public Variant[] getVariants()
 	{
-		return specificationValues;
+		return variants;
 	}
 
 	/**
-	 * @param specificationValues
-	 *           the specificationValues to set
+	 * @param variants
+	 *           the variants to set
 	 */
-	public void setSpecificationValues(final SpecificationValueCode[] specificationValues)
+	public void setVariants(final Variant[] variants)
 	{
-		this.specificationValues = specificationValues;
+		this.variants = variants;
 	}
+
+
 
 }

@@ -1,33 +1,14 @@
 {
-    "baseProduct": {
-        "sn": "20150304141488", 
-        "name": "三只松鼠_大礼包", 
-        "fullName": "三只松鼠_大礼包", 
-        "price": 122, 
-        "unit": "件"
-    }, 
-    "specificationCodes": [
-        "COLOR", 
-        "SIZE"
-    ], 
-    "specificationValues": [
-        {
-            "codes": [
-                "WHITE", 
-                "SIZE-37"
-            ]
-        }, 
-        {
-            "codes": [
-                "WHITE", 
-                "SIZE-38"
-            ]
-        }, 
-        {
-            "codes": [
-                "RED", 
-                "SIZE-37"
-            ]
-        }
+    "baseProduct": null,
+    "specificationCodes": ["COLOR", "SIZE"],
+    "variants": [{
+        "specificationValues": ["WHITE", "SIZE-37"]
+    	},
+    {
+        "specificationValues": ["WHITE", "SIZE-38"]
+    },
+    {
+        "specificationValues": ["RED", "SIZE-37"]
+    }
     ]
 }

@@ -1,13 +1,14 @@
 /*
- * 
- * 
- * 
+ *
+ *
+ *
  */
 package net.eshop.util;
 
 import java.io.IOException;
 import java.io.Writer;
 
+import org.apache.log4j.Logger;
 import org.springframework.util.Assert;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -19,12 +20,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Utils - JSON
- * 
- * 
- * 
+ *
+ *
+ *
  */
 public final class JsonUtils
 {
+	private static Logger LOG = Logger.getLogger(JsonUtils.class);
 
 	/** ObjectMapper */
 	private static ObjectMapper mapper = new ObjectMapper();
@@ -38,34 +40,34 @@ public final class JsonUtils
 
 	/**
 	 * 将对象转换为JSON字符串
-	 * 
+	 *
 	 * @param value
 	 *           对象
 	 * @return JSOn字符串
 	 */
-	public static String toJson(Object value)
+	public static String toJson(final Object value)
 	{
 		try
 		{
 			return mapper.writeValueAsString(value);
 		}
-		catch (Exception e)
+		catch (final Exception e)
 		{
-			e.printStackTrace();
+			LOG.error("Failed to Json!", e);
 		}
 		return null;
 	}
 
 	/**
 	 * 将JSON字符串转换为对象
-	 * 
+	 *
 	 * @param json
 	 *           JSON字符串
 	 * @param valueType
 	 *           对象类型
 	 * @return 对象
 	 */
-	public static <T> T toObject(String json, Class<T> valueType)
+	public static <T> T toObject(final String json, final Class<T> valueType)
 	{
 		Assert.hasText(json);
 		Assert.notNull(valueType);
@@ -73,7 +75,7 @@ public final class JsonUtils
 		{
 			return mapper.readValue(json, valueType);
 		}
-		catch (Exception e)
+		catch (final Exception e)
 		{
 			e.printStackTrace();
 		}
@@ -82,14 +84,14 @@ public final class JsonUtils
 
 	/**
 	 * 将JSON字符串转换为对象
-	 * 
+	 *
 	 * @param json
 	 *           JSON字符串
 	 * @param typeReference
 	 *           对象类型
 	 * @return 对象
 	 */
-	public static <T> T toObject(String json, TypeReference<?> typeReference)
+	public static <T> T toObject(final String json, final TypeReference<?> typeReference)
 	{
 		Assert.hasText(json);
 		Assert.notNull(typeReference);
@@ -97,7 +99,7 @@ public final class JsonUtils
 		{
 			return mapper.readValue(json, typeReference);
 		}
-		catch (Exception e)
+		catch (final Exception e)
 		{
 			e.printStackTrace();
 		}
@@ -106,14 +108,14 @@ public final class JsonUtils
 
 	/**
 	 * 将JSON字符串转换为对象
-	 * 
+	 *
 	 * @param json
 	 *           JSON字符串
 	 * @param javaType
 	 *           对象类型
 	 * @return 对象
 	 */
-	public static <T> T toObject(String json, JavaType javaType)
+	public static <T> T toObject(final String json, final JavaType javaType)
 	{
 		Assert.hasText(json);
 		Assert.notNull(javaType);
@@ -121,7 +123,7 @@ public final class JsonUtils
 		{
 			return mapper.readValue(json, javaType);
 		}
-		catch (Exception e)
+		catch (final Exception e)
 		{
 			e.printStackTrace();
 		}
@@ -130,27 +132,27 @@ public final class JsonUtils
 
 	/**
 	 * 将对象转换为JSON流
-	 * 
+	 *
 	 * @param writer
 	 *           writer
 	 * @param value
 	 *           对象
 	 */
-	public static void writeValue(Writer writer, Object value)
+	public static void writeValue(final Writer writer, final Object value)
 	{
 		try
 		{
 			mapper.writeValue(writer, value);
 		}
-		catch (JsonGenerationException e)
+		catch (final JsonGenerationException e)
 		{
 			e.printStackTrace();
 		}
-		catch (JsonMappingException e)
+		catch (final JsonMappingException e)
 		{
 			e.printStackTrace();
 		}
-		catch (IOException e)
+		catch (final IOException e)
 		{
 			e.printStackTrace();
 		}

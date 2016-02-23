@@ -34,7 +34,7 @@ import net.eshop.entity.SpecificationValue;
 import net.eshop.entity.Tag;
 import net.eshop.entity.Tag.Type;
 import net.eshop.form.ProductForm;
-import net.eshop.form.SpecificationValueCode;
+import net.eshop.form.Variant;
 import net.eshop.service.BrandService;
 import net.eshop.service.FileService;
 import net.eshop.service.GoodsService;
@@ -160,18 +160,18 @@ public class ProductRestController extends AbstractProductController
 		form.setBaseProduct(product);
 		form.setSpecificationCodes(new String[]
 		{ "COLOR", "SIZE" });
-		final SpecificationValueCode[] specificationValueCodes = new SpecificationValueCode[3];
-		for (int j = 0; j < specificationValueCodes.length; j++)
+		final Variant[] variants = new Variant[3];
+		for (int j = 0; j < variants.length; j++)
 		{
-			specificationValueCodes[j] = new SpecificationValueCode();
+			variants[j] = new Variant();
 		}
-		specificationValueCodes[0].setCodes(new String[]
+		variants[0].setSpecificationValues(new String[]
 		{ "WHITE", "SIZE-37" });
-		specificationValueCodes[1].setCodes(new String[]
+		variants[1].setSpecificationValues(new String[]
 		{ "WHITE", "SIZE-38" });
-		specificationValueCodes[2].setCodes(new String[]
+		variants[2].setSpecificationValues(new String[]
 		{ "RED", "SIZE-37" });
-		form.setSpecificationValues(specificationValueCodes);
+		form.setVariants(variants);
 
 		System.out.println(JsonUtils.toJson(form));
 

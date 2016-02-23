@@ -19,7 +19,7 @@ import net.eshop.entity.Product;
 import net.eshop.entity.Specification;
 import net.eshop.entity.SpecificationValue;
 import net.eshop.form.ProductForm;
-import net.eshop.form.SpecificationValueCode;
+import net.eshop.form.Variant;
 import net.eshop.service.SpecificationService;
 import net.eshop.service.SpecificationValueService;
 import net.eshop.util.SettingUtils;
@@ -75,27 +75,34 @@ public class AbstractProductController extends BaseController
 		Assert.notEmpty(specificationCodes, "specificationCodes cannot be empty!");
 		Assert.notEmpty(request.getParameterValues("specification_" + specificationCodes[0]), "There is no variants. (没有规格商品)");
 
-		final int variantsCount = request.getParameterValues("specification_" + specificationCodes[0]).length;
 
+		/*** 初始化 变体： 先获取数量 并初始化数组 Begins **/
+		final int specificationOptionLength = specificationCodes.length; //参与增加商品的规格数量
+		final int variantsCount = request.getParameterValues("specification_" + specificationCodes[0]).length; //变体数量
+		final Variant[] variants = new Variant[variantsCount];
+		for (int i = 0; i < variantsCount; i++)
+		{
+			variants[i] = new Variant();
+			variants[i].setSpecificationValues(new String[specificationOptionLength]);
+		}
+		/*** 初始化 变体： 先获取数量 并初始化数组 Ends **/
+
+		/*** 参数是以列为组进行提交的, 所以需要进行两次循环赋值 先依次给 所有变体赋上第N个规格值 ***/
+		for (int i = 0; i < specificationOptionLength; i++)
+		{
+			final String[] specificationValueCodes = request.getParameterValues("specification_" + specificationCodes[i]);
+			/*** specificationValueCodes.length 和 variantsCount 相等 **/
+			for (int j = 0; j < variantsCount; j++)
+			{
+				variants[j].getSpecificationValues()[i] = specificationValueCodes[j];
+			}
+		}
+
+		/*** 创建form **/
 		final ProductForm form = new ProductForm();
 		form.setBaseProduct(baseProduct);
 		form.setSpecificationCodes(specificationCodes);
-		final SpecificationValueCode[] valueCodes = new SpecificationValueCode[variantsCount];
-		form.setSpecificationValues(valueCodes);
-		for (int i = 0; i < variantsCount; i++)
-		{
-			valueCodes[i] = new SpecificationValueCode();
-			valueCodes[i].setCodes(new String[specificationCodes.length]);
-		}
-
-		for (int i = 0; i < variantsCount; i++)
-		{
-			final String[] specificationValueCodes = request.getParameterValues("specification_" + specificationCodes[i]);
-			for (int j = 0; i < specificationValueCodes.length; j++)
-			{
-				valueCodes[j].getCodes()[i] = specificationValueCodes[j];
-			}
-		}
+		form.setVariants(variants);
 		return form;
 	}
 
@@ -104,7 +111,7 @@ public class AbstractProductController extends BaseController
 		final Product baseProduct = productForm.getBaseProduct();
 		final List<Product> products = new ArrayList<Product>();
 		final String[] specificationCodes = productForm.getSpecificationCodes();
-		if (ArrayUtils.isEmpty(specificationCodes) || ArrayUtils.isEmpty(productForm.getSpecificationValues()))
+		if (ArrayUtils.isEmpty(specificationCodes) || ArrayUtils.isEmpty(productForm.getVariants()))
 		{
 			LOG.debug("There is no variants for this product!");
 			products.add(baseProduct);
@@ -112,7 +119,7 @@ public class AbstractProductController extends BaseController
 		}
 
 		/***** 规格 *****/
-		final SpecificationValueCode[] valueCodes = productForm.getSpecificationValues();
+		final Variant[] valueCodes = productForm.getVariants();
 		final int variantsSize = valueCodes.length;
 
 
@@ -155,7 +162,7 @@ public class AbstractProductController extends BaseController
 			specificationProduct.setSpecifications(specifications);
 
 			specificationProduct.setSpecificationValues(new HashSet<SpecificationValue>());
-			for (final String code : valueCodes[i].getCodes())
+			for (final String code : valueCodes[i].getSpecificationValues())
 			{
 				specificationProduct.getSpecificationValues().add(specificationValueService.findByCode(code));
 			}
@@ -166,11 +173,15 @@ public class AbstractProductController extends BaseController
 			specificationProduct.setGiftItems(null);
 			specificationProduct.setProductNotifies(null);
 			specificationProduct.setIsBaseProduct(Boolean.FALSE);
+			specificationProduct.setBaseProduct(baseProduct);
 			products.add(specificationProduct);
 		}
 		/****************** 创建变体并初始值 ends *******************/
 
-
+		baseProduct.setStock(null);
+		baseProduct.setSpecifications(specifications);
+		baseProduct.setGoods(goods);
+		products.add(baseProduct);
 		return products;
 
 	}
