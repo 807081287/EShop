@@ -5,6 +5,7 @@
  */
 package net.eshop.service;
 
+import net.eshop.entity.Specification;
 import net.eshop.entity.SpecificationValue;
 
 
@@ -16,5 +17,5 @@ import net.eshop.entity.SpecificationValue;
  */
 public interface SpecificationValueService extends BaseService<SpecificationValue, Long>
 {
-	//
+	SpecificationValue findByCode(String code, Specification specification);
 }

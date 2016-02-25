@@ -584,6 +584,7 @@ public class Product extends BaseEntity
 	 *
 	 * @return 重量
 	 */
+	@JsonProperty
 	@Field(store = Store.YES, index = Index.NO)
 	@Min(0)
 	public Integer getWeight()
@@ -770,7 +771,7 @@ public class Product extends BaseEntity
 	/**
 	 * @return the variants
 	 */
-	@OneToMany(mappedBy = "baseProduct", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "baseProduct", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
 	public Set<Product> getVariants()
 	{
 		return variants;

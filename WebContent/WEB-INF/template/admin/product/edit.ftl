@@ -548,7 +548,7 @@ $().ready(function() {
 					${message("admin.common.setting")}:
 				</th>
 				<td>
-					<input type="hidden" name="isBaseProduct" value="${product.isBaseProduct}" />
+					<input type="hidden" id="isBaseProduct" name="isBaseProduct" value="[#if product.isBaseProduct??]${product.isBaseProduct?string("true", "false")}[/#if]" />
 					<label>
 						<input type="checkbox" name="isMarketable" value="true"[#if product.isMarketable] checked="checked"[/#if] />${message("Product.isMarketable")}
 						<input type="hidden" name="_isMarketable" value="false" />

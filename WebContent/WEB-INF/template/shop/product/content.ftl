@@ -278,7 +278,7 @@ $().ready(function() {
 			$specificationValue.filter(".selected").each(function(i) {
 				specificationValueIds[i] = $(this).attr("val");
 			});
-			if (specificationValueIds.length != ${product.specificationValues?size}) {
+			if (specificationValueIds.length != ${product.specifications?size}) {
 				$specificationTitle.show();
 				return false;
 			}

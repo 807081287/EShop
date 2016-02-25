@@ -47,6 +47,15 @@ public class BaseServiceImpl<T, ID extends Serializable> implements BaseService<
 	/** baseDao */
 	private BaseDao<T, ID> baseDao;
 
+
+	/**
+	 * @return the baseDao
+	 */
+	protected BaseDao<T, ID> getBaseDao()
+	{
+		return baseDao;
+	}
+
 	public void setBaseDao(final BaseDao<T, ID> baseDao)
 	{
 		this.baseDao = baseDao;
@@ -188,7 +197,7 @@ public class BaseServiceImpl<T, ID extends Serializable> implements BaseService<
 
 	@SuppressWarnings(
 	{ "unchecked", "rawtypes" })
-	private void copyProperties(final Object source, final Object target, final String[] ignoreProperties) throws BeansException
+	protected void copyProperties(final Object source, final Object target, final String[] ignoreProperties) throws BeansException
 	{
 		Assert.notNull(source, "Source must not be null");
 		Assert.notNull(target, "Target must not be null");

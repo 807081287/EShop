@@ -35,6 +35,7 @@ import net.eshop.Pageable;
 import net.eshop.dao.BaseDao;
 import net.eshop.entity.OrderEntity;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.util.Assert;
 
@@ -65,6 +66,7 @@ public abstract class BaseDaoImpl<T, ID extends Serializable> implements BaseDao
 		entityClass = (Class<T>) parameterizedType[0];
 	}
 
+	@Override
 	public T find(final ID id)
 	{
 		if (id != null)
@@ -74,6 +76,7 @@ public abstract class BaseDaoImpl<T, ID extends Serializable> implements BaseDao
 		return null;
 	}
 
+	@Override
 	public T findByCode(final String code)
 	{
 		if (StringUtils.isNotEmpty(code))
@@ -84,11 +87,20 @@ public abstract class BaseDaoImpl<T, ID extends Serializable> implements BaseDao
 			Predicate restrictions = criteriaBuilder.conjunction();
 			restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.equal(root.get("code"), code));
 			criteriaQuery.where(restrictions);
-			return entityManager.createQuery(criteriaQuery).getSingleResult();
+			final List<T> list = entityManager.createQuery(criteriaQuery).getResultList();
+			if (CollectionUtils.isEmpty(list))
+			{
+				return null;
+			}
+			else
+			{
+				return list.get(0);
+			}
 		}
 		return null;
 	}
 
+	@Override
 	public T find(final ID id, final LockModeType lockModeType)
 	{
 		if (id != null)

@@ -25,6 +25,8 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 /**
  * Entity - 规格
@@ -77,6 +79,7 @@ public class Specification extends OrderEntity
 	/**
 	 * @return the code
 	 */
+	@JsonProperty
 	@NotEmpty
 	@Length(max = 20)
 	@Column(unique = true)
@@ -99,6 +102,7 @@ public class Specification extends OrderEntity
 	 *
 	 * @return 名称
 	 */
+	@JsonProperty
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false)
@@ -168,6 +172,7 @@ public class Specification extends OrderEntity
 	 *
 	 * @return 规格值
 	 */
+	@JsonProperty
 	@Valid
 	@NotEmpty
 	@OneToMany(mappedBy = "specification", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)

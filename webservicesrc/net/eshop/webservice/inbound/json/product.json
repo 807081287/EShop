@@ -1,14 +1,33 @@
 {
-    "baseProduct": null,
-    "specificationCodes": ["COLOR", "SIZE"],
-    "variants": [{
-        "specificationValues": ["WHITE", "SIZE-37"]
-    	},
-    {
-        "specificationValues": ["WHITE", "SIZE-38"]
-    },
-    {
-        "specificationValues": ["RED", "SIZE-37"]
-    }
+    "baseProduct": {
+        "sn": "201602242626", 
+        "name": "含属性服装", 
+        "price": 360, 
+        "unit": "件", 
+        "weight": 1200
+    }, 
+    "specificationCodes": [
+        "COLOR", 
+        "SIZE"
+    ], 
+    "variants": [
+        {
+            "specificationValues": [
+                "WHITE", 
+                "SIZE-37"
+            ]
+        }, 
+        {
+            "specificationValues": [
+                "WHITE", 
+                "SIZE-38"
+            ]
+        }, 
+        {
+            "specificationValues": [
+                "RED", 
+                "SIZE-37"
+            ]
+        }
     ]
 }

@@ -1,0 +1,19 @@
+{
+        "order": 1,
+        "code": "COLOR",
+        "name": "颜色",
+        "specificationValues":
+        [
+            {
+                "order": 1,
+                "code": "WHITE",
+                "name": "白色"
+            },
+            {
+                "order": 2,
+                "code": "RED",
+                "name": "红色"
+            }
+        ]
+}
+

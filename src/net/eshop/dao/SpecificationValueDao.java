@@ -5,6 +5,7 @@
  */
 package net.eshop.dao;
 
+import net.eshop.entity.Specification;
 import net.eshop.entity.SpecificationValue;
 
 
@@ -16,5 +17,5 @@ import net.eshop.entity.SpecificationValue;
  */
 public interface SpecificationValueDao extends BaseDao<SpecificationValue, Long>
 {
-	//
+	SpecificationValue findByCode(String code, Specification specification);
 }

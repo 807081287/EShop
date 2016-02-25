@@ -6,11 +6,7 @@
 package net.eshop.webservice.controller;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -18,23 +14,12 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 
-import net.eshop.FileInfo.FileType;
 import net.eshop.Message;
 import net.eshop.controller.admin.AbstractProductController;
-import net.eshop.entity.Attribute;
 import net.eshop.entity.Goods;
-import net.eshop.entity.MemberRank;
-import net.eshop.entity.Parameter;
-import net.eshop.entity.ParameterGroup;
 import net.eshop.entity.Product;
 import net.eshop.entity.ProductCategory;
-import net.eshop.entity.ProductImage;
-import net.eshop.entity.Specification;
-import net.eshop.entity.SpecificationValue;
-import net.eshop.entity.Tag;
-import net.eshop.entity.Tag.Type;
 import net.eshop.form.ProductForm;
-import net.eshop.form.Variant;
 import net.eshop.service.BrandService;
 import net.eshop.service.FileService;
 import net.eshop.service.GoodsService;
@@ -50,13 +35,10 @@ import net.eshop.util.JsonUtils;
 import net.eshop.webservice.response.Response;
 import net.eshop.webservice.util.ResponseUtil;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,8 +46,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 /**
@@ -103,33 +83,7 @@ public class ProductRestController extends AbstractProductController
 	@Resource(name = "fileServiceImpl")
 	private FileService fileService;
 
-	/**
-	 * 检查编号是否唯一
-	 */
-	@RequestMapping(value = "/check_sn", method = RequestMethod.GET)
-	public @ResponseBody boolean checkSn(final String previousSn, final String sn)
-	{
-		if (StringUtils.isEmpty(sn))
-		{
-			return false;
-		}
-		if (productService.snUnique(previousSn, sn))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/employee")
-	public ModelAndView addEmployee(@RequestBody final String body)
-	{
-		System.out.println("haha");
-
-		return new ModelAndView("");
-	}
 
 	@RequestMapping(value = "/rest/product/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Product> getProduct(@PathVariable("id") final long id, final HttpServletRequest request)
@@ -148,34 +102,14 @@ public class ProductRestController extends AbstractProductController
 	@ResponseBody
 	public Response createProduct(@RequestBody final String productStr)
 	{
-
-
-
-
 		final List<ProductCategory> categories = productCategoryService.findRoots();
 		Response response = null;
-		final Product product = JsonUtils.toObject(productStr, Product.class);
+		final ProductForm productForm = JsonUtils.toObject(productStr, ProductForm.class);
 
-		final ProductForm form = new ProductForm();
-		form.setBaseProduct(product);
-		form.setSpecificationCodes(new String[]
-		{ "COLOR", "SIZE" });
-		final Variant[] variants = new Variant[3];
-		for (int j = 0; j < variants.length; j++)
-		{
-			variants[j] = new Variant();
-		}
-		variants[0].setSpecificationValues(new String[]
-		{ "WHITE", "SIZE-37" });
-		variants[1].setSpecificationValues(new String[]
-		{ "WHITE", "SIZE-38" });
-		variants[2].setSpecificationValues(new String[]
-		{ "RED", "SIZE-37" });
-		form.setVariants(variants);
-
-		System.out.println(JsonUtils.toJson(form));
+		final Product product = productForm.getBaseProduct();
 
 		product.setIsList(Boolean.FALSE);
+		product.setIsGift(Boolean.FALSE);
 		product.setIsBaseProduct(Boolean.TRUE);
 		product.setIsMarketable(Boolean.FALSE);
 		product.setIsTop(Boolean.FALSE);
@@ -227,7 +161,7 @@ public class ProductRestController extends AbstractProductController
 
 
 			final Goods goods = new Goods();
-			final List<Product> products = new ArrayList<Product>();
+			final List<Product> products = createVariants(productForm, goods);
 			product.setGoods(goods);
 			product.setSpecifications(null);
 			product.setSpecificationValues(null);
@@ -249,269 +183,15 @@ public class ProductRestController extends AbstractProductController
 		return response;
 	}
 
-	/**
-	 * 获取参数组
-	 */
-	@RequestMapping(value = "/parameter_groups", method = RequestMethod.GET)
-	public @ResponseBody Set<ParameterGroup> parameterGroups(final Long id)
-	{
-		final ProductCategory productCategory = productCategoryService.find(id);
-		return productCategory.getParameterGroups();
-	}
 
-	/**
-	 * 获取属性
-	 */
-	@RequestMapping(value = "/attributes", method = RequestMethod.GET)
-	public @ResponseBody Set<Attribute> attributes(final Long id)
-	{
-		final ProductCategory productCategory = productCategoryService.find(id);
-		return productCategory.getAttributes();
-	}
 
-	/**
-	 * 添加
-	 */
-	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public String add(final ModelMap model)
-	{
-		model.addAttribute("productCategoryTree", productCategoryService.findTree());
-		model.addAttribute("brands", brandService.findAll());
-		model.addAttribute("tags", tagService.findList(Type.product));
-		model.addAttribute("memberRanks", memberRankService.findAll());
-		model.addAttribute("specifications", specificationService.findAll());
-		return "/admin/product/add";
-	}
 
-	/**
-	 * 编辑
-	 */
-	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(final Long id, final ModelMap model)
-	{
-		model.addAttribute("productCategoryTree", productCategoryService.findTree());
-		model.addAttribute("brands", brandService.findAll());
-		model.addAttribute("tags", tagService.findList(Type.product));
-		model.addAttribute("memberRanks", memberRankService.findAll());
-		model.addAttribute("specifications", specificationService.findAll());
-		model.addAttribute("product", productService.find(id));
-		return "/admin/product/edit";
-	}
 
-	/**
-	 * 更新
-	 */
-	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(final Product product, final Long productCategoryId, final Long brandId, final Long[] tagIds,
-			final Long[] specificationIds, final Long[] specificationProductIds, final HttpServletRequest request,
-			final RedirectAttributes redirectAttributes)
-	{
-		for (final Iterator<ProductImage> iterator = product.getProductImages().iterator(); iterator.hasNext();)
-		{
-			final ProductImage productImage = iterator.next();
-			if (productImage == null || productImage.isEmpty())
-			{
-				iterator.remove();
-				continue;
-			}
-			if (productImage.getFile() != null && !productImage.getFile().isEmpty())
-			{
-				if (!fileService.isValid(FileType.image, productImage.getFile()))
-				{
-					addFlashMessage(redirectAttributes, Message.error("admin.upload.invalid"));
-					return "redirect:edit.jhtml?id=" + product.getId();
-				}
-			}
-		}
-		product.setProductCategory(productCategoryService.find(productCategoryId));
-		product.setBrand(brandService.find(brandId));
-		product.setTags(new HashSet<Tag>(tagService.findList(tagIds)));
-		if (!isValid(product))
-		{
-			return ERROR_VIEW;
-		}
-		final Product pProduct = productService.find(product.getId());
-		if (pProduct == null)
-		{
-			return ERROR_VIEW;
-		}
-		if (StringUtils.isNotEmpty(product.getSn()) && !productService.snUnique(pProduct.getSn(), product.getSn()))
-		{
-			return ERROR_VIEW;
-		}
-		if (product.getMarketPrice() == null)
-		{
-			final BigDecimal defaultMarketPrice = calculateDefaultMarketPrice(product.getPrice());
-			product.setMarketPrice(defaultMarketPrice);
-		}
-		if (product.getPoint() == null)
-		{
-			final long point = calculateDefaultPoint(product.getPrice());
-			product.setPoint(point);
-		}
-
-		for (final MemberRank memberRank : memberRankService.findAll())
-		{
-			final String price = request.getParameter("memberPrice_" + memberRank.getId());
-			if (StringUtils.isNotEmpty(price) && new BigDecimal(price).compareTo(new BigDecimal(0)) >= 0)
-			{
-				product.getMemberPrice().put(memberRank, new BigDecimal(price));
-			}
-			else
-			{
-				product.getMemberPrice().remove(memberRank);
-			}
-		}
-
-		for (final ProductImage productImage : product.getProductImages())
-		{
-			productImageService.build(productImage);
-		}
-		Collections.sort(product.getProductImages());
-		if (product.getImage() == null && product.getThumbnail() != null)
-		{
-			product.setImage(product.getThumbnail());
-		}
-
-		for (final ParameterGroup parameterGroup : product.getProductCategory().getParameterGroups())
-		{
-			for (final Parameter parameter : parameterGroup.getParameters())
-			{
-				final String parameterValue = request.getParameter("parameter_" + parameter.getId());
-				if (StringUtils.isNotEmpty(parameterValue))
-				{
-					product.getParameterValue().put(parameter, parameterValue);
-				}
-				else
-				{
-					product.getParameterValue().remove(parameter);
-				}
-			}
-		}
-
-		for (final Attribute attribute : product.getProductCategory().getAttributes())
-		{
-			final String attributeValue = request.getParameter("attribute_" + attribute.getId());
-			if (StringUtils.isNotEmpty(attributeValue))
-			{
-				product.setAttributeValue(attribute, attributeValue);
-			}
-			else
-			{
-				product.setAttributeValue(attribute, null);
-			}
-		}
-
-		final Goods goods = pProduct.getGoods();
-		final List<Product> products = new ArrayList<Product>();
-		if (specificationIds != null && specificationIds.length > 0)
-		{
-			for (int i = 0; i < specificationIds.length; i++)
-			{
-				final Specification specification = specificationService.find(specificationIds[i]);
-				final String[] specificationValueIds = request.getParameterValues("specification_" + specification.getId());
-				if (specificationValueIds != null && specificationValueIds.length > 0)
-				{
-					for (int j = 0; j < specificationValueIds.length; j++)
-					{
-						if (i == 0)
-						{
-							if (j == 0)
-							{
-								BeanUtils.copyProperties(product, pProduct, new String[]
-								{ "id", "createDate", "modifyDate", "fullName", "allocatedStock", "score", "totalScore", "scoreCount",
-										"hits", "weekHits", "monthHits", "sales", "weekSales", "monthSales", "weekHitsDate",
-										"monthHitsDate", "weekSalesDate", "monthSalesDate", "goods", "reviews", "consultations",
-										"favoriteMembers", "specifications", "specificationValues", "promotions", "cartItems",
-										"orderItems", "giftItems", "productNotifies" });
-								pProduct.setSpecifications(new HashSet<Specification>());
-								pProduct.setSpecificationValues(new HashSet<SpecificationValue>());
-								products.add(pProduct);
-							}
-							else
-							{
-								if (specificationProductIds != null && j < specificationProductIds.length)
-								{
-									final Product specificationProduct = productService.find(specificationProductIds[j]);
-									if (specificationProduct == null
-											|| (specificationProduct.getGoods() != null && !specificationProduct.getGoods().equals(goods)))
-									{
-										return ERROR_VIEW;
-									}
-									specificationProduct.setSpecifications(new HashSet<Specification>());
-									specificationProduct.setSpecificationValues(new HashSet<SpecificationValue>());
-									products.add(specificationProduct);
-								}
-								else
-								{
-									final Product specificationProduct = new Product();
-									BeanUtils.copyProperties(product, specificationProduct);
-									specificationProduct.setId(null);
-									specificationProduct.setCreateDate(null);
-									specificationProduct.setModifyDate(null);
-									specificationProduct.setSn(null);
-									specificationProduct.setFullName(null);
-									specificationProduct.setAllocatedStock(0);
-									specificationProduct.setIsList(false);
-									specificationProduct.setScore(0F);
-									specificationProduct.setTotalScore(0L);
-									specificationProduct.setScoreCount(0L);
-									specificationProduct.setHits(0L);
-									specificationProduct.setWeekHits(0L);
-									specificationProduct.setMonthHits(0L);
-									specificationProduct.setSales(0L);
-									specificationProduct.setWeekSales(0L);
-									specificationProduct.setMonthSales(0L);
-									specificationProduct.setWeekHitsDate(new Date());
-									specificationProduct.setMonthHitsDate(new Date());
-									specificationProduct.setWeekSalesDate(new Date());
-									specificationProduct.setMonthSalesDate(new Date());
-									specificationProduct.setGoods(goods);
-									specificationProduct.setReviews(null);
-									specificationProduct.setConsultations(null);
-									specificationProduct.setFavoriteMembers(null);
-									specificationProduct.setSpecifications(new HashSet<Specification>());
-									specificationProduct.setSpecificationValues(new HashSet<SpecificationValue>());
-									specificationProduct.setPromotions(null);
-									specificationProduct.setCartItems(null);
-									specificationProduct.setOrderItems(null);
-									specificationProduct.setGiftItems(null);
-									specificationProduct.setProductNotifies(null);
-									products.add(specificationProduct);
-								}
-							}
-						}
-						final Product specificationProduct = products.get(j);
-						final SpecificationValue specificationValue = specificationValueService.find(Long
-								.valueOf(specificationValueIds[j]));
-						specificationProduct.getSpecifications().add(specification);
-						specificationProduct.getSpecificationValues().add(specificationValue);
-					}
-				}
-			}
-		}
-		else
-		{
-			product.setSpecifications(null);
-			product.setSpecificationValues(null);
-			BeanUtils.copyProperties(product, pProduct, new String[]
-			{ "id", "createDate", "modifyDate", "fullName", "allocatedStock", "score", "totalScore", "scoreCount", "hits",
-					"weekHits", "monthHits", "sales", "weekSales", "monthSales", "weekHitsDate", "monthHitsDate", "weekSalesDate",
-					"monthSalesDate", "goods", "reviews", "consultations", "favoriteMembers", "promotions", "cartItems", "orderItems",
-					"giftItems", "productNotifies" });
-			products.add(pProduct);
-		}
-		goods.getProducts().clear();
-		goods.getProducts().addAll(products);
-		goodsService.update(goods);
-		addFlashMessage(redirectAttributes, SUCCESS_MESSAGE);
-		return "redirect:list.jhtml";
-	}
 
 	/**
 	 * 删除
 	 */
-	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	@RequestMapping(value = "/rest/product", method = RequestMethod.DELETE)
 	public @ResponseBody Message delete(final Long[] ids)
 	{
 		productService.delete(ids);

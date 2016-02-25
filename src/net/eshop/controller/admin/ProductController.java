@@ -48,6 +48,8 @@ import net.eshop.service.SpecificationService;
 import net.eshop.service.SpecificationValueService;
 import net.eshop.service.TagService;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
@@ -91,6 +93,9 @@ public class ProductController extends AbstractProductController
 	private SpecificationValueService specificationValueService;
 	@Resource(name = "fileServiceImpl")
 	private FileService fileService;
+
+
+	private final static Message DELETE_BASE_PROD_ERROR = Message.error("admin.message.error.variantsExist");
 
 	/**
 	 * 检查编号是否唯一
@@ -278,9 +283,18 @@ public class ProductController extends AbstractProductController
 		}
 
 		final Goods goods = new Goods();
+		final List<Product> products = new ArrayList<Product>();
+		if (ArrayUtils.isNotEmpty(specificationIds))
+		{
 
-		final ProductForm productForm = createProductForm(specificationIds, request, product);
-		final List<Product> products = createVariants(productForm, goods);
+			final ProductForm productForm = createProductForm(specificationIds, request, product);
+			products.addAll(createVariants(productForm, goods));
+		}
+		else
+		{
+			product.setGoods(goods);
+			products.add(product);
+		}
 		goods.getProducts().clear();
 		goods.getProducts().addAll(products);
 		goodsService.save(goods);
@@ -306,8 +320,8 @@ public class ProductController extends AbstractProductController
 	/**
 	 * 更新
 	 */
-	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(final Product product, final Long productCategoryId, final Long brandId, final Long[] tagIds,
+	@RequestMapping(value = "/updateOld", method = RequestMethod.POST)
+	public String updateOld(final Product product, final Long productCategoryId, final Long brandId, final Long[] tagIds,
 			final Long[] specificationIds, final Long[] specificationProductIds, final HttpServletRequest request,
 			final RedirectAttributes redirectAttributes)
 	{
@@ -513,8 +527,134 @@ public class ProductController extends AbstractProductController
 		return "redirect:list.jhtml";
 	}
 
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public String update(final Product product, final Long productCategoryId, final Long brandId, final Long[] tagIds,
+			final String[] specificationIds, final Long[] specificationProductIds, final HttpServletRequest request,
+			final RedirectAttributes redirectAttributes)
+	{
+		for (final Iterator<ProductImage> iterator = product.getProductImages().iterator(); iterator.hasNext();)
+		{
+			final ProductImage productImage = iterator.next();
+			if (productImage == null || productImage.isEmpty())
+			{
+				iterator.remove();
+				continue;
+			}
+			if (productImage.getFile() != null && !productImage.getFile().isEmpty())
+			{
+				if (!fileService.isValid(FileType.image, productImage.getFile()))
+				{
+					addFlashMessage(redirectAttributes, Message.error("admin.upload.invalid"));
+					return "redirect:edit.jhtml?id=" + product.getId();
+				}
+			}
+		}
+		product.setProductCategory(productCategoryService.find(productCategoryId));
+		product.setBrand(brandService.find(brandId));
+		product.setTags(new HashSet<Tag>(tagService.findList(tagIds)));
+		if (!isValid(product))
+		{
+			return ERROR_VIEW;
+		}
+		final Product pProduct = productService.find(product.getId());
+		if (pProduct == null)
+		{
+			return ERROR_VIEW;
+		}
+		if (StringUtils.isNotEmpty(product.getSn()) && !productService.snUnique(pProduct.getSn(), product.getSn()))
+		{
+			return ERROR_VIEW;
+		}
+		if (product.getMarketPrice() == null)
+		{
+			final BigDecimal defaultMarketPrice = calculateDefaultMarketPrice(product.getPrice());
+			product.setMarketPrice(defaultMarketPrice);
+		}
+		if (product.getPoint() == null)
+		{
+			final long point = calculateDefaultPoint(product.getPrice());
+			product.setPoint(point);
+		}
+
+		for (final MemberRank memberRank : memberRankService.findAll())
+		{
+			final String price = request.getParameter("memberPrice_" + memberRank.getId());
+			if (StringUtils.isNotEmpty(price) && new BigDecimal(price).compareTo(new BigDecimal(0)) >= 0)
+			{
+				product.getMemberPrice().put(memberRank, new BigDecimal(price));
+			}
+			else
+			{
+				product.getMemberPrice().remove(memberRank);
+			}
+		}
+
+		for (final ProductImage productImage : product.getProductImages())
+		{
+			productImageService.build(productImage);
+		}
+		Collections.sort(product.getProductImages());
+		if (product.getImage() == null && product.getThumbnail() != null)
+		{
+			product.setImage(product.getThumbnail());
+		}
+
+		for (final ParameterGroup parameterGroup : product.getProductCategory().getParameterGroups())
+		{
+			for (final Parameter parameter : parameterGroup.getParameters())
+			{
+				final String parameterValue = request.getParameter("parameter_" + parameter.getId());
+				if (StringUtils.isNotEmpty(parameterValue))
+				{
+					product.getParameterValue().put(parameter, parameterValue);
+				}
+				else
+				{
+					product.getParameterValue().remove(parameter);
+				}
+			}
+		}
+
+		for (final Attribute attribute : product.getProductCategory().getAttributes())
+		{
+			final String attributeValue = request.getParameter("attribute_" + attribute.getId());
+			if (StringUtils.isNotEmpty(attributeValue))
+			{
+				product.setAttributeValue(attribute, attributeValue);
+			}
+			else
+			{
+				product.setAttributeValue(attribute, null);
+			}
+		}
+
+		BeanUtils.copyProperties(product, pProduct, new String[]
+		{ "id", "createDate", "modifyDate", "fullName", "allocatedStock", "score", "totalScore", "scoreCount", "hits", "weekHits",
+				"monthHits", "sales", "weekSales", "monthSales", "weekHitsDate", "monthHitsDate", "weekSalesDate", "monthSalesDate",
+				"goods", "reviews", "consultations", "favoriteMembers", "specifications", "specificationValues", "promotions",
+				"cartItems", "orderItems", "giftItems", "productNotifies", "variants" });
+
+		final Set<Product> variants = pProduct.getVariants();
+		final Goods goods = pProduct.getGoods();
+		for (final Product prod : variants)
+		{
+			BeanUtils.copyProperties(product, prod, new String[]
+			{ "id", "sn", "createDate", "modifyDate", "fullName", "stock", "allocatedStock", "score", "totalScore", "scoreCount",
+					"hits", "weekHits", "monthHits", "sales", "weekSales", "monthSales", "weekHitsDate", "monthHitsDate",
+					"weekSalesDate", "monthSalesDate", "goods", "reviews", "consultations", "favoriteMembers", "specifications",
+					"specificationValues", "promotions", "cartItems", "orderItems", "giftItems", "productNotifies", "isBaseProduct" });
+		}
+
+		goods.getProducts().clear();
+		goods.getProducts().addAll(variants);
+		goods.getProducts().add(pProduct);
+		goodsService.update(goods);
+		addFlashMessage(redirectAttributes, SUCCESS_MESSAGE);
+		return "redirect:list.jhtml";
+	}
+
 	/**
-	 * 列表
+	 * 列表 Change on 2016/2/24: 默认isBaseProduct=true,只查询baseProduct
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(final Long productCategoryId, final Long brandId, final Long promotionId, final Long tagId,
@@ -535,7 +675,8 @@ public class ProductController extends AbstractProductController
 		model.addAttribute("promotionId", promotionId);
 		model.addAttribute("tagId", tagId);
 		model.addAttribute("isMarketable", isMarketable);
-		model.addAttribute("isBaseProduct", isBaseProduct);
+
+		model.addAttribute("isBaseProduct");
 		model.addAttribute("isList", isList);
 		model.addAttribute("isTop", isTop);
 		model.addAttribute("isGift", isGift);
@@ -552,10 +693,27 @@ public class ProductController extends AbstractProductController
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public @ResponseBody Message delete(final Long[] ids)
 	{
-		productService.delete(ids);
+		if (ArrayUtils.isEmpty(ids) || ids.length > 1)
+		{
+			return ERROR_MESSAGE;
+		}
+		final Product product = productService.find(ids[0]);
+		if (CollectionUtils.isNotEmpty(product.getVariants()))
+		{
+			return DELETE_BASE_PROD_ERROR;
+		}
+		productService.delete(ids[0]);
 		return SUCCESS_MESSAGE;
 	}
 
-
+	/**
+	 * 删除
+	 */
+	@RequestMapping(value = "/deleteSingle", method = RequestMethod.POST)
+	public @ResponseBody Message deleteSingle(final Long id)
+	{
+		productService.delete(id);
+		return SUCCESS_MESSAGE;
+	}
 
 }

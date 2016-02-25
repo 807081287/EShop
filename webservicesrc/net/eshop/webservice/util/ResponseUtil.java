@@ -60,13 +60,26 @@ public class ResponseUtil
 		return response;
 	}
 
-	public static Response createErrorResponse(final Exception ex)
+	public static Response createErrorResponse(final Throwable ex)
 	{
 		final Response response = new Response();
 		response.setMessage(STATUS_MESSAGES[STATUS_ABORT]);
 		response.setStatus(STATUS_ABORT);
-		response.setErrorMsg(ex.getMessage());
+		response.setErrorMsg(getRootCauseMsg(ex));
 
 		return response;
+	}
+
+	private static String getRootCauseMsg(final Throwable throwable)
+	{
+		if (throwable.getCause() != null)
+		{
+			return getRootCauseMsg(throwable.getCause());
+		}
+		else
+		{
+			return throwable.getMessage();
+		}
+
 	}
 }

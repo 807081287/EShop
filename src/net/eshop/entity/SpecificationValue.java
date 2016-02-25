@@ -16,9 +16,12 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 /**
@@ -28,7 +31,9 @@ import org.hibernate.validator.constraints.NotEmpty;
  *
  */
 @Entity
-@Table(name = "t_specification_value")
+@Table(name = "t_specification_value", uniqueConstraints =
+{ @UniqueConstraint(columnNames =
+{ "specification", "code" }) })
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_specification_val_sequence")
 public class SpecificationValue extends OrderEntity
 {
@@ -56,9 +61,10 @@ public class SpecificationValue extends OrderEntity
 	/**
 	 * @return the code
 	 */
+	@JsonProperty
 	@NotEmpty
 	@Length(max = 20)
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false, name = "code")
 	public String getCode()
 	{
 		return code;
@@ -78,6 +84,7 @@ public class SpecificationValue extends OrderEntity
 	 *
 	 * @return 名称
 	 */
+	@JsonProperty
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false)
@@ -125,7 +132,7 @@ public class SpecificationValue extends OrderEntity
 	 * @return 规格
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(nullable = false)
+	@JoinColumn(nullable = false, name = "specification")
 	public Specification getSpecification()
 	{
 		return specification;
