@@ -181,7 +181,6 @@ public class AbstractProductController extends BaseController
 		baseProduct.setStock(null);
 		baseProduct.setSpecifications(specifications);
 		baseProduct.setGoods(goods);
-		products.add(baseProduct);
 		return products;
 
 	}

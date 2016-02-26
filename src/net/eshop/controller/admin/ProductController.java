@@ -48,7 +48,6 @@ import net.eshop.service.SpecificationService;
 import net.eshop.service.SpecificationValueService;
 import net.eshop.service.TagService;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -518,10 +517,10 @@ public class ProductController extends AbstractProductController
 					"weekHits", "monthHits", "sales", "weekSales", "monthSales", "weekHitsDate", "monthHitsDate", "weekSalesDate",
 					"monthSalesDate", "goods", "reviews", "consultations", "favoriteMembers", "promotions", "cartItems", "orderItems",
 					"giftItems", "productNotifies" });
-			products.add(pProduct);
 		}
 		goods.getProducts().clear();
 		goods.getProducts().addAll(products);
+		goods.getProducts().add(pProduct);
 		goodsService.update(goods);
 		addFlashMessage(redirectAttributes, SUCCESS_MESSAGE);
 		return "redirect:list.jhtml";
@@ -634,15 +633,24 @@ public class ProductController extends AbstractProductController
 				"goods", "reviews", "consultations", "favoriteMembers", "specifications", "specificationValues", "promotions",
 				"cartItems", "orderItems", "giftItems", "productNotifies", "variants" });
 
-		final Set<Product> variants = pProduct.getVariants();
+
 		final Goods goods = pProduct.getGoods();
+		final List<Product> variants = new ArrayList<Product>();
+		if (ArrayUtils.isNotEmpty(specificationProductIds))
+		{
+			variants.addAll(productService.findList(specificationProductIds));
+		}
+		final ProductForm productForm = createProductForm(specificationIds, request, pProduct);
+		variants.addAll(createVariants(productForm, goods));
+
 		for (final Product prod : variants)
 		{
 			BeanUtils.copyProperties(product, prod, new String[]
 			{ "id", "sn", "createDate", "modifyDate", "fullName", "stock", "allocatedStock", "score", "totalScore", "scoreCount",
 					"hits", "weekHits", "monthHits", "sales", "weekSales", "monthSales", "weekHitsDate", "monthHitsDate",
 					"weekSalesDate", "monthSalesDate", "goods", "reviews", "consultations", "favoriteMembers", "specifications",
-					"specificationValues", "promotions", "cartItems", "orderItems", "giftItems", "productNotifies", "isBaseProduct" });
+					"specificationValues", "promotions", "cartItems", "orderItems", "giftItems", "productNotifies", "isBaseProduct",
+					"baseProduct" });
 		}
 
 		goods.getProducts().clear();
@@ -658,9 +666,8 @@ public class ProductController extends AbstractProductController
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(final Long productCategoryId, final Long brandId, final Long promotionId, final Long tagId,
-			final Boolean isBaseProduct, final Boolean isMarketable, final Boolean isList, final Boolean isTop,
-			final Boolean isGift, final Boolean isOutOfStock, final Boolean isStockAlert, final Pageable pageable,
-			final ModelMap model)
+			final Boolean isMarketable, final Boolean isList, final Boolean isTop, final Boolean isGift, final Boolean isOutOfStock,
+			final Boolean isStockAlert, final Pageable pageable, final ModelMap model)
 	{
 		final ProductCategory productCategory = productCategoryService.find(productCategoryId);
 		final Brand brand = brandService.find(brandId);
@@ -682,8 +689,8 @@ public class ProductController extends AbstractProductController
 		model.addAttribute("isGift", isGift);
 		model.addAttribute("isOutOfStock", isOutOfStock);
 		model.addAttribute("isStockAlert", isStockAlert);
-		model.addAttribute("page", productService.findPage(productCategory, brand, promotion, tags, null, null, null,
-				isBaseProduct, isMarketable, isList, isTop, isGift, isOutOfStock, isStockAlert, OrderType.dateDesc, pageable));
+		model.addAttribute("page", productService.findPage(productCategory, brand, promotion, tags, null, null, null, Boolean.TRUE,
+				isMarketable, isList, isTop, isGift, isOutOfStock, isStockAlert, OrderType.dateDesc, pageable));
 		return "/admin/product/list";
 	}
 
@@ -693,16 +700,25 @@ public class ProductController extends AbstractProductController
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public @ResponseBody Message delete(final Long[] ids)
 	{
-		if (ArrayUtils.isEmpty(ids) || ids.length > 1)
+		for (final Long long1 : ids)
 		{
-			return ERROR_MESSAGE;
+			final Product product = productService.find(long1);
+			if (Boolean.TRUE.equals(product.getIsBaseProduct()))
+			{
+				final Set<Product> variants = product.getVariants();
+				for (final Product variant : variants)
+				{
+					productService.delete(variant);
+				}
+			}
+			product.getVariants().clear();
+			productService.delete(product);
 		}
-		final Product product = productService.find(ids[0]);
-		if (CollectionUtils.isNotEmpty(product.getVariants()))
-		{
-			return DELETE_BASE_PROD_ERROR;
-		}
-		productService.delete(ids[0]);
+		/*
+		 * if (ArrayUtils.isEmpty(ids) || ids.length > 1) { return ERROR_MESSAGE; } final Product product =
+		 * productService.find(ids[0]); if (CollectionUtils.isNotEmpty(product.getVariants())) { return
+		 * DELETE_BASE_PROD_ERROR; } productService.delete(ids[0]);
+		 */
 		return SUCCESS_MESSAGE;
 	}
 

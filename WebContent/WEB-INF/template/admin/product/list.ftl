@@ -165,7 +165,7 @@ $().ready(function() {
 		<input type="hidden" id="brandId" name="brandId" value="${brandId}" />
 		<input type="hidden" id="promotionId" name="promotionId" value="${promotionId}" />
 		<input type="hidden" id="tagId" name="tagId" value="${tagId}" />
-		<input type="hidden" id="isBaseProduct" name="isBaseProduct" value="[#if isBaseProduct??]${isBaseProduct?string("true", "false")}[/#if]" />
+		
 		<input type="hidden" id="isMarketable" name="isMarketable" value="[#if isMarketable??]${isMarketable?string("true", "false")}[/#if]" />
 		<input type="hidden" id="isList" name="isList" value="[#if isList??]${isList?string("true", "false")}[/#if]" />
 		<input type="hidden" id="isTop" name="isTop" value="[#if isTop??]${isTop?string("true", "false")}[/#if]" />
@@ -189,12 +189,6 @@ $().ready(function() {
 					</a>
 					<div class="popupMenu">
 						<ul id="filterOption" class="check">
-							<li>
-								<a href="javascript:;" name="isBaseProduct" val="true"[#if isBaseProduct?? && isBaseProduct] class="checked"[/#if]>${message("admin.product.isBaseProduct")}</a>
-							</li>
-							<li>
-								<a href="javascript:;" name="isBaseProduct" val="false"[#if isBaseProduct?? && !isBaseProduct] class="checked"[/#if]>${message("admin.product.notBaseProduct")}</a>
-							</li>
 							<li>
 								<a href="javascript:;" name="isMarketable" val="true"[#if isMarketable?? && isMarketable] class="checked"[/#if]>${message("admin.product.isMarketable")}</a>
 							</li>

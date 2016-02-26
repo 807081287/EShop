@@ -301,7 +301,7 @@ $().ready(function() {
 				var isRepeats = false;
 				var parameters = new Array();
 				$specificationProductTable.find("tr:gt(1)").each(function() {
-					var parameter = $(this).find("select").serialize();
+					var parameter = $(this).find(".variantSpecification").serialize();
 					if ($.inArray(parameter, parameters) >= 0) {
 						$.message("warn", "${message("admin.product.specificationValueRepeat")}");
 						isRepeats = true;
@@ -747,7 +747,7 @@ $().ready(function() {
 							</td>
 							[#list specifications as specification]
 								<td class="specification_${specification.code}[#if !product.specifications?seq_contains(specification)] hidden[/#if]">
-									<select name="specification_${specification.code}"[#if !product.specifications?seq_contains(specification)] disabled="disabled"[/#if]>
+									<select class="variantSpecification" name="specification_${specification.code}"[#if !product.specifications?seq_contains(specification)] disabled="disabled"[/#if]>
 										[#list specification.specificationValues as specificationValue]
 											<option value="${specificationValue.code}">${specificationValue.name}</option>
 										[/#list]
@@ -767,7 +767,7 @@ $().ready(function() {
 								</td>
 								[#list specifications as specification]
 									<td class="specification_${specification.code}[#if !specificationProduct.specifications?seq_contains(specification)] hidden[/#if]">
-										<select name="specification_${specification.code}"[#if !specificationProduct.specifications?seq_contains(specification)] disabled="disabled"[/#if]>
+										<select class="variantSpecification" disabled="disabled">
 											[#list specification.specificationValues as specificationValue]
 												<option value="${specificationValue.code}"[#if specificationProduct.specificationValues?seq_contains(specificationValue)] selected="selected"[/#if]>${specificationValue.name}</option>
 											[/#list]
