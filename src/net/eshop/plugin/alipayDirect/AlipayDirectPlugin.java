@@ -12,15 +12,15 @@ import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.stereotype.Component;
+
 import net.eshop.Setting;
 import net.eshop.entity.Payment;
 import net.eshop.entity.PluginConfig;
 import net.eshop.plugin.PaymentPlugin;
 import net.eshop.util.SettingUtils;
-
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.stereotype.Component;
 
 
 /**
@@ -84,7 +84,7 @@ public class AlipayDirectPlugin extends PaymentPlugin
 		 * 模拟alipay即时到账的支付
 		 */
 		final Setting setting = SettingUtils.get();
-		return setting.getSiteUrl() + "/EShop/onlinepaysimulator/alipay/step1.jsp";
+		return setting.getSiteUrl() + "/onlinepaysimulator/alipay/step1.jsp";
 	}
 
 	@Override
@@ -135,8 +135,8 @@ public class AlipayDirectPlugin extends PaymentPlugin
 		if (generateSign(request.getParameterMap()).equals(request.getParameter("sign"))
 				&& pluginConfig.getAttribute("partner").equals(request.getParameter("seller_id"))
 				&& sn.equals(request.getParameter("out_trade_no"))
-				&& ("TRADE_SUCCESS".equals(request.getParameter("trade_status")) || "TRADE_FINISHED".equals(request
-						.getParameter("trade_status")))
+				&& ("TRADE_SUCCESS".equals(request.getParameter("trade_status"))
+						|| "TRADE_FINISHED".equals(request.getParameter("trade_status")))
 				&& payment.getAmount().compareTo(new BigDecimal(request.getParameter("total_fee"))) == 0)
 		{
 			final Map<String, Object> parameterMap = new HashMap<String, Object>();
