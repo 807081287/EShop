@@ -17,6 +17,16 @@ import java.util.Set;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import net.eshop.FileInfo.FileType;
 import net.eshop.Message;
 import net.eshop.Pageable;
@@ -47,16 +57,6 @@ import net.eshop.service.PromotionService;
 import net.eshop.service.SpecificationService;
 import net.eshop.service.SpecificationValueService;
 import net.eshop.service.TagService;
-
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 /**
@@ -283,7 +283,7 @@ public class ProductController extends AbstractProductController
 
 		final Goods goods = new Goods();
 		final List<Product> products = new ArrayList<Product>();
-		if (ArrayUtils.isNotEmpty(specificationIds))
+		if (ArrayUtils.isNotEmpty(specificationIds) && request.getParameterValues("specification_" + specificationIds[0]) != null)
 		{
 
 			final ProductForm productForm = createProductForm(specificationIds, request, product);
@@ -440,8 +440,8 @@ public class ProductController extends AbstractProductController
 								{ "id", "createDate", "modifyDate", "fullName", "allocatedStock", "score", "totalScore", "scoreCount",
 										"hits", "weekHits", "monthHits", "sales", "weekSales", "monthSales", "weekHitsDate",
 										"monthHitsDate", "weekSalesDate", "monthSalesDate", "goods", "reviews", "consultations",
-										"favoriteMembers", "specifications", "specificationValues", "promotions", "cartItems",
-										"orderItems", "giftItems", "productNotifies" });
+										"favoriteMembers", "specifications", "specificationValues", "promotions", "cartItems", "orderItems",
+										"giftItems", "productNotifies" });
 								pProduct.setSpecifications(new HashSet<Specification>());
 								pProduct.setSpecificationValues(new HashSet<SpecificationValue>());
 								products.add(pProduct);
@@ -500,8 +500,8 @@ public class ProductController extends AbstractProductController
 							}
 						}
 						final Product specificationProduct = products.get(j);
-						final SpecificationValue specificationValue = specificationValueService.find(Long
-								.valueOf(specificationValueIds[j]));
+						final SpecificationValue specificationValue = specificationValueService
+								.find(Long.valueOf(specificationValueIds[j]));
 						specificationProduct.getSpecifications().add(specification);
 						specificationProduct.getSpecificationValues().add(specificationValue);
 					}
@@ -640,8 +640,12 @@ public class ProductController extends AbstractProductController
 		{
 			variants.addAll(productService.findList(specificationProductIds));
 		}
-		final ProductForm productForm = createProductForm(specificationIds, request, pProduct);
-		variants.addAll(createVariants(productForm, goods));
+		if (specificationIds != null && request.getParameterValues("specification_" + specificationIds[0]) != null)
+		{
+			final ProductForm productForm = createProductForm(specificationIds, request, pProduct);
+			variants.addAll(createVariants(productForm, goods));
+		}
+
 
 		for (final Product prod : variants)
 		{

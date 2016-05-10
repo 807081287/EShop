@@ -397,7 +397,7 @@ $().ready(function() {
 	
 	</div>
 	<div data-options="region:'south',split:true,border:false" style="height: 30px;overflow:hidden;">
-		<div class="panel-header" style="border: none;text-align: center;" >CopyRight &copy; 2013 EShop 版权所有. &nbsp;&nbsp;官方网址: www.eshop.org</div>
+		<div class="panel-header" style="border: none;text-align: center;" ></div>
 	</div>
 	<!-- 中间内容页面 -->
 	<div data-options="region:'center'" >

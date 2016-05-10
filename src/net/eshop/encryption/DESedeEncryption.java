@@ -28,11 +28,11 @@ public class DESedeEncryption
 	static final byte[] keyBytes =
 	{ 0x11, 0x22, 0x4F, 0x58,
 
-	(byte) 0x88, 0x10, 0x40, 0x38, 0x28, 0x25, 0x79, 0x51,
+			(byte) 0x88, 0x10, 0x40, 0x38, 0x28, 0x25, 0x79, 0x51,
 
-	(byte) 0xCB, (byte) 0xDD, 0x55, 0x66, 0x77, 0x29, 0x74,
+			(byte) 0xCB, (byte) 0xDD, 0x55, 0x66, 0x77, 0x29, 0x74,
 
-	(byte) 0x98, 0x30, 0x40, 0x36, (byte) 0xE2
+			(byte) 0x98, 0x30, 0x40, 0x36, (byte) 0xE2
 
 	}; // 24字节的密钥
 
@@ -187,7 +187,7 @@ public class DESedeEncryption
 	public static void main(final String[] args) throws Exception
 	{
 		final String expireDate = "20500505";
-		final String authorizationID = "30382D31302D37352D45382D46322D4534";//授权ID
+		final String authorizationID = "30302D46462D32322D46332D31312D3331";//授权ID
 		System.out.println("加密码:" + encryptToHecString(authorizationID, expireDate));
 		//		final String rawString = expireDate + MACTool.getMAC();
 		//		System.out.println("明文 MAC地址:" + MACTool.getMAC());
@@ -199,7 +199,7 @@ public class DESedeEncryption
 		//		System.out.println("解密后的 过期时间+MAC地址:" + decryptHecString(encyptedHecMAC));
 		//		System.out.println("解密后的 MAC地址:" + getRawMAC(encyptedHecMAC));
 
-		//32382D38302D32332D44382D46432D4541加密码:1790AD5310448B217464309888CD152472377EC9BB30805E9DFD462DA8F4A4A2
+		//33302D46372D37322D32462D32302D4335加密码:1790AD5310448B21EE301D3D63873780A0A4DC19F589AB347C78DE1DA63CD426
 	}
 
 	/**

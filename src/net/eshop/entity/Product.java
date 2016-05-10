@@ -7,6 +7,7 @@ package net.eshop.entity;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -43,13 +44,12 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-import net.eshop.BigDecimalNumericFieldBridge;
-import net.eshop.CommonAttributes;
-import net.eshop.util.FreemarkerUtils;
-
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.dom4j.io.SAXReader;
+import org.hibernate.CallbackException;
+import org.hibernate.Session;
+import org.hibernate.classic.Lifecycle;
 import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.FieldBridge;
@@ -67,6 +67,9 @@ import org.wltea.analyzer.lucene.IKSimilarity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import freemarker.template.TemplateException;
+import net.eshop.BigDecimalNumericFieldBridge;
+import net.eshop.CommonAttributes;
+import net.eshop.util.FreemarkerUtils;
 
 
 /**
@@ -80,7 +83,7 @@ import freemarker.template.TemplateException;
 @Entity
 @Table(name = "t_product")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "t_product_sequence")
-public class Product extends BaseEntity
+public class Product extends BaseEntity implements Lifecycle
 {
 
 	private static final long serialVersionUID = 2167830430439593293L;
@@ -2412,6 +2415,54 @@ public class Product extends BaseEntity
 		{
 			setScore(0F);
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see org.hibernate.classic.Lifecycle#onSave(org.hibernate.Session)
+	 */
+	@Override
+	public boolean onSave(final Session s) throws CallbackException
+	{
+		System.out.println("being update");
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see org.hibernate.classic.Lifecycle#onUpdate(org.hibernate.Session)
+	 */
+	@Override
+	public boolean onUpdate(final Session s) throws CallbackException
+	{
+		System.out.println("being update");
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see org.hibernate.classic.Lifecycle#onDelete(org.hibernate.Session)
+	 */
+	@Override
+	public boolean onDelete(final Session s) throws CallbackException
+	{
+		// YTODO Auto-generated method stub
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see org.hibernate.classic.Lifecycle#onLoad(org.hibernate.Session, java.io.Serializable)
+	 */
+	@Override
+	public void onLoad(final Session s, final Serializable id)
+	{
+		// YTODO Auto-generated method stub
+
 	}
 
 }

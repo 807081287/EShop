@@ -308,7 +308,7 @@ $().ready(function() {
 						return false;
 					} else {
 						parameters.push(parameter);
-					}
+					} 
 				});
 				if (!isRepeats) {
 					$specificationProductTable.find("tr:eq(1)").find("select").prop("disabled", true);
@@ -766,8 +766,8 @@ $().ready(function() {
 									<input type="hidden" name="specificationProductIds" value="${specificationProduct.id}" />
 								</td>
 								[#list specifications as specification]
-									<td class="specification_${specification.code}[#if !specificationProduct.specifications?seq_contains(specification)] hidden[/#if]">
-										<select class="variantSpecification" disabled="disabled">
+									<td class="specification_${specification.code}">
+										<select class="variantSpecification" name="specification_${specification.code}" disabled="disabled">
 											[#list specification.specificationValues as specificationValue]
 												<option value="${specificationValue.code}"[#if specificationProduct.specificationValues?seq_contains(specificationValue)] selected="selected"[/#if]>${specificationValue.name}</option>
 											[/#list]
